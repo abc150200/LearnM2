@@ -1,0 +1,93 @@
+//
+//  LJCommunityTool.m
+//  wxcc
+//
+//  Created by 刘建 on 14-10-26.
+//  Copyright (c) 2014年 liujian. All rights reserved.
+//
+
+#import "LJCommunityTool.h"
+#import "LJColumn.h"
+#import "LJHttpTool.h"
+#import "pj/PJReflect.h"
+#import "LJCommunity.h"
+
+@implementation LJCommunityTool
+
+//获取爆料栏目
++(void)columnsSuccess:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure{
+    //从网络服务器取数据
+    NSString *url = [NSString stringWithFormat:@"%@",baseUrl];
+    url = [url stringByAppendingFormat:@"community/column_list"];
+//    NSString *url = @"http://219.141.189.60:8080/ctwifi-api/community/column_list";
+    
+    [LJHttpTool postWithUrl:url parameters:nil success:^(id responseObject) {
+        //请求成功
+        
+        NSArray *columns = responseObject[@"data"][@"columns"];
+        columns = [PJReflect reflexArray:columns object:[[LJColumn alloc] init]];
+        //将数据返回
+        if (columns.count>0) {
+            if (success) {
+                success(columns);
+            }
+        }
+        
+    } failure:^(NSError *error) {
+        //请求失败
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+//获取爆料
++(void)communitysWithSuccess:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure{
+    //从网络服务器取数据
+    
+    NSString *url = [NSString stringWithFormat:@"%@",baseUrl];
+    url = [url stringByAppendingFormat:@"community/list?column_id=1&count=20&start=0"];
+    
+//    NSString *url = @"http://219.141.189.60:8080/ctwifi-api/community/list?column_id=1&count=20&start=0";
+    
+    [LJHttpTool postWithUrl:url parameters:nil success:^(id responseObject) {
+        //请求成功
+        NSArray *columns = responseObject[@"data"][@"news"];
+        columns = [PJReflect reflexArray:columns object:[[LJCommunity alloc] init]];
+        //将数据返回
+        if (columns.count>0) {
+            if (success) {
+                success(columns);
+            }
+        }
+    } failure:^(NSError *error) {
+        //请求失败
+        if (failure) {
+            failure(error);
+        }
+    }];
+    
+}
+
+//发送爆料
++(void)composeCommunityWithParameters:(LJCommunityParameters *)parameters success:(void (^)(int))success failure:(void (^)(NSError *))failure{
+    NSString *url = [NSString stringWithFormat:@"%@",baseUrl];
+    url = [url stringByAppendingFormat:@"community/send_content?column_id=1&count=20&start=1"];
+    [LJHttpTool postWithUrl:url parameters:nil success:^(id responseObject) {
+        //发送爆料请求成功
+        NSDictionary *dict = responseObject[@"data"];
+        NSString * result = dict[@"status"]; //返回状态
+        //收藏请求成功
+        if (success) {
+            success([result intValue]);
+        }
+    } failure:^(NSError *error) {
+        //请求失败
+        if (failure) {
+            failure(error);
+        }
+    }];
+    
+}
+
+@end

@@ -1,0 +1,53 @@
+//
+//  LJHotline.h
+//  无线长春
+//
+//  Created by 刘建 on 14-10-21.
+//  Copyright (c) 2014年 liujian. All rights reserved.
+//
+
+
+/**
+ *  网络请求工具类 get/post/put
+ */
+#import <Foundation/Foundation.h>
+
+typedef void  (^successBlock)(id responseObject);
+typedef void  (^failureBlock)(NSError *error);
+
+@interface LJHttpTool : NSObject
+/**
+ *  网络请求工具类 post请求
+ *
+ *  @param url        请求地址
+ *  @param parameters 请求参数
+ *  @param success    请求成功的回调
+ *  @param failure    请求失败的回调
+ */
++(void)postWithUrl:(NSString *)url parameters:(NSDictionary *)parameters success: (successBlock)success failure:(failureBlock)failure;
+
+/**
+ *  网络请求工具类 get请求
+ *
+ *  @param url        请求地址
+ *  @param parameters 请求参数
+ *  @param success    请求成功的回调
+ *  @param failure    请求失败的回调
+ */
++(void)getWithUrl:(NSString *)url parameters:(NSDictionary *)parameters success: (successBlock)success failure:(failureBlock)failure;
+
+/**
+ *  -判断当前网络是否可用
+ *  返回true表示有网络 , false没有网络
+ *  @return 返回true or false
+ */
++(BOOL) isNetworkEnabled;
+
+/**
+ *  -判断当前网络是否可用
+ *  返回true表示有网络 , false没有网络
+ *  @return 返回true or false
+ */
++(BOOL)isNetworkReachable;
+
+@end

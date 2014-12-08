@@ -1,0 +1,24 @@
+//
+//  LJHotlineTool.h
+//  无线长春
+//
+//  Created by 刘建 on 14-10-21.
+//  Copyright (c) 2014年 liujian. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+@class LJHotlineParameters;
+@class LJHotlineResult;
+@class LJHotlineGroupResult;
+@class LJHotline;
+
+@interface LJHotlineTool : NSObject
+
+/**
+ *  加载热线的业务方法
+ */
++(void)hotlineWithParameters:(LJHotlineParameters *)parameters success: (void (^)(NSArray *hotlineResult))success failure:(void  (^)(NSError *error))failure;
+
++(void)modifyCollectionHotline:(LJHotline *)hotline success: (void (^)(int collectResult))success failure:(void  (^)(NSError *error))failure;
+
+@end

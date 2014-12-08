@@ -1,0 +1,271 @@
+//
+//  LJHotlineTool.m
+//  无线长春
+//
+//  Created by 刘建 on 14-10-21.
+//  Copyright (c) 2014年 liujian. All rights reserved.
+//
+
+#import "LJHotlineTool.h"
+#import "LJHttpTool.h"
+#import "MJExtension.h"
+#import "LJHotline.h"
+#import "LJHotlineParameters.h"
+#import "LJHotlineResult.h"
+#import "FMDB.h"
+#import "PJReflect.h"
+
+
+
+@implementation LJHotlineTool
+static FMDatabase *_db;
++(void)initialize{
+    //1.获取数据库文件的地址
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *sqlPath = [path stringByAppendingPathComponent:@"wxcc.sqlite"];
+    //2.利用FMDB打开数据库
+    _db = [FMDatabase databaseWithPath:sqlPath];
+    //3.创建表
+    if ([_db open]) {
+        //需要创建表,存储热线
+        NSMutableString *sql = [NSMutableString string];
+        [sql appendString:@"create table if not exists t_hotlines("];
+        [sql appendString:@"id integer primary key autoincrement not null,"];
+        [sql appendString:@"item_id int not null,"];
+        [sql appendString:@"num_name text not null,"];
+        [sql appendString:@"tel text not null ,"];
+        [sql appendString:@"description text not null ,"];
+        [sql appendString:@"status int not null ,"];
+        [sql appendString:@"group_id int not null,"];
+        [sql appendString:@"group_name text not null"];
+        [sql appendString:@");"];
+//        @"create table if not exists t_hotlines(id integer primary key autoincrement not null,item_id int not null,num_name text not null,tel text not null ,description text not null , status int not null ,group_id int not null,group_name text not null);"
+        BOOL success = [_db executeUpdate:sql];
+        
+        if (success) {
+            LJLog(@"创建表成功");
+        }else{
+            LJLog(@"创建表失败");
+        }
+    }
+    
+}
+
+/**
+ *  根据请求参数获取数据库中存储的热线数据
+ *
+ *  @param parameters 请求参数
+ *
+ *  @return 返回所有的热线
+ */
++(NSArray *)hotlinesWithParameters:(LJHotlineParameters *)parameters
+{
+    
+    //1.定义结果集保存查询到的结果
+    FMResultSet *resultSet = nil;
+    
+    //2.查询热线数据
+    resultSet = [_db executeQuery:@"select * from t_hotlines;"];
+
+    if(resultSet != nil)
+    {
+        
+        //存储所有分组以及分组里的数据
+        NSMutableArray *arrayHotlineArry = [NSMutableArray array];
+        
+        while ([resultSet next]){
+            
+            // 1.查询分组名
+            NSString *groupName = [[NSString alloc] initWithData:[resultSet dataForColumn:@"group_name"] encoding:NSUTF8StringEncoding];
+            NSMutableDictionary *objctDict;//分组字典
+            NSMutableArray *arry;//分组数组
+            // 2.判断分组是否存在
+            objctDict = [self isKeyExits:arrayHotlineArry key:groupName];
+            arry = [objctDict objectForKey:@"objects"];
+            LJHotline *hotLine = [[LJHotline alloc]init];
+            //将结果集转换为字典
+            NSDictionary *dict = [self dictFromResultSet:resultSet];
+            //把 字典写入对象
+            [PJReflect reflex:dict object:hotLine];
+            //添加对象到数组
+            [arry addObject:hotLine];
+        }
+        
+        return arrayHotlineArry;
+    }
+    return nil;
+}
+
+/**
+ *  判断分组是否存在
+ *
+ *  @param arry 分组数组
+ *  @param key  组名
+ *
+ *  @return 返回一个分组字典
+ */
++ (NSMutableDictionary *)isKeyExits:(NSMutableArray *)arry key:(NSString *)key
+{
+    //创建一个字典存储分组
+    __block NSMutableDictionary *dict = nil;
+    
+    [arry enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        //根据索引创建一个字典
+        NSDictionary *tempDict = arry[idx];
+        NSString *tempKey = tempDict[@"group_name"];
+        if ([tempKey isEqualToString:key]) {
+            dict = arry[idx];
+            *stop = YES;
+        }
+    }];
+    if (!dict) {
+        dict = [NSMutableDictionary dictionary];
+        //创建一个数组,存储所有分组子对象
+        NSMutableArray *objetArray = [NSMutableArray array];
+        //设置键值
+        [dict setObject:key forKey:@"group_name"];
+        [dict setObject:objetArray forKey:@"objects"];
+        [arry addObject:dict];
+    }
+    return dict;
+}
+
+// 根据结果集转换为dict
++ (NSDictionary *)dictFromResultSet:(FMResultSet*)resultSet
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    int count = [resultSet columnCount];
+    for (int i = 0; i < count; i++) {
+        NSString *key = [resultSet columnNameForIndex:i];
+        NSData  *value = [resultSet dataForColumn:key];
+        
+        [dict setObject:[[NSString alloc] initWithData:value encoding:NSUTF8StringEncoding] forKey:key];
+    }
+    return dict;
+}
+
+/**
+ * 保存热线字典到数据库中
+ */
++(void)saveHotlinesWithDice:(NSDictionary *)dict{
+    
+    
+    __block NSMutableString *sql = [NSMutableString string];
+    [sql appendString:@"insert into t_hotlines("];
+    [dict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+         [sql appendString:[NSString stringWithFormat:@"%@,",key]];
+    }];
+    [sql setString: [sql substringToIndex:sql.length - 1]];
+    
+    [sql appendString:@")values("];
+    
+    [dict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        
+        [sql appendString:[NSString stringWithFormat:@"\"%@\",",obj]];
+    }];
+    [sql setString: [sql substringToIndex:sql.length - 1]];
+    [sql appendString:@")"];
+   
+    //保存到数据库
+    [_db executeUpdate:sql];
+    
+}
+
+
+/**
+ *  获取热线
+ *
+ *  @param parameters
+ *  @param success      成功
+ *  @param failure      失败
+ */
++(void)hotlineWithParameters:(LJHotlineParameters *)parameters success:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure{
+    BOOL flag = [LJHttpTool isNetworkReachable];//[LJHttpTool isNetworkEnabled];
+    //true : 有网络  -   fase : 没有网络
+//    if (flag) {
+//        LJLog(@"有网络 - %d",flag);
+//    }else{
+//        LJLog(@"没有网络 - %d",flag);
+//    }
+    NSArray *hotlines = [self hotlinesWithParameters:parameters];
+    //当没有网络的时候 检测读取本地数据库中有没有数据
+    if (!flag) {
+        if (success) {
+            success(hotlines);
+        }
+    }else{
+        //从网络服务器取数据
+        NSString *url = [NSString stringWithFormat:@"%@",baseUrl];
+        url = [url stringByAppendingFormat:@"hotline/list?user_id=a"];
+//        NSString *url = @"http://219.141.189.60:8080/ctwifi-api/hotline/list?user_id=a";
+        
+        [LJHttpTool postWithUrl:url parameters:parameters.keyValues success:^(id responseObject) {
+            //请求成功
+            //
+            NSArray * temp = responseObject[@"data"][@"tel_items"];
+            if (temp.count>0) {
+                //请求到有新的数据,才删除之前的数据
+                [_db executeUpdate:@"delete from t_hotlines;"];
+            }
+            //保存从服务器获取到的数据到数据库
+            for (NSDictionary *dict in responseObject[@"data"][@"tel_items"]) {
+                //保存一条数据
+                [self saveHotlinesWithDice:dict];
+            }
+            
+            NSArray *hotlines = [self hotlinesWithParameters:parameters];
+            //将本地数据库中数据返回
+            if (hotlines.count>0) {
+                if (success) {
+                    success(hotlines);
+                }
+            }
+
+        } failure:^(NSError *error) {
+            //请求失败
+            if (failure) {
+                failure(error);
+            }
+        }];
+        
+    }
+    
+}
+
+/**
+ *  个性热线的收藏状态
+ *
+ *  @param hotline 热线对象
+ */
++(void)modifyCollectionHotline:(LJHotline *)hotline success:(void (^)(int collectResult))success failure:(void (^)(NSError *))failure{
+    int itemId =[hotline.item_id intValue];
+    int status;
+    if ([hotline.status intValue]==0) {
+        status = 1;
+    }else{
+        status=0;
+    }
+    
+    //发送网络请求修改收藏状态
+    NSString *url = [NSString stringWithFormat:@"%@",baseUrl];
+    url = [url stringByAppendingFormat:@"hotline/collection?user_id=a&number_id=%d&type=%d",itemId,status];
+//    NSString *url = [NSString stringWithFormat:@"http://219.141.189.60:8080/ctwifi-api/hotline/collection?user_id=a&number_id=%d&type=%d",itemId,status];
+    //    LJLog(@"%@",url);
+    [LJHttpTool postWithUrl:url parameters:nil success:^(id responseObject) {
+        NSDictionary *dict = responseObject[@"data"];
+        NSString * result = dict[@"status"]; //返回状态
+        //收藏请求成功
+        if (success) {
+            success([result intValue]);
+        }
+    } failure:^(NSError *error) {
+        //收藏请求失败
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+
+
+@end

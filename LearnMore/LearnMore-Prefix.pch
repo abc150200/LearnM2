@@ -1,0 +1,64 @@
+//
+//  Prefix header
+//
+//  The contents of this file are implicitly included at the beginning of every source file.
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_5_0
+#warning "This project uses features only available in iOS SDK 5.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+
+
+/**
+ *  自定义Log
+ */
+#ifdef DEBUG
+#define MyLog(...)           NSLog(__VA_ARGS__)
+#else
+#define MyLog(...)
+#endif
+
+/** Log函数 */
+#define LogFunc             MyLog(@"%s", __func__);
+#define LogObj(obj)         MyLog(@"%@", obj);
+#define LogFrame(view)      MyLog(@"%@", NSStringFromCGRect(view.frame))
+#define LogBounds(view)     MyLog(@"%@", NSStringFromCGRect(view.bounds))
+#define LogSubViews(view)   MyLog(@"%@", view.subviews);
+
+
+// 是否是iOS8
+#define iOS8 ([UIDevice currentDevice].systemVersion.doubleValue >= 8.0)
+#define VIEWHEIGH ([[UIScreen mainScreen] bounds].size.height)
+
+#import "UIImage+Extension.h"
+#import "UIView+Extension.h"
+#import "UIBarButtonItem+Extension.h"
+#import "JSONKit.h"
+#import "MJExtension.h"
+#import "UIImageView+WebCache.h"
+#import "UIImage+NJ.h"
+#import "NSString+Path.h"
+
+//RGB color macro
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+//RGB color macro with alpha
+#define UIColorFromRGBWithAlpha(rgbValue,a) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
+
+#define RGBCOLOR(r,g,b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
+
+#define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+
+//share
+#define UMAppKey @"5402c43efd98c5e571017999"
+
+//请求
+#define RequestURL @"http://api.manytu.com/"
+
+#endif

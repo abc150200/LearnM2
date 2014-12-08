@@ -1,0 +1,35 @@
+//
+//  LJCommunityTool.h
+//  wxcc
+//
+//  Created by 刘建 on 14-10-26.
+//  Copyright (c) 2014年 liujian. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+@class LJCommunityParameters;
+
+@interface LJCommunityTool : NSObject
+
+/**
+ *  加载栏目列表的业务方法
+ */
++(void)columnsSuccess: (void (^)(NSArray *columnResult))success failure:(void  (^)(NSError *error))failure;
+
+
+/**
+ *  加载热线的业务方法
+ */
+//+(void)hotlineWithParameters:(LJHotlineParameters *)parameters success: (void (^)(NSArray *hotlineResult))success failure:(void  (^)(NSError *error))failure;
+
+/**
+ *  加载爆料的业务方法
+ */
++(void)communitysWithSuccess: (void (^)(NSArray *communityResult))success failure:(void  (^)(NSError *error))failure;
+
+/**
+ *  发送爆料的业务方法
+ */
++(void)composeCommunityWithParameters:(LJCommunityParameters *)parameters success: (void (^)(int communityResult))success failure:(void  (^)(NSError *error))failure;
+
+@end
