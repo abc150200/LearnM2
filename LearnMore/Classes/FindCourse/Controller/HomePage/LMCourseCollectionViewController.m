@@ -83,9 +83,7 @@
       NSLog(@"点击了------%@",product.title);
 
     if ([self.delegate respondsToSelector:@selector(courseCollectionViewController:title:)]) {
-        
-        
-        
+    
         [self.delegate courseCollectionViewController:self title:product.title];
     }
 

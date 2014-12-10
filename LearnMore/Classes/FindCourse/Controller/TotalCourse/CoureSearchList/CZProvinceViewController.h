@@ -12,7 +12,7 @@
 
 @protocol CZProvinceViewControllerDelegate <NSObject>
 
-- (void)provinceViewController:(CZProvinceViewController *)controller selectedCities:(NSArray *)cities;
+- (void)provinceViewController:(CZProvinceViewController *)controller selectedCities:(NSArray *)cities row:(int)row;
 
 @end
 

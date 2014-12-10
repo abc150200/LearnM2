@@ -25,11 +25,13 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>CFBundleURLName</key>
 			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>sina.5402c43efd98c5e571017999</string>
+				<string>sina.2659915290</string>
 				<string>tencent1103416062</string>
 				<string>QQ41C4CAFE</string>
 				<string>wx328a2bd54f56402e</string>

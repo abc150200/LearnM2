@@ -21,6 +21,8 @@
 #import "MBProgressHUD+NJ.h"
 
 #import "TQStarRatingView.h"
+#import<AssetsLibrary/ALAssetsLibrary.h>
+#import<AVFoundation/AVFoundation.h>
 
 #define LMPhotoWH 69
 
@@ -181,6 +183,102 @@
 }
 
 - (IBAction)camera:(id)sender {
+    
+    
+        NSString *mediaType = AVMediaTypeVideo;// Or AVMediaTypeAudio
+        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
+        NSLog(@"---cui--authStatus--------%d",authStatus);
+        // This status is normally not visible—the AVCaptureDevice class methods for discovering devices do not return devices the user is restricted from accessing.
+        if(authStatus == AVAuthorizationStatusDenied){
+            // The user has explicitly denied permission for media capture.
+            NSLog(@"Denied");     //应该是这个，如果不允许的话
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                            message:@"请在设备的<设置-隐私-相机>中允许访问相机。"
+                                                           delegate:self
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            
+            return;
+        }
+
+    
+    
+//    if ([ALAssetsLibrary authorizationStatus] == ALAuthorizationStatusNotDetermined) {
+//        
+//        ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
+//        
+//        [assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+//            
+//            if (*stop) {
+//                //点击“好”回调方法:
+//                NSLog(@"好");
+//                return;
+//                
+//            }
+//            *stop = TRUE;
+//            
+//        } failureBlock:^(NSError *error) {
+//            
+//            //点击“不允许”回调方法:
+//            NSLog(@"不允许");
+//            [self dismissViewControllerAnimated:YES completion:nil];
+//            
+//        }];
+//    }
+//    
+//    NSString *mediaType = AVMediaTypeVideo;// Or AVMediaTypeAudio
+//    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
+//    NSLog(@"---cui--authStatus--------%d",authStatus);
+//    // This status is normally not visible—the AVCaptureDevice class methods for discovering devices do not return devices the user is restricted from accessing.
+//    if(authStatus ==AVAuthorizationStatusRestricted){
+//        NSLog(@"Restricted");
+//    }else if(authStatus == AVAuthorizationStatusDenied){
+//        // The user has explicitly denied permission for media capture.
+//        NSLog(@"Denied");     //应该是这个，如果不允许的话
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
+//                                                        message:@"请在设备的<设置-隐私-相机>中允许访问相机。"
+//                                                       delegate:self
+//                                              cancelButtonTitle:@"确定"
+//                                              otherButtonTitles:nil];
+//        [alert show];
+//        
+//        return;
+//    }
+//    else if(authStatus == AVAuthorizationStatusAuthorized){//允许访问
+//        // The user has explicitly granted permission for media capture, or explicit user permission is not necessary for the media type in question.
+//        NSLog(@"Authorized");
+//        
+//    }else if(authStatus == AVAuthorizationStatusNotDetermined){
+//        // Explicit user permission is required for media capture, but the user has not yet granted or denied such permission.
+//        [AVCaptureDevice requestAccessForMediaType:mediaType completionHandler:^(BOOL granted) {
+//            if(granted){//点击允许访问时调用
+//                //用户明确许可与否，媒体需要捕获，但用户尚未授予或拒绝许可。
+//                NSLog(@"Granted access to %@", mediaType);
+//            }
+//            else {
+//                NSLog(@"Not granted access to %@", mediaType);
+//            }
+//            
+//        }];
+//    }else {
+//        NSLog(@"Unknown authorization status");
+//    }
+    
+    //(authStatus == AVAuthorizationStatusDenied)
+    
+//    BOOL isCameraValid = YES;
+//    //判断iOS7的宏，没有就自己写个，下边的方法是iOS7新加的，7以下调用会报错
+//    if(isIOS7AndLater)
+//    {
+//        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+//        if (authStatus != AVAuthorizationStatusAuthorized)
+//        {
+//            isCameraValid = NO;
+//        }
+//    }
+//}
+
     UIActionSheet *mySheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"打开照相机",@"从相册中选取", nil];
     
     [mySheet showInView:self.view];
@@ -329,52 +427,62 @@
     
     [MBProgressHUD showMessage:@"正在上传..."];
     
-    if (self.imageNames.count)
+    
+    if(!self.imagesUrl.count)
     {
-        
-        for (int i = 0; i < self.imageNames.count; i++) {
+        if (self.imageNames.count)
+        {
             
-            NSString *imgName = self.imageNames[i];
-            
-            NSString *fullPath = [self.DocumentsPath stringByAppendingPathComponent:imgName];
-            
-            //文件的MD5
-            NSString *MD5Data = [FileMD5Hash computeMD5HashOfFileInPath:fullPath];
-            
-            
-            //获取文件的大小
-            NSDictionary *dic = [[NSFileManager defaultManager] attributesOfItemAtPath:fullPath error:nil];
-            
-            
-            //data参数
-            NSMutableDictionary *arr = [NSMutableDictionary dictionary];
-            arr[@"md5"] = MD5Data;
-            arr[@"fname"]= imgName;
-            arr[@"time"] = [NSString timeNow];
-            arr[@"size"] = dic[NSFileSize];
-            MyLog(@"name===%@",arr[@"size"]);
-            
-            /** 转成json字符串 */
-            NSString *jsonStr = [arr JSONString];
-            MyLog(@"%@",jsonStr);
-            /** AES加密 */
-            NSString *dataJson = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:account.sessionkey];
-            
-            //上传的参数
-            NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-            parameters[@"data"] = dataJson ;
-            parameters[@"sid"] = account.sid;
-            
-            UIImage *image = [[UIImage alloc] initWithContentsOfFile:fullPath];
-            NSData *imageData = UIImagePNGRepresentation(image);
-            
-            [self upload:@"file" filename:imgName mimeType:@"image/png" data:imageData parmas:parameters];
-            
+            for (int i = 0; i < self.imageNames.count; i++) {
+                
+                NSString *imgName = self.imageNames[i];
+                
+                NSString *fullPath = [self.DocumentsPath stringByAppendingPathComponent:imgName];
+                
+                //文件的MD5
+                NSString *MD5Data = [FileMD5Hash computeMD5HashOfFileInPath:fullPath];
+                
+                
+                //获取文件的大小
+                NSDictionary *dic = [[NSFileManager defaultManager] attributesOfItemAtPath:fullPath error:nil];
+                
+                
+                //data参数
+                NSMutableDictionary *arr = [NSMutableDictionary dictionary];
+                arr[@"md5"] = MD5Data;
+                arr[@"fname"]= imgName;
+                arr[@"time"] = [NSString timeNow];
+                arr[@"size"] = dic[NSFileSize];
+                MyLog(@"name===%@",arr[@"size"]);
+                
+                /** 转成json字符串 */
+                NSString *jsonStr = [arr JSONString];
+                MyLog(@"%@",jsonStr);
+                /** AES加密 */
+                NSString *dataJson = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:account.sessionkey];
+                
+                //上传的参数
+                NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+                parameters[@"data"] = dataJson ;
+                parameters[@"sid"] = account.sid;
+                
+                UIImage *image = [[UIImage alloc] initWithContentsOfFile:fullPath];
+                NSData *imageData = UIImagePNGRepresentation(image);
+                
+                [self upload:@"file" filename:imgName mimeType:@"image/png" data:imageData parmas:parameters];
+                
+            }
+        }else
+        {
+            [self sendRecommend];
         }
+
+        
     }else
     {
-        [self sendRecommend];
+         [self sendRecommend];
     }
+    
     
     
     
@@ -507,13 +615,56 @@
     //参数
     NSMutableDictionary *arr = [NSMutableDictionary dictionary];
     arr[@"id"] = [NSString stringWithFormat:@"%lli",_id];
-    arr[@"level"] = self.TotalValue;
+    if(self.TotalValue)
+    {
+        arr[@"level"] = self.TotalValue;
+    }
+    else
+    {
+        arr[@"level"] = @"0";
+    }
     MyLog(@"level===%@",self.TotalValue);
-    arr[@"level1"] = self.starValue1;
+    
+    
+    if(self.starValue1)
+    {
+        arr[@"level1"] = self.starValue1;
+    }
+    else
+    {
+        arr[@"level1"] = @"0";
+    }
      MyLog(@"level1===%@",self.starValue1);
-    arr[@"level2"] = self.starValue2;
-    arr[@"level3"] = self.starValue3;
-    arr[@"level4"] = self.starValue4;
+    
+    
+    if(self.starValue1)
+    {
+        arr[@"level2"] = self.starValue2;
+    }
+    else
+    {
+        arr[@"level2"] = @"0";
+    }
+  
+    if(self.starValue3)
+    {
+        arr[@"level3"] = self.starValue3;
+    }
+    else
+    {
+        arr[@"level3"] = @"0";
+    }
+    
+    if(self.starValue4)
+    {
+        arr[@"level4"] = self.starValue3;
+    }
+    else
+    {
+        arr[@"level4"] = @"0";
+    }
+    
+    
     if (self.images.count) {
          arr[@"imgs"] = self.imagesUrlStr;
     }

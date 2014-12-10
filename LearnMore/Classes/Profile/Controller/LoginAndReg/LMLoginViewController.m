@@ -159,7 +159,7 @@
             //        arr[@"password"] = [self getSha1String:self.pwd.text];
             NSString *pwdResult = [self.pwd.text stringByAppendingString:self.salt];
             arr[@"password"] = [pwdResult sha1];
-            arr[@"version"] = @"1.0";
+        
             
             NSString *jsonStr = [arr JSONString];
             MyLog(@"%@",jsonStr);
@@ -196,9 +196,17 @@
                         
                         LogObj(dict);
                         
+                        NSMutableDictionary *dictM = [NSMutableDictionary dictionaryWithDictionary:dict];
+                        dictM[@"userPhone"] = self.account.text;
+                        dictM[@"pwd"] = self.pwd.text;
+                        
+                        MyLog(@"name===%@",dictM);
+                        
+                        
                         //字典转对象
-                        LMAccount *account  = [LMAccount accountWithDict:dict];
+                        LMAccount *account  = [LMAccount accountWithDict:dictM];
                         account.userPhone = self.account.text;
+                        account.pwd = self.pwd.text;
                         [LMAccountTool saveAccount:account];
                         
                         

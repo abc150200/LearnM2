@@ -122,7 +122,7 @@
     
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont systemFontOfSize:12];
-    [btn setImage:[UIImage imageNamed:@"timeline_icon_more_highlighted"] forState:UIControlStateNormal];
+    [btn setImage:[UIImage imageNamed:@"public_down"] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(selectedCourse:) forControlEvents:UIControlEventTouchUpInside];
     [self.resultTitleView addSubview:btn];
 }
@@ -142,10 +142,10 @@
     [self.tableView reloadData];
     
     if (_sign) {
-        [sender setImage:[UIImage imageNamed:@"timeline_icon_unlike"] forState:UIControlStateNormal];
+        [sender setImage:[UIImage imageNamed:@"public_up"] forState:UIControlStateNormal];
     }else
     {
-        [sender setImage:[UIImage imageNamed:@"timeline_icon_more_highlighted"] forState:UIControlStateNormal];
+        [sender setImage:[UIImage imageNamed:@"public_down"] forState:UIControlStateNormal];
     }
     
 }

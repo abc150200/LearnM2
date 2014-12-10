@@ -41,9 +41,9 @@
         self.sexInfo = @"女";
     }
     
-    self.infoLabel.text = [NSString stringWithFormat:@"   你已经为%@(%@，%d岁)报名了北京优学精选科技有限公司组织的活动--%@。",self.stuName,self.sexInfo, self.age,self.actTitle];
+    self.infoLabel.text = [NSString stringWithFormat:@"   你已经为%@(%@，%d岁)报名了%@组织的活动--%@。",self.stuName,self.sexInfo, self.age,self.schoolName,self.actTitle];
     
-    self.contactLabel.text = [NSString stringWithFormat:@"  北京优学精选科技有限公司的工作人员会在1-2个工作日内与你联系,沟通活动相关信息,你也可以在《我的-报名活动》中查看已报名的活动信息。"];
+    self.contactLabel.text = [NSString stringWithFormat:@"  %@的工作人员会在1-2个工作日内与你联系,沟通活动相关信息,你也可以在《我的-报名活动》中查看已报名的活动信息。",self.schoolName];
 }
 
 - (IBAction)share:(id)sender {

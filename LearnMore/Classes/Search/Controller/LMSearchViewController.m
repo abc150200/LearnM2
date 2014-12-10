@@ -96,12 +96,13 @@
     
     //创建尾部清除按钮
     UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 44)];
-    [btn setTitle:@"清除搜索记录" forState:UIControlStateNormal];
+    #warning 暂时禁掉
+//    [btn setTitle:@"清除搜索记录" forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     
     
     [btn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
-    
+
     self.tableView.tableFooterView = btn;
     
 #warning 分割线为何不出来
@@ -117,6 +118,8 @@
     
     if(self.from == FromHome)
     {
+        [self.historyList addObject:btn.currentTitle];
+        
         LMCourseListMainViewController *lv = [[LMCourseListMainViewController alloc] init];
         
         [self.navigationController pushViewController:lv animated:YES];
@@ -152,11 +155,18 @@
     
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [self.searchBar becomeFirstResponder];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
-    [self.searchBar endEditing:YES];
+    
 }
 
 #warning 还要存在数据库里面
@@ -196,14 +206,16 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    [self.tableView endEditing:YES];
+    [self.searchBar endEditing:YES];
 }
 
 
 #pragma mark - 数据源方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.historyList.count;
+#warning 暂时禁掉
+//    return self.historyList.count;
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 youxuejingxuan. All rights reserved.
 //
 
-#define NavH (([UIDevice currentDevice].systemVersion.doubleValue >= 8.0)? 0 : 64)
+#define NavH (([UIDevice currentDevice].systemVersion.doubleValue >= 8.0)? 0 : 0)
 
 #define LMAdsDocPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"ads.plist"]
 
@@ -27,6 +27,8 @@
 #import "LMCourseList.h"
 #import "LMCourseRecommendViewController.h"
 #import "LMCourseIntroViewController.h"
+
+#import "CLProgressHUD.h"
 
 
 @interface LMFindCourseViewController ()<CityListViewControllerDelegate,UITextFieldDelegate,LMCourseCollectionViewControllerDelegate,UINavigationControllerDelegate,UIScrollViewDelegate,LMCourseRecommendViewControllerDelegate>
@@ -66,10 +68,15 @@
 
 - (void)viewDidLoad
 {
-    //请求推荐图片
-    [self loadImage];
+   
     
     [super viewDidLoad];
+    
+    
+    CLProgressHUD *hud = [CLProgressHUD shareInstance];
+    hud.type = CLProgressHUDTypeDarkBackground;
+    hud.shape = CLProgressHUDShapeCircle;
+    [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
     
     NSString *identifier = [[NSBundle mainBundle] bundleIdentifier];
     MyLog(@"%@=====",identifier);
@@ -78,11 +85,7 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320,35)];
     view.backgroundColor = [UIColor clearColor];
     self.navigationItem.titleView = view;
-    
-//    //创建标题
-//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 0, 30 , 30)];
-//    imageView.image  = [UIImage imageNamed:@"home_logo"];
-//    [view addSubview:imageView];
+
     
     //创建城市按钮
     IWCityButton *cityButton = [[IWCityButton alloc] init];
@@ -96,20 +99,7 @@
     self.cityButton = cityButton;
     // 2.1监听标题按钮的点击事件
     [cityButton addTarget:self action:@selector(titleBtnOnClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-//    // 创建自定义搜素框
-//    IWSearchBar *searchBar = [[IWSearchBar alloc] init];
-//    searchBar.x = CGRectGetMaxX(self.cityButton.frame) + 27.5 - 10;
-//    searchBar.y = 0;
-//    searchBar.width = self.view.width - 55- self.cityButton.width -27.5 - 15;
-//    searchBar.height = 30;
-//    searchBar.background = [UIImage resizableImageWithName:@"home_search"];
-//    searchBar.placeholder = @"请输入关键字";
-//    searchBar.font = [UIFont systemFontOfSize:13];
-//    [view addSubview:searchBar];
-//    searchBar.delegate = self;
-//    self.searchBar = searchBar;
-    
+ 
     
     // 创建自定义搜素框
     UIImageView *searchBar = [[UIImageView alloc] init];
@@ -156,9 +146,7 @@
     adScrollView.x = 0;
     adScrollView.size = CGSizeMake(self.view.width, AdScrollViewH );
     adScrollView.y = 0;
-//    if (!iOS8) {
-//        adScrollView.y = 64;
-//    }
+
     [conScrollView addSubview:adScrollView];
     self.adScrollView = adScrollView;
     
@@ -177,7 +165,7 @@
         iv.backgroundColor = [UIColor redColor];
         [adScrollView addSubview:iv];
         iv.tag = i;
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoClick:)];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoClickTap:)];
         [iv addGestureRecognizer:tap];
         iv.userInteractionEnabled = YES;
     }
@@ -209,15 +197,12 @@
     cv.collectionView.backgroundColor = [UIColor whiteColor];
 
     cv.collectionView.frame = CGRectMake(0, self.adScrollView.height, self.view.width, 275);
-//    if (!iOS8) {
-//        cv.collectionView.frame = CGRectMake(0, self.adScrollView.height + 64, self.view.width, 320);
-//    }
-  
+    
     [self.conScrollView addSubview:cv.collectionView];
 
 	self.cv = cv;
     
-    
+    [self loadData];
     
     //其他孩子都在学
     UIView *view1= [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.cv.collectionView.frame), self.view.width, 30)];
@@ -256,16 +241,20 @@
     //设置contentSize
     self.conScrollView.contentSize = CGSizeMake(self.view.width,CGRectGetMaxY(view2.frame) + NavH);
     
+    if ([[NSString deviceString] isEqualToString: @"iPhone 4S"]) {
+        self.conScrollView.contentSize = CGSizeMake(self.view.width,CGRectGetMaxY(view2.frame) + 64);
+    }
+    
     self.conScrollView.bounces = NO;
     
     
-    [self loadData];
+//    [self loadImage];
  
     //请求数据
     [self loadCourseType];
     
     //请求城市数据
-    [self loadCity];
+//    [self loadCity];
 	
 }
 
@@ -284,11 +273,11 @@
     [self.navigationController pushViewController:lin animated:YES];
 }
 
-- (void)photoClick:(UITapGestureRecognizer *)tap
+- (void)photoClickTap:(UITapGestureRecognizer *)tap
 {
     int i = tap.view.tag;
     MyLog(@"tap.view.tag = %d", tap.view.tag);
-    NSDictionary *dic =_adArr[i];
+    NSDictionary *dic =self.adArr[i];
     LMActivityDetailViewController *adv = [[LMActivityDetailViewController alloc] init];
     adv.id = [dic[@"typeId"] intValue];
     [self.navigationController pushViewController:adv animated:YES];
@@ -309,7 +298,7 @@
     if(!iOS8)
     {
         
-        self.pageControl.y = - self.conScrollView.contentOffset.y + self.adScrollView.height - 64;
+        self.pageControl.y = - self.conScrollView.contentOffset.y + self.adScrollView.height - 10;
     }else
     {
         
@@ -375,8 +364,9 @@
     
     //参数
     NSMutableDictionary *arr = [NSMutableDictionary dictionary];
-    arr[@"area"] = @"0_0";
+
     arr[@"count"] = @"10";
+    arr[@"order"] = @"4";
     
     NSString *jsonStr = [arr JSONString];
     MyLog(@"%@",jsonStr);
@@ -388,8 +378,10 @@
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         
+        [CLProgressHUD dismiss];
+        
         NSDictionary *courseDic = [responseObject[@"data"] objectFromJSONString];
-        //        MyLog(@"%@",courseDic);
+                MyLog(@"%@",courseDic);
         
         NSArray *courseList = courseDic[@"courseList"];
         
@@ -429,17 +421,13 @@
         NSDictionary *dateDic = [responseObject[@"data"] objectFromJSONString];
         MyLog(@"------imagehome%@",dateDic);
         
-//        NSArray *adsArr = dateDic[@"ad"];
+        NSArray *adsArr = dateDic[@"ad"];
 
-//        self.adArr = [LMAdverce objectArrayWithKeyValuesArray:adsArr];
+        NSString *str = @"ads.plist";
+        NSString *courseTypesPath = [str appendDocumentPath];
+        LogObj(courseTypesPath);
         
-//        [self.adArr writeToFile:LMAdsDocPath atomically:YES];
-
-//        NSString *str = @"ads.plist";
-//        NSString *courseTypesPath = [str appendDocumentPath];
-//        LogObj(courseTypesPath);
-//        
-//        [adsArr writeToFile:courseTypesPath atomically:YES];
+        [adsArr writeToFile:courseTypesPath atomically:YES];
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         LogObj(error.localizedDescription);
@@ -471,9 +459,6 @@
         LogObj(courseTypesPath);
         
         [courseTypesArr writeToFile:courseTypesPath atomically:YES];
-        
-        
-        
     
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         LogObj(error.localizedDescription);
@@ -570,15 +555,8 @@
             [label removeFromSuperview];
         }];
     }];
-    
-    
-    
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUD];
-    });
+
   
-    
 }
 
 #pragma mark - LMCityListViewControllerDelegate
@@ -600,6 +578,7 @@
             NSNumber *typeId =  type.id;
             
             lv.TypeId = typeId;
+            lv.courseTitle = title;
             MyLog(@"%@",lv.TypeId);
             
         }

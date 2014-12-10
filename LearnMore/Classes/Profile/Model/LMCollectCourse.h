@@ -10,7 +10,7 @@
 #import <Foundation/Foundation.h>
 
 @interface LMCollectCourse : NSObject
-@property (nonatomic, assign) long long id;
+@property (nonatomic, assign) long long typeId;
 @property (copy, nonatomic) NSString *courseImage;
 @property (copy, nonatomic) NSString *courseName;
 @property (assign, nonatomic) int propAgeStart;      // 年龄段开始

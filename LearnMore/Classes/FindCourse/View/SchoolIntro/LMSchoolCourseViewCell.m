@@ -10,6 +10,7 @@
 #import "LMCourseInfo.h"
 
 
+
 @interface LMSchoolCourseViewCell ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *icon;
@@ -35,6 +36,10 @@
     _course = course;
     
     [self.icon sd_setImageWithURL:[NSURL URLWithString:course.courseImage] placeholderImage:[UIImage imageNamed:@"app"]];
+    self.icon.layer.borderColor = UIColorFromRGB(0xc7c7c7).CGColor;
+    self.icon.layer.borderWidth = 1.0f;
+    
+    
     self.title.text = course.courseName;
     self.detail.text = [NSString stringWithFormat:@"%@ | %@,0基础",course.secondTypeName,[NSString ageBegin:_course.propAgeStart ageEnd:_course.propAgeEnd]];
     

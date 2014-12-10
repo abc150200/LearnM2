@@ -62,9 +62,9 @@
     LogFrame(self.tabBar);
     
     // 2.添加对应个数的按钮
-    [myTabBar addTabButtonWithName:@"public_tabbar_search_normal" selName:@"public_tabbar_search_pressed" title:@"搜课程"];
+    [myTabBar addTabButtonWithName:@"public_tabbar_search_normal" selName:@"public_tabbar_search_pressed" title:@"精彩课程"];
     
-    [myTabBar addTabButtonWithName:@"public_tabbar_activity_normal" selName:@"public_tabbar_activity_pressed" title:@"活动"];
+    [myTabBar addTabButtonWithName:@"public_tabbar_activity_normal" selName:@"public_tabbar_activity_pressed" title:@"亲子活动"];
     
     [myTabBar addTabButtonWithName:@"public_tabbar_me_normal" selName:@"public_tabbar_me_pressed" title:@"我的"];
 

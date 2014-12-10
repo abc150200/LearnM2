@@ -18,5 +18,9 @@
 /** 年龄 */
 @property (copy, nonatomic) NSString *ageId;
 
+/** 课程大分类 */
+@property (copy, nonatomic) NSString *courseTitle;
 
+/** 排序id */
+@property (nonatomic, assign) int orderId;
 @end

@@ -14,6 +14,7 @@
 @property (nonatomic, assign) long time;
 @property (nonatomic, assign) long uid;
 @property (copy, nonatomic) NSString *userPhone;
+@property (copy, nonatomic) NSString *pwd;
 
 
 - (instancetype)initWithDict:(NSDictionary *)dict;

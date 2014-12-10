@@ -44,8 +44,8 @@
 {
 
     NSString *title = self.listArr[indexPath.row];
-    if ([self.delegate respondsToSelector:@selector(listViewControllerDidClick: title:)]) {
-        [self.delegate listViewControllerDidClick:self title:title];
+    if ([self.delegate respondsToSelector:@selector(listViewControllerDidClick: title: row:)]) {
+        [self.delegate listViewControllerDidClick:self title:title row:indexPath.row];
     }
     
 }

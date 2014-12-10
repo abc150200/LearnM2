@@ -12,5 +12,6 @@
 @property (nonatomic, assign) int sex;
 @property (nonatomic, assign) int age;
 @property (copy, nonatomic) NSString *stuName;
+@property (nonatomic, copy) NSString *schoolName; //机构名称
 @property (copy, nonatomic) NSString *actTitle;
 @end

@@ -22,6 +22,7 @@
         self.time =   [dict[@"time"] longValue];
         self.uid = [dict[@"uid"] longValue];
         self.userPhone = dict[@"userPhone"];
+        self.pwd = dict[@"pwd"];
     }
     return self;
 }
@@ -41,6 +42,7 @@
     [encoder encodeInt32:self.time forKey:@"time"];// encodeObject:self.time forKey:@"time"];
     [encoder encodeInt32:self.uid forKey:@"uid"];
     [encoder encodeObject:self.userPhone forKey:@"userPhone"];
+    [encoder encodeObject:self.pwd forKey:@"pwd"];
 }
 /**
  *  将一个对象从文件中读取出来的时候调用, 在此方法中说清楚怎么读取数据
@@ -54,6 +56,7 @@
         self.time = [decoder decodeInt32ForKey:@"time"];
         self.uid = [decoder decodeInt32ForKey:@"uid"];
         self.userPhone = [decoder decodeObjectForKey:@"userPhone"];
+        self.pwd = [decoder decodeObjectForKey:@"pwd"];
         
     }
     return self;

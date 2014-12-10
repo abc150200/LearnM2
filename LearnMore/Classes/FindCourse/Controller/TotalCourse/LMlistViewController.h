@@ -13,7 +13,7 @@
 @protocol LMlistViewControllerDelegate <NSObject>
 
 @optional
-- (void)listViewControllerDidClick:(LMlistViewController *)listViewController title:(NSString *)title;
+- (void)listViewControllerDidClick:(LMlistViewController *)listViewController title:(NSString *)title row:(int)row;
 
 @end
 

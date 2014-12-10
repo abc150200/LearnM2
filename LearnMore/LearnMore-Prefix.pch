@@ -56,8 +56,8 @@
 #define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 
 //share
-#define UMAppKey @"5402c43efd98c5e571017999"
-
+#define UMAppKey @"2659915290"
+//5402c43efd98c5e571017999
 //请求
 #define RequestURL @"http://api.manytu.com/"
 

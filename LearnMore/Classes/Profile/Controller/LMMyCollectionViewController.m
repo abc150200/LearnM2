@@ -32,10 +32,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    
-//    LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
-    
-    
+  
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -74,6 +71,8 @@
             NSString *collectStr = [AESenAndDe De_Base64andAESDeToString:responseObject[@"data"] keyValue:account.sessionkey];
             
             NSDictionary *dict = [collectStr objectFromJSONString];
+            
+//            MyLog(@"dict===%@",dict);
             
             NSArray *favArr = dict[@"favorites"];
          
@@ -125,7 +124,7 @@
 {
     LMCollectCourse *collectCourse = self.dataList[indexPath.row];
     LMCourseIntroViewController *cvc = [[LMCourseIntroViewController alloc] init];
-    cvc.id = collectCourse.id;
+    cvc.id = collectCourse.typeId;
     
     [self.navigationController pushViewController:cvc animated:YES];
 }

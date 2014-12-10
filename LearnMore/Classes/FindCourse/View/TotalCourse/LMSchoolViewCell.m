@@ -44,6 +44,9 @@
 {
     _schoolList = schoolList;
     [self.schoolImage sd_setImageWithURL:[NSURL URLWithString:_schoolList.schoolImage] placeholderImage:[UIImage imageNamed:@"380,210"]];
+    self.schoolImage.layer.borderColor = UIColorFromRGB(0xc7c7c7).CGColor;
+    self.schoolImage.layer.borderWidth = 1.0f;
+    
     self.nameLabel.text = _schoolList.schoolFullName;
     self.id = _schoolList.id;
     

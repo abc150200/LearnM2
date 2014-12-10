@@ -63,6 +63,8 @@
         NSURL *url = [NSURL URLWithString:str];
         [self.courseImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"380,210"]];
     }
+    self.courseImageView.layer.borderColor = UIColorFromRGB(0xc7c7c7).CGColor;  
+    self.courseImageView.layer.borderWidth = 1.0f;
 }
 
 @end

@@ -25,6 +25,8 @@
 /** 返回数字年龄(回复中用) */
 + (NSString *)timeWithLong:(long)longTime;
 
+/** 判断设备 */
++ (NSString*)deviceString;
 
 /**
  *  添加文档路径

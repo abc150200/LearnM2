@@ -66,6 +66,7 @@
     // 2.给cell传递模型
     cell.item = group.items[indexPath.row];
     
+    cell.selectionStyle  = UITableViewCellSelectionStyleNone;
     
     // 3.返回cell
     return cell;

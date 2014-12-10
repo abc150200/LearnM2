@@ -23,4 +23,6 @@
 @property (nonatomic, strong) NSArray *cities;
 @property (nonatomic, weak) id<CZCityViewControllerDelegate> delegate;
 
+@property (nonatomic, assign) int row;
+
 @end

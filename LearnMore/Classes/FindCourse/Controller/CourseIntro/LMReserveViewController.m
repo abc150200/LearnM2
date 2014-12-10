@@ -33,6 +33,8 @@
 @property (nonatomic, strong) UIButton *stuSelectedBtn;
 
 @property (nonatomic, strong) UIButton *parSelectedBtn;
+@property (weak, nonatomic) IBOutlet UILabel *bookTitle;
+@property (weak, nonatomic) IBOutlet UILabel *bookStuInfo;
 
 @end
 
@@ -57,6 +59,13 @@
     LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
     
     self.phoneLabel.text = account.userPhone;
+    
+    self.bookTitle.text = self.courseName;
+    
+    if (self.from == FromeAct) {
+        
+        self.bookStuInfo.text = @"报名学生信息";
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -194,7 +203,7 @@
 
         } else
         {
-          
+
             
             AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
             
@@ -238,6 +247,7 @@
                         bv.age = [self.ageLabel.text intValue];
                         bv.actTitle = self.courseName;
                         bv.sex = self.stuSelectedBtn.tag;
+                        bv.schoolName = self.schoolName;
                         [self.navigationController pushViewController:bv animated:YES];
                     }
                         

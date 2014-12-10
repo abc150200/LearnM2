@@ -48,5 +48,21 @@
     return CGRectMake(imageX, imageY, imageW, imageH);
 }
 
+#warning 设置后不能设置居中,故设置没用
+//- (void)setTitle:(NSString *)title forState:(UIControlState)state
+//{
+//
+//    // 根据用户设置的文本计算按钮的宽度
+//    CGSize titleSize =[title sizeWithAttributes:@{NSFontAttributeName : self.titleLabel.font}];
+//    
+//    
+////    CGSize titleSize =  [title sizeWithFont:self.titleLabel.font];
+//    CGFloat buttonWidth = titleSize.width + IWTitleButtonImageW;
+//    // 将计算后的frame设置给按钮
+//    self.width = buttonWidth;
+//
+//    [super setTitle:title forState:state];
+//}
+
 
 @end

@@ -51,6 +51,8 @@
         NSURL *url = [NSURL URLWithString:str];
         [self.courseImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"avatar_default"]];
     }
+    self.courseImageView.layer.borderColor = UIColorFromRGB(0xc7c7c7).CGColor;
+    self.courseImageView.layer.borderWidth = 1.0f;
 }
 
 

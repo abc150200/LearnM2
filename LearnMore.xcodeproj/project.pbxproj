@@ -21,7 +21,6 @@
 		2004096C1A22CA58005D477D /* libmtasdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 200409691A22CA58005D477D /* libmtasdk.a */; };
 		2004096E1A22CB1F005D477D /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2004096D1A22CB1F005D477D /* AdSupport.framework */; };
 		200409721A231612005D477D /* LMAdverce.m in Sources */ = {isa = PBXBuildFile; fileRef = 200409711A231612005D477D /* LMAdverce.m */; };
-		200409741A2325E3005D477D /* ads.plist in Resources */ = {isa = PBXBuildFile; fileRef = 200409731A2325E3005D477D /* ads.plist */; };
 		20079E7D1A07C9A800BC012A /* LMTeachListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20079E7C1A07C9A800BC012A /* LMTeachListTableViewController.m */; };
 		20079E801A07CB0100BC012A /* LMTeachList.m in Sources */ = {isa = PBXBuildFile; fileRef = 20079E7F1A07CB0100BC012A /* LMTeachList.m */; };
 		20079E831A083A8A00BC012A /* UIImage+NJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 20079E821A083A8A00BC012A /* UIImage+NJ.m */; };
@@ -157,6 +156,7 @@
 		20D402EE19D91A28003D251B /* MJNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D402EC19D91A28003D251B /* MJNavigationController.m */; };
 		20D402F119D93968003D251B /* LMConsultRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D402F019D93968003D251B /* LMConsultRecordViewController.m */; };
 		20D402F719D93A18003D251B /* LMSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D402F619D93A18003D251B /* LMSettingViewController.m */; };
+		20D61ACE1A38032600DCE310 /* ads.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20D61ACD1A38032600DCE310 /* ads.plist */; };
 		20DD49D819FF48A500332A52 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2011B23719FE04A4001236AA /* CoreLocation.framework */; };
 		20DD49DB19FF52FB00332A52 /* UIBarButtonItem+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 20DD49DA19FF52FB00332A52 /* UIBarButtonItem+Extension.m */; };
 		20E4857119FFAA7F0037869A /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E4857019FFAA7F0037869A /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -224,6 +224,8 @@
 		20F4C3D719ECE011002766A4 /* LMAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F4C3D519ECE011002766A4 /* LMAboutUsViewController.m */; };
 		20F4C3D819ECE011002766A4 /* LMAboutUsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20F4C3D619ECE011002766A4 /* LMAboutUsViewController.xib */; };
 		20F535C91A3189DE00F00855 /* TQStarRatingDisplayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F535C81A3189DE00F00855 /* TQStarRatingDisplayView.m */; };
+		20F53F701A36F42800C2DB1C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20F53F6F1A36F42800C2DB1C /* AssetsLibrary.framework */; };
+		20F53F721A36FCF000C2DB1C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20F53F711A36FCF000C2DB1C /* AVFoundation.framework */; };
 		20F7A55819EF698E00DC526D /* LMchangePwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F7A55019EF698E00DC526D /* LMchangePwdViewController.m */; };
 		20F7A55919EF698E00DC526D /* LMchangePwdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20F7A55119EF698E00DC526D /* LMchangePwdViewController.xib */; };
 		20F7A55A19EF698E00DC526D /* LMLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F7A55319EF698E00DC526D /* LMLoginViewController.m */; };
@@ -320,7 +322,6 @@
 		2004096D1A22CB1F005D477D /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		200409701A231612005D477D /* LMAdverce.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAdverce.h; sourceTree = "<group>"; };
 		200409711A231612005D477D /* LMAdverce.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAdverce.m; sourceTree = "<group>"; };
-		200409731A2325E3005D477D /* ads.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ads.plist; sourceTree = "<group>"; };
 		20079E7B1A07C9A800BC012A /* LMTeachListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTeachListTableViewController.h; sourceTree = "<group>"; };
 		20079E7C1A07C9A800BC012A /* LMTeachListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTeachListTableViewController.m; sourceTree = "<group>"; };
 		20079E7E1A07CB0100BC012A /* LMTeachList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTeachList.h; sourceTree = "<group>"; };
@@ -556,6 +557,7 @@
 		20D402F019D93968003D251B /* LMConsultRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMConsultRecordViewController.m; sourceTree = "<group>"; };
 		20D402F519D93A18003D251B /* LMSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSettingViewController.h; sourceTree = "<group>"; };
 		20D402F619D93A18003D251B /* LMSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSettingViewController.m; sourceTree = "<group>"; };
+		20D61ACD1A38032600DCE310 /* ads.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ads.plist; sourceTree = "<group>"; };
 		20DD49D919FF52FB00332A52 /* UIBarButtonItem+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Extension.h"; sourceTree = "<group>"; };
 		20DD49DA19FF52FB00332A52 /* UIBarButtonItem+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Extension.m"; sourceTree = "<group>"; };
 		20E4856F19FFAA7F0037869A /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
@@ -678,6 +680,8 @@
 		20F4C3D619ECE011002766A4 /* LMAboutUsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMAboutUsViewController.xib; sourceTree = "<group>"; };
 		20F535C71A3189DE00F00855 /* TQStarRatingDisplayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TQStarRatingDisplayView.h; sourceTree = "<group>"; };
 		20F535C81A3189DE00F00855 /* TQStarRatingDisplayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TQStarRatingDisplayView.m; sourceTree = "<group>"; };
+		20F53F6F1A36F42800C2DB1C /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		20F53F711A36FCF000C2DB1C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		20F7A54F19EF698E00DC526D /* LMchangePwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMchangePwdViewController.h; sourceTree = "<group>"; };
 		20F7A55019EF698E00DC526D /* LMchangePwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMchangePwdViewController.m; sourceTree = "<group>"; };
 		20F7A55119EF698E00DC526D /* LMchangePwdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMchangePwdViewController.xib; sourceTree = "<group>"; };
@@ -784,6 +788,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20F53F721A36FCF000C2DB1C /* AVFoundation.framework in Frameworks */,
+				20F53F701A36F42800C2DB1C /* AssetsLibrary.framework in Frameworks */,
 				2004096E1A22CB1F005D477D /* AdSupport.framework in Frameworks */,
 				20FAD7EB1A0A17CD008D44DB /* libxml2.2.dylib in Frameworks */,
 				2054266B1A0726F40086C516 /* libstdc++.dylib in Frameworks */,
@@ -1295,6 +1301,8 @@
 		20D4028719D90516003D251B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				20F53F711A36FCF000C2DB1C /* AVFoundation.framework */,
+				20F53F6F1A36F42800C2DB1C /* AssetsLibrary.framework */,
 				2004096D1A22CB1F005D477D /* AdSupport.framework */,
 				20FAD7EA1A0A17CD008D44DB /* libxml2.2.dylib */,
 				2054266A1A0726F40086C516 /* libstdc++.dylib */,
@@ -1331,7 +1339,7 @@
 		20D4028F19D90516003D251B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				200409731A2325E3005D477D /* ads.plist */,
+				20D61ACD1A38032600DCE310 /* ads.plist */,
 				20B8A28F1A121B360028C875 /* smallAreas.plist */,
 				20B8A28D1A1205290028C875 /* courseTypes.plist */,
 				20B8A2741A11BD190028C875 /* areas.plist */,
@@ -2044,6 +2052,7 @@
 				2054265A1A0725CF0086C516 /* UMShareEditViewController.xib in Resources */,
 				20D402A119D90516003D251B /* Images.xcassets in Resources */,
 				20F2E4E51A14BB6C006CAE25 /* .gitignore in Resources */,
+				20D61ACE1A38032600DCE310 /* ads.plist in Resources */,
 				20C5C9BF19ECF6880010FE36 /* MBProgressHUD.bundle in Resources */,
 				20F48F7019F64CE00005A67C /* totalCourse.plist in Resources */,
 				20B8A28E1A1205290028C875 /* courseTypes.plist in Resources */,
@@ -2086,7 +2095,6 @@
 				20E7B4EB1A0619FB00948EBD /* PushConfig.plist in Resources */,
 				20F9A25D19EBA1B300BAB3D5 /* LMActivityViewCell.xib in Resources */,
 				2001FE191A2F09BE0009F8E4 /* MJPhotoBrowser.bundle in Resources */,
-				200409741A2325E3005D477D /* ads.plist in Resources */,
 				20B8A2901A121B360028C875 /* smallAreas.plist in Resources */,
 				20E61D3919F0B70F00C427E7 /* cities.plist in Resources */,
 				20BCC1FF19E6905E00A5913B /* LMCourseIntroViewController.xib in Resources */,

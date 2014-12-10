@@ -166,34 +166,53 @@
         
         switch (code) {
             case 10001:
+            {
                 [MBProgressHUD hideHUD];
                 [MBProgressHUD showSuccess:@"提交成功,请登录"];
                 [self.navigationController popViewControllerAnimated:YES];
+            }
+                
                 break;
                 
             case 30001:
+            {
                 [MBProgressHUD hideHUD];
                 [MBProgressHUD showError:@"用户不存在"];
+            }
                 break;
                 
             case 30005:
+            {
                 [MBProgressHUD hideHUD];
                 [MBProgressHUD showError:@"验证码不正确"];
+            }
+                
                 break;
                 
             case 42008:
+            {
                 [MBProgressHUD hideHUD];
                 [MBProgressHUD showError:@"验证码不能为空"];
+            
+            }
+                
                 break;
                 
             case 42009:
+            {
                 [MBProgressHUD hideHUD];
                 [MBProgressHUD showError:@"验证码不匹配"];
+            }
+
                 break;
                 
             default:
+            {
                 [MBProgressHUD hideHUD];
                 [MBProgressHUD showError:@"服务器异常,请稍后再试"];
+            
+            }
+                
                 break;
         }
         

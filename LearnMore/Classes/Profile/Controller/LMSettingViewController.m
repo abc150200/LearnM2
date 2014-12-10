@@ -99,15 +99,15 @@
     //判断用户是否登录
     LMAccount *account =  [LMAccountInfo sharedAccountInfo].account;
     
-    LMCommonItemArrow *myCollection = [LMCommonItemArrow itemWithIcon:@"me_collect" Title:@"我的收藏"];
+//    LMCommonItemArrow *myCollection = [LMCommonItemArrow itemWithIcon:@"me_collect" Title:@"我的收藏"];
 //    myCollection.subtitle = @"12门课程";
-    if(account)
-    {
-        myCollection.destVc =[LMMyCollectionViewController class];
-    }else
-    {
-        myCollection.destVc = [LMLoginViewController class];
-    }
+//    if(account)
+//    {
+//        myCollection.destVc =[LMMyCollectionViewController class];
+//    }else
+//    {
+//        myCollection.destVc = [LMLoginViewController class];
+//    }
     
     
     LMCommonItemArrow *freeReserve = [LMCommonItemArrow itemWithIcon:@"me_listening" Title:@"免费预约试听"];
@@ -132,11 +132,11 @@
     }
     
     
-    LMCommonItemArrow *myReview = [LMCommonItemArrow itemWithIcon:@"me_review" Title:@"我的点评"];
+//    LMCommonItemArrow *myReview = [LMCommonItemArrow itemWithIcon:@"me_review" Title:@"我的点评"];
     
     
     LMCommonGroup *group1 = [self addGroup];
-    group1.items = @[myCollection,freeReserve,signActivity,myReview];
+    group1.items = @[freeReserve,signActivity];
     
     
     

@@ -54,16 +54,29 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *dict = self.cities[indexPath.row];
-    NSNumber *id = dict[@"id"];
-    NSString *title = dict[@"typeName"];
     
-    if ([self.delegate respondsToSelector:@selector(cityViewController:didSeclctedItem: title:)]) {
-        [self.delegate cityViewController:self didSeclctedItem:id title:title];
+    if (indexPath.row == 0) {
+        
+        NSArray *arr = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"courseTypes.plist" ofType:nil]];
+        NSDictionary *dict = arr[self.row];
+        NSNumber *id = dict[@"id"];
+        NSString *title = dict[@"typeName"];
+        if ([self.delegate respondsToSelector:@selector(cityViewController:didSeclctedItem: title:)]) {
+            [self.delegate cityViewController:self didSeclctedItem:id title:title];
+        }
+    }else
+    {
+        
+        NSDictionary *dict = self.cities[indexPath.row];
+        NSNumber *id = dict[@"id"];
+        NSString *title = dict[@"typeName"];
+        
+        if ([self.delegate respondsToSelector:@selector(cityViewController:didSeclctedItem: title:)]) {
+            [self.delegate cityViewController:self didSeclctedItem:id title:title];
+        }
+        
     }
-    
 
-    
 }
 
 @end

@@ -50,6 +50,7 @@
 @property (nonatomic, weak) UIView *infoView;
 
 @property (copy, nonatomic) NSString *actTitle;
+@property (weak, nonatomic) IBOutlet UILabel *actTitleLabel;
 
 @end
 
@@ -77,9 +78,12 @@
 
 #warning 暂时屏蔽
 //    UIBarButtonItem *item0 = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"public_nav_collect_normal"] style:UIBarButtonItemStylePlain target:self action:@selector(collection)];
-//    UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"public_nav_share"] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
-//    
+    UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"public_nav_share"] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
+//
 //    self.navigationItem.rightBarButtonItems = @[item1,item0];
+    self.navigationItem.rightBarButtonItem = item1;
+    
+    
     
     
 //    //在分享代码前设置微信分享应用类型，用户点击消息将跳转到应用，或者到下载页面
@@ -176,6 +180,7 @@
             NSString *dateEnd = [self timeResultWith:actInfoDic[@"actEndTime"]];
         
             self.actTitle = actInfoDic[@"actTitle"];
+            self.actTitleLabel.text = actInfoDic[@"actTitle"];
   
             self.timeLabel.text = [NSString stringWithFormat:@"%@-%@",dateStart,dateEnd];
             
@@ -220,12 +225,29 @@
 
 - (void)share
 {
-    NSString *text = @"多学活动分享";
-    UIImage *image = [UIImage imageNamed:@"logo96,96"];
+    NSString *urlStr = [NSString stringWithFormat:@"http://www.learnmore.com.cn/m/activity_des.html?id=%lli",_id];
+    
+    NSString *text = self.actTitle;
+    UIImage *image = self.actImageView.image;
     NSArray *names = @[UMShareToSina,UMShareToQQ,UMShareToQzone,UMShareToWechatSession,UMShareToWechatTimeline,UMShareToRenren, UMShareToEmail, UMShareToSms];
     
     //弹出分享页面
     [UMSocialSnsService presentSnsIconSheetView:self appKey:UMAppKey shareText:text shareImage:image shareToSnsNames:names delegate:self];
+    
+    //weixin标题
+    NSString *text1 = [NSString stringWithFormat:@"%@ %@",self.actTitle,urlStr];
+    [UMSocialData defaultData].extConfig.sinaData.shareText = text1;
+    
+    
+    //    [UMSocialData defaultData].extConfig.tencentData.shareImage = [UIImage imageNamed:@"icon"]; //分享到腾讯微博图片
+    //    [[UMSocialData defaultData].extConfig.wechatSessionData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:@"http://www.baidu.com/img/bdlogo.gif"];
+    
+    //微信
+    [UMSocialData defaultData].extConfig.wechatSessionData.url = urlStr;
+    [UMSocialData defaultData].extConfig.wechatTimelineData.url = urlStr;
+    [UMSocialData defaultData].extConfig.qqData.url = urlStr;
+    [UMSocialData defaultData].extConfig.qzoneData.url = urlStr;
+    
     
 }
 //报名

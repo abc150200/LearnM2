@@ -21,6 +21,28 @@
 #import "LMAccountTool.h"
 #import "LMAccountInfo.h"
 #import "LMAccount.h"
+#import "AFNetworking.h"
+
+#import "NSString+encrypto.h"
+
+#import "GTMBase64.h"
+#import "AESenAndDe.h"
+#import "AESenAndDe.h"
+
+#import <Foundation/NSData.h>
+#import <Foundation/NSError.h>
+#import <CommonCrypto/CommonCryptor.h>
+#import <CommonCrypto/CommonHMAC.h>
+
+
+@interface LMAppDelegate ()
+
+/** 获得的sid */
+@property (copy, nonatomic) NSString *sid;
+@property (copy, nonatomic) NSString *salt;
+
+@end
+
 
 @implementation LMAppDelegate
 
@@ -38,8 +60,107 @@
     
     /** 读取账号 */
     LMAccount *account = [LMAccountTool account];
-    [LMAccountInfo sharedAccountInfo].account = account;
+//   [LMAccountInfo sharedAccountInfo].account = account;
     
+    /** 自动登录 */
+    if (account && account.pwd) {
+        
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        
+        //url地址
+        NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"user/salt.json"];
+        
+        //参数
+        NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+        parameters[@"mobile"] = account.userPhone;
+        
+        
+        [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            LogObj(responseObject);
+            
+            self.salt = responseObject[@"salt"];
+            self.sid = responseObject[@"sid"];
+            
+            /** 登录 */
+            AFHTTPRequestOperationManager *manager2 = [AFHTTPRequestOperationManager manager];
+            
+            //url地址
+            NSString *url2 = [NSString stringWithFormat:@"%@%@",RequestURL,@"user/login.json"];
+            
+            //参数
+            NSMutableDictionary *parameters2 = [NSMutableDictionary dictionary];
+            parameters2[@"mobile"] = account.userPhone;
+            parameters2[@"sid"] = self.sid;
+            
+            NSMutableDictionary *arr = [NSMutableDictionary dictionary];
+            
+            arr[@"time"] = [NSString timeNow];
+            NSString *pwdResult = [account.pwd stringByAppendingString:self.salt];
+            arr[@"password"] = [pwdResult sha1];
+            
+            
+            NSString *jsonStr = [arr JSONString];
+            MyLog(@"%@",jsonStr);
+            
+            //通讯密钥
+            NSString *result = [account.pwd stringByAppendingString:self.salt];
+            MyLog(@"%@==拼接之后",result);
+            //        NSString *key = [[self getSha1String:result]  substringToIndex:16];
+            NSString *key = [[[result sha1]  substringToIndex:16] lowercaseString];
+            MyLog(@"%@==全部密钥",[[result sha1] lowercaseString] );
+            MyLog(@"%@==密钥",key);
+            
+            
+            //        parameters2[@"data"] = [AESCrypt encrypt:jsonStr password:key];
+            parameters2[@"data"] = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:key];
+            
+            MyLog(@"%@===请求参数",parameters2);
+            
+            [manager2 POST:url2 parameters:parameters2 success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                LogObj(responseObject);
+                
+                NSString *dataStr = responseObject[@"data"];
+                
+                NSString *dataJson = [AESenAndDe De_Base64andAESDeToString:dataStr keyValue:key];
+                NSDictionary *dict = [dataJson objectFromJSONString];
+                
+                LogObj(dict);
+                
+                MyLog(@"name===%@",responseObject);
+                
+                
+                NSMutableDictionary *dictM = [NSMutableDictionary dictionaryWithDictionary:dict];
+                dictM[@"userPhone"] = account.userPhone;
+                dictM[@"pwd"] = account.pwd;
+                
+                MyLog(@"name===%@",dictM);
+                
+                
+                //字典转对象
+                LMAccount *account  = [LMAccount accountWithDict:dictM];
+                [LMAccountTool saveAccount:account];
+                
+              
+                [[LMAccountInfo sharedAccountInfo] setAccount:account];
+                LogObj([LMAccountInfo sharedAccountInfo].account);
+                
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                LogObj(error.localizedDescription);
+                
+            }];
+            
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            LogObj(error.localizedDescription);
+            
+        }];
+        
+
+    }
+    
+    
+#warning 自动登录
     
     //云分析
     [MTA startWithAppkey:@"IN8FWR1U74WS"];
@@ -61,43 +182,12 @@
 
     self.window.backgroundColor = [UIColor whiteColor];
     
-//#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
-//    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
-//        //可以添加自定义categories
-//        [APService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
-//                                                       UIUserNotificationTypeSound |
-//                                                       UIUserNotificationTypeAlert)
-//                                           categories:nil];
-//    } else {
-//        //categories 必须为nil
-//        [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-//                                                       UIRemoteNotificationTypeSound |
-//                                                       UIRemoteNotificationTypeAlert)
-//                                           categories:nil];
-//    }
-//#else
-//    //categories 必须为nil
-//    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-//                                                   UIRemoteNotificationTypeSound |
-//                                                   UIRemoteNotificationTypeAlert)
-//                                       categories:nil];
-//#endif
-//    // Required
-//    [APService setupWithOption:launchOptions];
+
     
     
    [XGPush startApp:2200063367 appKey:@"I16I24SLIT1F"];
    
     
-    
-//    #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
-//    
-//     [self registerPushForIOS8];
-//    
-//    #else
-//     [self registerPush];
-//    
-//    #endif
     
     
     //注销之后需要再次注册前的准备

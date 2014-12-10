@@ -28,7 +28,7 @@
 {
     [super viewDidLoad];
     
-    self.title = @"活动";
+    self.title = @"亲子活动";
     
     self.tableView.rowHeight = 185;
     

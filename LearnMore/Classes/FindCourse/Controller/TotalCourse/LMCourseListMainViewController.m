@@ -63,8 +63,9 @@
     
     //创建筛选工具条
     LMCourseHeadView *headView = [[LMCourseHeadView alloc] initWithFrame:CGRectMake(0, 64, self.view.width, 43)];
+   MyLog(@"name===%@",NSStringFromCGRect(self.headView.frame));
     
-    if(!iOS8)
+    if([[NSString deviceString]  isEqualToString: @"iPhone 4S"])
     {
         headView.y = 0;
     }
@@ -81,7 +82,7 @@
     self.clv = clv;
     [self addChildViewController:clv];
     self.clv.view.frame = CGRectMake(0, 107, self.view.width,[UIScreen mainScreen].bounds.size.height - 107);
-    if (!iOS8) {
+    if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"]) {
         self.clv.view.y = 43;
         self.clv.view.height = [UIScreen mainScreen].bounds.size.height - 43;
     }
@@ -96,6 +97,14 @@
 {
     [super viewWillAppear:animated];
  
+    if(self.courseTitle)
+    {
+        [self.headView.titleBtn setTitle:self.courseTitle forState:UIControlStateNormal];
+    }else
+    {
+        [self.headView.titleBtn setTitle:@"分  类" forState:UIControlStateNormal];
+    }
+    
 }
 
 /**  设置导航栏 */
@@ -113,8 +122,8 @@
     //添加事件
     [segm addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
     
-    //右边搜索按钮
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btn_class_list_search"] style:UIBarButtonItemStylePlain target:self action:@selector(navBtnClick)];
+//    //右边搜索按钮
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btn_class_list_search"] style:UIBarButtonItemStylePlain target:self action:@selector(navBtnClick)];
 
 }
 
@@ -155,6 +164,8 @@
 /** 参数 */
 - (void)loadNewData
 {
+    
+    
     //参数
     NSMutableDictionary *arr = [NSMutableDictionary dictionary];
     
@@ -178,19 +189,20 @@
     {
         arr[@"age"] = self.ageId;
     }
+    if (self.orderId) {
+        arr[@"order"] = [NSString stringWithFormat:@"%d",self.orderId];
+    }
 
     self.clv.arr = arr;
     self.slv.arr = arr;
     
     if (self.segm.selectedSegmentIndex == 0) {
-         [self.clv loadNewData];
+        [self.clv loadNewData];
     } else
     {
         [self.slv loadNewData];
     }
-    
-   
-  
+
 }
 
 
@@ -278,7 +290,7 @@
             UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 30)];
             btn.backgroundColor = [UIColor clearColor];
             [menuView addSubview:btn];
-            [btn addTarget:self action:@selector(allMenu) forControlEvents:UIControlEventTouchUpInside];
+            [btn addTarget:self action:@selector(allMenu2) forControlEvents:UIControlEventTouchUpInside];
             
             
             LMAreaViewController *lac = [[LMAreaViewController alloc] init];
@@ -340,7 +352,7 @@
     IWPopMenu *popMenu = [[IWPopMenu alloc] initWithContentView:self.menuView];
     popMenu.delegate = self;
     self.popMenu = popMenu;
-    [popMenu showRect:CGRectMake(0, 110, 320, 230)];
+    [popMenu showRect:CGRectMake(0, 107, 320, 230)];
 
     
 }
@@ -356,10 +368,21 @@
     
 }
 
+- (void)allMenu2
+{
+    self.areaId = @"0";
+    self.levelId = @"0";
+    
+    [self loadNewData];
+    
+    [self.popMenu dismiss];
+}
+
 // 选中课程大类的代理方法
-- (void)provinceViewController:(CZProvinceViewController *)controller selectedCities:(NSArray *)cities
+- (void)provinceViewController:(CZProvinceViewController *)controller selectedCities:(NSArray *)cities row:(int)row
 {
     self.cVc.cities = cities;
+    self.cVc.row = row;
 }
 
 // 选中区域大类的代理方法
@@ -371,7 +394,7 @@
     self.lcc.level = areaLevel;
     
     [self.headView.cityBtn setTitle:title forState:UIControlStateNormal];
-    [self.headView.cityBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_pressed"] forState:UIControlStateNormal];
+    [self.headView.cityBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_normal"] forState:UIControlStateNormal];
 }
 
 //选中区域小类的代理
@@ -392,7 +415,7 @@
     self.TypeId = item;
     
     [self.headView.titleBtn setTitle:title forState:UIControlStateNormal];
-    [self.headView.titleBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_pressed"] forState:UIControlStateNormal];
+    [self.headView.titleBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_normal"] forState:UIControlStateNormal];
     
     [self loadNewData];
     
@@ -406,7 +429,7 @@
     self.ageId = [NSString stringWithFormat:@"%d_%d",age,(age + 1)];
     
     [self.headView.ageBtn setTitle:title forState:UIControlStateNormal];
-    [self.headView.ageBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_pressed"] forState:UIControlStateNormal];
+    [self.headView.ageBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_normal"] forState:UIControlStateNormal];
     
     [self loadNewData];
     
@@ -414,10 +437,11 @@
 }
 
 //筛选代理
-- (void)listViewControllerDidClick:(LMlistViewController *)listViewController title:(NSString *)title
+- (void)listViewControllerDidClick:(LMlistViewController *)listViewController title:(NSString *)title row:(int)row
 {
+    self.orderId = row;
     [self.headView.selectedBtn setTitle:title forState:UIControlStateNormal];
-    [self.headView.selectedBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_pressed"] forState:UIControlStateNormal];
+    [self.headView.selectedBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_normal"] forState:UIControlStateNormal];
     
     [self loadNewData];
     

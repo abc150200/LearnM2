@@ -25,7 +25,10 @@
 #import "CLProgressHUD.h"
 #import "LMCourseIntroViewController.h"
 #import "LMOneSchRecViewController.h"
-
+#import "TQStarRatingDisplayView.h"
+#import <MediaPlayer/MediaPlayer.h>
+#import "LMMapViewController.h"
+#import "LMLoginViewController.h"
 
 @interface LMSchoolIntroViewController ()
 
@@ -85,6 +88,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *level3;
 @property (weak, nonatomic) IBOutlet UILabel *level4;
 
+@property (weak, nonatomic) IBOutlet UILabel *tLevel;
 
 @property (weak, nonatomic) IBOutlet UILabel *courseMack;
 
@@ -95,6 +99,10 @@
 
 @property (nonatomic, weak) LMOneSchRecViewController *srv;
 
+@property (copy, nonatomic) NSString *gps;
+@property (copy, nonatomic) NSString *address;
+
+
 @end
 
 @implementation LMSchoolIntroViewController
@@ -103,41 +111,44 @@
 {
     [super viewDidLoad];
     
-     self.title = @"机构信息";
+     self.title = @"学校信息";
     
-//    CLProgressHUD *hud = [CLProgressHUD shareInstance];
-//    hud.type = CLProgressHUDTypeDarkBackground;
-//    hud.shape = CLProgressHUDShapeCircle;
-//    [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
-//    [CLProgressHUD dismiss];
-    
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 375)];
-    headView.backgroundColor = UIColorFromRGB(0xf0f0f0);
-    self.headView = headView;
-    self.tableView.tableHeaderView = self.headView;
-    
-    [self.headView addSubview:self.schoolDisplay];
-    self.schoolDisplay.frame = CGRectMake(0, 0, self.view.width, self.schoolDisplay.height);
-    
+    CLProgressHUD *hud = [CLProgressHUD shareInstance];
+    hud.type = CLProgressHUDTypeDarkBackground;
+    hud.shape = CLProgressHUDShapeCircle;
+    [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
    
-    //添加点评
-    LMOneSchRecViewController *srv = [[LMOneSchRecViewController alloc] init];
-    self.srv = srv;
-    srv.view.x = 0;
-    srv.view.y = CGRectGetMaxY(self.schoolDisplay.frame) + 20;
-    srv.view.width = self.view.width;
     
-    srv.tableView.tableHeaderView = self.recHeadView;
-    srv.tableView.tableFooterView = self.recFootView;
     
-    [self.headView addSubview:srv.view];
     
-    self.srv.view.height = 152 ;
- 
+//    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 375)];
+//    headView.backgroundColor = UIColorFromRGB(0xf0f0f0);
+//    self.headView = headView;
+//    self.tableView.tableHeaderView = self.headView;
+//    
+//    [self.headView addSubview:self.schoolDisplay];
+//    self.schoolDisplay.frame = CGRectMake(0, 0, self.view.width, self.schoolDisplay.height);
+    
+  
+#warning 暂时禁掉
+//    //添加点评
+//    LMOneSchRecViewController *srv = [[LMOneSchRecViewController alloc] init];
+//    self.srv = srv;
+//    srv.view.x = 0;
+//    srv.view.y = CGRectGetMaxY(self.schoolDisplay.frame) + 20;
+//    srv.view.width = self.view.width;
+//    
+//    srv.tableView.tableHeaderView = self.recHeadView;
+//    srv.tableView.tableFooterView = self.recFootView;
+//    
+//    [self.headView addSubview:srv.view];
+//    
+//    self.srv.view.height = 152 ;
+// 
     
     self.tableView.bounces = NO;
 
-    self.tableView.tableHeaderView = self.headView;
+    self.tableView.tableHeaderView = self.schoolDisplay;
     
     UIView *footView = [[UIView alloc] init];
     footView.x = 0;
@@ -165,7 +176,7 @@
     
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont systemFontOfSize:12];
-    [btn setImage:[UIImage imageNamed:@"timeline_icon_more_highlighted"] forState:UIControlStateNormal];
+    [btn setImage:[UIImage imageNamed:@"public_down"] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(selectedCourse:) forControlEvents:UIControlEventTouchUpInside];
     [self.teachView addSubview:btn];
 
@@ -191,7 +202,6 @@
     
     self.tableView.tableFooterView = footView;
     
-    [self loadSchoolRec];
     
     [self loadData];
  
@@ -202,6 +212,13 @@
     
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self.phone removeFromSuperview];
+}
+
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
@@ -210,57 +227,67 @@
     
 }
 
-
-/** 学校点评 */
-- (void)loadSchoolRec
+- (void)viewWillAppear:(BOOL)animated
 {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-
-
-    //url地址
-    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"comment/list.json"];
-
-
-    //参数
-    NSMutableDictionary *arr = [NSMutableDictionary dictionary];
-    arr[@"id"] = [NSString stringWithFormat:@"%lli",self.id];
-    arr[@"type"] = @"3";
-    arr[@"time"] = [NSString timeNow];
-    arr[@"count"] = @"1";
-
-    NSString *jsonStr = [arr JSONString];
-    MyLog(@"%@",jsonStr);
-
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    parameters[@"param"] = jsonStr;
-
-
-    [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-
-        LogObj(responseObject);
-
-        NSDictionary *dateDic = [responseObject[@"data"] objectFromJSONString];
-        MyLog(@"%@",dateDic);
-
-//        NSArray *recomArr = [LMRecommend objectArrayWithKeyValuesArray:dateDic[@"comments"]];
-//        NSMutableArray *frameModels = [NSMutableArray arrayWithCapacity:recomArr.count];
-//        for (LMRecommend *recom in recomArr) {
-//            LMRecommedFrame *recomFrame = [[LMRecommedFrame alloc] init];
-//            recomFrame.recommend = recom;
-//            [frameModels addObject:recomFrame];
-//        }
-//
-//        self.recomFrames = frameModels;
-//
-//
-//
-//        [self.tableView reloadData];
-
-
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        LogObj(error.localizedDescription);
-    }];
+    [super viewWillAppear:animated];
+    
+    [[UIApplication sharedApplication].keyWindow addSubview:self.phone];
+    self.phone.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - self.phone.height , self.view.width, self.phone.height);
+    
+    
 }
+
+
+///** 学校点评 */
+//- (void)loadSchoolRec
+//{
+//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//
+//
+//    //url地址
+//    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"comment/list.json"];
+//
+//
+//    //参数
+//    NSMutableDictionary *arr = [NSMutableDictionary dictionary];
+//    arr[@"id"] = [NSString stringWithFormat:@"%lli",self.id];
+//    arr[@"type"] = @"3";
+//    arr[@"time"] = [NSString timeNow];
+//    arr[@"count"] = @"1";
+//
+//    NSString *jsonStr = [arr JSONString];
+//    MyLog(@"%@",jsonStr);
+//
+//    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+//    parameters[@"param"] = jsonStr;
+//
+//
+//    [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//
+//        LogObj(responseObject);
+//
+//        NSDictionary *dateDic = [responseObject[@"data"] objectFromJSONString];
+//        MyLog(@"%@",dateDic);
+//
+////        NSArray *recomArr = [LMRecommend objectArrayWithKeyValuesArray:dateDic[@"comments"]];
+////        NSMutableArray *frameModels = [NSMutableArray arrayWithCapacity:recomArr.count];
+////        for (LMRecommend *recom in recomArr) {
+////            LMRecommedFrame *recomFrame = [[LMRecommedFrame alloc] init];
+////            recomFrame.recommend = recom;
+////            [frameModels addObject:recomFrame];
+////        }
+////
+////        self.recomFrames = frameModels;
+////
+////
+////
+////        [self.tableView reloadData];
+//
+//
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        LogObj(error.localizedDescription);
+//    }];
+//}
 
 - (void)loadTeacher
 {
@@ -284,6 +311,7 @@
     
     
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
         
         
         NSDictionary *dateDic = [responseObject[@"data"] objectFromJSONString];
@@ -386,8 +414,32 @@
         /** 取出字典 */
         NSDictionary *schoolInfoDic = dateDic[@"school"];
         LogObj(dateDic[@"school"]);
+        MyLog(@"name===%@",dateDic[@"school"]);
         
         self.phoneNum = schoolInfoDic[@"contactPhone"];
+        self.gps = schoolInfoDic[@"schoolGps"];
+        self.address = schoolInfoDic[@"address"];
+#warning 这里以后会改
+        if (self.secondTypeName) {
+            self.courseMack.text =[NSString stringWithFormat:@"课程标签: %@",self.secondTypeName] ;
+        }else
+        {
+            self.courseMack.text =@"课程标签: 其他";
+        }
+        
+        
+        NSDictionary *schoolCommentLevel =schoolInfoDic[@"schoolCommentLevel"];
+        self.level1.text = schoolCommentLevel[@"avgLevel1"];
+        self.level2.text = schoolCommentLevel[@"avgLevel2"];
+        self.level3.text = schoolCommentLevel[@"avgLevel3"];
+        self.level4.text = schoolCommentLevel[@"avgLevel4"];
+        
+        TQStarRatingDisplayView *star = [[TQStarRatingDisplayView alloc] initWithFrame:CGRectMake(125,45,90,14) numberOfStar:5 norImage:@"public_review_small_normal" highImage:@"public_review_small_pressed" starSize:14 margin:5 score:schoolCommentLevel[@"avgTotalLevel"]];
+        [self.schoolDisplay addSubview:star];
+        
+        self.tLevel.text = schoolCommentLevel[@"avgTotalLevel"];
+        
+    
         
      
             self.addressLabel.text = schoolInfoDic[@"address"];
@@ -397,11 +449,15 @@
             {
                 [self.schoolImageView sd_setImageWithURL:[NSURL URLWithString:schoolInfoDic[@"schoolImage"]] placeholderImage:[UIImage imageNamed:@"activity"]];
             }
-            
+        self.schoolImageView.layer.borderColor = UIColorFromRGB(0xc7c7c7).CGColor;
+        self.schoolImageView.layer.borderWidth = 1.0f;
+        
           
             
             self.schoolFullNameLabel.text = schoolInfoDic[@"schoolFullName"];
-            
+        
+        
+         [CLProgressHUD dismiss];
             
             NSString *htmlStr = schoolInfoDic[@"discription"];
             self.htmlStr = htmlStr;
@@ -422,7 +478,7 @@
                 
                 self.htmlView.height = _currentY ;
                 
-                self.footView.height = _currentY + 245 + 60;
+                self.footView.height = _currentY + 245 + 60 + self.phone.height;
                 
                 self.tableView.tableFooterView = self.footView;
             }
@@ -432,12 +488,7 @@
             
             MyLog(@"%f",_currentY);
             
-//            self.htmlView.height = _currentY;
-//            
-//            self.footView.height = _currentY + 245 ;
-//            
-//            self.tableView.tableFooterView = self.footView;
-            
+
 
         
         
@@ -458,6 +509,17 @@
             
         }];
     }
+    
+}
+
+
+/** 跳转地图页面 */
+- (IBAction)mapClick:(id)sender {
+    LMMapViewController *lm = [[LMMapViewController alloc] init];
+    lm.gps = self.gps;
+    lm.address = self.address;
+    
+    [self presentViewController:lm animated:YES completion:nil];
     
 }
 
@@ -630,7 +692,7 @@
             
             self.htmlView.height = _currentY;
             
-            self.footView.height = _currentY + 245 ;
+            self.footView.height = _currentY + 245 + self.phone.height;
             
             self.tableView.tableFooterView = self.footView;
 //            if(self.html2.length)
@@ -678,7 +740,7 @@
     
     self.htmlView.height = _currentY;
     
-    self.footView.height = _currentY + 245 ;
+    self.footView.height = _currentY + 245 + self.phone.height;
     
     self.tableView.tableFooterView = self.footView;
 }

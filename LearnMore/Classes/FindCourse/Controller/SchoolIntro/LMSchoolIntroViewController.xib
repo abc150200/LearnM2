@@ -14,12 +14,14 @@
                 <outlet property="level3" destination="xG7-Vr-xjV" id="USe-1P-jQl"/>
                 <outlet property="level4" destination="oCh-c3-p9Z" id="G7l-xF-eAo"/>
                 <outlet property="parentRec" destination="wlj-dX-vsh" id="pqB-Tb-QOt"/>
+                <outlet property="phone" destination="F8H-pC-QYu" id="Grd-LK-6Nl"/>
                 <outlet property="recFootView" destination="PWa-tb-saQ" id="q0w-qp-Thk"/>
                 <outlet property="recHeadView" destination="hrH-ya-c0w" id="J93-C4-A93"/>
                 <outlet property="schoolDisplay" destination="i29-iy-1B4" id="X32-gm-A6C"/>
                 <outlet property="schoolFullNameLabel" destination="7zg-Tg-Btd" id="31Y-uP-adH"/>
                 <outlet property="schoolImageView" destination="YQL-jd-Z8a" id="bBN-oF-DC9"/>
                 <outlet property="scrollView" destination="AEs-rW-GvU" id="Ecm-r5-3zm"/>
+                <outlet property="tLevel" destination="94w-DG-eUT" id="6Fy-nF-ZcW"/>
                 <outlet property="teachView" destination="zO7-Cr-KZi" id="wGM-17-955"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -54,13 +56,13 @@
                     </subviews>
                 </scrollView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="老师信息" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tm4-Qf-lrx">
-                    <rect key="frame" x="43" y="53" width="68" height="21"/>
+                    <rect key="frame" x="41" y="53" width="68" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <view contentMode="scaleToFill" id="Jim-pa-sq9">
-                    <rect key="frame" x="0.0" y="91" width="320" height="1"/>
+                <view alpha="0.5" contentMode="scaleToFill" id="Jim-pa-sq9">
+                    <rect key="frame" x="20" y="91" width="300" height="1"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
@@ -79,7 +81,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="school_school" id="jjZ-DP-Xfq" userLabel="前面大头针">
-                    <rect key="frame" x="8" y="205" width="20" height="25"/>
+                    <rect key="frame" x="15" y="205" width="20" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="6tv-JW-z0c">
@@ -93,13 +95,18 @@
                     <color key="backgroundColor" red="0.9586447011" green="0.9586447011" blue="0.9586447011" alpha="1" colorSpace="calibratedRGB"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="学校简介" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DvW-w3-iUc">
-                    <rect key="frame" x="43" y="207" width="68" height="21"/>
+                    <rect key="frame" x="41" y="207" width="68" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <view contentMode="scaleToFill" id="SHf-mD-TU3">
+                <view alpha="0.5" contentMode="scaleToFill" id="SHf-mD-TU3">
                     <rect key="frame" x="20" y="244" width="300" height="1"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view alpha="0.5" contentMode="scaleToFill" id="nla-qt-iaK">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
@@ -107,10 +114,10 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="166" y="330.5"/>
+            <point key="canvasLocation" x="166" y="383.5"/>
         </view>
         <view contentMode="scaleToFill" id="i29-iy-1B4" userLabel="View--头部信息">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="203"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="267"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="public_address" id="AcW-8C-TY2" userLabel="前面大头针">
@@ -121,7 +128,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="115"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="activity" id="YQL-jd-Z8a">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="common" id="YQL-jd-Z8a">
                             <rect key="frame" x="15" y="15" width="100" height="90"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
@@ -133,14 +140,14 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="教学质量:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Q2p-SK-QOV">
-                            <rect key="frame" x="133" y="63" width="58" height="21"/>
+                            <rect key="frame" x="125" y="63" width="58" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="校区环境:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="J4c-9y-CjT">
-                            <rect key="frame" x="133" y="88" width="58" height="21"/>
+                            <rect key="frame" x="125" y="88" width="58" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -154,7 +161,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xG7-Vr-xjV">
-                            <rect key="frame" x="193" y="88" width="20" height="21"/>
+                            <rect key="frame" x="185" y="88" width="20" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" red="1" green="0.27102675459999997" blue="0.054116381470000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -181,8 +188,15 @@
                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="94w-DG-eUT">
+                            <rect key="frame" x="225" y="43" width="20" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" red="1" green="0.27102675459999997" blue="0.054116381470000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0Rx-vb-HSY">
-                            <rect key="frame" x="193" y="63" width="20" height="21"/>
+                            <rect key="frame" x="185" y="63" width="20" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" red="1" green="0.27102675459999997" blue="0.054116381470000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -202,14 +216,14 @@
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="课程标签: 象棋" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Tu9-Nf-9bA">
-                    <rect key="frame" x="43" y="126" width="178" height="21"/>
+                    <rect key="frame" x="41" y="126" width="178" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="school_label" id="sa1-2w-3Np">
-                    <rect key="frame" x="15" y="127" width="20" height="20"/>
+                    <rect key="frame" x="13" y="127" width="20" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bbl-6o-7Ua">
@@ -220,41 +234,69 @@
                     </state>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="苏州街长远天地大厦a座 &lt;500m" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YAb-rg-lFL">
-                    <rect key="frame" x="35" y="173" width="241" height="21"/>
+                    <rect key="frame" x="41" y="173" width="241" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="IC7-uw-UY5">
+                    <rect key="frame" x="0.0" y="203" width="320" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.9501953125" green="0.9501953125" blue="0.9501953125" alpha="1" colorSpace="calibratedRGB"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0rU-CS-NcE">
+                    <rect key="frame" x="0.0" y="159" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="mapClick:" destination="-1" eventType="touchUpInside" id="Uks-xu-Svd"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="school_class" id="fw7-xF-kM3" userLabel="前面大头针">
+                    <rect key="frame" x="15" y="238" width="20" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="开设课程" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ghu-VD-U3E">
+                    <rect key="frame" x="41" y="237" width="68" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view alpha="0.5" contentMode="scaleToFill" id="MVS-ig-WSS">
+                    <rect key="frame" x="20" y="266" width="300" height="1"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="166" y="-223.5"/>
+            <point key="canvasLocation" x="166" y="-196.5"/>
         </view>
         <view contentMode="scaleToFill" id="F8H-pC-QYu" userLabel="View--咨询预约">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="sI1-DT-BSd">
-                    <rect key="frame" x="25" y="20" width="116" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <state key="normal" title="在线咨询">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="UuQ-88-8Vp">
-                    <rect key="frame" x="178" y="20" width="116" height="30"/>
+                    <rect key="frame" x="15" y="5" width="290" height="35"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <state key="normal" title="拨打电话">
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <state key="normal" title="免费电话咨询" backgroundImage="btn_class_detail_free">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="call:" destination="-1" eventType="touchUpInside" id="QRi-6z-Mah"/>
+                    </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" red="0.065783286890000001" green="0.62298318610000003" blue="0.55251684069999996" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.96021569289999997" green="0.96021569289999997" blue="0.96021569289999997" alpha="1" colorSpace="calibratedRGB"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="157" y="554"/>
+            <point key="canvasLocation" x="166" y="592.5"/>
         </view>
         <view contentMode="scaleToFill" id="PWa-tb-saQ">
             <rect key="frame" x="0.0" y="5" width="320" height="108"/>
@@ -299,7 +341,7 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="166" y="111"/>
+            <point key="canvasLocation" x="166" y="164"/>
         </view>
         <view contentMode="scaleToFill" id="hrH-ya-c0w">
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -335,11 +377,12 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="166" y="-42"/>
+            <point key="canvasLocation" x="157" y="24"/>
         </view>
     </objects>
     <resources>
-        <image name="activity" width="309" height="179"/>
+        <image name="btn_class_detail_free" width="152" height="35"/>
+        <image name="common" width="380" height="210"/>
         <image name="login_btn" width="580" height="80"/>
         <image name="me_arrow" width="10" height="15"/>
         <image name="public_address" width="12" height="21"/>

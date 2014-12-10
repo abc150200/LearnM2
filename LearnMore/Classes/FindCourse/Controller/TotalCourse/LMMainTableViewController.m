@@ -20,13 +20,13 @@
 
     // 设置表格的y值
     self.tableView.y = 107;
-    if (!iOS8) {
+    if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"]) {
         self.tableView.y = 43;
     }
     self.tableView.height = [UIScreen mainScreen].bounds.size.height - 107;
-    if (!iOS8) {
-        self.tableView.height = [UIScreen mainScreen].bounds.size.height - 43;
-    }
+//    if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"]) {
+//        self.tableView.height = [UIScreen mainScreen].bounds.size.height - 64 - 43;
+//    }
    
     self.tableView.rowHeight = 88;
 //    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;

@@ -10,6 +10,8 @@
 #define LMLeftPadding 15
 #define LMNavHeight 0
 
+//#define  LMNavHeight (([[NSString deviceString] isEqualToString: @"iPhone 4S"])? 64 :0)
+
 #import "LMCourseIntroViewController.h"
 #import "LMSchoolIntroViewController.h"
 #import "LMReserveViewController.h"
@@ -34,6 +36,7 @@
 #import "LMLoginViewController.h"
 #import "LMAddRecommendViewController.h"
 #import "LMDetailRecommendViewController.h"
+#import "LMLoginViewController.h"
 
 #import "LMRecommend.h"
 #import "LMRecommedFrame.h"
@@ -138,7 +141,13 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *parentRec;
 
+@property (weak, nonatomic) IBOutlet UIButton *writeRecBtn;
 @property (nonatomic, strong) NSDictionary *courseScoreDic;
+
+@property (weak, nonatomic) IBOutlet UIButton *freeListen;
+
+@property (copy, nonatomic) NSString *courseImageUrl;
+
 @end
 
 @implementation LMCourseIntroViewController
@@ -161,28 +170,30 @@
     
     self.title = @"课程简介";
     
+    [self.writeRecBtn setTitleColor:UIColorFromRGB(0x9ac72c) forState:UIControlStateNormal];
+    
     CLProgressHUD *hud = [CLProgressHUD shareInstance];
     hud.type = CLProgressHUDTypeDarkBackground;
     hud.shape = CLProgressHUDShapeCircle;
     [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
     
- 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginStatuChange:) name:@"LoginStatuChangeNotification" object:nil];
     
     //添加分享,收藏
-    UIBarButtonItem *item0 = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"public_nav_collect_normal"] style:UIBarButtonItemStylePlain target:self action:@selector(collection)];
+//    UIBarButtonItem *item0 = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"public_nav_collect_normal"] style:UIBarButtonItemStylePlain target:self action:@selector(collection)];
     UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"public_nav_share"] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
     
-    self.navigationItem.rightBarButtonItems = @[item1,item0];
+//    self.navigationItem.rightBarButtonItems = @[item1,item0];
+    self.navigationItem.rightBarButtonItem = item1;
     
-    //设置微信好友或者朋友圈的分享url,下面是微信好友，微信朋友圈对应wechatTimelineData
-    [UMSocialData defaultData].extConfig.wechatSessionData.url = [NSString stringWithFormat:@"http://www.manytu.com/m/courseDetail.html?id=%lli",_id];
+   
     
    
     
    
     
     UIScrollView *scrollView = [[UIScrollView alloc] init];
-    scrollView.frame = CGRectMake(0, 0, self.view.width,self.view.height);
+    scrollView.frame = CGRectMake(0, 0, self.view.width,self.view.height - self.toolView.height);
     scrollView.contentSize = CGSizeMake(self.view.width,1200 );//
     scrollView.backgroundColor = UIColorFromRGB(0xf0f0f0);
     [self.view addSubview:scrollView];
@@ -212,19 +223,48 @@
     [self.scrollView addSubview: self.schoolSkin];
     
     self.courseView.y = CGRectGetMaxY(self.schoolSkin.frame) + 20;
-    
+
+  
     [self loadRecommendData];
 
     //添加几个详情页面
     [self setupDetail];
  
     [self loadData];
-    
-   
-    
-    
+ 
 }
 
+/** 提醒按钮,覆盖在免费预约试听 */
+- (IBAction)tip:(id)sender {
+    
+    UILabel *label = [[UILabel alloc] init];
+    label.width = 220;
+    label.height = 40;
+    label.centerX = self.view.centerX;
+    label.y = self.view.height - 150;
+    
+    label.text = @"此课程不支持预约试听";
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont systemFontOfSize:14];
+    label.textColor = [UIColor whiteColor];
+    label.layer.cornerRadius = 5;
+    label.clipsToBounds =  YES;
+    label.backgroundColor = [UIColor grayColor];
+    label.alpha = 0;
+    
+    [self.view addSubview:label];
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        label.alpha = 1;
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.5 animations:^{
+            label.alpha = 0;
+        } completion:^(BOOL finished) {
+            [label removeFromSuperview];
+        }];
+    }];
+    
+}
 
 
 //添加几个详情页面
@@ -247,7 +287,8 @@
     [courseView addSubview:titleLabel];
     
     UIView *divider  = [[UIView alloc] initWithFrame:CGRectMake(LMLeftPadding, 44, self.view.width - LMLeftPadding, 1)];
-    divider.backgroundColor = [UIColor grayColor];
+    divider.backgroundColor = [UIColor lightGrayColor];
+    divider.alpha = 0.5;
     [courseView addSubview:divider];
     
     
@@ -279,7 +320,8 @@
     [resultView addSubview:titleLabel2];
     
     UIView *divider2  = [[UIView alloc] initWithFrame:CGRectMake(LMLeftPadding, 44, self.view.width - LMLeftPadding, 1)];
-    divider2.backgroundColor = [UIColor grayColor];
+    divider2.backgroundColor = [UIColor lightGrayColor];
+    divider2.alpha = 0.5;
     [resultView addSubview:divider2];
     
     UIView *htmlView2 = [[UIView alloc]init];
@@ -309,7 +351,8 @@
     [teacherView addSubview:titleLabel3];
     
     UIView *divider3  = [[UIView alloc] initWithFrame:CGRectMake(LMLeftPadding, 44, self.view.width - LMLeftPadding, 1)];
-    divider3.backgroundColor = [UIColor grayColor];
+    divider3.backgroundColor = [UIColor lightGrayColor];
+    divider3.alpha = 0.5;
     [teacherView addSubview:divider3];
     
     LMTeachListTableViewController *tl = [[LMTeachListTableViewController alloc] initWithStyle:UITableViewStylePlain];
@@ -322,6 +365,7 @@
     [teacherView addSubview:tl.view];
     self.teacherView = teacherView;
 
+    
 
 }
 
@@ -393,26 +437,47 @@
 
 - (void)share
 {
-    NSString *text = @"多学课程分享";
-    UIImage *image = [UIImage imageNamed:@"logo96,96"];
-    NSArray *names = @[UMShareToSina,UMShareToQQ,UMShareToQzone,UMShareToWechatSession,UMShareToWechatTimeline,UMShareToRenren, UMShareToEmail, UMShareToSms];
     
+    
+    NSString *urlStr = [NSString stringWithFormat:@"http://www.manytu.com/m/courseDetail.html?id=%lli",_id];
+
+    
+    NSString *text = nil;
+    if (self.needBook) {
+        text = [NSString stringWithFormat:@"免费试听来啦，快来多学预约试%@学校的%@吧",self.schoolNameLabel.text,self.courseNameLabel.text];
+    }else
+    {
+        text = [NSString stringWithFormat:@"孩子素质如何提升？快来多学了解一下%@学校的%@吧",self.schoolNameLabel.text,self.courseNameLabel.text];
+    }
+
+    UIImage *image = self.courseImageView.image;
+    
+    NSArray *names = @[UMShareToSina,UMShareToQQ,UMShareToQzone,UMShareToWechatSession,UMShareToWechatTimeline,UMShareToRenren, UMShareToEmail, UMShareToSms];
+
 //    弹出分享页面
     [UMSocialSnsService presentSnsIconSheetView:self appKey:UMAppKey shareText:text shareImage:image shareToSnsNames:names delegate:self];
     
-
-    if (self.needBook) {
-        [self.toolView removeFromSuperview];
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            [[UIApplication sharedApplication].keyWindow addSubview:self.toolView];
-            self.toolView.frame = CGRectMake(0, self.view.height - self.toolView.height, self.view.width, self.toolView.height);
-            
-        });
-    }
     
+    NSString *text1 = nil;
+    if (self.needBook) {
+        text1 = [NSString stringWithFormat:@"#%@课程#免费试听来啦，快来多学预约试%@学校的%@吧。 %@ ",self.typeNameLabel.text,self.schoolNameLabel.text,self.courseNameLabel.text,urlStr];
+    }else
+    {
+        text1 = [NSString stringWithFormat:@"#%@课程#如何提升孩子综合素质？快来多学了解一下%@学校的%@吧。 %@",self.typeNameLabel.text,self.schoolNameLabel.text,self.courseNameLabel.text,urlStr];
+    }
+    [UMSocialData defaultData].extConfig.sinaData.shareText = text1;
+    
+    
+//    [UMSocialData defaultData].extConfig.tencentData.shareImage = [UIImage imageNamed:@"icon"]; //分享到腾讯微博图片
+//    [[UMSocialData defaultData].extConfig.wechatSessionData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:@"http://www.baidu.com/img/bdlogo.gif"];
 
+    //微信
+    [UMSocialData defaultData].extConfig.wechatSessionData.url = urlStr;
+    [UMSocialData defaultData].extConfig.wechatTimelineData.url = urlStr;
+    [UMSocialData defaultData].extConfig.qqData.url = urlStr;
+    [UMSocialData defaultData].extConfig.qzoneData.url = urlStr;
+     
+    
 }
 
 
@@ -488,6 +553,9 @@
             
             
             NSString *str = courseInfoDic[@"courseImage"];
+        
+            self.courseImageUrl = str;
+        
             if([str isKindOfClass:[NSString class]])
             {
                 NSURL *url = [NSURL URLWithString:str];
@@ -496,6 +564,9 @@
             }
         
             NSString *str2 = courseInfoDic[@"school"][@"schoolImage"];
+        self.courseImageView.layer.borderColor = UIColorFromRGB(0xc7c7c7).CGColor;
+        self.courseImageView.layer.borderWidth = 1.0f;
+        
         if([str2 isKindOfClass:[NSString class]])
         {
             [self.schoolIcon sd_setImageWithURL:[NSURL URLWithString:str2] placeholderImage:[UIImage imageNamed:@"380,210"]];
@@ -503,15 +574,21 @@
         {
             self.schoolIcon.image = [UIImage imageNamed:@"380,210"];
         }
+        self.schoolIcon.layer.borderColor = UIColorFromRGB(0xc7c7c7).CGColor;
+        self.schoolIcon.layer.borderWidth = 1.0f;
         
-        
+        if(!self.needBook)
+        {
+            //         self.freeListen setBackgroundImage:@"btn_class_detail_losed" forState:uicon
+            self.freeListen.enabled = NO;
+        }
         
         /** 课程评分 */
         self.courseScoreDic = courseInfoDic[@"courseCommentLevel"];
         MyLog(@"self.courseScoreDic===%@",self.courseScoreDic);
         
          /** 学校评分 */
-        NSDictionary *schoolCommentLevel  = courseInfoDic[@"school"][@"schoolCommentLevel"];
+        NSDictionary *schoolCommentLevel  = courseInfoDic[@"schoolCommentLevel"];
         self.level.text = schoolCommentLevel[@"avgLevel1"];
         self.level1.text = schoolCommentLevel[@"avgLevel2"];
         self.level2.text = schoolCommentLevel[@"avgLevel3"];
@@ -572,17 +649,9 @@
             
             LogObj(self.teachers);
             MyLog(@"%d老师个数===",self.teachers.count);
-            
-            if(self.needBook)
-            {
-      
-                self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame) + self.toolView.height + LMNavHeight);
-            }else
-            {
-                self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame) + LMNavHeight);
-            }
-            
-            
+           
+            self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame) + LMNavHeight);
+          
         }else
         {
             UILabel *label = [[UILabel alloc] init];
@@ -593,14 +662,9 @@
             [self.teacherView addSubview:label];
             self.teacherView.height = 44 + 44;
             
-            if(self.needBook)
-            {
-                
-                self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame) + self.toolView.height + LMNavHeight);
-            }else
-            {
-                self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame)+ LMNavHeight);
-            }
+           
+            self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame) + LMNavHeight);
+            
         }
         
       
@@ -614,7 +678,7 @@
       
 
         
-    self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame) + self.toolView.height);
+    self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame));
         
         
  
@@ -672,8 +736,8 @@
         [self.onerRv.tableView reloadData];
         
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginStatuChange:) name:@"LoginStatuChangeNotification" object:nil];
-    
+        
+        
 #warning 是不是应该在前面加上;
         if (self.recomFrames.count ==  0) {
             
@@ -714,72 +778,16 @@
 
 
 
-///** 学校点评 */
-//- (void)loadSchoolRec
-//{
-//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//    
-//    
-//    //url地址
-//    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"comment/list.json"];
-//    
-//    
-//    //参数
-//    NSMutableDictionary *arr = [NSMutableDictionary dictionary];
-//    arr[@"id"] = [NSString stringWithFormat:@"%lli",self.schoolId];
-//    arr[@"type"] = @"3";
-//    arr[@"time"] = [NSString timeNow];
-//    arr[@"count"] = @"1";
-//    
-//    NSString *jsonStr = [arr JSONString];
-//    MyLog(@"%@",jsonStr);
-//    
-//    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-//    parameters[@"param"] = jsonStr;
-//    
-//    
-//    [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        
-//        LogObj(responseObject);
-//        
-//        NSDictionary *dateDic = [responseObject[@"data"] objectFromJSONString];
-//        MyLog(@"%@",dateDic);
-//        
-////        NSArray *recomArr = [LMRecommend objectArrayWithKeyValuesArray:dateDic[@"comments"]];
-////        NSMutableArray *frameModels = [NSMutableArray arrayWithCapacity:recomArr.count];
-////        for (LMRecommend *recom in recomArr) {
-////            LMRecommedFrame *recomFrame = [[LMRecommedFrame alloc] init];
-////            recomFrame.recommend = recom;
-////            [frameModels addObject:recomFrame];
-////        }
-////        
-////        self.recomFrames = frameModels;
-////        
-////        
-////        
-////        [self.tableView reloadData];
-//        
-//        
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        LogObj(error.localizedDescription);
-//    }];
-//}
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.view addSubview:self.toolView];
     
-    
-    MyLog(@"self.needBook===%d",self.needBook);
-    
-    if(self.needBook)
-    {
-        [[UIApplication sharedApplication].keyWindow addSubview:self.toolView];
-        self.toolView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - self.toolView.height , self.view.width, self.toolView.height);
-    }
-  
-    
+   
 
+    self.toolView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - self.toolView.height , self.view.width, self.toolView.height);
+  
 }
 
 
@@ -795,77 +803,95 @@
 /** 课程预定 */
 - (IBAction)bookCourse:(id)sender {
     
-    LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
-    if (account) {
-        
-        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-        
-        
-        //url地址
-        NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"appointment/bookCourse.json"];
-        
-        
-        //参数
-        NSMutableDictionary *arr = [NSMutableDictionary dictionary];
-        arr[@"id"] = [NSString stringWithFormat:@"%lli",self.id];
-        arr[@"time"] = [NSString timeNow];
-
-        NSString *jsonStr = [arr JSONString];
-     
-        NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-        parameters[@"sid"] = account.sid;
-        parameters[@"data"] = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:account.sessionkey];
-        
-        [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+   
+        LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
+        if (account) {
             
-            long long code = [responseObject[@"code"] longLongValue];
-
-            switch (code) {
-                case 10001:
-                [MBProgressHUD showSuccess:@"收藏成功"];
-                break;
-                
-                case 30002:
-                [MBProgressHUD showError:@"登录超时"];
-                break;
-                
-                case 63001:
-                [MBProgressHUD showError:@"用户已收藏"];
-                break;
-                
-                default:
-                break;
-            }
+            AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
             
             
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            LogObj(error.localizedDescription);
-        }];
-    } else
-    {
+            //url地址
+            NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"appointment/bookCourse.json"];
+            
+            
+            //参数
+            NSMutableDictionary *arr = [NSMutableDictionary dictionary];
+            arr[@"id"] = [NSString stringWithFormat:@"%lli",self.id];
+            arr[@"time"] = [NSString timeNow];
+            
+            NSString *jsonStr = [arr JSONString];
+            
+            NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+            parameters[@"sid"] = account.sid;
+            parameters[@"data"] = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:account.sessionkey];
+            
+            [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+                long long code = [responseObject[@"code"] longLongValue];
+                
+                switch (code) {
+                    case 10001:
+                        [MBProgressHUD showSuccess:@"收藏成功"];
+                        break;
+                        
+                    case 30002:
+                        [MBProgressHUD showError:@"登录超时"];
+                        break;
+                        
+                    case 63001:
+                        [MBProgressHUD showError:@"用户已收藏"];
+                        break;
+                        
+                    default:
+                        break;
+                }
+                
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                LogObj(error.localizedDescription);
+            }];
+        } else
+        {
+            
+            LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+            [self.navigationController pushViewController:lg animated:YES];
+            
+        }
 
-        LMLoginViewController *lg = [[LMLoginViewController alloc] init];
-        [self.navigationController pushViewController:lg animated:YES];
-        
-    }
+    
+    
 }
 
 - (IBAction)recommend:(id)sender {
     
-    LMAddRecommendViewController *add = [[LMAddRecommendViewController alloc] init];
+    LMAccount *account =  [LMAccountInfo sharedAccountInfo].account;
+    if (account) {
+        LMAddRecommendViewController *add = [[LMAddRecommendViewController alloc] init];
+        
+        add.id = self.id;
+        
+        [self.navigationController pushViewController:add animated:YES];
+    }else
+    {
+        LMLoginViewController *log = [[LMLoginViewController alloc] init];
+        [self.navigationController pushViewController:log animated:YES];
+    }
     
-    add.id = self.id;
     
-    [self.navigationController pushViewController:add animated:YES];
     
 }
 
 - (IBAction)lookRecommend:(id)sender {
-    LMDetailRecommendViewController *dv = [[LMDetailRecommendViewController alloc] init];
-    dv.id = _id;
-    dv.mainTitle = self.courseNameLabel.text;
-    dv.courseScoreDic = self.courseScoreDic;
-    [self.navigationController pushViewController:dv animated:YES];
+    
+    if(self.recomFrames.count)
+    {
+        LMDetailRecommendViewController *dv = [[LMDetailRecommendViewController alloc] init];
+        dv.id = _id;
+        dv.mainTitle = self.courseNameLabel.text;
+        dv.courseScoreDic = self.courseScoreDic;
+        [self.navigationController pushViewController:dv animated:YES];
+    }
+    
 }
 
 
@@ -884,7 +910,7 @@
 /** 跳转学校介绍页面 */
 - (IBAction)schoolIntroBtn:(id)sender {
     LMSchoolIntroViewController *si = [[LMSchoolIntroViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    
+    si.secondTypeName = self.typeNameLabel.text;
     si.title = @"学校信息";
     si.id = self.schoolId;
    
@@ -918,23 +944,57 @@
 - (IBAction)reserveBtn:(id)sender {
     
     
-    LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
-    if (account) {
-   
-        LMReserveViewController *rvc = [[LMReserveViewController alloc] init];
-        rvc.id = self.id;
-        rvc.from = FromCourse;
-        rvc.title = @"预约免费试听";
-        rvc.schoolName = self.schoolNameLabel.text;
-        rvc.courseName = self.courseNameLabel.text;
-        [self.navigationController pushViewController:rvc animated:YES];
+    if(self.needBook)
+    {
+    
+        LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
+        if (account) {
+       
+            LMReserveViewController *rvc = [[LMReserveViewController alloc] init];
+            rvc.id = self.id;
+            rvc.from = FromCourse;
+            rvc.title = @"预约免费试听";
+            rvc.schoolName = self.schoolNameLabel.text;
+            rvc.courseName = self.courseNameLabel.text;
+            [self.navigationController pushViewController:rvc animated:YES];
+        }else
+        {
+            LMLoginViewController *lv = [[LMLoginViewController alloc] init];
+            
+            [self.navigationController pushViewController:lv animated:YES];
+        }
+    
     }else
     {
-        LMLoginViewController *lv = [[LMLoginViewController alloc] init];
         
-        [self.navigationController pushViewController:lv animated:YES];
+        UILabel *label = [[UILabel alloc] init];
+        label.width = 220;
+        label.height = 40;
+        label.centerX = self.view.centerX;
+        label.y = self.view.height - 150;
+        
+        label.text = @"此课程不支持预约试听";
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = [UIFont systemFontOfSize:14];
+        label.textColor = [UIColor whiteColor];
+        label.layer.cornerRadius = 5;
+        label.clipsToBounds =  YES;
+        label.backgroundColor = [UIColor grayColor];
+        label.alpha = 0;
+        
+        [self.view addSubview:label];
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            label.alpha = 1;
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.5 animations:^{
+                label.alpha = 0;
+            } completion:^(BOOL finished) {
+                [label removeFromSuperview];
+            }];
+        }];
+
     }
-    
     
 }
 
@@ -1052,13 +1112,9 @@
             //        NSLog(@"%f ---")
             self.resultView.y = CGRectGetMaxY(self.courseView.frame) + LMPadding;
             self.teacherView.y = CGRectGetMaxY(self.resultView.frame) +LMPadding;
-            if(self.needBook)
-            {
-                self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame) + self.toolView.height+ LMNavHeight);
-            }else
-            {
-                self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame)+ LMNavHeight);
-            }
+            
+            self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame)+ LMNavHeight);
+           
         });
         
     }];
@@ -1101,13 +1157,9 @@
     self.resultView.y = CGRectGetMaxY(self.courseView.frame) + LMPadding;
     self.teacherView.y = CGRectGetMaxY(self.resultView.frame) +LMPadding;
     
-    if(self.needBook)
-    {
-        self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame) + self.toolView.height+ LMNavHeight) ;
-    }else
-    {
-        self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame)+ LMNavHeight);
-    }
+   
+    self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame) + LMNavHeight) ;
+    
     
     
 }
@@ -1184,14 +1236,9 @@
     self.resultView.height = 44 +_currentY2;
     self.teacherView.y = CGRectGetMaxY(self.resultView.frame) +LMPadding;
 
-            if(self.needBook)
-            {
-                self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame) + self.toolView.height+ LMNavHeight);
-            }else
-            {
-                self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame)+ LMNavHeight);
-            }
-            
+         
+    self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame) + LMNavHeight);
+           
         });
         
     }];
@@ -1233,14 +1280,8 @@
     
     self.teacherView.y = CGRectGetMaxY(self.resultView.frame) +LMPadding;
 
-    
-    if(self.needBook)
-    {
-        self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame) + self.toolView.height+ LMNavHeight);
-    }else
-    {
-        self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame)+ LMNavHeight);
-    }
+     self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame)+ LMNavHeight);
+   
 }
 
 

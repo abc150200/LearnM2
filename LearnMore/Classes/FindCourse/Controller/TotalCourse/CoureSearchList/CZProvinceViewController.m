@@ -59,10 +59,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // 直接取城市数组
-    if ([self.provinceDelegate respondsToSelector:@selector(provinceViewController:selectedCities:)]) {
+    if ([self.provinceDelegate respondsToSelector:@selector(provinceViewController:selectedCities: row:)]) {
         NSArray *cities = self.provinces[indexPath.row][@"courseTypes"];
         
-        [self.provinceDelegate provinceViewController:self selectedCities:cities];
+        int row = indexPath.row;
+        
+        [self.provinceDelegate provinceViewController:self selectedCities:cities row:row];
     }
 }
 

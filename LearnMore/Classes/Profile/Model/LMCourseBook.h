@@ -44,7 +44,7 @@
 #import <Foundation/Foundation.h>
 
 @interface LMCourseBook : NSObject
-@property (nonatomic, assign) long long id;
+@property (nonatomic, assign) long long typeId;
 @property (copy, nonatomic) NSString *courseName;
 @property (copy, nonatomic) NSString *secondTypeName;
 @property (copy, nonatomic) NSString *schoolFullName;

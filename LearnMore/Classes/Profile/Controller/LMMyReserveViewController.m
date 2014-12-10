@@ -137,7 +137,7 @@
 {
     LMCourseBook *courseBook = self.dataList[indexPath.row];
     LMCourseIntroViewController *cvc = [[LMCourseIntroViewController alloc] init];
-    cvc.id = courseBook.id;
+    cvc.id = courseBook.typeId;
     
     [self.navigationController pushViewController:cvc animated:YES];
 }

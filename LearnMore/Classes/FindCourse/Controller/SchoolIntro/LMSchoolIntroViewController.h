@@ -12,7 +12,7 @@
 @interface LMSchoolIntroViewController : UITableViewController
 @property (nonatomic, strong) LMSchoolCourse *course;
 
-
+@property (copy, nonatomic) NSString *secondTypeName;
 
 @property (nonatomic, assign) long long id;
 
