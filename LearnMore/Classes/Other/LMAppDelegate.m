@@ -58,6 +58,18 @@
     [LMControllerTool chooseViewController];
     
     
+    //判断是不是第一次运行
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"everLaunched"])
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"everLaunched"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];
+        
+    }else
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstLaunch"];
+    }
+    
+    
     /** 读取账号 */
     LMAccount *account = [LMAccountTool account];
 //   [LMAccountInfo sharedAccountInfo].account = account;

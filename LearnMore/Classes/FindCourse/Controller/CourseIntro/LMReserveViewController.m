@@ -55,6 +55,7 @@
     // Do any additional setup after loading the view from its nib.
     
     self.scrollView.delegate = self;
+    self.scrollView.backgroundColor = UIColorFromRGB(0xf0f0f0);
     
     LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
     
@@ -176,7 +177,7 @@
                         break;
                         
                     case 61002:
-                        [MBProgressHUD showError:@"用户已收藏"];
+                        [MBProgressHUD showError:@"用户已预约"];
                         break;
                         
                     case 42005:

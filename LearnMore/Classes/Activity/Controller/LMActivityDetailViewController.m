@@ -21,7 +21,7 @@
 #import "LMAccount.h"
 #import "LMLoginViewController.h"
 
-@interface LMActivityDetailViewController ()
+@interface LMActivityDetailViewController ()<UIWebViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UIView *headView;
 
@@ -52,6 +52,8 @@
 @property (copy, nonatomic) NSString *actTitle;
 @property (weak, nonatomic) IBOutlet UILabel *actTitleLabel;
 
+@property (nonatomic, weak) UIWebView *webView;
+
 @end
 
 @implementation LMActivityDetailViewController
@@ -71,10 +73,10 @@
     
     self.title = @"活动详情";
     
-    CLProgressHUD *hud = [CLProgressHUD shareInstance];
-    hud.type = CLProgressHUDTypeDarkBackground;
-    hud.shape = CLProgressHUDShapeCircle;
-    [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
+//    CLProgressHUD *hud = [CLProgressHUD shareInstance];
+//    hud.type = CLProgressHUDTypeDarkBackground;
+//    hud.shape = CLProgressHUDShapeCircle;
+//    [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
 
 #warning 暂时屏蔽
 //    UIBarButtonItem *item0 = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"public_nav_collect_normal"] style:UIBarButtonItemStylePlain target:self action:@selector(collection)];
@@ -84,18 +86,6 @@
     self.navigationItem.rightBarButtonItem = item1;
     
     
-    
-    
-//    //在分享代码前设置微信分享应用类型，用户点击消息将跳转到应用，或者到下载页面
-//    //UMSocialWXMessageTypeImage 为纯图片类型
-//    [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeApp;
-//    //分享图文样式到微信朋友圈显示字数比较少，只显示分享标题
-//    [UMSocialData defaultData].extConfig.title = @"朋友圈分享内容";
-    //设置微信好友或者朋友圈的分享url,下面是微信好友，微信朋友圈对应wechatTimelineData
-    [UMSocialData defaultData].extConfig.wechatSessionData.url = @"http://www.learnmore.com.cn";
-    
-    
-
     /** 添加scrollView */
     UIScrollView *scrollView = [[UIScrollView alloc] init];
     scrollView.x = 0;
@@ -108,39 +98,58 @@
     [self.scrollView addSubview:self.headView];
  
     scrollView.bounces = NO;
-    
 
-    /** 分享详情 */
-    UIView *infoView = [[UIView alloc] init];
-    infoView.x = 0;
-    infoView.y = self.headView.height;
-    infoView.height = self.headView.height;
-    infoView.width = self.view.width;
-    self.infoView = infoView;
- 
     
-    UIView *htmlView = [[UIView alloc] init];
-    htmlView.x = 0;
-    htmlView.y = 10;
-    htmlView.width = self.view.width;
-    htmlView.height = 300;
-    self.htmlView = htmlView;
-    [self.infoView addSubview:self.htmlView];
-    
-  
     /** 加载数据 */
     [self loadData];
-
-    [self.scrollView addSubview:self.infoView];
-
+    
+    UIWebView *webView = [[UIWebView alloc] init];
+    webView.delegate = self;
+    webView.x = 0;
+    webView.y = CGRectGetMaxY(self.headView.frame);
+    webView.width = self.view.width;
+    webView.height = 64;
+    self.webView = webView;
+    
+     webView.scrollView.bounces = NO;
+    
+    [self.scrollView addSubview:webView];
+    
+    NSString *urlString = [NSString stringWithFormat:@"http://www.learnmore.com.cn/m/activity_des.html?id=%lli",_id];
+    
+    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
+    
+   
+    self.scrollView.contentSize =CGSizeMake(self.view.width,self.view.height);
+  
+    [self.webView addObserver:self forKeyPath:@"scrollView.contentSize" options:NSKeyValueObservingOptionNew context:nil];
     
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    [super viewDidDisappear:animated];
-    
-    [CLProgressHUD dismiss];
+    // 删除观察者
+    [self.webView removeObserver:self forKeyPath:@"scrollView.contentSize"];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+     [self.webView sizeToFit];
+     self.scrollView.contentSize =CGSizeMake(self.view.width, self.webView.scrollView.contentSize.height + self.headView.height - 49);
+}
+
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [webView sizeToFit];
+        
+        CGFloat webViewHeight=[webView.scrollView contentSize].height;
+        
+        MyLog(@"webViewHeight===%f",webViewHeight);
+        
+//         self.scrollView.contentSize =CGSizeMake(self.view.width, webViewHeight + self.headView.height - 49);
+    });
 
 }
 
@@ -199,18 +208,8 @@
             
             self.schoolNameLabel.text = actInfoDic[@"schoolName"];
     
-        [CLProgressHUD dismiss];
-        
-        //刷新活动介绍
-        NSString *htmlStr = actInfoDic[@"actDes"];
-        [self parseHTMLWithhtmlStr:htmlStr];
-        MyLog(@"%f====",_currentY);
-//        self.htmlView.height = _currentY + 10;
-//        self.infoView.height = _currentY + 10;
-//        self.scrollView.contentSize = CGSizeMake(self.view.width,self.headView.height + _currentY + 10);
-        MyLog(@"%@",NSStringFromCGSize(self.scrollView.contentSize));
-        
-        
+//        [CLProgressHUD dismiss];
+
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         LogObj(error.localizedDescription);
@@ -225,7 +224,7 @@
 
 - (void)share
 {
-    NSString *urlStr = [NSString stringWithFormat:@"http://www.learnmore.com.cn/m/activity_des.html?id=%lli",_id];
+    NSString *urlStr = [NSString stringWithFormat:@"http://www.learnmore.com.cn/m/activityDetail.html?id=%lli&from=singlemessage&isappinstalled=1",_id];
     
     NSString *text = self.actTitle;
     UIImage *image = self.actImageView.image;
@@ -238,9 +237,6 @@
     NSString *text1 = [NSString stringWithFormat:@"%@ %@",self.actTitle,urlStr];
     [UMSocialData defaultData].extConfig.sinaData.shareText = text1;
     
-    
-    //    [UMSocialData defaultData].extConfig.tencentData.shareImage = [UIImage imageNamed:@"icon"]; //分享到腾讯微博图片
-    //    [[UMSocialData defaultData].extConfig.wechatSessionData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:@"http://www.baidu.com/img/bdlogo.gif"];
     
     //微信
     [UMSocialData defaultData].extConfig.wechatSessionData.url = urlStr;
@@ -310,139 +306,5 @@
     LogObj([fmt stringFromDate:date]);
     return [fmt stringFromDate:date];
 }
-
-
-
-
-- (void)parseAllChildernHtmlNode:(HTMLNode *) inputNode : (NSMutableArray *) array
-{
-    for (HTMLNode *node in [inputNode children]) {
-        [self parseSingleNode:node :array];
-    }
-}
-
-- (void)parseSingleNode:(HTMLNode *)node : (NSMutableArray *) array
-{
-    if (node.nodetype == HTMLImageNode) {
-        [array addObject:node];
-        
-    }
-    if (node.nodetype == HTMLTextNode) {
-        [array addObject:node];
-    }
-    
-    [self parseAllChildernHtmlNode:node :array];
-}
-
-
-
-- (void)parseHTMLWithhtmlStr:(NSString *)htmlStr
-{
-    NSString  *html = [htmlStr stringByReplacingOccurrencesOfString:@"<br/>" withString:@""];
-    NSError *error = nil;
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:html error:&error];
-    
-    if (error) {
-        NSLog(@"Error: %@", error);
-        return;
-    }
-    
-    HTMLNode *bodyNode = [parser body];
-    NSMutableArray *result = [NSMutableArray array];
-    [self parseAllChildernHtmlNode:bodyNode : result];
-    
-    
-    for (HTMLNode *node in result) {
-        if (node.nodetype == HTMLImageNode) {
-            [self addSubImageView:[node getAttributeNamed:@"src"]];
-        }
-    
-        if (node.nodetype == HTMLTextNode) {
-            
-            NSString *text = [node.rawContents stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet ]];
-            if (text.length > 0) {
-                [self addSubText:text];
-            }
-            
-        }
-        
-    }
-    
-}
-
-- (void)addSubImageView:(NSString *)imageURL {
-
-    
-    __block UIImage *img;
-    
-    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-    queue.maxConcurrentOperationCount = 10;
-    
-    NSBlockOperation *operation1 = [NSBlockOperation blockOperationWithBlock:^{
-        
-        img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]]];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            CGFloat height = (self.view.frame.size.width-30)/img.size.width * img.size.height;
-            CGRect rect = CGRectMake(15, _currentY, self.view.frame.size.width-30, height);
-            _currentY += height + 10;
-            _htmlView.size = CGSizeMake(self.view.size.width, _currentY);
-            MyLog(@"_currentxxxxx = %f",_currentY);
-            UIImageView *imageView = [[UIImageView alloc]initWithFrame:rect];
-            [imageView setImage:img];
-            CALayer *layer=[imageView layer];
-            [layer setMasksToBounds:YES];
-            [layer setCornerRadius:10.0];
-            [layer setBorderWidth:1];
-            [layer setBorderColor:[[UIColor blackColor] CGColor]];
-            [_htmlView addSubview:imageView];
-            self.htmlView.height = _currentY + 10;
-            self.infoView.height = _currentY + 10;
-            self.scrollView.contentSize = CGSizeMake(self.view.width,self.headView.height + _currentY + 10);
-        });
-        
-    }];
-    
-    [queue addOperation:operation1];
-}
-
-
-
-
-//添加文章段落
-- (void)addSubText:(NSString *)content {
-    
-    
-    FDLabelView *titleView = [[FDLabelView alloc] initWithFrame:CGRectMake(10, _currentY, 300, 0)];
-    titleView.backgroundColor = [UIColor colorWithWhite:0.00 alpha:0.00];
-    titleView.textColor = [UIColor blackColor];
-    titleView.font = [UIFont systemFontOfSize:14];
-    titleView.minimumScaleFactor = 0.50;
-    titleView.numberOfLines = 0;
-    titleView.text = content;
-    titleView.lineHeightScale = 0.80;
-    titleView.fixedLineHeight = 20;
-    titleView.fdLineScaleBaseLine = FDLineHeightScaleBaseLineCenter;
-    titleView.fdTextAlignment = FDTextAlignmentLeft;
-    titleView.fdAutoFitMode = FDAutoFitModeAutoHeight;
-    titleView.fdLabelFitAlignment = FDLabelFitAlignmentCenter;
-    titleView.contentInset = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0);
-    [_htmlView addSubview:titleView];
-    
-    _currentY += titleView.visualTextHeight + 10;
-    _htmlView.size = CGSizeMake(self.view.size.width, _currentY);
-     titleView.debug = NO;
-    
-    self.htmlView.height = _currentY + 10;
-    self.infoView.height = _currentY + 10;
-    self.scrollView.contentSize = CGSizeMake(self.view.width,self.headView.height + _currentY + 10);
-    
-   
-}
-
-
-
-
-
 
 @end

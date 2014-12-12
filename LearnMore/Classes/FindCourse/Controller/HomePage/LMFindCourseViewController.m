@@ -60,6 +60,9 @@
 
 @property (nonatomic, strong) LMCourseRecommendViewController *cr;
 
+//广告路径
+@property (nonatomic, copy) NSString *adsPath;
+
 
 
 @end
@@ -248,7 +251,7 @@
     self.conScrollView.bounces = NO;
     
     
-//    [self loadImage];
+    [self loadImage];
  
     //请求数据
     [self loadCourseType];
@@ -423,11 +426,15 @@
         
         NSArray *adsArr = dateDic[@"ad"];
 
-        NSString *str = @"ads.plist";
-        NSString *courseTypesPath = [str appendDocumentPath];
-        LogObj(courseTypesPath);
+//        NSString *str = @"ads.plist";
+//        NSString *courseTypesPath = [str appendDocumentPath];
+//        self.adsPath = courseTypesPath;
+//        
+//        LogObj(courseTypesPath);
+//        
+//        [adsArr writeToFile:courseTypesPath atomically:YES];
         
-        [adsArr writeToFile:courseTypesPath atomically:YES];
+        [adsArr writeToFile:LMAdsDocPath atomically:YES];
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         LogObj(error.localizedDescription);
@@ -594,8 +601,16 @@
 - (NSArray *)adArr
 {
     if (_adArr == nil) {
-        _adArr = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ads.plist" ofType:nil]];
-//        _adArr = [LMAdverce objectArrayWithFile:@"ads.plist"];
+        
+        //第一次进来加载
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
+            
+            _adArr = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ads.plist" ofType:nil]];
+
+        }else
+        {
+              _adArr = [NSArray arrayWithContentsOfFile:LMAdsDocPath];
+        }
     }
     return _adArr;
 }

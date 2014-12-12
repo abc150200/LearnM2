@@ -68,6 +68,7 @@
 		2057BBCB19FF7AC600BA2793 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2057BBCA19FF7AC600BA2793 /* MapKit.framework */; };
 		2058251C1A2848C500BAA0E8 /* LMAddRecommendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2058251A1A2848C500BAA0E8 /* LMAddRecommendViewController.m */; };
 		2058251D1A2848C500BAA0E8 /* LMAddRecommendViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2058251B1A2848C500BAA0E8 /* LMAddRecommendViewController.xib */; };
+		20661E821A39719500E7AF81 /* ads.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20661E811A39719500E7AF81 /* ads.plist */; };
 		207070AA1A04B10500DD52CE /* LMCourseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 207070A91A04B10500DD52CE /* LMCourseInfo.m */; };
 		2071DA5B19FFB64B00CA56DC /* MJArgument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2071DA4519FFB64B00CA56DC /* MJArgument.m */; };
 		2071DA5C19FFB64B00CA56DC /* MJConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 2071DA4719FFB64B00CA56DC /* MJConst.m */; };
@@ -156,7 +157,6 @@
 		20D402EE19D91A28003D251B /* MJNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D402EC19D91A28003D251B /* MJNavigationController.m */; };
 		20D402F119D93968003D251B /* LMConsultRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D402F019D93968003D251B /* LMConsultRecordViewController.m */; };
 		20D402F719D93A18003D251B /* LMSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D402F619D93A18003D251B /* LMSettingViewController.m */; };
-		20D61ACE1A38032600DCE310 /* ads.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20D61ACD1A38032600DCE310 /* ads.plist */; };
 		20DD49D819FF48A500332A52 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2011B23719FE04A4001236AA /* CoreLocation.framework */; };
 		20DD49DB19FF52FB00332A52 /* UIBarButtonItem+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 20DD49DA19FF52FB00332A52 /* UIBarButtonItem+Extension.m */; };
 		20E4857119FFAA7F0037869A /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E4857019FFAA7F0037869A /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -404,6 +404,7 @@
 		205825191A2848C500BAA0E8 /* LMAddRecommendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAddRecommendViewController.h; sourceTree = "<group>"; };
 		2058251A1A2848C500BAA0E8 /* LMAddRecommendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAddRecommendViewController.m; sourceTree = "<group>"; };
 		2058251B1A2848C500BAA0E8 /* LMAddRecommendViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMAddRecommendViewController.xib; sourceTree = "<group>"; };
+		20661E811A39719500E7AF81 /* ads.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ads.plist; sourceTree = "<group>"; };
 		207070A81A04B10500DD52CE /* LMCourseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCourseInfo.h; sourceTree = "<group>"; };
 		207070A91A04B10500DD52CE /* LMCourseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCourseInfo.m; sourceTree = "<group>"; };
 		2071DA4419FFB64B00CA56DC /* MJArgument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJArgument.h; sourceTree = "<group>"; };
@@ -557,7 +558,6 @@
 		20D402F019D93968003D251B /* LMConsultRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMConsultRecordViewController.m; sourceTree = "<group>"; };
 		20D402F519D93A18003D251B /* LMSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSettingViewController.h; sourceTree = "<group>"; };
 		20D402F619D93A18003D251B /* LMSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSettingViewController.m; sourceTree = "<group>"; };
-		20D61ACD1A38032600DCE310 /* ads.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ads.plist; sourceTree = "<group>"; };
 		20DD49D919FF52FB00332A52 /* UIBarButtonItem+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Extension.h"; sourceTree = "<group>"; };
 		20DD49DA19FF52FB00332A52 /* UIBarButtonItem+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Extension.m"; sourceTree = "<group>"; };
 		20E4856F19FFAA7F0037869A /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
@@ -1339,7 +1339,7 @@
 		20D4028F19D90516003D251B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				20D61ACD1A38032600DCE310 /* ads.plist */,
+				20661E811A39719500E7AF81 /* ads.plist */,
 				20B8A28F1A121B360028C875 /* smallAreas.plist */,
 				20B8A28D1A1205290028C875 /* courseTypes.plist */,
 				20B8A2741A11BD190028C875 /* areas.plist */,
@@ -2052,7 +2052,7 @@
 				2054265A1A0725CF0086C516 /* UMShareEditViewController.xib in Resources */,
 				20D402A119D90516003D251B /* Images.xcassets in Resources */,
 				20F2E4E51A14BB6C006CAE25 /* .gitignore in Resources */,
-				20D61ACE1A38032600DCE310 /* ads.plist in Resources */,
+				20661E821A39719500E7AF81 /* ads.plist in Resources */,
 				20C5C9BF19ECF6880010FE36 /* MBProgressHUD.bundle in Resources */,
 				20F48F7019F64CE00005A67C /* totalCourse.plist in Resources */,
 				20B8A28E1A1205290028C875 /* courseTypes.plist in Resources */,
@@ -2376,8 +2376,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Youxuejingxuan Technology Co., Ltd. (7JSJ5UMP3K)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Youxuejingxuan Technology Co., Ltd. (7JSJ5UMP3K)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2418,8 +2418,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Youxuejingxuan Technology Co., Ltd. (7JSJ5UMP3K)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

@@ -26,7 +26,7 @@
             <point key="canvasLocation" x="344" y="154"/>
         </view>
         <view contentMode="scaleToFill" id="L0p-gI-C0v">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="420"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="430"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="activity" translatesAutoresizingMaskIntoConstraints="NO" id="Uyj-V4-ng4">
@@ -99,7 +99,7 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0lY-zh-X8Z">
-                    <rect key="frame" x="0.0" y="360" width="320" height="60"/>
+                    <rect key="frame" x="0.0" y="360" width="320" height="70"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="活动名称:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mFV-Yl-aeZ">
                             <rect key="frame" x="15" y="3" width="80" height="21"/>
@@ -108,7 +108,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="全国青少年网络英语" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jqa-Nz-l23">
-                            <rect key="frame" x="15" y="27" width="290" height="21"/>
+                            <rect key="frame" x="15" y="27" width="290" height="43"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
@@ -119,7 +119,7 @@
             </subviews>
             <color key="backgroundColor" red="0.92393427309782605" green="0.92393427309782605" blue="0.92393427309782605" alpha="1" colorSpace="calibratedRGB"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-37" y="9.5"/>
+            <point key="canvasLocation" x="-37" y="9"/>
         </view>
         <view contentMode="scaleToFill" id="ERp-Oq-GMn">
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -159,7 +159,7 @@
         <image name="activity_time" width="17" height="17"/>
         <image name="btn_activity" width="80" height="30"/>
         <image name="common_icon_arrow" width="12" height="12"/>
-        <image name="public_address" width="12" height="21"/>
+        <image name="public_address" width="20" height="20"/>
         <image name="public_date" width="12" height="21"/>
         <image name="public_hold" width="12" height="21"/>
     </resources>
