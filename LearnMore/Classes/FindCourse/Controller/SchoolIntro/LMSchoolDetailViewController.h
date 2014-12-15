@@ -10,4 +10,5 @@
 
 @interface LMSchoolDetailViewController : UIViewController
 @property (nonatomic, assign) long long id;
+@property (nonatomic, copy) NSString *urlString;
 @end

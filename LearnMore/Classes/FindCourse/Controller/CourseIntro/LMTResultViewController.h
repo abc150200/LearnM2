@@ -10,4 +10,5 @@
 
 @interface LMTResultViewController : UIViewController
 @property (nonatomic, assign) long long id;
+@property (copy, nonatomic) NSString *urlString;
 @end

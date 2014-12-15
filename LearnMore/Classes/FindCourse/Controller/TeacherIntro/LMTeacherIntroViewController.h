@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LMTeacherIntroViewController : UITableViewController
+@interface LMTeacherIntroViewController : UIViewController
 @property (nonatomic, assign) long long id;
 @end

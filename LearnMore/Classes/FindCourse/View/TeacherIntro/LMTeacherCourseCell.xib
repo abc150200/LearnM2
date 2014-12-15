@@ -34,6 +34,7 @@
                 <outlet property="icon" destination="9o4-QX-DGl" id="6oM-Mc-X9g"/>
                 <outlet property="title" destination="Cpy-9y-1ji" id="eMw-mt-rdr"/>
             </connections>
+            <point key="canvasLocation" x="360" y="172.5"/>
         </tableViewCell>
     </objects>
     <resources>

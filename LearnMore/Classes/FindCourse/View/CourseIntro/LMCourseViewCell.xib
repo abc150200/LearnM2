@@ -14,28 +14,23 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="87"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="课程名称111" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WCN-pO-aLW">
-                        <rect key="frame" x="107" y="10" width="197" height="21"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="桔子树少儿声乐班" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WCN-pO-aLW">
+                        <rect key="frame" x="115" y="5" width="185" height="40"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="新航道" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="817-Un-zAW">
-                        <rect key="frame" x="107" y="58" width="197" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <rect key="frame" x="115" y="60" width="185" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="钢琴 | 3-7岁 " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJ5-z2-2NX">
-                        <rect key="frame" x="107" y="35" width="197" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="avatar_default_big" translatesAutoresizingMaskIntoConstraints="NO" id="12t-fC-HS3">
-                        <rect key="frame" x="14" y="10" width="86" height="68"/>
+                        <rect key="frame" x="15" y="5" width="90" height="76"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="class_list_free" translatesAutoresizingMaskIntoConstraints="NO" id="41g-kP-FqX">
-                        <rect key="frame" x="14" y="10" width="44" height="44"/>
+                        <rect key="frame" x="15" y="5" width="44" height="44"/>
                     </imageView>
                 </subviews>
             </tableViewCellContentView>
@@ -44,8 +39,8 @@
                 <outlet property="courseName" destination="WCN-pO-aLW" id="tHR-Pz-ZiB"/>
                 <outlet property="free" destination="41g-kP-FqX" id="ngi-kY-Tz1"/>
                 <outlet property="schoolInfoLabel" destination="817-Un-zAW" id="1OI-3g-czz"/>
-                <outlet property="secondTypeName" destination="EJ5-z2-2NX" id="3Dz-b6-bfO"/>
             </connections>
+            <point key="canvasLocation" x="140" y="153"/>
         </tableViewCell>
     </objects>
     <resources>

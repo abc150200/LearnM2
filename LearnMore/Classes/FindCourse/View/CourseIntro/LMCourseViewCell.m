@@ -8,6 +8,7 @@
 
 #import "LMCourseViewCell.h"
 #import "LMCourseList.h"
+#import "TQStarRatingDisplayView.h"
 
 
 @interface LMCourseViewCell ()
@@ -49,7 +50,7 @@
 
     self.courseName.text = _courselist.courseName;
 
-    self.secondTypeName.text = [NSString stringWithFormat:@"%@ | %@",_courselist.secondTypeName,[NSString ageBegin:_courselist.propAgeStart ageEnd:_courselist.propAgeEnd]];
+//    self.secondTypeName.text = [NSString stringWithFormat:@"%@ | %@",_courselist.secondTypeName,[NSString ageBegin:_courselist.propAgeStart ageEnd:_courselist.propAgeEnd]];
     self.schoolInfoLabel.text = _courselist.schoolFullName;
     self.id = _courselist.id;
     self.free.hidden = !(_courselist.needBook);
@@ -65,6 +66,12 @@
     }
     self.courseImageView.layer.borderColor = UIColorFromRGB(0xc7c7c7).CGColor;  
     self.courseImageView.layer.borderWidth = 1.0f;
+    
+    CGRect rect = CGRectMake(115,45,90,14);
+    NSDictionary *dict = _courselist.courseCommentLevel;
+    NSString *str1 = dict[@"avgTotalLevel"];
+    TQStarRatingDisplayView *star = [[TQStarRatingDisplayView alloc] initWithFrame:rect numberOfStar:5 norImage:@"public_review_small_normal" highImage:@"public_review_small_pressed" starSize:14 margin:0 score:str1];
+    [self.contentView addSubview:star];
 }
 
 @end

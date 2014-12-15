@@ -227,6 +227,8 @@
     self.schoolSkin.y = CGRectGetMaxY(self.onerRv.view.frame) + LMCourseMark;
     [self.scrollView addSubview: self.schoolSkin];
 
+    
+    self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight);
   
     [self loadRecommendData];
 
@@ -300,7 +302,7 @@
     
     //教学成果控制器
     LMTResultViewController *trv = [[LMTResultViewController alloc] init];
-    trv.id = self.id;
+    trv.urlString =[NSString stringWithFormat:@"http://www.learnmore.com.cn/m/course_achieve.html?id=%lli",_id];
     [self.myScrollView addSubview:trv.view];
     trv.view.x = CGRectGetMaxX(cv.view.frame);
     [self addChildViewController:trv];
@@ -603,6 +605,36 @@
         self.teachers = [LMTeacherInfo objectArrayWithKeyValuesArray:courseInfoDic[@"teachers"]];
         MyLog(@"self.teachers===%@",self.teachers);
         self.tl.teachers = self.teachers;
+        
+        if(self.teachers.count == 0)
+        {
+            UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width,40)];
+            UILabel *label  = [[UILabel alloc] init];
+            label.width = 100;
+            label.height = 40;
+            label.centerX = self.view.centerX;
+            label.y = 0;
+            label.text = @"暂无数据";
+            label.textAlignment = NSTextAlignmentCenter;
+            label.font = [UIFont systemFontOfSize:14];
+            [moreView addSubview:label];
+            self.tl.tableView.tableFooterView = moreView;
+        }else
+        {
+            UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width,40)];
+            UILabel *label  = [[UILabel alloc] init];
+            label.width = 100;
+            label.height = 40;
+            label.centerX = self.view.centerX;
+            label.y = 0;
+            label.text = @"已加载全部";
+            label.textAlignment = NSTextAlignmentCenter;
+            label.font = [UIFont systemFontOfSize:14];
+            [moreView addSubview:label];
+            self.tl.tableView.tableFooterView = moreView;
+            
+        }
+        
         [self.tl.tableView reloadData];
         
         

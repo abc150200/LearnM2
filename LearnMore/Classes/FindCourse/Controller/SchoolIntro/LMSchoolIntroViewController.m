@@ -158,7 +158,6 @@
     //创建整个scrollView
     UIScrollView *scrollView = [[UIScrollView alloc] init];
     scrollView.tag = 111;
-    scrollView.contentSize = CGSizeMake(self.view.width,1200);
     scrollView.frame = CGRectMake(0, 0, self.view.width,self.view.height - self.phone.height);
     scrollView.backgroundColor = UIColorFromRGB(0xf0f0f0);
     [self.view addSubview:scrollView];
@@ -186,6 +185,9 @@
     [self.scrollView addSubview:srv.view];
     
     self.srv.view.height = 88;
+    
+    
+    CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight);
     
     [self loadSchoolRec];
     [self loadData];
@@ -250,7 +252,7 @@
 {
     //学校详情控制器
     LMSchoolDetailViewController *cv = [[LMSchoolDetailViewController alloc] init];
-    cv.id = self.id;
+    cv.urlString =  [NSString stringWithFormat:@"http://www.learnmore.com.cn/m/school_des.html?id=%lli",_id];
     [self.myScrollView addSubview:cv.view];
     cv.view.x = 0;
     [self addChildViewController:cv];
@@ -297,7 +299,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     
-    if(scrollView.tag == 12)
+    if(scrollView.tag == 112)
     {
         int x = scrollView.contentOffset.x;
         
@@ -457,6 +459,36 @@
         
         self.teachers = [LMTeachList objectArrayWithKeyValuesArray:dateDic[@"teacherList"]];
         self.tl.teachers = self.teachers;
+        
+        if(self.teachers.count == 0)
+        {
+            UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width,40)];
+            UILabel *label  = [[UILabel alloc] init];
+            label.width = 100;
+            label.height = 40;
+            label.centerX = self.view.centerX;
+            label.y = 0;
+            label.text = @"暂无数据";
+            label.textAlignment = NSTextAlignmentCenter;
+            label.font = [UIFont systemFontOfSize:14];
+            [moreView addSubview:label];
+            self.tl.tableView.tableFooterView = moreView;
+        }else
+        {
+            UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width,40)];
+            UILabel *label  = [[UILabel alloc] init];
+            label.width = 100;
+            label.height = 40;
+            label.centerX = self.view.centerX;
+            label.y = 0;
+            label.text = @"已加载全部";
+            label.textAlignment = NSTextAlignmentCenter;
+            label.font = [UIFont systemFontOfSize:14];
+            [moreView addSubview:label];
+            self.tl.tableView.tableFooterView = moreView;
+            
+        }
+        
         [self.tl.tableView reloadData];
   
         
@@ -492,6 +524,36 @@
         NSDictionary *dateDic = [responseObject[@"data"] objectFromJSONString];
         NSArray *courseArr = [LMCourseInfo objectArrayWithKeyValuesArray:dateDic[@"courseList"]];
         self.trv.datas = courseArr;
+        
+        if(courseArr.count == 0)
+        {
+            UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width,40)];
+            UILabel *label  = [[UILabel alloc] init];
+            label.width = 100;
+            label.height = 40;
+            label.centerX = self.view.centerX;
+            label.y = 0;
+            label.text = @"暂无数据";
+            label.textAlignment = NSTextAlignmentCenter;
+            label.font = [UIFont systemFontOfSize:14];
+            [moreView addSubview:label];
+            self.trv.tableView.tableFooterView = moreView;
+        }else
+        {
+            UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width,40)];
+            UILabel *label  = [[UILabel alloc] init];
+            label.width = 100;
+            label.height = 40;
+            label.centerX = self.view.centerX;
+            label.y = 0;
+            label.text = @"已加载全部";
+            label.textAlignment = NSTextAlignmentCenter;
+            label.font = [UIFont systemFontOfSize:14];
+            [moreView addSubview:label];
+            self.trv.tableView.tableFooterView = moreView;
+            
+        }
+        
         [self.trv.tableView reloadData];
       
         
@@ -642,7 +704,7 @@
         CGFloat w = self.view.width;
         _myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, y, w, LMMyScrollMarkHeight)];
         LogFrame(_myScrollView);
-        _myScrollView.tag = 12;
+        _myScrollView.tag = 112;
         [self.scrollView addSubview:self.myScrollView];
     }
     return _myScrollView;
