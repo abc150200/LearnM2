@@ -40,6 +40,7 @@
     LMTeacherInfo *teachList = self.teachers[indexPath.row];
     cell.teacherInfo = teachList;
 
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
 }

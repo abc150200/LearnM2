@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface LMOneSchRecViewController : UITableViewController
-
+@property (nonatomic, strong) NSMutableArray *recomFrames;
 @end

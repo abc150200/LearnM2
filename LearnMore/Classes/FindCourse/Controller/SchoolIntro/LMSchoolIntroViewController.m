@@ -5,32 +5,43 @@
 //  Created by study on 14-10-9.
 //  Copyright (c) 2014年 youxuejingxuan. All rights reserved.
 //
-
+#define LMSchoolMark 20
 #define LMPadding 20
 #define LMLeftPadding 15
+#define LMViewMovedTime 0.3
+
+#define LMMyScrollMarkHeight  ([UIScreen mainScreen].bounds.size.height - self.menuBtnView.height - self.phone.height - 64)
+
 
 #import "LMTeacherIntroViewController.h"
 #import "LMSchoolIntroViewController.h"
-#import "LMSchoolCourseViewCell.h"
 #import "LMTeacherButton.h"
-#import "LMSchoolCourse.h"
-#import "LMSchoolIntroButton.h"
 #import "AFNetworking.h"
 #import "LMTeachList.h"
-#import "HTMLParser.h"
-#import "FDLabelView.h"
-#import <MediaPlayer/MediaPlayer.h>
 #import "LMCourseInfo.h"
 #import "ACETelPrompt.h"
 #import "CLProgressHUD.h"
-#import "LMCourseIntroViewController.h"
 #import "LMOneSchRecViewController.h"
 #import "TQStarRatingDisplayView.h"
-#import <MediaPlayer/MediaPlayer.h>
 #import "LMMapViewController.h"
 #import "LMLoginViewController.h"
+#import "LMMenuButtonView.h"
+#import "LMSchoolDetailViewController.h"
+#import "LMSchoolCourseViewController.h"
+#import "LMSchoolTeacherViewController.h"
+#import "LMAccountInfo.h"
+#import "LMAccount.h"
+#import "LMAddRecommendViewController.h"
 
-@interface LMSchoolIntroViewController ()
+#import "LMRecommend.h"
+#import "LMRecommedFrame.h"
+#import "LMDetailRecommendViewCell.h"
+#import "LMDetailRecommendViewController.h"
+
+#import "LMTeacherInfo.h"
+
+
+@interface LMSchoolIntroViewController ()<UIScrollViewDelegate,LMMenuButtonViewDelegate>
 
 /** 标记 */
 @property (nonatomic, assign) BOOL sign;
@@ -43,7 +54,8 @@
 /** 尾部标题 */
 @property (strong, nonatomic)  UIView *footView;
 
-@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+/** 整个scrollView */
+@property (weak, nonatomic) UIScrollView *scrollView;
 
 @property (weak, nonatomic) IBOutlet UIImageView *schoolImageView;
 
@@ -51,37 +63,20 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 
-@property (weak, nonatomic) IBOutlet UIButton *contactPhoneBtn;
-
-/** 假数据 */
 @property (nonatomic, strong) NSArray *datas;
 
-/** 教学成果 */
-@property (weak, nonatomic)  UIView *htmlView;
-/** 高度 */
-@property (nonatomic, assign) CGFloat currentY;
-
 @property (strong, nonatomic)  UIView *teacherInfo;
-
-@property (strong, nonatomic) IBOutlet UIView *teachView;
-
 /** 电话 */
 @property (strong, nonatomic) IBOutlet UIView *phone;
 
 /** 老师列表 */
 @property (nonatomic, strong) NSArray *teachers;
 
-/** 更多按钮 */
-@property (nonatomic, weak) LMSchoolIntroButton *moreBtn ;
-
 /** 老师的id */
 @property (nonatomic, assign) long long teacherId;
 
 /** 电话 */
 @property (copy, nonatomic) NSString *phoneNum;
-
-@property (copy, nonatomic) NSString *htmlStr;
-
 
 @property (weak, nonatomic) IBOutlet UILabel *level1;
 @property (weak, nonatomic) IBOutlet UILabel *level2;
@@ -97,15 +92,50 @@
 @property (strong, nonatomic) IBOutlet UIView *recHeadView;//点评头部标题
 @property (strong, nonatomic) IBOutlet UIView *recFootView;//点评尾部标题
 
-@property (nonatomic, weak) LMOneSchRecViewController *srv;
+/** 学校点评,一定要用强指针引用 */
+@property (nonatomic, strong) LMOneSchRecViewController *srv;
 
 @property (copy, nonatomic) NSString *gps;
 @property (copy, nonatomic) NSString *address;
+
+/** 菜单按钮的view */
+@property (nonatomic, weak) LMMenuButtonView *menuBtnView;
+/** 主视图的底部ScrollView */
+@property (nonatomic, strong) UIScrollView *myScrollView;
+@property (weak, nonatomic) IBOutlet UIButton *writeRecBtn;
+/** 老师列表控制器 */
+@property (nonatomic, strong)  LMSchoolTeacherViewController *tl;
+/** 点评模型 */
+@property (nonatomic, strong) NSMutableArray *recomFrames;
+/** 开设课程控制器 */
+@property (nonatomic, strong)  LMSchoolCourseViewController *trv;
+/** 学校点评字典 */
+@property (nonatomic, strong) NSDictionary *schoolScoreDic;
 
 
 @end
 
 @implementation LMSchoolIntroViewController
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    
+    [self.view addSubview:self.phone];
+    
+    //重写返回按钮
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem barButtonItemWithImageName:@"public_nav_black" target:self sel:@selector(goBack)];
+    
+    self.phone.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - self.phone.height , self.view.width, self.phone.height);
+}
+- (void)goBack
+{
+    [self.scrollView removeFromSuperview];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 - (void)viewDidLoad
 {
@@ -113,110 +143,180 @@
     
      self.title = @"学校信息";
     
+    [self.writeRecBtn setTitleColor:UIColorFromRGB(0x9ac72c) forState:UIControlStateNormal];
+    
     CLProgressHUD *hud = [CLProgressHUD shareInstance];
     hud.type = CLProgressHUDTypeDarkBackground;
     hud.shape = CLProgressHUDShapeCircle;
     [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
+    
+    
+    //添加监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OneSchoolRecViewControllerChange:) name:@"OneRecSchoolNotification" object:nil];
    
     
+    //创建整个scrollView
+    UIScrollView *scrollView = [[UIScrollView alloc] init];
+    scrollView.tag = 111;
+    scrollView.contentSize = CGSizeMake(self.view.width,1200);
+    scrollView.frame = CGRectMake(0, 0, self.view.width,self.view.height - self.phone.height);
+    scrollView.backgroundColor = UIColorFromRGB(0xf0f0f0);
+    [self.view addSubview:scrollView];
+    scrollView.delegate = self;
+    self.scrollView = scrollView;
+     scrollView.bounces = NO;
     
     
-//    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 375)];
-//    headView.backgroundColor = UIColorFromRGB(0xf0f0f0);
-//    self.headView = headView;
-//    self.tableView.tableHeaderView = self.headView;
-//    
-//    [self.headView addSubview:self.schoolDisplay];
-//    self.schoolDisplay.frame = CGRectMake(0, 0, self.view.width, self.schoolDisplay.height);
+    [self.scrollView addSubview:self.schoolDisplay];
+    
+    
     
   
 #warning 暂时禁掉
-//    //添加点评
-//    LMOneSchRecViewController *srv = [[LMOneSchRecViewController alloc] init];
-//    self.srv = srv;
-//    srv.view.x = 0;
-//    srv.view.y = CGRectGetMaxY(self.schoolDisplay.frame) + 20;
-//    srv.view.width = self.view.width;
-//    
-//    srv.tableView.tableHeaderView = self.recHeadView;
-//    srv.tableView.tableFooterView = self.recFootView;
-//    
-//    [self.headView addSubview:srv.view];
-//    
-//    self.srv.view.height = 152 ;
-// 
+    //添加点评
+    LMOneSchRecViewController *srv = [[LMOneSchRecViewController alloc] init];
+    self.srv = srv;
+    srv.view.x = 0;
+    srv.view.y = CGRectGetMaxY(self.schoolDisplay.frame) + LMSchoolMark;
+    srv.view.width = self.view.width;
     
-    self.tableView.bounces = NO;
-
-    self.tableView.tableHeaderView = self.schoolDisplay;
+    srv.tableView.tableHeaderView = self.recHeadView;
+    srv.tableView.tableFooterView = self.recFootView;
     
-    UIView *footView = [[UIView alloc] init];
-    footView.x = 0;
-    footView.y = 0;
-    footView.width = self.view.width;
-    footView.backgroundColor = [UIColor whiteColor];
-    footView.height = 200 + 45 + 60;
+    [self.scrollView addSubview:srv.view];
     
+    self.srv.view.height = 88;
     
-    self.footView = footView;
-
-    
-    [self.footView addSubview:self.teachView];
-    
-    //加载按钮
-    LMSchoolIntroButton *btn = [[LMSchoolIntroButton alloc] init];
-    self.moreBtn = btn;
-    self.moreBtn.hidden = YES;
-    
-    //添加下面的展开按钮
-    [btn setTitle:@"更多课程" forState:UIControlStateNormal];
-    btn.height = 20;
-    btn.centerX = self.view.centerX;
-    btn.y = 2;
-    
-    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:12];
-    [btn setImage:[UIImage imageNamed:@"public_down"] forState:UIControlStateNormal];
-    [btn addTarget:self action:@selector(selectedCourse:) forControlEvents:UIControlEventTouchUpInside];
-    [self.teachView addSubview:btn];
-
-    
-    [self.teachView addSubview:self.scrollView];
-    
-    
-    self.scrollView.contentSize = CGSizeMake(550, 80);
-   
-    
-    self.tableView.rowHeight = 93;
-    
-    self.tableView.sectionFooterHeight = 0;
-    
-    
-    UIView *htmlView = [[UIView alloc] init];
-    htmlView.x = 0;
-    htmlView.y = 250;
-    htmlView.width = self.view.width;
-    htmlView.height = 200;
-    [self.footView addSubview:htmlView];
-    _htmlView = htmlView;
-    
-    self.tableView.tableFooterView = footView;
-    
-    
+    [self loadSchoolRec];
     [self loadData];
- 
     [self loadCourse];
-    
     [self loadTeacher];
+    
+ 
+    // 3个控制器的菜单按钮
+    [self setupTitleButtonView];
+    
+    // 设置ScrollView
+    [self setupScrollView];
+    
+    // 设置tableView
+    [self setupTableViews];
+    
+}
+
+
+// 3个控制器的菜单按钮
+- (void)setupTitleButtonView
+{
+     LMMenuButtonView *titleBtnView = [[LMMenuButtonView alloc] initWithFrame:CGRectMake(0, 0, 0, 0) titleArr:@[@"学校详情",@"开设课程",@"老师信息"]];
+    self.menuBtnView = titleBtnView;
+    // 设置代理
+    self.menuBtnView.delegate = self;
+    
+    // 设置frame
+    self.menuBtnView.x = 0;
+    self.menuBtnView.width = self.view.width;
+    self.menuBtnView.height = 44;
+    self.menuBtnView.y = CGRectGetMaxY(self.srv.view.frame) + LMSchoolMark;
+    
+    [self.scrollView addSubview:titleBtnView];
+    
+}
+
+
+// 设置主视图的底部ScrollView
+- (void)setupScrollView
+{
+    self.myScrollView.contentSize = CGSizeMake(3 * self.view.width, LMMyScrollMarkHeight);
+    
+    // 设置scrollView的属性
+    self.myScrollView.bounces = NO;
+    self.myScrollView.pagingEnabled = YES;
+    self.myScrollView.showsHorizontalScrollIndicator = NO;
+    self.myScrollView.showsVerticalScrollIndicator = NO;
+    self.myScrollView.userInteractionEnabled = YES;
+    
+    // 垂直滚动时,左右不能滚动
+    self.myScrollView.directionalLockEnabled = YES;
+    
+    // 设置代理
+    self.myScrollView.delegate = self;
+    
+}
+
+
+// 初始化3个控制器,添加为子控制器,把控制器的view添加到根视图的scrollView里面,设置frame的x值
+- (void)setupTableViews
+{
+    //学校详情控制器
+    LMSchoolDetailViewController *cv = [[LMSchoolDetailViewController alloc] init];
+    cv.id = self.id;
+    [self.myScrollView addSubview:cv.view];
+    cv.view.x = 0;
+    [self addChildViewController:cv];
+    
+    
+    
+    //开设课程控制器
+    LMSchoolCourseViewController *trv = [[LMSchoolCourseViewController alloc] initWithStyle:UITableViewStylePlain];
+    self.trv = trv;
+    trv.tableView.height = LMMyScrollMarkHeight;
+    [self addChildViewController:trv];
+    [self.myScrollView addSubview:trv.tableView];
+    trv.tableView.y = 0;
+    trv.tableView.x = CGRectGetMaxX(cv.view.frame);
+    
+    MyLog(@"trv.tableView===%@",NSStringFromCGRect(trv.tableView.frame));
+    
+    
+    //老师信息控制器
+    LMSchoolTeacherViewController *tv = [[LMSchoolTeacherViewController alloc] init];
+    self.tl = tv;
+    tv.tableView.height = LMMyScrollMarkHeight;
+    [self addChildViewController:tv];
+    [self.myScrollView addSubview:tv.tableView];
+    tv.tableView.x = CGRectGetMaxX(trv.view.frame);
+    
+     MyLog(@"tv.tableView===%@",NSStringFromCGRect(tv.tableView.frame));
     
     
 }
+
+
+#pragma mark-- LMMenuButtonViewDelegate
+- (void)titleButtonViewDidClickButton:(NSInteger)tag
+{
+    [UIView animateWithDuration:LMViewMovedTime animations:^{
+        self.myScrollView.contentOffset = CGPointMake(tag * self.view.width, 0);
+    }];
+    
+}
+
+#pragma mark - UIScrollViewDelegate 代理方法
+// 拖动scrollView,切换标题按钮的选中状态
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    
+    if(scrollView.tag == 12)
+    {
+        int x = scrollView.contentOffset.x;
+        
+        int i = x / (self.view.width) + 0.5;
+        self.menuBtnView.i = i;
+        MyLog(@"scrollVieweaaaaaaaaaaaaa===%d",i);
+        
+        CGFloat progress = x / (2 * self.view.width);
+        self.menuBtnView.progress = progress;
+    }
+    
+}
+
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
-    [self.phone removeFromSuperview];
+    
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -225,69 +325,106 @@
     
     [CLProgressHUD dismiss];
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 }
 
-- (void)viewWillAppear:(BOOL)animated
+
+
+/** 学校点评 */
+- (void)loadSchoolRec
 {
-    [super viewWillAppear:animated];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+
+
+    //url地址
+    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"comment/list.json"];
+
+
+    //参数
+    NSMutableDictionary *arr = [NSMutableDictionary dictionary];
+    arr[@"id"] = [NSString stringWithFormat:@"%lli",self.id];
+    arr[@"type"] = @"3";
+    arr[@"time"] = [NSString timeNow];
+    arr[@"count"] = @"1";
+
+    NSString *jsonStr = [arr JSONString];
+    MyLog(@"%@",jsonStr);
+
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    parameters[@"param"] = jsonStr;
+
+
+    [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+
+        LogObj(responseObject);
+
+        NSDictionary *dateDic = [responseObject[@"data"] objectFromJSONString];
+        MyLog(@"%@",dateDic);
+        
+        self.parentRec.text = [NSString stringWithFormat:@"家长点评（%@）",dateDic[@"tcount"]];
+
+        NSArray *recomArr = [LMRecommend objectArrayWithKeyValuesArray:dateDic[@"comments"]];
+        NSMutableArray *frameModels = [NSMutableArray arrayWithCapacity:recomArr.count];
+        for (LMRecommend *recom in recomArr) {
+            LMRecommedFrame *recomFrame = [[LMRecommedFrame alloc] init];
+            recomFrame.recommend = recom;
+            [frameModels addObject:recomFrame];
+        }
+
+        self.recomFrames = frameModels;
+        self.srv.recomFrames = self.recomFrames;
+        [self.srv.tableView reloadData];
+        
+        if (self.recomFrames.count ==  0) {
+            
+            self.srv.view.height = 88 ;
+            self.menuBtnView.y = CGRectGetMaxY(self.srv.view.frame) + LMSchoolMark;
+            self.myScrollView.y = CGRectGetMaxY(self.menuBtnView.frame);
+            self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight);
+
+        }
+
+
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        LogObj(error.localizedDescription);
+    }];
+}
+
+
+
+//监听学校点评高度变化
+- (void)OneSchoolRecViewControllerChange:(NSNotification *)notifi
+{
+    NSDictionary *userInfo = notifi.userInfo;
+    CGFloat height = [userInfo[@"SchoolCellHeight"] doubleValue];
     
-    [[UIApplication sharedApplication].keyWindow addSubview:self.phone];
-    self.phone.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - self.phone.height , self.view.width, self.phone.height);
     
+    MyLog(@"height===%f",height);
+    
+    self.srv.view.height = 88 + height;
+    self.menuBtnView.y = CGRectGetMaxY(self.srv.view.frame) + LMSchoolMark;
+    self.myScrollView.y = CGRectGetMaxY(self.menuBtnView.frame);
+    self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight);
+}
+
+
+/** 查看点评 */
+- (IBAction)lookRecommend:(id)sender {
+    
+    if(self.recomFrames.count)
+    {
+        LMDetailRecommendViewController *dv = [[LMDetailRecommendViewController alloc] init];
+        dv.id = _id;
+        dv.type = 3;
+        dv.mainTitle = self.schoolFullNameLabel.text;
+        dv.courseScoreDic = self.schoolScoreDic;
+        [self.navigationController pushViewController:dv animated:YES];
+    }
     
 }
 
 
-///** 学校点评 */
-//- (void)loadSchoolRec
-//{
-//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//
-//
-//    //url地址
-//    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"comment/list.json"];
-//
-//
-//    //参数
-//    NSMutableDictionary *arr = [NSMutableDictionary dictionary];
-//    arr[@"id"] = [NSString stringWithFormat:@"%lli",self.id];
-//    arr[@"type"] = @"3";
-//    arr[@"time"] = [NSString timeNow];
-//    arr[@"count"] = @"1";
-//
-//    NSString *jsonStr = [arr JSONString];
-//    MyLog(@"%@",jsonStr);
-//
-//    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-//    parameters[@"param"] = jsonStr;
-//
-//
-//    [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//
-//        LogObj(responseObject);
-//
-//        NSDictionary *dateDic = [responseObject[@"data"] objectFromJSONString];
-//        MyLog(@"%@",dateDic);
-//
-////        NSArray *recomArr = [LMRecommend objectArrayWithKeyValuesArray:dateDic[@"comments"]];
-////        NSMutableArray *frameModels = [NSMutableArray arrayWithCapacity:recomArr.count];
-////        for (LMRecommend *recom in recomArr) {
-////            LMRecommedFrame *recomFrame = [[LMRecommedFrame alloc] init];
-////            recomFrame.recommend = recom;
-////            [frameModels addObject:recomFrame];
-////        }
-////
-////        self.recomFrames = frameModels;
-////
-////
-////
-////        [self.tableView reloadData];
-//
-//
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        LogObj(error.localizedDescription);
-//    }];
-//}
 
 - (void)loadTeacher
 {
@@ -315,32 +452,13 @@
         
         
         NSDictionary *dateDic = [responseObject[@"data"] objectFromJSONString];
-        self.teachers = [LMTeachList objectArrayWithKeyValuesArray:dateDic[@"teacherList"]];
         
-        //添加教师头部图片
-        for (int i = 0; i < self.teachers.count; i++) {
-            LMTeachList *teacher = self.teachers[i];
-//             = teacher.id;
-//            MyLog(@"%lli=======老师id",self.teacherId);
-            LMTeacherButton *btn = [LMTeacherButton buttonWithType:UIButtonTypeCustom];
-            btn.tag = (int)teacher.id;
-            btn.frame = CGRectMake(15+i*80, 2, 56, 80);
-            [btn setTitle:[NSString stringWithFormat:@"%@",teacher.teacherName] forState:UIControlStateNormal];
-            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            btn.titleLabel.font = [UIFont systemFontOfSize:11];
-            
-            btn.imageView.contentMode = UIViewContentModeScaleAspectFill;
-            btn.imageView.layer.cornerRadius = 28;
-            btn.imageView.clipsToBounds = YES;
-            
-            LogObj(teacher.teacherImage);
-            
-            NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:teacher.teacherImage]];
-            [btn setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
-            
-            [self.scrollView addSubview:btn];
-            [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-        }
+        MyLog(@"teacherList===%@",dateDic[@"teacherList"]);
+        
+        self.teachers = [LMTeachList objectArrayWithKeyValuesArray:dateDic[@"teacherList"]];
+        self.tl.teachers = self.teachers;
+        [self.tl.tableView reloadData];
+  
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         LogObj(error.localizedDescription);
@@ -373,8 +491,9 @@
         
         NSDictionary *dateDic = [responseObject[@"data"] objectFromJSONString];
         NSArray *courseArr = [LMCourseInfo objectArrayWithKeyValuesArray:dateDic[@"courseList"]];
-        self.datas = courseArr;
-        [self.tableView reloadData];
+        self.trv.datas = courseArr;
+        [self.trv.tableView reloadData];
+      
         
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -419,16 +538,18 @@
         self.phoneNum = schoolInfoDic[@"contactPhone"];
         self.gps = schoolInfoDic[@"schoolGps"];
         self.address = schoolInfoDic[@"address"];
+        
 #warning 这里以后会改
         if (self.secondTypeName) {
             self.courseMack.text =[NSString stringWithFormat:@"课程标签: %@",self.secondTypeName] ;
         }else
         {
-            self.courseMack.text =@"课程标签: 其他";
+            self.courseMack.text = @"课程标签: 其他";
         }
         
         
         NSDictionary *schoolCommentLevel =schoolInfoDic[@"schoolCommentLevel"];
+        self.schoolScoreDic = schoolCommentLevel;
         self.level1.text = schoolCommentLevel[@"avgLevel1"];
         self.level2.text = schoolCommentLevel[@"avgLevel2"];
         self.level3.text = schoolCommentLevel[@"avgLevel3"];
@@ -458,44 +579,32 @@
         
         
          [CLProgressHUD dismiss];
-            
-            NSString *htmlStr = schoolInfoDic[@"discription"];
-            self.htmlStr = htmlStr;
-            LogObj(schoolInfoDic[@"discription"]);
-            
-        
-        
-            if (htmlStr.length) {
-                [self parseHTMLWithhtmlStr:htmlStr];
-            }else
-            {
-               
-                UILabel *label = [[UILabel alloc] init];
-                label.text = @"暂未录入";
-                label.font = [UIFont systemFontOfSize:14];
-                label.frame = CGRectMake(15, 247, 100, 60);
-                [self.footView addSubview:label];
-                
-                self.htmlView.height = _currentY ;
-                
-                self.footView.height = _currentY + 245 + 60 + self.phone.height;
-                
-                self.tableView.tableFooterView = self.footView;
-            }
-            
-            
-            LogObj(self.htmlView);
-            
-            MyLog(@"%f",_currentY);
-            
-
-
         
         
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         LogObj(error.localizedDescription);
     }];
+}
+
+
+- (IBAction)recommend:(id)sender {
+    
+    LMAccount *account =  [LMAccountInfo sharedAccountInfo].account;
+    if (account) {
+        LMAddRecommendViewController *add = [[LMAddRecommendViewController alloc] init];
+        
+        add.id = self.id;
+        
+        [self.navigationController pushViewController:add animated:YES];
+    }else
+    {
+        LMLoginViewController *log = [[LMLoginViewController alloc] init];
+        [self.navigationController pushViewController:log animated:YES];
+    }
+    
+    
+    
 }
 
 
@@ -523,227 +632,23 @@
     
 }
 
-- (void)btnClick:(UIButton *)btn
+#pragma mark - 懒加载
+- (UIScrollView *)myScrollView
 {
-    MyLog(@"%@",btn.currentTitle);
-    
-    LMTeacherIntroViewController *ti = [[LMTeacherIntroViewController alloc] init];
-    ti.id = btn.tag;
-    MyLog(@"%lli===========ti.id====",ti.id);
-    [self.navigationController pushViewController:ti animated:YES];
-    ti.title = @"老师介绍";
-    
-    
-     
-}
-
-- (void)selectedCourse:(UIButton *)sender {
-    _sign = ! _sign;
-    
-    [self.tableView reloadData];
-    
-    if (_sign) {
-        [sender setImage:[UIImage imageNamed:@"timeline_icon_unlike"] forState:UIControlStateNormal];
-    }else
-    {
-        [sender setImage:[UIImage imageNamed:@"timeline_icon_more_highlighted"] forState:UIControlStateNormal];
-    }
-    
-}
-
-
-#pragma mark - Table view data source
-
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    if (self.datas.count > 3) {
+    if (_myScrollView == nil) {
         
-        self.moreBtn.hidden = NO;
-        return (_sign ? self.datas.count : 3);
+        // 设置frame
+        CGFloat y = CGRectGetMaxY(self.menuBtnView.frame);
+        CGFloat w = self.view.width;
+        _myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, y, w, LMMyScrollMarkHeight)];
+        LogFrame(_myScrollView);
+        _myScrollView.tag = 12;
+        [self.scrollView addSubview:self.myScrollView];
     }
-    return self.datas.count;
+    return _myScrollView;
 }
 
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *ID = @"LMSchoolCourseViewCell";
-    
-    
-    LMSchoolCourseViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-
-    if (cell == nil) {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"LMSchoolCourseViewCell" owner:self options:nil] lastObject];
-    }
-    
-    LMCourseInfo *course = self.datas[indexPath.row];
-    
-    cell.course = course;
-   
-    
-    return cell;
-    
-}
-
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    LMCourseInfo *tCourse = self.datas[indexPath.row];
-    
-    long long id = tCourse.id;
-    
-    
-    LMCourseIntroViewController *ci  = [[LMCourseIntroViewController alloc] init];
-    ci.id = id;
-    
-    [self.navigationController pushViewController:ci animated:YES];
-    
-}
-
-
-
-
-
-
-- (void)parseAllChildernHtmlNode:(HTMLNode *) inputNode : (NSMutableArray *) array
-{
-    for (HTMLNode *node in [inputNode children]) {
-        [self parseSingleNode:node :array];
-    }
-}
-
-- (void)parseSingleNode:(HTMLNode *)node : (NSMutableArray *) array
-{
-    if (node.nodetype == HTMLImageNode) {
-        [array addObject:node];
-        
-    }
-   
-    if (node.nodetype == HTMLTextNode) {
-        [array addObject:node];
-    }
-    
-    [self parseAllChildernHtmlNode:node :array];
-}
-
-
-
-- (void)parseHTMLWithhtmlStr:(NSString *)htmlStr
-{
-    NSString  *html = [htmlStr stringByReplacingOccurrencesOfString:@"<br/>" withString:@""];
-    NSError *error = nil;
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:html error:&error];
-    
-    if (error) {
-        MyLog(@"Error: %@", error);
-        return;
-    }
-    
-    HTMLNode *bodyNode = [parser body];
-    NSMutableArray *result = [NSMutableArray array];
-    [self parseAllChildernHtmlNode:bodyNode : result];
-    
-    
-    for (HTMLNode *node in result) {
-        if (node.nodetype == HTMLImageNode) {
-            [self addSubImageView:[node getAttributeNamed:@"src"]];
-        }
-    
-        if (node.nodetype == HTMLTextNode) {
-            
-            NSString *text = [node.rawContents stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet ]];
-            if (text.length > 0) {
-                [self addSubText:text];
-            }
-            
-        }
-        
-    }
-    
-}
-
-- (void)addSubImageView:(NSString *)imageURL {
-    
-   
-    __block UIImage *img;
-    
-    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-    queue.maxConcurrentOperationCount = 10;
-    
-    NSBlockOperation *operation1 = [NSBlockOperation blockOperationWithBlock:^{
-        
-        img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]]];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            CGFloat height = (self.view.frame.size.width-30)/img.size.width * img.size.height;
-            CGRect rect = CGRectMake(15, _currentY, self.view.frame.size.width-30, height);
-            _currentY += height + 10;
-            _htmlView.size = CGSizeMake(self.view.size.width, _currentY);
-            MyLog(@"_currentxxxxx = %f",_currentY);
-            UIImageView *imageView = [[UIImageView alloc]initWithFrame:rect];
-            [imageView setImage:img];
-            CALayer *layer=[imageView layer];
-            [layer setMasksToBounds:YES];
-            [layer setCornerRadius:10.0];
-            [layer setBorderWidth:1];
-            [layer setBorderColor:[[UIColor blackColor] CGColor]];
-            [_htmlView addSubview:imageView];
-            
-            self.htmlView.height = _currentY;
-            
-            self.footView.height = _currentY + 245 + self.phone.height;
-            
-            self.tableView.tableFooterView = self.footView;
-//            if(self.html2.length)
-//            {
-//                self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.resultView.frame));
-//            }else
-//            {
-//                self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame));
-//            }
-        });
-        
-    }];
-    
-    [queue addOperation:operation1];
-
-
-}
-
-
-
-//添加文章段落
-- (void)addSubText:(NSString *)content {
-    
-    
-    FDLabelView *titleView = [[FDLabelView alloc] initWithFrame:CGRectMake(10, _currentY, 300, 0)];
-    titleView.backgroundColor = [UIColor colorWithWhite:0.00 alpha:0.00];
-    titleView.textColor = [UIColor blackColor];
-    titleView.font = [UIFont systemFontOfSize:14];
-    titleView.minimumScaleFactor = 0.50;
-    titleView.numberOfLines = 0;
-    titleView.text = content;
-    titleView.lineHeightScale = 0.80;
-    titleView.fixedLineHeight = 20;
-    titleView.fdLineScaleBaseLine = FDLineHeightScaleBaseLineCenter;
-    titleView.fdTextAlignment = FDTextAlignmentLeft;
-    titleView.fdAutoFitMode = FDAutoFitModeAutoHeight;
-    titleView.fdLabelFitAlignment = FDLabelFitAlignmentCenter;
-    titleView.contentInset = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0);
-    [_htmlView addSubview:titleView];
-    
-    _currentY += titleView.visualTextHeight + 10;
-    _htmlView.size = CGSizeMake(self.view.size.width, _currentY);
-    
-    titleView.debug = NO;
-    
-    self.htmlView.height = _currentY;
-    
-    self.footView.height = _currentY + 245 + self.phone.height;
-    
-    self.tableView.tableFooterView = self.footView;
-}
 
 
 @end

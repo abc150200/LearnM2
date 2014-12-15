@@ -59,8 +59,7 @@
     
     //添加上拉加载
     [self.tableView addFooterWithTarget:self action:@selector(loadMoreData)];
-    
-//    [self loadData];
+
     
     TQStarRatingDisplayView *star = [[TQStarRatingDisplayView alloc] initWithFrame:CGRectMake(83,53,70, 14)  numberOfStar:5 norImage:@"public_review_small_normal" highImage:@"public_review_small_pressed" starSize:14 margin:0 score:self.levelTotal];
     
@@ -81,7 +80,7 @@
     //参数
     NSMutableDictionary *arr = [NSMutableDictionary dictionary];
     arr[@"id"] = [NSString stringWithFormat:@"%lli",_id];
-    arr[@"type"] = @"1";
+    arr[@"type"] = [NSString stringWithFormat:@"%d",self.type];
     arr[@"time"] = [NSString timeNow];
     
     
@@ -144,7 +143,7 @@
     //参数
     NSMutableDictionary *arr = [NSMutableDictionary dictionary];
     arr[@"id"] = [NSString stringWithFormat:@"%lli",_id];
-    arr[@"type"] = @"1";
+    arr[@"type"] = [NSString stringWithFormat:@"%d",self.type];;
     arr[@"time"] = [NSString timeNow];
     arr[@"startIndex"] = [NSString stringWithFormat:@"%d",count];
     

@@ -18,7 +18,6 @@
 #import "LMCourseList.h"
 #import "MJExtension.h"
 #import "LMCourseViewCell.h"
-#import "MJRefresh.h"
 #import "LMlistViewController.h"
 #import "LMCityViewController.h"
 #import "LMAreaViewController.h"
@@ -29,7 +28,7 @@
 
 
 
-@interface LMCourseListMainViewController ()<LMCourseHeadViewDelegate,IWPopMenuDelegate,CZProvinceViewControllerDelegate,UITextFieldDelegate,UIScrollViewDelegate,LMAreaViewControllerDelegate,CZCityViewControllerDelegate,LMCityViewControllerDelegate,LMSearchViewControllerDelegate,LMlistViewControllerDelegate,LMAgeViewControllerDelegate>
+@interface LMCourseListMainViewController ()<LMCourseHeadViewDelegate,IWPopMenuDelegate,CZProvinceViewControllerDelegate,LMAreaViewControllerDelegate,CZCityViewControllerDelegate,LMCityViewControllerDelegate,LMSearchViewControllerDelegate,LMlistViewControllerDelegate,LMAgeViewControllerDelegate>
 @property (nonatomic, strong)LMCourseHeadView  *headView;
 @property (nonatomic, strong)  CZProvinceViewController *pVc ;
 @property (nonatomic, strong) CZCityViewController *cVc;

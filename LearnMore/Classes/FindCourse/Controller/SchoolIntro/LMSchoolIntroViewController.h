@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class LMSchoolCourse;
 
-@interface LMSchoolIntroViewController : UITableViewController
+@interface LMSchoolIntroViewController : UIViewController
 @property (nonatomic, strong) LMSchoolCourse *course;
 
 @property (copy, nonatomic) NSString *secondTypeName;

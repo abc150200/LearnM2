@@ -135,7 +135,7 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
      [self.webView sizeToFit];
-     self.scrollView.contentSize =CGSizeMake(self.view.width, self.webView.scrollView.contentSize.height + self.headView.height - 49);
+     self.scrollView.contentSize =CGSizeMake(self.view.width, self.webView.scrollView.contentSize.height + self.headView.height - LMWebViewButton);
 }
 
 

@@ -61,4 +61,8 @@
 //请求
 #define RequestURL @"http://api.manytu.com/"
 
+/** webView底部的空白 */
+#define LMWebViewButton 0
+
+
 #endif

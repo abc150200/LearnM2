@@ -318,7 +318,7 @@
         <image name="btn_class_detail_tel" width="152" height="35"/>
         <image name="btn_review" width="126" height="35"/>
         <image name="me_arrow" width="10" height="15"/>
-        <image name="public_address" width="12" height="21"/>
+        <image name="public_address" width="20" height="20"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

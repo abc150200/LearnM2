@@ -9,6 +9,10 @@
 #define LMPadding 20
 #define LMLeftPadding 15
 #define LMNavHeight 0
+#define LMCourseMark 20
+#define LMViewMovedTime 0.3
+
+#define LMMyScrollMarkHeight  ([UIScreen mainScreen].bounds.size.height - self.menuBtnView.height - self.toolView.height - 64)
 
 //#define  LMNavHeight (([[NSString deviceString] isEqualToString: @"iPhone 4S"])? 64 :0)
 
@@ -23,9 +27,6 @@
 #import "LMTeachList.h"
 #import "LMTeachListTableViewController.h"
 #import "UMSocial.h"
-#import "HTMLParser.h"
-#import "FDLabelView.h"
-#import <MediaPlayer/MediaPlayer.h>
 #import "LMTeacherIntroViewController.h"
 #import "ACETelPrompt.h"
 #import "LMAccountInfo.h"
@@ -36,7 +37,6 @@
 #import "LMLoginViewController.h"
 #import "LMAddRecommendViewController.h"
 #import "LMDetailRecommendViewController.h"
-#import "LMLoginViewController.h"
 
 #import "LMRecommend.h"
 #import "LMRecommedFrame.h"
@@ -45,10 +45,13 @@
 #import "LMOnerRecViewController.h"
 #import "TQStarRatingDisplayView.h"
 
+#import "LMMenuButtonView.h"
+#import "LMTResultViewController.h"
+#import "LMCourseDetailViewController.h"
 
-@interface LMCourseIntroViewController ()<UIScrollViewDelegate,LMTeachListTableViewControllerDelegate>
 
-@property (strong, nonatomic) IBOutlet UIView *contentView;
+@interface LMCourseIntroViewController ()<UIScrollViewDelegate,LMTeachListTableViewControllerDelegate,LMMenuButtonViewDelegate>
+
 
 /** 老师列表数组 */
 @property (nonatomic, strong) NSArray *teachers;
@@ -60,10 +63,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *typeNameLabel;
 /** 适合学生 */
 @property (weak, nonatomic) IBOutlet UILabel *propStuLabel;
-/** 课时 */
-@property (weak, nonatomic) IBOutlet UILabel *courseTime;
-/** 每节课费用 */
-@property (weak, nonatomic) IBOutlet UILabel *priceLabel;
 /** 课程图片 */
 @property (weak, nonatomic) IBOutlet UIImageView *courseImageView;
 /** 学校名称 */
@@ -72,24 +71,8 @@
 @property (nonatomic, weak) UIScrollView *scrollView;
 //头部数据
 @property (weak, nonatomic) IBOutlet UIView *headView;
-//尾部数据
-@property (strong, nonatomic) IBOutlet UIView *footView;
-/** 课程详情 */
-@property (nonatomic, weak) UIView *courseView;
-/** 教学成果 */
-@property (nonatomic, weak) UIView *resultView;
-/** 老师列表 */
-@property (nonatomic, weak) UIView *teacherView;
 /** 老师列表控制器 */
 @property (nonatomic, strong)  LMTeachListTableViewController *tl;
-/** 课程详情View */
-@property (nonatomic, weak) UIView *htmlView;
-/** 教学成果View */
-@property (nonatomic, weak) UIView *htmlView2;
-/** 课程详情的高度 */
-@property (nonatomic, assign) CGFloat currentY;
-/** 教学成果的高度 */
-@property (nonatomic, assign) CGFloat currentY2;
 
 @property (nonatomic, strong) NSMutableArray *courseInfoDic;
 
@@ -99,25 +82,15 @@
 /** 老师id */
 @property (nonatomic, assign) long long teacherId;
 
-/** 教学成果字符串 */
-@property (copy, nonatomic) NSString *teachStr;
-
 /** 电话 */
 @property (copy, nonatomic) NSString *phoneNum;
 
-//@property (nonatomic, weak) TFIndicatorView *indicator;
 /** 地址 */
 @property (weak, nonatomic) IBOutlet UILabel *address;
 
 @property (copy, nonatomic) NSString *gps;
 
 @property (strong, nonatomic) IBOutlet UIView *toolView;
-
-@property (copy, nonatomic) NSString *stri;
-
-
-@property (copy, nonatomic) NSString *html2;
-
 
 
 @property (nonatomic, strong) NSMutableArray *recomFrames;
@@ -148,6 +121,13 @@
 
 @property (copy, nonatomic) NSString *courseImageUrl;
 
+
+/** 菜单按钮的view */
+@property (nonatomic, weak) LMMenuButtonView *menuBtnView;
+/** 主视图的底部ScrollView */
+@property (nonatomic, strong) UIScrollView *myScrollView;
+
+
 @end
 
 @implementation LMCourseIntroViewController
@@ -161,6 +141,30 @@
     }
     return self;
 }
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    
+    
+    [self.view addSubview:self.toolView];
+    
+    //重写返回按钮
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem barButtonItemWithImageName:@"public_nav_black" target:self sel:@selector(goBack)];
+    
+    
+    self.toolView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - self.toolView.height , self.view.width, self.toolView.height);
+    
+}
+
+- (void)goBack
+{
+    [self.scrollView removeFromSuperview];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 
 
@@ -177,7 +181,10 @@
     hud.shape = CLProgressHUDShapeCircle;
     [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginStatuChange:) name:@"LoginStatuChangeNotification" object:nil];
+    //添加监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OnerRecViewControllerChange:) name:@"OneRecNotification" object:nil];
+    
+    
     
     //添加分享,收藏
 //    UIBarButtonItem *item0 = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"public_nav_collect_normal"] style:UIBarButtonItemStylePlain target:self action:@selector(collection)];
@@ -187,13 +194,11 @@
     self.navigationItem.rightBarButtonItem = item1;
     
    
-    
-   
-    
-   
-    
+    /** 整个scrollView */
     UIScrollView *scrollView = [[UIScrollView alloc] init];
+    scrollView.tag = 11;
     scrollView.frame = CGRectMake(0, 0, self.view.width,self.view.height - self.toolView.height);
+  
     scrollView.contentSize = CGSizeMake(self.view.width,1200 );//
     scrollView.backgroundColor = UIColorFromRGB(0xf0f0f0);
     [self.view addSubview:scrollView];
@@ -209,7 +214,7 @@
     LMOnerRecViewController *onerRv  = [[LMOnerRecViewController alloc] init];
     self.onerRv = onerRv;
     onerRv.view.x = 0;
-    onerRv.view.y = CGRectGetMaxY(self.headView.frame) + 20;
+    onerRv.view.y = CGRectGetMaxY(self.headView.frame) + LMCourseMark;
     onerRv.view.width = self.view.width;
     
     onerRv.tableView.tableHeaderView = self.recHeadView;
@@ -219,20 +224,131 @@
     
     self.onerRv.view.height = 88 ;
     
-    self.schoolSkin.y = CGRectGetMaxY(self.onerRv.view.frame) + 20;
+    self.schoolSkin.y = CGRectGetMaxY(self.onerRv.view.frame) + LMCourseMark;
     [self.scrollView addSubview: self.schoolSkin];
-    
-    self.courseView.y = CGRectGetMaxY(self.schoolSkin.frame) + 20;
 
   
     [self loadRecommendData];
 
-    //添加几个详情页面
-    [self setupDetail];
- 
     [self loadData];
+    
+    
+    
+    // 3个控制器的菜单按钮
+    [self setupTitleButtonView];
+    
+    // 设置ScrollView
+    [self setupScrollView];
+   
+    // 设置tableView
+    [self setupTableViews];
+    
  
 }
+
+
+// 3个控制器的菜单按钮
+- (void)setupTitleButtonView
+{
+    LMMenuButtonView *titleBtnView = [[LMMenuButtonView alloc] initWithFrame:CGRectMake(0, 0, 0, 0) titleArr:@[@"课程详情",@"教学成果",@"老师信息"]];
+    self.menuBtnView = titleBtnView;
+    // 设置代理
+    self.menuBtnView.delegate = self;
+    
+    // 设置frame
+    self.menuBtnView.x = 0;
+    self.menuBtnView.width = self.view.width;
+    self.menuBtnView.height = 44;
+    self.menuBtnView.y = CGRectGetMaxY(self.schoolSkin.frame) + LMCourseMark;
+    
+    [self.scrollView addSubview:titleBtnView];
+    
+}
+
+// 设置主视图的底部ScrollView
+- (void)setupScrollView
+{
+    self.myScrollView.contentSize = CGSizeMake(3 * self.view.width, LMMyScrollMarkHeight);
+    
+    // 设置scrollView的属性
+    self.myScrollView.bounces = NO;
+    self.myScrollView.pagingEnabled = YES;
+    self.myScrollView.showsHorizontalScrollIndicator = NO;
+    self.myScrollView.showsVerticalScrollIndicator = NO;
+    self.myScrollView.userInteractionEnabled = YES;
+    
+    // 垂直滚动时,左右不能滚动
+    self.myScrollView.directionalLockEnabled = YES;
+    
+    // 设置代理
+    self.myScrollView.delegate = self;
+    
+}
+
+
+// 初始化3个控制器,添加为子控制器,把控制器的view添加到根视图的scrollView里面,设置frame的x值
+- (void)setupTableViews
+{
+    //课程详情控制器
+    LMCourseDetailViewController *cv = [[LMCourseDetailViewController alloc] init];
+    cv.id = self.id;
+    [self.myScrollView addSubview:cv.view];
+    cv.view.x = 0;
+    [self addChildViewController:cv];
+    
+   
+    
+    //教学成果控制器
+    LMTResultViewController *trv = [[LMTResultViewController alloc] init];
+    trv.id = self.id;
+    [self.myScrollView addSubview:trv.view];
+    trv.view.x = CGRectGetMaxX(cv.view.frame);
+    [self addChildViewController:trv];
+    
+    
+    //老师信息控制器
+    LMTeachListTableViewController *tv = [[LMTeachListTableViewController alloc] initWithStyle:UITableViewStylePlain];
+    self.tl = tv;
+    tv.delegate = self;
+    [self addChildViewController:tv];
+    [self.myScrollView addSubview:tv.tableView];
+    tv.tableView.x = CGRectGetMaxX(trv.view.frame);
+    tv.tableView.y = 0;
+    tv.tableView.height = LMMyScrollMarkHeight;
+    [self addChildViewController:tv];
+  
+}
+
+
+#pragma mark-- LMMenuButtonViewDelegate
+- (void)titleButtonViewDidClickButton:(NSInteger)tag
+{
+    [UIView animateWithDuration:LMViewMovedTime animations:^{
+        self.myScrollView.contentOffset = CGPointMake(tag * self.view.width, 0);
+    }];
+   
+}
+
+#pragma mark - UIScrollViewDelegate 代理方法
+// 拖动scrollView,切换标题按钮的选中状态
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+
+   if(scrollView.tag == 12)
+   {
+        int x = scrollView.contentOffset.x;
+        
+         int i = x / (self.view.width) + 0.5;
+        self.menuBtnView.i = i;
+        MyLog(@"scrollVieweeeeeeeeeeeee===%d",i);
+        
+        CGFloat progress = x / (2 * self.view.width);
+         self.menuBtnView.progress = progress;
+   }
+
+}
+
+
 
 /** 提醒按钮,覆盖在免费预约试听 */
 - (IBAction)tip:(id)sender {
@@ -267,107 +383,6 @@
 }
 
 
-//添加几个详情页面
-- (void)setupDetail
-{
-    /** 课程详情 */
-    UIView *courseView = [[UIView alloc] init];
-    courseView.x = 0;
-    courseView.y = CGRectGetMaxY(self.schoolSkin.frame) + LMPadding;
-    courseView.width = self.view.width;
-    courseView.height = 200;
-    courseView.backgroundColor = [UIColor whiteColor];
-    
-    [self.scrollView addSubview:courseView];
-    
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(LMLeftPadding, 0, 60, 40)];
-    titleLabel.text = @"课程详情";
-    titleLabel.textColor = [UIColor blackColor];
-    titleLabel.font = [UIFont systemFontOfSize:15];
-    [courseView addSubview:titleLabel];
-    
-    UIView *divider  = [[UIView alloc] initWithFrame:CGRectMake(LMLeftPadding, 44, self.view.width - LMLeftPadding, 1)];
-    divider.backgroundColor = [UIColor lightGrayColor];
-    divider.alpha = 0.5;
-    [courseView addSubview:divider];
-    
-    
-    UIView *htmlView = [[UIView alloc]init];
-    htmlView.x = 0;
-    htmlView.y = 44 + 1 + 5 ;
-    htmlView.width = self.view.width;
-    htmlView.height = 200;
-    _htmlView = htmlView;
-    
-    [courseView addSubview:htmlView];
-    self.courseView = courseView;
-    
-    
-    /** 教学成果 */
-    UIView *resultView = [[UIView alloc] init];
-    resultView.x = 0;
-    resultView.y = CGRectGetMaxY(self.courseView.frame) + LMPadding;
-    resultView.width = self.view.width;
-    resultView.height = 200;
-    resultView.backgroundColor = [UIColor whiteColor];
-
-    [self.scrollView addSubview:resultView];
-    
-    UILabel *titleLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(LMLeftPadding, 0, 60, 40)];
-    titleLabel2.text = @"教学成果";
-    titleLabel2.textColor = [UIColor blackColor];
-    titleLabel2.font = [UIFont systemFontOfSize:15];
-    [resultView addSubview:titleLabel2];
-    
-    UIView *divider2  = [[UIView alloc] initWithFrame:CGRectMake(LMLeftPadding, 44, self.view.width - LMLeftPadding, 1)];
-    divider2.backgroundColor = [UIColor lightGrayColor];
-    divider2.alpha = 0.5;
-    [resultView addSubview:divider2];
-    
-    UIView *htmlView2 = [[UIView alloc]init];
-    htmlView2.x = 0;
-    htmlView2.y = 44 + 1 + 5 ;
-    htmlView2.width = self.view.width - 2 * LMLeftPadding;
-    htmlView2.height = 130;
-    _htmlView2 = htmlView2;
-    
-    [resultView addSubview:htmlView2];
-    self.resultView = resultView;
-
-     /**任课教师*/
-    UIView *teacherView = [[UIView alloc] init];
-    teacherView.x = 0;
-    teacherView.y = CGRectGetMaxY(self.resultView.frame) + LMPadding;
-    teacherView.width = self.view.width;
-    teacherView.height = 350;
-    teacherView.backgroundColor = [UIColor whiteColor];
-    
-    [self.scrollView addSubview:teacherView];
-    
-    UILabel *titleLabel3 = [[UILabel alloc] initWithFrame:CGRectMake(LMLeftPadding, 0, 60, 40)];
-    titleLabel3.text = @"任课老师";
-    titleLabel3.textColor = [UIColor blackColor];
-    titleLabel3.font = [UIFont systemFontOfSize:15];
-    [teacherView addSubview:titleLabel3];
-    
-    UIView *divider3  = [[UIView alloc] initWithFrame:CGRectMake(LMLeftPadding, 44, self.view.width - LMLeftPadding, 1)];
-    divider3.backgroundColor = [UIColor lightGrayColor];
-    divider3.alpha = 0.5;
-    [teacherView addSubview:divider3];
-    
-    LMTeachListTableViewController *tl = [[LMTeachListTableViewController alloc] initWithStyle:UITableViewStylePlain];
-    tl.delegate  = self;
-    self.tl = tl;
-    tl.view.x = 0;
-    tl.view.y = divider3.y + 1;
-    tl.view.width = self.view.width;
-    
-    [teacherView addSubview:tl.view];
-    self.teacherView = teacherView;
-
-    
-
-}
 
 
 - (void)collection
@@ -468,9 +483,6 @@
     [UMSocialData defaultData].extConfig.sinaData.shareText = text1;
     
     
-//    [UMSocialData defaultData].extConfig.tencentData.shareImage = [UIImage imageNamed:@"icon"]; //分享到腾讯微博图片
-//    [[UMSocialData defaultData].extConfig.wechatSessionData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:@"http://www.baidu.com/img/bdlogo.gif"];
-
     //微信
     [UMSocialData defaultData].extConfig.wechatSessionData.url = urlStr;
     [UMSocialData defaultData].extConfig.wechatTimelineData.url = urlStr;
@@ -534,21 +546,9 @@
         int ageEnd = [courseInfoDic[@"propAgeEnd"]intValue];
         self.propStuLabel.text = [NSString stringWithFormat:@"%@",[NSString ageBegin:ageStart ageEnd:ageEnd]];
         
-        /** 判断价格 */
-        if(([courseInfoDic[@"showPerPrice"] intValue] == 0) && ([courseInfoDic[@"showPackagePrice"] intValue] == 0) )
-        {
-            self.priceLabel.text = @"价格面议";
-        }else if (([courseInfoDic[@"showPerPrice"] intValue] == 1) && ([courseInfoDic[@"showPackagePrice"] intValue] == 0))
-        {
-            self.priceLabel.text = [NSString stringWithFormat:@"%d元/小时",[courseInfoDic[@"perPrice"] intValue]];
-        }else
-        {
-            self.priceLabel.text = [NSString stringWithFormat:@"共%d元",[courseInfoDic[@"packagePrice"] intValue]];
-        }
+   
+//            self.courseTime.text = [NSString stringWithFormat:@"共%d课时",[courseInfoDic[@"courseTime"] intValue]];
         
-        
-            self.courseTime.text = [NSString stringWithFormat:@"共%d课时",[courseInfoDic[@"courseTime"] intValue]];
-            
             self.schoolNameLabel.text = courseInfoDic[@"schoolFullName"];
             
             
@@ -579,7 +579,6 @@
         
         if(!self.needBook)
         {
-            //         self.freeListen setBackgroundImage:@"btn_class_detail_losed" forState:uicon
             self.freeListen.enabled = NO;
         }
         
@@ -596,89 +595,15 @@
         
         TQStarRatingDisplayView *star = [[TQStarRatingDisplayView alloc] initWithFrame:CGRectMake(75,34,90,14) numberOfStar:5 norImage:@"public_review_small_normal" highImage:@"public_review_small_pressed" starSize:14 margin:5 score:schoolCommentLevel[@"avgTotalLevel"]];
         [self.schoolSkin addSubview:star];
-            
-       self.stri = courseInfoDic[@"courseDes"];
        
-   
         [CLProgressHUD dismiss];
         
-        /** 课程详情 */
-        NSString *strHtml = courseInfoDic[@"courseDes"];
-        [self parseHTMLWithhtmlStr:strHtml];
-
-        
-        /** 教学成果 */
-        NSString *strHtml2 = courseInfoDic[@"courseAchieve"];
-        self.html2 = strHtml2;
-        
-        MyLog(@"strHtml2===%@",strHtml2);
-        MyLog(@"strHtml2.length===%d",strHtml2.length);
-        
-        if(strHtml2.length)
-        {
-            [self parse2HTMLWithhtmlStr:strHtml2];
-        }else
-        {
-            UILabel *label = [[UILabel alloc] init];
-            label.text = @"暂未录入";
-            label.textColor = [UIColor blackColor];
-            label.font = [UIFont systemFontOfSize:14];
-            label.frame = CGRectMake(15, 44, 100, 44);
-            [self.resultView addSubview:label];
-            self.resultView.height = 44 +_currentY2 + 44;
-            self.teacherView.y = CGRectGetMaxY(self.resultView.frame) + LMPadding;
-            self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.resultView.frame));
-            
-        }
-        
-            
-            /** 刷新老师 */
-            self.teachers = [LMTeacherInfo objectArrayWithKeyValuesArray:courseInfoDic[@"teachers"]];
-            self.tl.teachers = self.teachers;
-        
-        if (self.teachers.count) {
-            
-            self.tl.tableView.rowHeight = 70;
-            [self.tl.tableView reloadData];
-            
-            [self.teacherView addSubview:self.tl.view];
-            self.teacherView.height = (self.teachers.count) * (self.tl.tableView.rowHeight) + 44;
-            
-            MyLog(@"%fteacherView高度",self.teacherView.height);
-            
-            
-            LogObj(self.teachers);
-            MyLog(@"%d老师个数===",self.teachers.count);
-           
-            self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame) + LMNavHeight);
-          
-        }else
-        {
-            UILabel *label = [[UILabel alloc] init];
-            label.text = @"暂未录入";
-            label.textColor = [UIColor blackColor];
-            label.font = [UIFont systemFontOfSize:14];
-            label.frame = CGRectMake(15, 44, 100, 44);
-            [self.teacherView addSubview:label];
-            self.teacherView.height = 44 + 44;
-            
-           
-            self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame) + LMNavHeight);
-            
-        }
-        
-      
-        [self.courseView  setNeedsDisplay];
-        
-        [self.resultView setNeedsDisplay];
-        
-        [self.teacherView  setNeedsDisplay];
-        
-        [self.scrollView  setNeedsDisplay];
-      
-
-        
-    self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame));
+        MyLog(@"courseInfoDicname===%@",courseInfoDic[@"teachers"]);
+        /** 刷新老师 */
+        self.teachers = [LMTeacherInfo objectArrayWithKeyValuesArray:courseInfoDic[@"teachers"]];
+        MyLog(@"self.teachers===%@",self.teachers);
+        self.tl.teachers = self.teachers;
+        [self.tl.tableView reloadData];
         
         
  
@@ -737,16 +662,17 @@
         
         
         
-        
-#warning 是不是应该在前面加上;
         if (self.recomFrames.count ==  0) {
             
             self.onerRv.view.height = 88 ;
             
-            self.schoolSkin.y = CGRectGetMaxY(self.onerRv.view.frame) + 20;
-            [self.scrollView addSubview: self.schoolSkin];
+            self.schoolSkin.y = CGRectGetMaxY(self.onerRv.view.frame) + LMCourseMark;
             
-            self.courseView.y = CGRectGetMaxY(self.schoolSkin.frame) + 20;
+             self.menuBtnView.y = CGRectGetMaxY(self.schoolSkin.frame) + LMCourseMark;
+            
+            self.myScrollView.y = CGRectGetMaxY(self.menuBtnView.frame);
+            
+            self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight);
         }
  
         
@@ -755,49 +681,41 @@
     }];
 }
 
-- (void)loginStatuChange:(NSNotification *)notifi
+
+//监听课程点评高度变化
+- (void)OnerRecViewControllerChange:(NSNotification *)notifi
 {
     NSDictionary *userInfo = notifi.userInfo;
     CGFloat height = [userInfo[@"cellHeight"] doubleValue];
+    
 
     MyLog(@"height===%f",height);
     
     self.onerRv.view.height = 88 + height;
     
-    self.schoolSkin.y = CGRectGetMaxY(self.onerRv.view.frame) + 20;
-    [self.scrollView addSubview: self.schoolSkin];
+    self.schoolSkin.y = CGRectGetMaxY(self.onerRv.view.frame) + LMCourseMark;
     
-    self.courseView.y = CGRectGetMaxY(self.schoolSkin.frame) + 20;
+    self.menuBtnView.y = CGRectGetMaxY(self.schoolSkin.frame) + LMCourseMark;
     
+    self.myScrollView.y = CGRectGetMaxY(self.menuBtnView.frame);
     
-}
-
--(void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
+    self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight);
+}                        
 
 
-
-
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
-    [self.view addSubview:self.toolView];
+    [super viewWillDisappear:animated];
     
-   
-
-    self.toolView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - self.toolView.height , self.view.width, self.toolView.height);
   
 }
-
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
     
-    [CLProgressHUD dismiss];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    [self.toolView removeFromSuperview];
 }
 
 /** 课程预定 */
@@ -862,6 +780,7 @@
     
 }
 
+/** 写点评 */
 - (IBAction)recommend:(id)sender {
     
     LMAccount *account =  [LMAccountInfo sharedAccountInfo].account;
@@ -881,12 +800,14 @@
     
 }
 
+/** 查看点评 */
 - (IBAction)lookRecommend:(id)sender {
     
     if(self.recomFrames.count)
     {
         LMDetailRecommendViewController *dv = [[LMDetailRecommendViewController alloc] init];
         dv.id = _id;
+        dv.type = 1;
         dv.mainTitle = self.courseNameLabel.text;
         dv.courseScoreDic = self.courseScoreDic;
         [self.navigationController pushViewController:dv animated:YES];
@@ -909,7 +830,7 @@
 
 /** 跳转学校介绍页面 */
 - (IBAction)schoolIntroBtn:(id)sender {
-    LMSchoolIntroViewController *si = [[LMSchoolIntroViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    LMSchoolIntroViewController *si = [[LMSchoolIntroViewController alloc] init];
     si.secondTypeName = self.typeNameLabel.text;
     si.title = @"学校信息";
     si.id = self.schoolId;
@@ -1008,8 +929,6 @@
     return _courseInfos;
 }
 
-
-
 - (NSMutableArray *)courseInfoDic
 {
     if (_courseInfoDic == nil) {
@@ -1018,271 +937,31 @@
     return _courseInfoDic;
 }
 
-
-/** 以下两行代码是递归方法 */
-- (void)parseAllChildernHtmlNode:(HTMLNode *) inputNode : (NSMutableArray *) array
+#pragma mark - 懒加载
+- (UIScrollView *)myScrollView
 {
-    for (HTMLNode *node in [inputNode children]) {
-        [self parseSingleNode:node :array];
+    if (_myScrollView == nil) {
+        
+        // 设置frame
+        CGFloat y = CGRectGetMaxY(self.menuBtnView.frame);
+        CGFloat w = self.view.width;
+        _myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, y, w, LMMyScrollMarkHeight)];
+        LogFrame(_myScrollView);
+        _myScrollView.tag = 12;
+        [self.scrollView addSubview:self.myScrollView];
     }
+    return _myScrollView;
 }
 
-- (void)parseSingleNode:(HTMLNode *)node : (NSMutableArray *) array
-{
-    if (node.nodetype == HTMLImageNode) {
-        [array addObject:node];
-        
-    }
-    
-    if (node.nodetype == HTMLTextNode) {
-        [array addObject:node];
-    }
-    
-    [self parseAllChildernHtmlNode:node :array];
-}
-
-
-//解析Html
-- (void)parseHTMLWithhtmlStr:(NSString *)htmlStr
-{
-    NSString  *html = [htmlStr stringByReplacingOccurrencesOfString:@"<br/>" withString:@""];
-    NSError *error = nil;
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:html error:&error];
-    
-    if (error) {
-        MyLog(@"Error: %@", error);
-        return;
-    }
-    
-    HTMLNode *bodyNode = [parser body];
-    NSMutableArray *result = [NSMutableArray array];
-    [self parseAllChildernHtmlNode:bodyNode : result];
-    
-    int i = 0;
-    for (HTMLNode *node in result) {
-        if (node.nodetype == HTMLImageNode) {
-            MyLog(@"i = %d",i++);
-                [self addSubImageView:[node getAttributeNamed:@"src"]];
-       
-        }
-        
-        if (node.nodetype == HTMLTextNode) {
-        
-            NSString *text = [node.rawContents stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet ]];
-            if (text.length > 0) {
-    
-                   [self addSubText:text];
-       
-            }
-            
-        }
-        
-    }
-    
-}
-
-//添加图片
-- (void)addSubImageView:(NSString *)imageURL {
-  MyLog(@"_current---- = %f",_currentY);
-    __block UIImage *img;
-
-    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-    queue.maxConcurrentOperationCount = 1;
-    
-    NSBlockOperation *operation1 = [NSBlockOperation blockOperationWithBlock:^{
-    
-        img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]]];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            CGFloat height = (self.view.frame.size.width-30)/img.size.width * img.size.height;
-            CGRect rect = CGRectMake(15, _currentY, self.view.frame.size.width-30, height);
-            _currentY += height + 10;
-            _htmlView.size = CGSizeMake(self.view.size.width, _currentY);
-            MyLog(@"_currentxxxxx = %f",_currentY);
-            UIImageView *imageView = [[UIImageView alloc]initWithFrame:rect];
-            [imageView setImage:img];
-            CALayer *layer=[imageView layer];
-            [layer setMasksToBounds:YES];
-            [layer setCornerRadius:10.0];
-            [layer setBorderWidth:1];
-            [layer setBorderColor:[[UIColor blackColor] CGColor]];
-            [_htmlView addSubview:imageView];
-            self.courseView.height = 44 +_currentY;
-            MyLog(@"%f===============_currentY",_currentY);
-            //        NSLog(@"%f ---")
-            self.resultView.y = CGRectGetMaxY(self.courseView.frame) + LMPadding;
-            self.teacherView.y = CGRectGetMaxY(self.resultView.frame) +LMPadding;
-            
-            self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame)+ LMNavHeight);
-           
-        });
-        
-    }];
-
-    [queue addOperation:operation1];
-
-
-}
-
-
-
-
-
-//添加文本
-- (void)addSubText:(NSString *)content {
-    
-    
-    FDLabelView *titleView = [[FDLabelView alloc] initWithFrame:CGRectMake(10, _currentY, 300, 0)];
-    titleView.backgroundColor = [UIColor colorWithWhite:0.00 alpha:0.00];
-    titleView.textColor = [UIColor blackColor];
-    titleView.font = [UIFont systemFontOfSize:14];
-    titleView.minimumScaleFactor = 0.50;
-    titleView.numberOfLines = 0;
-    titleView.text = content;
-    titleView.lineHeightScale = 0.80;
-    titleView.fixedLineHeight = 20;
-    titleView.fdLineScaleBaseLine = FDLineHeightScaleBaseLineCenter;
-    titleView.fdTextAlignment = FDTextAlignmentLeft;
-    titleView.fdAutoFitMode = FDAutoFitModeAutoHeight;
-    titleView.fdLabelFitAlignment = FDLabelFitAlignmentCenter;
-    titleView.contentInset = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0);
-    [_htmlView addSubview:titleView];
-    
-    _currentY += titleView.visualTextHeight + 10;
-    _htmlView.size = CGSizeMake(self.view.size.width, _currentY);
-    
-    titleView.debug = NO;
-    
-    self.courseView.height = 44 +_currentY;
-    self.resultView.y = CGRectGetMaxY(self.courseView.frame) + LMPadding;
-    self.teacherView.y = CGRectGetMaxY(self.resultView.frame) +LMPadding;
-    
-   
-    self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame) + LMNavHeight) ;
-    
-    
-    
-}
-
-
-
-
-
-
-
-- (void)parse2HTMLWithhtmlStr:(NSString *)htmlStr
-{
-    NSString  *html = [htmlStr stringByReplacingOccurrencesOfString:@"<br/>" withString:@""];
-    NSError *error = nil;
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:html error:&error];
-    
-    if (error) {
-        MyLog(@"Error: %@", error);
-        return;
-    }
-    
-    HTMLNode *bodyNode = [parser body];
-    NSMutableArray *result = [NSMutableArray array];
-    [self parseAllChildernHtmlNode:bodyNode : result];
-    
-    
-    for (HTMLNode *node in result) {
-        if (node.nodetype == HTMLImageNode) {
-            [self add2SubImageView:[node getAttributeNamed:@"src"]];
-        }
-        
-        if (node.nodetype == HTMLTextNode) {
-            
-            NSString *text = [node.rawContents stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet ]];
-            if (text.length > 0) {
-                [self add2SubText:text];
-            }
-            
-        }
-        
-    }
-    
-}
-
-- (void)add2SubImageView:(NSString *)imageURL {
-    
-    
-    __block UIImage *img;
-    
-    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-    queue.maxConcurrentOperationCount = 2;
-    
-    NSBlockOperation *operation1 = [NSBlockOperation blockOperationWithBlock:^{
-        
-        img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]]];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-    
-    CGFloat height = (self.view.frame.size.width-30)/img.size.width * img.size.height;
-    CGRect rect = CGRectMake(15, _currentY2, self.view.frame.size.width-30, height);
-    _currentY2 += height + 10;
-    _htmlView2.size = CGSizeMake(self.view.size.width, _currentY2);
-    
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:rect];
-    [imageView setImage:img];
-    
-    CALayer *layer=[imageView layer];
-    [layer setMasksToBounds:YES];
-    [layer setCornerRadius:10.0];
-    [layer setBorderWidth:1];
-    [layer setBorderColor:[[UIColor blackColor] CGColor]];
-    [_htmlView2 addSubview:imageView];
-            
-    self.resultView.height = 44 +_currentY2;
-    self.teacherView.y = CGRectGetMaxY(self.resultView.frame) +LMPadding;
-
-         
-    self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame) + LMNavHeight);
-           
-        });
-        
-    }];
-    
-
-    
-    [queue addOperation:operation1];
-
-    
-}
-
-
-//添加文章段落
-- (void)add2SubText:(NSString *)content {
-    
-    
-    FDLabelView *titleView = [[FDLabelView alloc] initWithFrame:CGRectMake(10, _currentY, 300, 0)];
-    titleView.backgroundColor = [UIColor colorWithWhite:0.00 alpha:0.00];
-    titleView.textColor = [UIColor blackColor];
-    titleView.font = [UIFont systemFontOfSize:14];
-    titleView.minimumScaleFactor = 0.50;
-    titleView.numberOfLines = 0;
-    titleView.text = content;
-    titleView.lineHeightScale = 0.80;
-    titleView.fixedLineHeight = 20;
-    titleView.fdLineScaleBaseLine = FDLineHeightScaleBaseLineCenter;
-    titleView.fdTextAlignment = FDTextAlignmentLeft;
-    titleView.fdAutoFitMode = FDAutoFitModeAutoHeight;
-    titleView.fdLabelFitAlignment = FDLabelFitAlignmentCenter;
-    titleView.contentInset = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0);
-    [_htmlView2 addSubview:titleView];
-    
-    _currentY2 += titleView.visualTextHeight + 10;
-    _htmlView2.size = CGSizeMake(self.view.size.width, _currentY2);
-    
-    titleView.debug = NO;
-    
-    self.resultView.height = 44 +_currentY2;
-    
-    self.teacherView.y = CGRectGetMaxY(self.resultView.frame) +LMPadding;
-
-     self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.teacherView.frame)+ LMNavHeight);
-   
-}
+//- (void)setupMyScrollView
+//{
+//    CGFloat y = CGRectGetMaxY(self.menuBtnView.frame);
+//    CGFloat w = self.view.width;
+//    UIScrollView *myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, y, w, LMMyScrollMarkHeight)];
+//    self.myScrollView = myScrollView;
+//    myScrollView.tag = 12;
+//    [self.scrollView addSubview:self.myScrollView];
+//}
 
 
 @end

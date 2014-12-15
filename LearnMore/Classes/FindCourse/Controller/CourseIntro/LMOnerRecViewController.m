@@ -56,7 +56,7 @@
     /** 以下两行发布通知 */
     NSDictionary *userInfo = @{@"cellHeight": @(recF.cellHeight)};
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"LoginStatuChangeNotification" object:nil userInfo:userInfo];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"OneRecNotification" object:nil userInfo:userInfo];
     
     return recF.cellHeight;
 }

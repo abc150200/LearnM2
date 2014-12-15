@@ -42,11 +42,11 @@
     UIBarButtonItem *item = [UIBarButtonItem appearance];
     NSMutableDictionary *itemMd = [NSMutableDictionary dictionary];
     // 设置字体的颜色
-    itemMd[UITextAttributeTextColor] = UIColorFromRGB(0x9ac72c);
+    itemMd[NSForegroundColorAttributeName] = UIColorFromRGB(0x9ac72c);
     // 设置字体的大小
-    itemMd[UITextAttributeFont] = [UIFont systemFontOfSize:15];
+    itemMd[NSFontAttributeName] = [UIFont systemFontOfSize:15];
     // 去掉阴影
-    itemMd[UITextAttributeTextShadowOffset] = [NSValue valueWithUIOffset:UIOffsetZero];
+//    itemMd[NSShadowAttributeName] = [NSValue valueWithUIOffset:UIOffsetZero];
     [item setTitleTextAttributes:itemMd forState:UIControlStateNormal];
 
    
@@ -67,11 +67,11 @@
     // 1.1.3设置标题颜色
     NSMutableDictionary *titleMd = [NSMutableDictionary dictionary];
     // 设置字体颜色
-    titleMd[UITextAttributeTextColor] = UIColorFromRGB(0x333333);
+    titleMd[NSForegroundColorAttributeName] = UIColorFromRGB(0x333333);
     // 去掉阴影
-    titleMd[UITextAttributeTextShadowOffset] = [NSValue valueWithUIOffset:UIOffsetZero];
+//    titleMd[NSShadowAttributeName] = [NSValue valueWithUIOffset:UIOffsetZero];
     // 设置字体大小
-    titleMd[UITextAttributeFont] = [UIFont systemFontOfSize:18];
+    titleMd[NSFontAttributeName] = [UIFont systemFontOfSize:18];
     [navBar setTitleTextAttributes:titleMd];
     
  

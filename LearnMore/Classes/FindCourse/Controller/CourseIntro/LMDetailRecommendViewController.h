@@ -10,6 +10,7 @@
 
 @interface LMDetailRecommendViewController : UITableViewController
 @property (nonatomic, assign) long long id;
+@property (nonatomic, assign) int type;
 @property (weak, nonatomic) IBOutlet UILabel *mainTitleLabel;
 @property (copy, nonatomic) NSString *mainTitle;
 
