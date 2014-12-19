@@ -20,6 +20,7 @@
 #import "LMAccountInfo.h"
 #import "LMAccount.h"
 #import "LMLoginViewController.h"
+#import "MTA.h"
 
 @interface LMActivityDetailViewController ()<UIWebViewDelegate>
 
@@ -126,10 +127,16 @@
     
 }
 
-- (void)viewDidDisappear:(BOOL)animated
+- (void)dealloc
 {
     // 删除观察者
     [self.webView removeObserver:self forKeyPath:@"scrollView.contentSize"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -174,6 +181,9 @@
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"param"] = jsonStr;
     
+    //设备信息
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    parameters[@"device"] = deviceInfo;
     
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -275,6 +285,18 @@
 - (IBAction)cll:(id)sender {
     
     if (self.phoneNum.length) {
+        
+        NSString *version = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
+        NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+        
+        LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+        NSString *sid = account.sid;
+        NSString *coId = [NSString stringWithFormat:@"%lli",_id];
+        NSDictionary *dict = @{@"sid":sid,@"type":@"2",@"id":coId,@"version":version,@"device":deviceInfo};
+        
+        [MTA trackCustomKeyValueEvent:@"activity_call_record" props:dict];
+        
+        
         [ACETelPrompt callPhoneNumber:self.phoneNum call:^(NSTimeInterval duration) {
             
         } cancel:^{

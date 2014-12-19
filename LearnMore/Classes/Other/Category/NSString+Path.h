@@ -18,12 +18,13 @@
 + (NSString *)tempPath;
 /** 当前时间戳 */
 + (NSString *)timeNow;
++ (NSString *)getTimeNow;
 /** 返回年月 */
 + (NSString *)timeFmtWithLong:(long)longTime;
 /** 返回解析的年龄 */
 + (NSString *)ageBegin:(int)ageBegin ageEnd:(int)ageEnd;
 /** 返回数字年龄(回复中用) */
-+ (NSString *)timeWithLong:(long)longTime;
++ (NSString *)timeWithLong:(long long)longTime;
 
 /** 判断设备 */
 + (NSString*)deviceString;

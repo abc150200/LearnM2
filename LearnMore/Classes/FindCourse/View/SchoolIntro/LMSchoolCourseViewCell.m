@@ -41,7 +41,7 @@
     
     
     self.title.text = course.courseName;
-    self.detail.text = [NSString stringWithFormat:@"%@ | %@,0基础",course.secondTypeName,[NSString ageBegin:_course.propAgeStart ageEnd:_course.propAgeEnd]];
+    self.detail.text = [NSString stringWithFormat:@"%@ | %@",course.secondTypeName,[NSString ageBegin:_course.propAgeStart ageEnd:_course.propAgeEnd]];
     
 }
 

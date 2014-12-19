@@ -13,6 +13,8 @@
 #import "MJExtension.h"
 #import "LMSchoolViewCell.h"
 #import "MJRefresh.h"
+#import "LMAccount.h"
+#import "LMAccountInfo.h"
 
 @interface LMSchoolListViewController ()
 @property (nonatomic, weak) UIView *moreView;
@@ -55,6 +57,14 @@
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"param"] = jsonStr;
     
+    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+    if(account)
+    {
+        parameters[@"sid"] = account.sid;
+    }
+    
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    parameters[@"device"] = deviceInfo;
     
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -99,7 +109,7 @@
             label.height = 40;
             label.centerX = self.view.centerX;
             label.y = 0;
-            label.text = @"已加载全部";
+//            label.text = @"已加载全部";
             label.textAlignment = NSTextAlignmentCenter;
             label.font = [UIFont systemFontOfSize:14];
             label.backgroundColor = [UIColor colorWithRed:219 green:219 blue:219 alpha:1];
@@ -155,6 +165,14 @@
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"param"] = jsonStr;
     
+    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+    if(account)
+    {
+        parameters[@"sid"] = account.sid;
+    }
+    
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    parameters[@"device"] = deviceInfo;
     
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -182,7 +200,7 @@
             label.height = 40;
             label.centerX = self.view.centerX;
             label.y = 0;
-            label.text = @"已加载全部";
+//            label.text = @"已加载全部";
             label.textAlignment = NSTextAlignmentCenter;
             label.font = [UIFont systemFontOfSize:14];
             label.backgroundColor = [UIColor colorWithRed:219 green:219 blue:219 alpha:1];
@@ -238,6 +256,8 @@
     MyLog(@"id===%lli",li.id);
    
     li.id = cell.id;
+    
+    
     
     [self.navigationController pushViewController:li animated:YES];
 }

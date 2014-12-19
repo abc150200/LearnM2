@@ -12,4 +12,5 @@
 
 @interface LMCourseDetailViewController : UIViewController
 @property (nonatomic, assign) long long id;
+@property (nonatomic, strong) UIWebView *webView;
 @end

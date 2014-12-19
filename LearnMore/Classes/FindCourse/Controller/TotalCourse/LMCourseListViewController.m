@@ -14,16 +14,21 @@
 #import "MJExtension.h"
 #import "LMCourseViewCell.h"
 #import "MJRefresh.h"
+#import "LMAccount.h"
+#import "LMAccountInfo.h"
 
 @interface LMCourseListViewController ()
 @property (nonatomic, weak) UIView *moreView;
 @property (nonatomic, assign) int tCount;
+
 @end
 
 @implementation LMCourseListViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+ 
     
     //添加下拉加载
     [self.tableView addHeaderWithTarget:self action:@selector(loadNewData)];
@@ -35,6 +40,9 @@
     [self.tableView addFooterWithTarget:self action:@selector(loadMoreData)];
   
 }
+
+
+
 
 
 
@@ -54,12 +62,21 @@
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"param"] = jsonStr;
     
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    parameters[@"device"] = deviceInfo;
+    
+    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+    if(account)
+    {
+        parameters[@"sid"] = account.sid;
+    }
+    
     
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         
         NSDictionary *courseDic = [responseObject[@"data"] objectFromJSONString];
-        //        MyLog(@"%@",courseDic);
+                MyLog(@"%@",courseDic);
         
         NSArray *courseList = courseDic[@"courseList"];
         
@@ -98,7 +115,7 @@
             label.height = 40;
             label.centerX = self.view.centerX;
             label.y = 0;
-            label.text = @"已加载全部";
+//            label.text = @"已加载全部";
             label.textAlignment = NSTextAlignmentCenter;
             label.font = [UIFont systemFontOfSize:14];
             label.backgroundColor = [UIColor colorWithRed:219 green:219 blue:219 alpha:1];
@@ -153,6 +170,14 @@
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"param"] = jsonStr;
     
+    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+    if(account)
+    {
+        parameters[@"sid"] = account.sid;
+    }
+    
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    parameters[@"device"] = deviceInfo;
     
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -179,7 +204,7 @@
             label.height = 40;
             label.centerX = self.view.centerX;
             label.y = 0;
-            label.text = @"已加载全部";
+//            label.text = @"已加载全部";
             label.textAlignment = NSTextAlignmentCenter;
             label.font = [UIFont systemFontOfSize:14];
             label.backgroundColor = [UIColor colorWithRed:219 green:219 blue:219 alpha:1];
@@ -223,6 +248,7 @@
     LMCourseViewCell *cell = [LMCourseViewCell cellWithTableView:tableView];
     
     cell.courselist = self.courseLists[indexPath.row];
+    
     
     return cell;
 }

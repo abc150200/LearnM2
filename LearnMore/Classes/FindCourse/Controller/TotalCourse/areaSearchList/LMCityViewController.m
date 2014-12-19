@@ -36,7 +36,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return self.cities.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -48,7 +48,23 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
     }
     
-    cell.textLabel.text = @"全部";
+    NSDictionary *dict = self.cities[indexPath.row];
+    
+    if (self.row != 0) {
+        if (indexPath.row == 0) {
+            cell.textLabel.text = @"全部";
+
+        } else {
+            cell.textLabel.text = dict[@"areaName"];
+        }
+    } else {
+        cell.textLabel.text = dict[@"areaName"];
+    }
+   
+    cell.textLabel.font = [UIFont systemFontOfSize:14];
+    cell.textLabel.textColor = [UIColor darkGrayColor];
+    
+    
     
     
     return cell;
@@ -57,9 +73,29 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if ([self.delegate respondsToSelector:@selector(cityViewController:level:id:)]) {
-        [self.delegate cityViewController:self level:self.level id:self.id];
+    
+    NSDictionary *dict = self.cities[indexPath.row];
+    NSString *id = dict[@"id"];
+    NSString *title = dict[@"areaName"];
+    NSString *level = dict[@"level"];
+    
+    if ([self.delegate respondsToSelector:@selector(cityViewController:level: id: title:)]) {
+        
+        [self.delegate cityViewController:self level:level id:id title:title];
     }
+    
+//    if (indexPath.row == 0) {
+//        
+//        
+//        
+//    }else
+//    {
+//        
+//        
+//    
+//    }
+    
+    
 }
 
 @end

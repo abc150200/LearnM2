@@ -466,6 +466,10 @@
                 parameters[@"data"] = dataJson ;
                 parameters[@"sid"] = account.sid;
                 
+                //设备信息
+                NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+                parameters[@"device"] = deviceInfo;
+                
                 UIImage *image = [[UIImage alloc] initWithContentsOfFile:fullPath];
                 NSData *imageData = UIImagePNGRepresentation(image);
                 
@@ -609,7 +613,7 @@
     
     
     //url地址
-    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"comment/courseComment.json"];
+    NSString *url = self.urlStr;
     
     
     //参数
@@ -680,6 +684,9 @@
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"data"] = dataJson;
     parameters[@"sid"] = self.sid;
+    
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    parameters[@"device"] = deviceInfo;
     
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         

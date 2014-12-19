@@ -17,6 +17,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *schoolInfoLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *courseImageView;
 
+@property (nonatomic, copy) NSString *gps;
+
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 @property (nonatomic, strong) LMCourseList *courselist;
 @end

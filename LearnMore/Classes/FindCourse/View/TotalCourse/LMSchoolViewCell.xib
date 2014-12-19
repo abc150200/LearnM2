@@ -15,23 +15,30 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="课程名称111" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HpX-eS-O57">
-                        <rect key="frame" x="107" y="10" width="197" height="21"/>
+                        <rect key="frame" x="115" y="10" width="185" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="xxx教育品牌xx分校" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PQm-tO-bwK">
-                        <rect key="frame" x="107" y="58" width="197" height="21"/>
+                        <rect key="frame" x="115" y="58" width="131" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="avatar_default_big" translatesAutoresizingMaskIntoConstraints="NO" id="xgT-fe-Qn2">
-                        <rect key="frame" x="15" y="10" width="86" height="68"/>
+                        <rect key="frame" x="15" y="5" width="90" height="76"/>
                     </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="500m" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JTD-2k-9dz">
+                        <rect key="frame" x="255" y="58" width="50" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </tableViewCellContentView>
             <connections>
+                <outlet property="distanLabel" destination="JTD-2k-9dz" id="oK9-BN-xiA"/>
                 <outlet property="keyWord" destination="PQm-tO-bwK" id="TGo-Sx-gRb"/>
                 <outlet property="nameLabel" destination="HpX-eS-O57" id="CxA-iy-4On"/>
                 <outlet property="schoolImage" destination="xgT-fe-Qn2" id="tiq-Tb-J7b"/>

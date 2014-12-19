@@ -10,6 +10,8 @@
 
 #define LMAdsDocPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"ads.plist"]
 
+#define LMAreasPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"smallAreas.plist"]
+
 #define AdScrollViewH 135
 
 #import "LMFindCourseViewController.h"
@@ -27,8 +29,16 @@
 #import "LMCourseList.h"
 #import "LMCourseRecommendViewController.h"
 #import "LMCourseIntroViewController.h"
+#import "LMTeacherIntroViewController.h"
+#import "LMSchoolIntroViewController.h"
+#import "LMAdOtherViewController.h"
+#import "LMLoginViewController.h"
 
 #import "CLProgressHUD.h"
+#import "LMAccountInfo.h"
+#import "LMAccount.h"
+
+
 
 
 @interface LMFindCourseViewController ()<CityListViewControllerDelegate,UITextFieldDelegate,LMCourseCollectionViewControllerDelegate,UINavigationControllerDelegate,UIScrollViewDelegate,LMCourseRecommendViewControllerDelegate>
@@ -64,6 +74,7 @@
 @property (nonatomic, copy) NSString *adsPath;
 
 
+@property (nonatomic, copy) NSString *gps;
 
 @end
 
@@ -74,6 +85,17 @@
    
     
     [super viewDidLoad];
+    
+//    //第一次进来加载
+//    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
+//    
+//        self.adArr = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ads.plist" ofType:nil]];
+//        
+//    }else
+//    {
+//       self.adArr = [NSArray arrayWithContentsOfFile:LMAdsDocPath];
+//    }
+
     
     
     CLProgressHUD *hud = [CLProgressHUD shareInstance];
@@ -153,42 +175,7 @@
     [conScrollView addSubview:adScrollView];
     self.adScrollView = adScrollView;
     
-    CGFloat wide = self.view.width;
-    CGFloat height = AdScrollViewH;
-    
-    //图片轮播器
-    for (int i = 0; i < self.adArr.count; i++) {
-        
-        UIImageView *iv= [[UIImageView alloc] init];
-        iv.x = i * wide;
-        iv.y = 0;
-        iv.size = CGSizeMake(wide, height);
-        NSDictionary *dic = self.adArr[i];
-        [iv sd_setImageWithURL:[NSURL URLWithString:dic[@"imageUrl"]] placeholderImage:[UIImage imageNamed:@"common"]];
-        iv.backgroundColor = [UIColor redColor];
-        [adScrollView addSubview:iv];
-        iv.tag = i;
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoClickTap:)];
-        [iv addGestureRecognizer:tap];
-        iv.userInteractionEnabled = YES;
-    }
-    adScrollView.contentSize = CGSizeMake(wide * self.adArr.count, height);
-    adScrollView.pagingEnabled = YES;
-    // 隐藏滚动条
-    adScrollView.showsHorizontalScrollIndicator = NO;
-    // 关闭弹簧效果
-    adScrollView.bounces = NO;
-    
-    UIPageControl *pageControl = [[UIPageControl alloc] init];
-    pageControl.numberOfPages = self.adArr.count;
-    
-    [self.view addSubview:pageControl];
-     self.pageControl = pageControl;
-    pageControl.x = self.view.width - 70;
-    pageControl.y = height + 30;
-    
-    pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
-    pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
+    [self setupAdScrollView];
     
 
     [self addTimer];
@@ -205,7 +192,7 @@
 
 	self.cv = cv;
     
-    [self loadData];
+   
     
     //其他孩子都在学
     UIView *view1= [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.cv.collectionView.frame), self.view.width, 30)];
@@ -257,8 +244,53 @@
     [self loadCourseType];
     
     //请求城市数据
-//    [self loadCity];
+    [self loadCity];
+    
+    [self loadData];
+    
+    
 	
+}
+
+- (void)setupAdScrollView
+{
+    CGFloat wide = self.view.width;
+    CGFloat height = AdScrollViewH;
+    
+    //图片轮播器
+    for (int i = 0; i < self.adArr.count; i++) {
+        
+        UIImageView *iv= [[UIImageView alloc] init];
+        iv.x = i * wide;
+        iv.y = 0;
+        iv.size = CGSizeMake(wide, height);
+        NSDictionary *dic = self.adArr[i];
+        [iv sd_setImageWithURL:[NSURL URLWithString:dic[@"imageUrl"]] placeholderImage:[UIImage imageNamed:@"common"]];
+        iv.backgroundColor = [UIColor redColor];
+        [self.adScrollView addSubview:iv];
+        iv.tag = i;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoClickTap:)];
+        [iv addGestureRecognizer:tap];
+        iv.userInteractionEnabled = YES;
+    }
+    self.adScrollView.contentSize = CGSizeMake(wide * self.adArr.count, height);
+    self.adScrollView.pagingEnabled = YES;
+    // 隐藏滚动条
+    self.adScrollView.showsHorizontalScrollIndicator = NO;
+    // 关闭弹簧效果
+    self.adScrollView.bounces = NO;
+    
+    UIPageControl *pageControl = [[UIPageControl alloc] init];
+    pageControl.numberOfPages = self.adArr.count;
+    
+    [self.view addSubview:pageControl];
+    self.pageControl = pageControl;
+    pageControl.x = self.view.width - 70;
+    pageControl.y = height + 30;
+    
+    pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
+    pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
+    
 }
 
 - (void)btnMoreClick
@@ -266,6 +298,10 @@
     LMCourseListMainViewController *lm = [[LMCourseListMainViewController alloc] init];
     [self.navigationController pushViewController:lm animated:YES];
 }
+
+
+
+
 
 
 #pragma mark -LMCourseRecommendViewControllerDelegate
@@ -281,9 +317,123 @@
     int i = tap.view.tag;
     MyLog(@"tap.view.tag = %d", tap.view.tag);
     NSDictionary *dic =self.adArr[i];
-    LMActivityDetailViewController *adv = [[LMActivityDetailViewController alloc] init];
-    adv.id = [dic[@"typeId"] intValue];
-    [self.navigationController pushViewController:adv animated:YES];
+    
+    int login = [dic[@"login"] intValue];
+    
+    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+    
+    if (login == 1 ) {
+        
+        if (account) {
+            int type = [dic[@"type"] intValue];
+            switch (type) {
+                    
+                case 0:
+                {
+                    LMAdOtherViewController *odv = [[LMAdOtherViewController alloc] init];
+                    odv.urlString = [NSString stringWithFormat:@"%@%@",dic[@"pageUrl"],account.userPhone] ;
+                    odv.title = dic[@"title"];
+                    [self.navigationController pushViewController:odv animated:YES];
+                }
+                    break;
+                    
+                case 1:
+                {
+                    LMCourseIntroViewController *cdv = [[LMCourseIntroViewController alloc] init];
+                    cdv.id = [dic[@"typeId"] intValue];
+                    [self.navigationController pushViewController:cdv animated:YES];
+                }
+                    break;
+                    
+                case 2:
+                {
+                    LMActivityDetailViewController *adv = [[LMActivityDetailViewController alloc] init];
+                    adv.id = [dic[@"typeId"] intValue];
+                    [self.navigationController pushViewController:adv animated:YES];
+                }
+                    break;
+                    
+                case 3:
+                {
+                    LMSchoolIntroViewController *adv = [[LMSchoolIntroViewController alloc] init];
+                    adv.id = [dic[@"typeId"] intValue];
+                    [self.navigationController pushViewController:adv animated:YES];
+                }
+                    break;
+                    
+                case 4:
+                {
+                    LMTeacherIntroViewController *adv = [[LMTeacherIntroViewController alloc] init];
+                    adv.id = [dic[@"typeId"] intValue];
+                    [self.navigationController pushViewController:adv animated:YES];
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+        }else
+        {
+            LMLoginViewController *log = [[LMLoginViewController alloc] init];
+            [self.navigationController pushViewController:log animated:YES];
+        }
+       
+    }else
+    {
+        int type = [dic[@"type"] intValue];
+        
+        switch (type) {
+                
+            case 0:
+            {
+                LMAdOtherViewController *odv = [[LMAdOtherViewController alloc] init];
+                odv.urlString = [NSString stringWithFormat:@"%@%@",dic[@"pageUrl"],account.userPhone];
+                odv.title = dic[@"title"];
+                [self.navigationController pushViewController:odv animated:YES];
+            }
+                break;
+                
+            case 1:
+            {
+                LMCourseIntroViewController *cdv = [[LMCourseIntroViewController alloc] init];
+                cdv.id = [dic[@"typeId"] intValue];
+                [self.navigationController pushViewController:cdv animated:YES];
+            }
+                break;
+                
+            case 2:
+            {
+                LMActivityDetailViewController *adv = [[LMActivityDetailViewController alloc] init];
+                adv.id = [dic[@"typeId"] intValue];
+                [self.navigationController pushViewController:adv animated:YES];
+            }
+                break;
+                
+            case 3:
+            {
+                LMSchoolIntroViewController *adv = [[LMSchoolIntroViewController alloc] init];
+                adv.id = [dic[@"typeId"] intValue];
+                [self.navigationController pushViewController:adv animated:YES];
+            }
+                break;
+                
+            case 4:
+            {
+                LMTeacherIntroViewController *adv = [[LMTeacherIntroViewController alloc] init];
+                adv.id = [dic[@"typeId"] intValue];
+                [self.navigationController pushViewController:adv animated:YES];
+            }
+                break;
+                
+            default:
+                break;
+        }
+        
+    }
+
+    
+    
 }
 
 
@@ -312,7 +462,7 @@
 //添加定时器
 - (void)addTimer
 {
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(nextImage) userInfo:nil repeats:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(nextImage) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
@@ -365,18 +515,35 @@
     
     NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"course/list.json"];
     
+
     //参数
     NSMutableDictionary *arr = [NSMutableDictionary dictionary];
 
     arr[@"count"] = @"10";
     arr[@"order"] = @"4";
     
+    NSString *gpsStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"localGps"];
+    if(gpsStr)
+    {
+        arr[@"gps"] = gpsStr;
+    }
+   
+    
+ 
     NSString *jsonStr = [arr JSONString];
     MyLog(@"%@",jsonStr);
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"param"] = jsonStr;
     
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    parameters[@"device"] = deviceInfo;
+    
+    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+    if(account)
+    {
+        parameters[@"sid"] = account.sid;
+    }
     
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -425,16 +592,15 @@
         MyLog(@"------imagehome%@",dateDic);
         
         NSArray *adsArr = dateDic[@"ad"];
-
-//        NSString *str = @"ads.plist";
-//        NSString *courseTypesPath = [str appendDocumentPath];
-//        self.adsPath = courseTypesPath;
-//        
-//        LogObj(courseTypesPath);
-//        
-//        [adsArr writeToFile:courseTypesPath atomically:YES];
+        self.adArr = adsArr;
         
-        [adsArr writeToFile:LMAdsDocPath atomically:YES];
+//        [adsArr writeToFile:LMAdsDocPath atomically:YES];
+//        
+//      NSArray *addArr =   [NSArray arrayWithContentsOfFile:LMAdsDocPath];
+//        MyLog(@"addArr===%@",addArr);
+        
+        [self setupAdScrollView];
+        
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         LogObj(error.localizedDescription);
@@ -481,34 +647,22 @@
     //url地址
     NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"commons/area.json?areaId=828"];
     
-    NSMutableDictionary *arr = [NSMutableDictionary dictionary];
-    arr[@"areaId"] = @"828";
-    
-    NSString *jsonStr = [arr JSONString];
-    
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    parameters[@"param"] = jsonStr;
-    
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         LogObj(responseObject);
         
         NSDictionary *dateDic = [responseObject[@"data"] objectFromJSONString];
-        MyLog(@"%@",dateDic);
-        
-//        NSDictionary *dateDic =  [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
+        MyLog(@"addressdateDic==%@",dateDic);
         
         NSArray *areaArr = dateDic[@"areas"];
-       
         
-//        self.typrArr = [LMCourseType objectArrayWithKeyValuesArray:courseTypesArr];
-        
-        NSString *str = @"smallAreas.plist";
-        NSString *courseTypesPath = [str appendDocumentPath];
-        LogObj(courseTypesPath);
-    
-        [areaArr writeToFile:courseTypesPath atomically:YES];
+        NSString *areaArrStr = [areaArr JSONString];
+        [[NSUserDefaults standardUserDefaults] setObject:areaArrStr forKey:@"areaKey"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+      
+        [areaArr writeToFile:LMAreasPath atomically:YES];
      
+
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         LogObj(error.localizedDescription);
@@ -516,11 +670,6 @@
 }
 
 
-//#define LMAccountDocPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"account.data"]
-//+ (NSString *)documentPath
-//{
-//    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-//}
 
 
 #pragma mark - 点击城市按钮
@@ -578,7 +727,6 @@
 - (void)courseCollectionViewController:(LMCourseCollectionViewController *)courseCollectionViewController title:(NSString *)title
 {
     LMCourseListMainViewController *lv = [[LMCourseListMainViewController alloc] init];
-
    
     for (LMCourseType *type in self.typrArr) {
         if ([title isEqualToString:type.typeName]) {
@@ -598,22 +746,24 @@
    
 }
 
-- (NSArray *)adArr
-{
-    if (_adArr == nil) {
-        
-        //第一次进来加载
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
-            
-            _adArr = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ads.plist" ofType:nil]];
 
-        }else
-        {
-              _adArr = [NSArray arrayWithContentsOfFile:LMAdsDocPath];
-        }
-    }
-    return _adArr;
-}
+
+//- (NSArray *)adArr
+//{
+//    if (_adArr == nil) {
+//        
+//        //第一次进来加载
+//        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
+//            
+//            _adArr = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ads.plist" ofType:nil]];
+//
+//        }else
+//        {
+//              _adArr = [NSArray arrayWithContentsOfFile:LMAdsDocPath];
+//        }
+//    }
+//    return _adArr;
+//}
 
 
 

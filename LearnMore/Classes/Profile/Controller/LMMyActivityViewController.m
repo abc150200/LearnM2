@@ -35,6 +35,7 @@
     [super viewDidLoad];
     
     
+      self.tableView.rowHeight = 79;
    
         
 }
@@ -58,7 +59,6 @@
         
         //参数
         NSMutableDictionary *arr = [NSMutableDictionary dictionary];
-        arr[@"startIndex"] = @"1";
         arr[@"count"] = @"5";
         arr[@"time"] = [NSString timeNow];
         
@@ -97,7 +97,7 @@
     }
   
     
-    self.tableView.rowHeight = 79;
+  
 }
 
 

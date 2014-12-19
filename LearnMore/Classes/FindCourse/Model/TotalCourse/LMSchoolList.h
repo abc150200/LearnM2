@@ -14,4 +14,5 @@
 @property (copy, nonatomic) NSString *schoolFullName;
 @property (nonatomic, strong) NSString *mainCourse;
 @property (nonatomic, strong) NSDictionary *schoolCommentLevel;
+@property (nonatomic, copy) NSString *gps;
 @end

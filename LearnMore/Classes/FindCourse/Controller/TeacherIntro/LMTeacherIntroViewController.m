@@ -245,6 +245,9 @@
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"param"] = jsonStr;
     
+    //设备信息
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    parameters[@"device"] = deviceInfo;
     
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -302,7 +305,7 @@
             label.height = 40;
             label.centerX = self.view.centerX;
             label.y = 0;
-            label.text = @"已加载全部";
+//            label.text = @"已加载全部";
             label.textAlignment = NSTextAlignmentCenter;
             label.font = [UIFont systemFontOfSize:14];
             [moreView addSubview:label];

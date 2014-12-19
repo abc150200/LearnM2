@@ -14,7 +14,7 @@
 
 @interface LMCourseDetailViewController ()
 
-@property (nonatomic, strong) UIWebView *webView;
+
 
 @end
 
@@ -31,6 +31,7 @@
     
     self.webView.scrollView.bounces = NO;
 }
+
 
 - (void)viewDidLoad
 {

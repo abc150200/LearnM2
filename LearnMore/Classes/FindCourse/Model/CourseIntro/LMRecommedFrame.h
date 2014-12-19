@@ -26,7 +26,7 @@
 @property (nonatomic, assign, readonly) CGFloat cellHeight;
 
 
-/** 原创微博配图的frame */
+/** 配图的frame */
 @property (nonatomic, assign, readonly) CGRect originalPhotosViewF;
 
 @end

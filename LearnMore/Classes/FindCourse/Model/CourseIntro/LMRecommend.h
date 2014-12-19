@@ -14,7 +14,7 @@
 
 @interface LMRecommend : NSObject
 @property (copy, nonatomic) NSString *contactPhone;
-@property (assign, nonatomic) long createTime;
+@property (assign, nonatomic) long long createTime;
 @property (copy, nonatomic) NSString *commentText;
 @property (copy, nonatomic) NSString *images;
 @property (nonatomic, strong) NSDictionary *level;

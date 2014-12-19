@@ -34,6 +34,8 @@
     }
     
     cell.textLabel.text = self.listArr[indexPath.row];
+    cell.textLabel.font = [UIFont systemFontOfSize:14];
+    cell.textLabel.textColor = [UIColor darkGrayColor];
     
     return cell;
 }
@@ -51,7 +53,16 @@
             int age = [self.listArr[indexPath.row] intValue];
             NSString *title = [NSString stringWithFormat:@"%d岁",age];
             
-            [self.delegate ageViewController:self age:age title:title];
+            if(indexPath.row == 0)
+            {
+                [self.delegate ageViewController:self age:age title:@"年  龄"];
+            }
+            else
+            {
+                [self.delegate ageViewController:self age:age title:title];
+            }
+            
+            
         }
         
     }

@@ -49,6 +49,7 @@
 #import "LMTResultViewController.h"
 #import "LMCourseDetailViewController.h"
 
+#import "MTA.h"
 
 @interface LMCourseIntroViewController ()<UIScrollViewDelegate,LMTeachListTableViewControllerDelegate,LMMenuButtonViewDelegate>
 
@@ -126,6 +127,12 @@
 @property (nonatomic, weak) LMMenuButtonView *menuBtnView;
 /** 主视图的底部ScrollView */
 @property (nonatomic, strong) UIScrollView *myScrollView;
+
+/** 课程详情控制器 */
+@property (nonatomic, strong) LMCourseDetailViewController *cv;
+/** 教学成果控制器
+  */
+@property (nonatomic, strong) LMTResultViewController *trv ;
 
 
 @end
@@ -293,6 +300,7 @@
 {
     //课程详情控制器
     LMCourseDetailViewController *cv = [[LMCourseDetailViewController alloc] init];
+    self.cv = cv;
     cv.id = self.id;
     [self.myScrollView addSubview:cv.view];
     cv.view.x = 0;
@@ -302,6 +310,7 @@
     
     //教学成果控制器
     LMTResultViewController *trv = [[LMTResultViewController alloc] init];
+    self.trv = trv;
     trv.urlString =[NSString stringWithFormat:@"http://www.learnmore.com.cn/m/course_achieve.html?id=%lli",_id];
     [self.myScrollView addSubview:trv.view];
     trv.view.x = CGRectGetMaxX(cv.view.frame);
@@ -346,7 +355,18 @@
         
         CGFloat progress = x / (2 * self.view.width);
          self.menuBtnView.progress = progress;
+       
    }
+    
+//    if (self.cv.webView.scrollView.contentOffset.y == 0 || self.trv.webView.scrollView.contentOffset.y) {
+//        self.scrollView.scrollEnabled = YES;
+//        self.myScrollView.scrollEnabled = NO;
+//    }
+//    else
+//    {
+//        self.scrollView.scrollEnabled = NO;
+//        self.myScrollView.scrollEnabled = YES;
+//    }
 
 }
 
@@ -413,6 +433,10 @@
         parameters[@"sid"] = account.sid;
         parameters[@"data"] = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:account.sessionkey];
         
+        //设备信息
+        NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+        parameters[@"device"] = deviceInfo;
+        
         [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
             
             LogObj(responseObject);
@@ -461,10 +485,10 @@
     
     NSString *text = nil;
     if (self.needBook) {
-        text = [NSString stringWithFormat:@"免费试听来啦，快来多学预约试%@学校的%@吧",self.schoolNameLabel.text,self.courseNameLabel.text];
+        text = [NSString stringWithFormat:@"免费试听来啦，快来多学预约试听%@吧",self.courseNameLabel.text];
     }else
     {
-        text = [NSString stringWithFormat:@"孩子素质如何提升？快来多学了解一下%@学校的%@吧",self.schoolNameLabel.text,self.courseNameLabel.text];
+        text = [NSString stringWithFormat:@"孩子素质如何提升？快来多学了解一下%@吧",self.courseNameLabel.text];
     }
 
     UIImage *image = self.courseImageView.image;
@@ -477,21 +501,28 @@
     
     NSString *text1 = nil;
     if (self.needBook) {
-        text1 = [NSString stringWithFormat:@"#%@课程#免费试听来啦，快来多学预约试%@学校的%@吧。 %@ ",self.typeNameLabel.text,self.schoolNameLabel.text,self.courseNameLabel.text,urlStr];
+        text1 = [NSString stringWithFormat:@"#%@课程#免费试听来啦，快来多学预约试听%@吧。%@ ",self.typeNameLabel.text,self.courseNameLabel.text,urlStr];
     }else
     {
-        text1 = [NSString stringWithFormat:@"#%@课程#如何提升孩子综合素质？快来多学了解一下%@学校的%@吧。 %@",self.typeNameLabel.text,self.schoolNameLabel.text,self.courseNameLabel.text,urlStr];
+        text1 = [NSString stringWithFormat:@"#%@课程#如何提升孩子综合素质？快来多学了解一下%@吧。 %@",self.typeNameLabel.text,self.courseNameLabel.text,urlStr];
     }
     [UMSocialData defaultData].extConfig.sinaData.shareText = text1;
     
     
-    //微信
+    //跳转url
     [UMSocialData defaultData].extConfig.wechatSessionData.url = urlStr;
     [UMSocialData defaultData].extConfig.wechatTimelineData.url = urlStr;
     [UMSocialData defaultData].extConfig.qqData.url = urlStr;
     [UMSocialData defaultData].extConfig.qzoneData.url = urlStr;
-     
     
+#warning 分享改变规则
+    //标题
+    
+    NSString *title = [NSString stringWithFormat:@"免费试听来啦，快来多学预约试听%@",self.courseNameLabel.text];
+    [UMSocialData defaultData].extConfig.wechatSessionData.title =title;
+    [UMSocialData defaultData].extConfig.wechatTimelineData.title = title;
+    [UMSocialData defaultData].extConfig.qqData.title = title;
+    [UMSocialData defaultData].extConfig.qzoneData.title = title;
 }
 
 
@@ -513,6 +544,9 @@
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"param"] = jsonStr;
+    
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    parameters[@"device"] = deviceInfo;
     
     
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -627,7 +661,7 @@
             label.height = 40;
             label.centerX = self.view.centerX;
             label.y = 0;
-            label.text = @"已加载全部";
+//            label.text = @"已加载全部";
             label.textAlignment = NSTextAlignmentCenter;
             label.font = [UIFont systemFontOfSize:14];
             [moreView addSubview:label];
@@ -820,6 +854,7 @@
         LMAddRecommendViewController *add = [[LMAddRecommendViewController alloc] init];
         
         add.id = self.id;
+        add.urlStr = [NSString stringWithFormat:@"%@%@",RequestURL,@"comment/courseComment.json"];
         
         [self.navigationController pushViewController:add animated:YES];
     }else
@@ -883,6 +918,17 @@
 - (IBAction)call:(id)sender {
     
     if (self.phoneNum.length) {
+        
+        
+        NSString *version = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
+        NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+        
+        LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+        NSString *sid = account.sid;
+        NSString *coId = [NSString stringWithFormat:@"%lli",_id];
+        NSDictionary *dict = @{@"sid":sid,@"type":@"1",@"id":coId,@"version":version,@"device":deviceInfo};
+
+        [MTA trackCustomKeyValueEvent:@"course_call_record" props:dict];
         
         [ACETelPrompt callPhoneNumber:self.phoneNum call:^(NSTimeInterval duration) {
             

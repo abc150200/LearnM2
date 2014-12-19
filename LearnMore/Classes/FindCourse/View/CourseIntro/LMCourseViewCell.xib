@@ -21,7 +21,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="新航道" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="817-Un-zAW">
-                        <rect key="frame" x="115" y="60" width="185" height="21"/>
+                        <rect key="frame" x="115" y="61" width="131" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -32,15 +32,22 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="class_list_free" translatesAutoresizingMaskIntoConstraints="NO" id="41g-kP-FqX">
                         <rect key="frame" x="15" y="5" width="44" height="44"/>
                     </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="500m" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uuz-Lf-R0B">
+                        <rect key="frame" x="255" y="61" width="50" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </tableViewCellContentView>
             <connections>
                 <outlet property="courseImageView" destination="12t-fC-HS3" id="TRy-4T-uo9"/>
                 <outlet property="courseName" destination="WCN-pO-aLW" id="tHR-Pz-ZiB"/>
+                <outlet property="disstanLabel" destination="Uuz-Lf-R0B" id="9o2-8g-tFp"/>
                 <outlet property="free" destination="41g-kP-FqX" id="ngi-kY-Tz1"/>
                 <outlet property="schoolInfoLabel" destination="817-Un-zAW" id="1OI-3g-czz"/>
             </connections>
-            <point key="canvasLocation" x="140" y="153"/>
+            <point key="canvasLocation" x="140" y="152"/>
         </tableViewCell>
     </objects>
     <resources>

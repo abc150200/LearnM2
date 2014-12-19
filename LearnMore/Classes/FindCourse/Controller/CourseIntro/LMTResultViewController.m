@@ -11,7 +11,7 @@
 #import "LMTResultViewController.h"
 
 @interface LMTResultViewController ()
-@property (nonatomic, weak) UIWebView *webView;
+
 @end
 
 @implementation LMTResultViewController

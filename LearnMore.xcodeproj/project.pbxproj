@@ -83,6 +83,8 @@
 		2071DA6519FFB64B00CA56DC /* NSObject+MJMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 2071DA5A19FFB64B00CA56DC /* NSObject+MJMember.m */; };
 		2071DA6819FFB94600CA56DC /* LMCourseList.m in Sources */ = {isa = PBXBuildFile; fileRef = 2071DA6719FFB94600CA56DC /* LMCourseList.m */; };
 		2071DA6B19FFBDC000CA56DC /* LMTotalCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2071DA6A19FFBDC000CA56DC /* LMTotalCourse.m */; };
+		207F6AB31A41910500E9B68F /* LMAdOtherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 207F6AB11A41910500E9B68F /* LMAdOtherViewController.m */; };
+		207F6AB41A41910500E9B68F /* LMAdOtherViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 207F6AB21A41910500E9B68F /* LMAdOtherViewController.xib */; };
 		20869F9619F8E9F100C0B4C5 /* LMSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20869F9219F8E9F100C0B4C5 /* LMSearchViewController.m */; };
 		20869F9719F8E9F100C0B4C5 /* LMSearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20869F9319F8E9F100C0B4C5 /* LMSearchViewController.xib */; };
 		20869FA319F8FB9500C0B4C5 /* LMSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 20869FA219F8FB9500C0B4C5 /* LMSearchBar.m */; };
@@ -104,7 +106,6 @@
 		20B8A28B1A11C4D90028C875 /* CZCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B8A2881A11C4D90028C875 /* CZCityViewController.m */; };
 		20B8A28C1A11C4D90028C875 /* CZProvinceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B8A28A1A11C4D90028C875 /* CZProvinceViewController.m */; };
 		20B8A28E1A1205290028C875 /* courseTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20B8A28D1A1205290028C875 /* courseTypes.plist */; };
-		20B8A2901A121B360028C875 /* smallAreas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20B8A28F1A121B360028C875 /* smallAreas.plist */; };
 		20BCC1FE19E6905E00A5913B /* LMCourseIntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20BCC1ED19E6905E00A5913B /* LMCourseIntroViewController.m */; };
 		20BCC1FF19E6905E00A5913B /* LMCourseIntroViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20BCC1EE19E6905E00A5913B /* LMCourseIntroViewController.xib */; };
 		20BCC20019E6905E00A5913B /* CityListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20BCC1F119E6905E00A5913B /* CityListViewController.m */; };
@@ -165,6 +166,8 @@
 		20E7B4E91A0617ED00948EBD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20E7B4E81A0617ED00948EBD /* Security.framework */; };
 		20E7B4EB1A0619FB00948EBD /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20E7B4EA1A0619FB00948EBD /* PushConfig.plist */; };
 		20E932411A2978390047CAF2 /* FileMD5Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E932401A2978390047CAF2 /* FileMD5Hash.m */; };
+		20E9E6A61A3FD3F50038F09F /* LMMyRecFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E9E6A51A3FD3F50038F09F /* LMMyRecFrame.m */; };
+		20E9E6A91A3FD81C0038F09F /* LMMyRecViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E9E6A81A3FD81C0038F09F /* LMMyRecViewCell.m */; };
 		20EB09811A3D9B2200FFEC19 /* LMSchoolDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EB09801A3D9B2200FFEC19 /* LMSchoolDetailViewController.m */; };
 		20EB09841A3D9CD300FFEC19 /* LMSchoolCourseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EB09831A3D9CD300FFEC19 /* LMSchoolCourseViewController.m */; };
 		20EB39FB1A25A8520016B1A3 /* LMCourseRecommendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EB39FA1A25A8520016B1A3 /* LMCourseRecommendViewController.m */; };
@@ -284,10 +287,14 @@
 		20FCAF041A3E860E00882842 /* LMSchoolTeacherCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20FCAF021A3E860E00882842 /* LMSchoolTeacherCell.xib */; };
 		20FCAF081A3EDCC700882842 /* LMTeachCourseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FCAF061A3EDCC700882842 /* LMTeachCourseViewController.m */; };
 		20FCAF091A3EDCC700882842 /* LMTeachCourseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20FCAF071A3EDCC700882842 /* LMTeachCourseViewController.xib */; };
+		20FCAF101A3F1C8600882842 /* LMMyRecViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FCAF0E1A3F1C8600882842 /* LMMyRecViewController.m */; };
+		20FCAF111A3F1C8600882842 /* LMMyRecViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20FCAF0F1A3F1C8600882842 /* LMMyRecViewController.xib */; };
+		20FCAF141A3F206A00882842 /* LMMyRec.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FCAF131A3F206A00882842 /* LMMyRec.m */; };
 		20FCF5ED1A18836A00BE1062 /* LMCourseBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FCF5EC1A18836A00BE1062 /* LMCourseBook.m */; };
 		20FCF5F01A18D96D00BE1062 /* LMActBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FCF5EF1A18D96D00BE1062 /* LMActBook.m */; };
 		20FE4A041A00FEE800D5AD3B /* NSArray+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FE4A011A00FEE800D5AD3B /* NSArray+Log.m */; };
 		20FE4A051A00FEE800D5AD3B /* NSString+Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FE4A031A00FEE800D5AD3B /* NSString+Hash.m */; };
+		20FEBC9F1A42D8260032C065 /* smallAreas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20FEBC9E1A42D8260032C065 /* smallAreas.plist */; };
 		87801FB819E2E7B4004F3FDB /* citydict.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87801FB719E2E7B4004F3FDB /* citydict.plist */; };
 		CABBDB241A2E26FC00298F95 /* LMPhotosView.m in Sources */ = {isa = PBXBuildFile; fileRef = CABBDB231A2E26FC00298F95 /* LMPhotosView.m */; };
 		CAFF76291A0FD5830029D627 /* TFIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFF76281A0FD5830029D627 /* TFIndicatorView.m */; };
@@ -445,6 +452,9 @@
 		2071DA6719FFB94600CA56DC /* LMCourseList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCourseList.m; sourceTree = "<group>"; };
 		2071DA6919FFBDC000CA56DC /* LMTotalCourse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTotalCourse.h; sourceTree = "<group>"; };
 		2071DA6A19FFBDC000CA56DC /* LMTotalCourse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTotalCourse.m; sourceTree = "<group>"; };
+		207F6AB01A41910500E9B68F /* LMAdOtherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAdOtherViewController.h; sourceTree = "<group>"; };
+		207F6AB11A41910500E9B68F /* LMAdOtherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAdOtherViewController.m; sourceTree = "<group>"; };
+		207F6AB21A41910500E9B68F /* LMAdOtherViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMAdOtherViewController.xib; sourceTree = "<group>"; };
 		20869F9119F8E9F100C0B4C5 /* LMSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSearchViewController.h; sourceTree = "<group>"; };
 		20869F9219F8E9F100C0B4C5 /* LMSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSearchViewController.m; sourceTree = "<group>"; };
 		20869F9319F8E9F100C0B4C5 /* LMSearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMSearchViewController.xib; sourceTree = "<group>"; };
@@ -481,7 +491,6 @@
 		20B8A2891A11C4D90028C875 /* CZProvinceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZProvinceViewController.h; sourceTree = "<group>"; };
 		20B8A28A1A11C4D90028C875 /* CZProvinceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZProvinceViewController.m; sourceTree = "<group>"; };
 		20B8A28D1A1205290028C875 /* courseTypes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = courseTypes.plist; sourceTree = "<group>"; };
-		20B8A28F1A121B360028C875 /* smallAreas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = smallAreas.plist; sourceTree = "<group>"; };
 		20BCC1EC19E6905E00A5913B /* LMCourseIntroViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCourseIntroViewController.h; sourceTree = "<group>"; };
 		20BCC1ED19E6905E00A5913B /* LMCourseIntroViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCourseIntroViewController.m; sourceTree = "<group>"; };
 		20BCC1EE19E6905E00A5913B /* LMCourseIntroViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMCourseIntroViewController.xib; sourceTree = "<group>"; };
@@ -580,6 +589,10 @@
 		20E7B52A1A06423300948EBD /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		20E9323F1A2978390047CAF2 /* FileMD5Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileMD5Hash.h; sourceTree = "<group>"; };
 		20E932401A2978390047CAF2 /* FileMD5Hash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileMD5Hash.m; sourceTree = "<group>"; };
+		20E9E6A41A3FD3F50038F09F /* LMMyRecFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyRecFrame.h; sourceTree = "<group>"; };
+		20E9E6A51A3FD3F50038F09F /* LMMyRecFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyRecFrame.m; sourceTree = "<group>"; };
+		20E9E6A71A3FD81C0038F09F /* LMMyRecViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyRecViewCell.h; sourceTree = "<group>"; };
+		20E9E6A81A3FD81C0038F09F /* LMMyRecViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyRecViewCell.m; sourceTree = "<group>"; };
 		20EB097F1A3D9B2200FFEC19 /* LMSchoolDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSchoolDetailViewController.h; sourceTree = "<group>"; };
 		20EB09801A3D9B2200FFEC19 /* LMSchoolDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSchoolDetailViewController.m; sourceTree = "<group>"; };
 		20EB09821A3D9CD300FFEC19 /* LMSchoolCourseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSchoolCourseViewController.h; sourceTree = "<group>"; };
@@ -796,6 +809,11 @@
 		20FCAF051A3EDCC700882842 /* LMTeachCourseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTeachCourseViewController.h; sourceTree = "<group>"; };
 		20FCAF061A3EDCC700882842 /* LMTeachCourseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTeachCourseViewController.m; sourceTree = "<group>"; };
 		20FCAF071A3EDCC700882842 /* LMTeachCourseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMTeachCourseViewController.xib; sourceTree = "<group>"; };
+		20FCAF0D1A3F1C8600882842 /* LMMyRecViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyRecViewController.h; sourceTree = "<group>"; };
+		20FCAF0E1A3F1C8600882842 /* LMMyRecViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyRecViewController.m; sourceTree = "<group>"; };
+		20FCAF0F1A3F1C8600882842 /* LMMyRecViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMMyRecViewController.xib; sourceTree = "<group>"; };
+		20FCAF121A3F206A00882842 /* LMMyRec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyRec.h; sourceTree = "<group>"; };
+		20FCAF131A3F206A00882842 /* LMMyRec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyRec.m; sourceTree = "<group>"; };
 		20FCF5EB1A18836A00BE1062 /* LMCourseBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCourseBook.h; sourceTree = "<group>"; };
 		20FCF5EC1A18836A00BE1062 /* LMCourseBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCourseBook.m; sourceTree = "<group>"; };
 		20FCF5EE1A18D96D00BE1062 /* LMActBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActBook.h; sourceTree = "<group>"; };
@@ -804,6 +822,7 @@
 		20FE4A011A00FEE800D5AD3B /* NSArray+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Log.m"; sourceTree = "<group>"; };
 		20FE4A021A00FEE800D5AD3B /* NSString+Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Hash.h"; sourceTree = "<group>"; };
 		20FE4A031A00FEE800D5AD3B /* NSString+Hash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Hash.m"; sourceTree = "<group>"; };
+		20FEBC9E1A42D8260032C065 /* smallAreas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = smallAreas.plist; sourceTree = "<group>"; };
 		87801FB719E2E7B4004F3FDB /* citydict.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = citydict.plist; sourceTree = "<group>"; };
 		CABBDB221A2E26FC00298F95 /* LMPhotosView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPhotosView.h; sourceTree = "<group>"; };
 		CABBDB231A2E26FC00298F95 /* LMPhotosView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPhotosView.m; sourceTree = "<group>"; };
@@ -818,6 +837,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20DD49D819FF48A500332A52 /* CoreLocation.framework in Frameworks */,
 				20F53F721A36FCF000C2DB1C /* AVFoundation.framework in Frameworks */,
 				20F53F701A36F42800C2DB1C /* AssetsLibrary.framework in Frameworks */,
 				2004096E1A22CB1F005D477D /* AdSupport.framework in Frameworks */,
@@ -839,7 +859,6 @@
 				20D4028B19D90516003D251B /* CoreGraphics.framework in Frameworks */,
 				2057BBCB19FF7AC600BA2793 /* MapKit.framework in Frameworks */,
 				205426621A0725CF0086C516 /* TencentOpenAPI.framework in Frameworks */,
-				20DD49D819FF48A500332A52 /* CoreLocation.framework in Frameworks */,
 				20D4028D19D90516003D251B /* UIKit.framework in Frameworks */,
 				205426611A0725CF0086C516 /* libSocialQQ.a in Frameworks */,
 				205426641A0725CF0086C516 /* libSocialWechat.a in Frameworks */,
@@ -1088,10 +1107,10 @@
 		20B8A2861A11C4D90028C875 /* CoureSearchList */ = {
 			isa = PBXGroup;
 			children = (
-				20B8A2871A11C4D90028C875 /* CZCityViewController.h */,
-				20B8A2881A11C4D90028C875 /* CZCityViewController.m */,
 				20B8A2891A11C4D90028C875 /* CZProvinceViewController.h */,
 				20B8A28A1A11C4D90028C875 /* CZProvinceViewController.m */,
+				20B8A2871A11C4D90028C875 /* CZCityViewController.h */,
+				20B8A2881A11C4D90028C875 /* CZCityViewController.m */,
 			);
 			path = CoureSearchList;
 			sourceTree = "<group>";
@@ -1144,6 +1163,9 @@
 				20BCC1F619E6905E00A5913B /* LMFindCourseViewController.m */,
 				20EB39F91A25A8520016B1A3 /* LMCourseRecommendViewController.h */,
 				20EB39FA1A25A8520016B1A3 /* LMCourseRecommendViewController.m */,
+				207F6AB01A41910500E9B68F /* LMAdOtherViewController.h */,
+				207F6AB11A41910500E9B68F /* LMAdOtherViewController.m */,
+				207F6AB21A41910500E9B68F /* LMAdOtherViewController.xib */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -1378,8 +1400,8 @@
 		20D4028F19D90516003D251B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				20FEBC9E1A42D8260032C065 /* smallAreas.plist */,
 				20661E811A39719500E7AF81 /* ads.plist */,
-				20B8A28F1A121B360028C875 /* smallAreas.plist */,
 				20B8A28D1A1205290028C875 /* courseTypes.plist */,
 				20B8A2741A11BD190028C875 /* areas.plist */,
 				20F48F6F19F64CE00005A67C /* totalCourse.plist */,
@@ -1669,6 +1691,9 @@
 				20C5C9DF19ED3DC50010FE36 /* LMMyActivityViewController.h */,
 				20C5C9E019ED3DC50010FE36 /* LMMyActivityViewController.m */,
 				20C5C9E119ED3DC50010FE36 /* LMMyActivityViewController.xib */,
+				20FCAF0D1A3F1C8600882842 /* LMMyRecViewController.h */,
+				20FCAF0E1A3F1C8600882842 /* LMMyRecViewController.m */,
+				20FCAF0F1A3F1C8600882842 /* LMMyRecViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1692,6 +1717,10 @@
 				20FCF5EC1A18836A00BE1062 /* LMCourseBook.m */,
 				20FCF5EE1A18D96D00BE1062 /* LMActBook.h */,
 				20FCF5EF1A18D96D00BE1062 /* LMActBook.m */,
+				20FCAF121A3F206A00882842 /* LMMyRec.h */,
+				20FCAF131A3F206A00882842 /* LMMyRec.m */,
+				20E9E6A41A3FD3F50038F09F /* LMMyRecFrame.h */,
+				20E9E6A51A3FD3F50038F09F /* LMMyRecFrame.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1712,6 +1741,8 @@
 				20109CC419EE15B800FAD7CC /* LMMyActivityViewCell.h */,
 				20109CC519EE15B800FAD7CC /* LMMyActivityViewCell.m */,
 				20109CC619EE15B800FAD7CC /* LMMyActivityViewCell.xib */,
+				20E9E6A71A3FD81C0038F09F /* LMMyRecViewCell.h */,
+				20E9E6A81A3FD81C0038F09F /* LMMyRecViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2092,6 +2123,7 @@
 			files = (
 				205426581A0725CF0086C516 /* UMSCommentInputController.xib in Resources */,
 				20F9A25119EB712700BAB3D5 /* LMReserveViewController.xib in Resources */,
+				20FCAF111A3F1C8600882842 /* LMMyRecViewController.xib in Resources */,
 				20C5C9CF19ED29B00010FE36 /* LMMyCollectionViewController.xib in Resources */,
 				205426591A0725CF0086C516 /* UMSCommentInputControlleriPad.xib in Resources */,
 				205426551A0725CF0086C516 /* UMSocialLocalizable.strings in Resources */,
@@ -2110,6 +2142,7 @@
 				200DA9DB1A0E262A004C2EFB /* LMCourseTeachCell.xib in Resources */,
 				20D4029319D90516003D251B /* InfoPlist.strings in Resources */,
 				20869F9719F8E9F100C0B4C5 /* LMSearchViewController.xib in Resources */,
+				20FEBC9F1A42D8260032C065 /* smallAreas.plist in Resources */,
 				204C334F19EBB0BE00CD71B0 /* LMActivityDetailViewController.xib in Resources */,
 				205426631A0725CF0086C516 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				20F278CB1A023025004370DA /* MJRefresh.bundle in Resources */,
@@ -2119,6 +2152,7 @@
 				2054265F1A0725CF0086C516 /* UMSocialSDKResourcesNew.bundle in Resources */,
 				20F7A55919EF698E00DC526D /* LMchangePwdViewController.xib in Resources */,
 				20D4029C19D90516003D251B /* Main.storyboard in Resources */,
+				207F6AB41A41910500E9B68F /* LMAdOtherViewController.xib in Resources */,
 				20F4C3D819ECE011002766A4 /* LMAboutUsViewController.xib in Resources */,
 				20FAB80C1A35618F0077183C /* LMOneSchRecViewController.xib in Resources */,
 				20F7A55D19EF698E00DC526D /* LMRegisterViewController.xib in Resources */,
@@ -2147,7 +2181,6 @@
 				20E7B4EB1A0619FB00948EBD /* PushConfig.plist in Resources */,
 				20F9A25D19EBA1B300BAB3D5 /* LMActivityViewCell.xib in Resources */,
 				2001FE191A2F09BE0009F8E4 /* MJPhotoBrowser.bundle in Resources */,
-				20B8A2901A121B360028C875 /* smallAreas.plist in Resources */,
 				20E61D3919F0B70F00C427E7 /* cities.plist in Resources */,
 				20BCC1FF19E6905E00A5913B /* LMCourseIntroViewController.xib in Resources */,
 				2093940F1A1C90EC004AE6EA /* LMActBookViewController.xib in Resources */,
@@ -2245,6 +2278,7 @@
 				2071DA5D19FFB64B00CA56DC /* MJFoundation.m in Sources */,
 				20BCC22D19E6908100A5913B /* LMSchoolCourseViewCell.m in Sources */,
 				20EF627219E7CCD1006544B3 /* LMSchoolCourse.m in Sources */,
+				20FCAF141A3F206A00882842 /* LMMyRec.m in Sources */,
 				20F609011A3AD22A00CA5A5C /* LMTResultViewController.m in Sources */,
 				20BCC20619E6905E00A5913B /* LMCourseListMainViewController.m in Sources */,
 				20BCC20019E6905E00A5913B /* CityListViewController.m in Sources */,
@@ -2266,6 +2300,7 @@
 				CAFF762D1A0FE4700029D627 /* ACETelPrompt.m in Sources */,
 				20BCC1FE19E6905E00A5913B /* LMCourseIntroViewController.m in Sources */,
 				20F4C3D719ECE011002766A4 /* LMAboutUsViewController.m in Sources */,
+				20E9E6A61A3FD3F50038F09F /* LMMyRecFrame.m in Sources */,
 				20079E801A07CB0100BC012A /* LMTeachList.m in Sources */,
 				20DD49DB19FF52FB00332A52 /* UIBarButtonItem+Extension.m in Sources */,
 				20D402DB19D914FC003D251B /* LMAppDelegate.m in Sources */,
@@ -2277,6 +2312,7 @@
 				20BCC23219E6908100A5913B /* LMListButton.m in Sources */,
 				2071DA6B19FFBDC000CA56DC /* LMTotalCourse.m in Sources */,
 				2058251C1A2848C500BAA0E8 /* LMAddRecommendViewController.m in Sources */,
+				20FCAF101A3F1C8600882842 /* LMMyRecViewController.m in Sources */,
 				20F278D11A023025004370DA /* UIScrollView+MJRefresh.m in Sources */,
 				20FE4A051A00FEE800D5AD3B /* NSString+Hash.m in Sources */,
 				20C5C9CE19ED29B00010FE36 /* LMMyCollectionViewController.m in Sources */,
@@ -2307,6 +2343,7 @@
 				20FBF1901A0DDA17007955B8 /* LMTeacherCourseCell.m in Sources */,
 				208B5DE81A1CD63C00D907E7 /* CLProgressHUD.m in Sources */,
 				2001FE1C1A2F09BE0009F8E4 /* MJPhotoProgressView.m in Sources */,
+				207F6AB31A41910500E9B68F /* LMAdOtherViewController.m in Sources */,
 				209341821A2D7902002BD141 /* LMDetailRecommendViewCell.m in Sources */,
 				2071DA5C19FFB64B00CA56DC /* MJConst.m in Sources */,
 				20E932411A2978390047CAF2 /* FileMD5Hash.m in Sources */,
@@ -2349,6 +2386,7 @@
 				20FAD7E11A0A105D008D44DB /* FDFontPickerViewController.m in Sources */,
 				20F278AE1A022191004370DA /* SDWebImageDecoder.m in Sources */,
 				2071DA5B19FFB64B00CA56DC /* MJArgument.m in Sources */,
+				20E9E6A91A3FD81C0038F09F /* LMMyRecViewCell.m in Sources */,
 				20F608FE1A3AD16F00CA5A5C /* LMCourseDetailViewController.m in Sources */,
 				20FCF5ED1A18836A00BE1062 /* LMCourseBook.m in Sources */,
 				20FCAF031A3E860E00882842 /* LMSchoolTeacherCell.m in Sources */,
@@ -2504,8 +2542,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Youxuejingxuan Technology Co., Ltd. (7JSJ5UMP3K)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Youxuejingxuan Technology Co., Ltd. (7JSJ5UMP3K)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LearnMore/Classes/Other/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
@@ -2540,7 +2578,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Youxuejingxuan Technology Co., Ltd. (7JSJ5UMP3K)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LearnMore/Classes/Other/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",

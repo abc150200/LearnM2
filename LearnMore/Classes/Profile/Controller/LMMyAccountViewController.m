@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 youxuejingxuan. All rights reserved.
 //
 
+#define LMAccountDocPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"account.data"]
+
 #import "LMMyAccountViewController.h"
 #import "LMchangePwdViewController.h"
 #import "LMLoginViewController.h"
@@ -88,6 +90,10 @@
 - (void)logoutBtn
 {
     [LMAccountInfo sharedAccountInfo].account = nil;
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager removeItemAtPath:LMAccountDocPath error:nil];
+    
     
     [self.navigationController popViewControllerAnimated:YES];
 }

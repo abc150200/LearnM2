@@ -20,7 +20,17 @@
 - (NSArray *)areas
 {
     if (_areas == nil) {
-        _areas = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"smallAreas.plist" ofType:nil]];;
+        
+        NSString *areaStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"areaKey"];
+        NSArray *areaArr = [areaStr objectFromJSONString];
+        MyLog(@"areaArr=====%@",areaArr);
+        
+        NSDictionary *dict = areaArr[0];
+        
+        NSArray *areaStr1 = dict[@"areas"];
+        MyLog(@"areaStr1===%@",areaStr1);
+        
+        _areas = areaStr1;
     }
     return _areas;
 }
@@ -49,16 +59,12 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
     }
-    
-   
-//    NSDictionary *dict = self.areas[0];
-//    NSArray *arr = dict[@"areas"];
-//    NSDictionary *dict2 = arr[indexPath.row];
-//    cell.textLabel.text = dict2[@"areaName"];
-    
 
     NSDictionary *dict1 = self.areas[indexPath.row];
     cell.textLabel.text = dict1[@"areaName"];
+    
+    cell.textLabel.font = [UIFont systemFontOfSize:14];
+    cell.textLabel.textColor = [UIColor darkGrayColor];
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
@@ -67,24 +73,57 @@
 
 #warning 暂时传递给二级,以后再改
 
-#pragma mark - 代理方法
+//#pragma mark - 代理方法
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    // 直接取城市数组
+//    if ([self.areaDelegate respondsToSelector:@selector(areaViewController:selectedCities:areaId:areaLevel: title:)]) {
+//        
+//        
+////        NSArray *cities = self.areas[indexPath.row][@"cities"];
+//        
+//        NSArray *cities = self.areas;
+//        
+//#warning 暂时传递给二级,以后再改
+//        NSDictionary *dict = cities[indexPath.row];
+//        NSString *areaId = dict[@"id"];
+//        NSString *areaLevel = dict[@"level"];
+//        NSString *title = dict[@"areaName"];
+//
+//    
+//        [self.areaDelegate areaViewController:self selectedCities:cities areaId:areaId areaLevel:areaLevel title:title];
+//    }
+//}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // 直接取城市数组
-    if ([self.areaDelegate respondsToSelector:@selector(areaViewController:selectedCities:areaId:areaLevel: title:)]) {
+    if ([self.areaDelegate respondsToSelector:@selector(areaViewController:selectedCities: row:)]) {
+        NSDictionary *areaBig = self.areas[indexPath.row];
+        NSString *id = areaBig[@"id"];
+        NSString *areaName = areaBig[@"areaName"];
+        NSString *level = areaBig[@"level"];
+        
+        NSArray *cities = self.areas[indexPath.row][@"areas"];
+    
+        NSMutableArray *arrM = [NSMutableArray array];
+        if(![areaName isEqualToString:@"附近"])
+        {
+            arrM[0] = @{@"id":id,@"areaName":areaName,@"level":level};
+        }
+        for (NSDictionary *dict in cities) {
+            [arrM addObject:dict];
+        }
         
         
-//        NSArray *cities = self.areas[indexPath.row][@"cities"];
         
-        NSArray *cities = self.areas;
+        int row = indexPath.row;
         
-#warning 暂时传递给二级,以后再改
-        NSDictionary *dict = cities[indexPath.row];
-        NSString *areaId = dict[@"id"];
-        NSString *areaLevel = dict[@"level"];
-        NSString *title = dict[@"areaName"];
+        [self.areaDelegate areaViewController:self selectedCities:arrM row:row];
+    }
+    
+    if ([self.areaDelegate respondsToSelector:@selector(areaViewController:didSelectRow:)]) {
         
-        [self.areaDelegate areaViewController:self selectedCities:cities areaId:areaId areaLevel:areaLevel title:title];
+        [self.areaDelegate areaViewController:self didSelectRow:indexPath.row];
     }
 }
 

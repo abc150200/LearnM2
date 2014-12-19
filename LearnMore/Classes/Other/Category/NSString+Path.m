@@ -48,6 +48,19 @@
     return [NSString stringWithFormat:@"%.0f", a];
 }
 
++ (NSString *)getTimeNow
+{
+    NSString* date;
+    
+    NSDateFormatter * formatter = [[NSDateFormatter alloc ] init];
+    //[formatter setDateFormat:@"YYYY.MM.dd.hh.mm.ss"];
+    [formatter setDateFormat:@"YYYY-MM-dd"];
+    date = [formatter stringFromDate:[NSDate date]];
+    NSString *timeNow = [[NSString alloc] initWithFormat:@"%@", date];
+    NSLog(@"%@", timeNow);
+    return timeNow;
+}
+
 + (NSString *)timeFmtWithLong:(long)longTime
 {
     
@@ -57,10 +70,12 @@
     return [fmt stringFromDate:date];
 }
 
-#warning 为何解析的时候超出9天??
-+ (NSString *)timeWithLong:(long)longTime
+
++ (NSString *)timeWithLong:(long long)longTime
 {
-    NSDate *date = [[NSDate alloc]initWithTimeIntervalSinceNow:(longTime - 777600000)/1000.0];
+    
+//    NSDate *date = [[NSDate alloc]initWithTimeIntervalSinceNow:(longTime - 777600000)/1000.0];
+    NSDate *date = [[NSDate alloc]initWithTimeIntervalSince1970:longTime/1000.0];
     NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
     fmt.dateFormat = @"yyyy-MM-dd";
     return [fmt stringFromDate:date];

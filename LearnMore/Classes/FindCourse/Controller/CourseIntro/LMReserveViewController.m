@@ -149,6 +149,10 @@
             parameters[@"sid"] = account.sid;
             parameters[@"data"] = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:account.sessionkey];
             
+            //设备信息
+            NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+            parameters[@"device"] = deviceInfo;
+            
             [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 
                 LogObj(responseObject);
@@ -230,6 +234,10 @@
             NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
             parameters[@"sid"] = account.sid;
             parameters[@"data"] = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:account.sessionkey];
+            
+            //设备信息
+            NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+            parameters[@"device"] = deviceInfo;
             
             [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 

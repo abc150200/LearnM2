@@ -10,4 +10,5 @@
 
 @interface LMAddRecommendViewController : UIViewController
 @property (nonatomic, assign) long long id;
+@property (copy, nonatomic) NSString *urlStr;
 @end

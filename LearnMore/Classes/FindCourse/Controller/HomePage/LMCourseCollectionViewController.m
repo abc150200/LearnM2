@@ -51,8 +51,6 @@
     // 1.注册cell(告诉collectionView将来创建怎样的cell)
     UINib *nib = [UINib nibWithNibName:@"LMProductCell" bundle:nil];
     [self.collectionView registerNib:nib forCellWithReuseIdentifier:LMProductCellID];
-    
-    
    
 }
 

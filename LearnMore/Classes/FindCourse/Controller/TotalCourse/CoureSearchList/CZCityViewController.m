@@ -48,6 +48,9 @@
     
     cell.textLabel.text = dict[@"typeName"];
     
+    cell.textLabel.font = [UIFont systemFontOfSize:14];
+    cell.textLabel.textColor = [UIColor darkGrayColor];
+    
     return cell;
 }
 

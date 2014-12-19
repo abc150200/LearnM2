@@ -9,12 +9,17 @@
 #import "LMCourseViewCell.h"
 #import "LMCourseList.h"
 #import "TQStarRatingDisplayView.h"
-
+#import <CoreLocation/CoreLocation.h>
 
 @interface LMCourseViewCell ()
 
 @property (copy, nonatomic) NSString *ageInfo;
 @property (weak, nonatomic) IBOutlet UIImageView *free;
+@property (weak, nonatomic) IBOutlet UILabel *disstanLabel;
+
+/** gps */
+@property (nonatomic, copy) NSString *latitude;
+@property (nonatomic, copy) NSString *longitude;
 
 @end
 
@@ -23,7 +28,7 @@
 
 - (void)awakeFromNib
 {
-    // Initialization code
+
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -72,6 +77,32 @@
     NSString *str1 = dict[@"avgTotalLevel"];
     TQStarRatingDisplayView *star = [[TQStarRatingDisplayView alloc] initWithFrame:rect numberOfStar:5 norImage:@"public_review_small_normal" highImage:@"public_review_small_pressed" starSize:14 margin:0 score:str1];
     [self.contentView addSubview:star];
+    
+    
+    
+    NSArray *arr1 = [_courselist.gps componentsSeparatedByString:@","];
+    CLLocation *loc1 = [[CLLocation alloc] initWithLatitude:[arr1[1] doubleValue]  longitude:[arr1[0] doubleValue]];
+ 
+    NSString *gpsStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"localGps"];
+    NSArray *arr2 = [gpsStr componentsSeparatedByString:@","];
+    CLLocation *loc2 = [[CLLocation alloc] initWithLatitude:[arr2[0] doubleValue] longitude:[arr2[1] doubleValue]];
+    
+    // 2.计算2个位置的直线距离(CLLocationDistance单位是m)
+    CLLocationDistance distance = [loc1 distanceFromLocation:loc2];
+    NSLog(@"%.0f", distance);
+    
+    if (distance >= 1000) {
+        self.disstanLabel.text = [NSString stringWithFormat:@"%.1fkm",distance/1000];
+    }else
+    {
+        self.disstanLabel.text = [NSString stringWithFormat:@"%.0fm",distance];
+    }
+    
+    
 }
+
+
+
+
 
 @end

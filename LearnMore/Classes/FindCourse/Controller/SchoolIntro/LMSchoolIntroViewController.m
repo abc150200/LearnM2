@@ -32,6 +32,7 @@
 #import "LMAccountInfo.h"
 #import "LMAccount.h"
 #import "LMAddRecommendViewController.h"
+#import "MTA.h"
 
 #import "LMRecommend.h"
 #import "LMRecommedFrame.h"
@@ -448,6 +449,9 @@
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"param"] = jsonStr;
     
+    //设备信息
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    parameters[@"device"] = deviceInfo;
     
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -481,7 +485,7 @@
             label.height = 40;
             label.centerX = self.view.centerX;
             label.y = 0;
-            label.text = @"已加载全部";
+//            label.text = @"已加载全部";
             label.textAlignment = NSTextAlignmentCenter;
             label.font = [UIFont systemFontOfSize:14];
             [moreView addSubview:label];
@@ -517,6 +521,9 @@
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"param"] = jsonStr;
     
+    //设备信息
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    parameters[@"device"] = deviceInfo;
     
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -546,7 +553,7 @@
             label.height = 40;
             label.centerX = self.view.centerX;
             label.y = 0;
-            label.text = @"已加载全部";
+//            label.text = @"已加载全部";
             label.textAlignment = NSTextAlignmentCenter;
             label.font = [UIFont systemFontOfSize:14];
             [moreView addSubview:label];
@@ -585,6 +592,9 @@
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"param"] = jsonStr;
     
+    //设备信息
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    parameters[@"device"] = deviceInfo;
     
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -601,13 +611,20 @@
         self.gps = schoolInfoDic[@"schoolGps"];
         self.address = schoolInfoDic[@"address"];
         
-#warning 这里以后会改
-        if (self.secondTypeName) {
-            self.courseMack.text =[NSString stringWithFormat:@"课程标签: %@",self.secondTypeName] ;
-        }else
-        {
-            self.courseMack.text = @"课程标签: 其他";
+        NSArray *mainCourse = [schoolInfoDic[@"mainCourse"] objectFromJSONString];
+        NSMutableArray *arrM = [NSMutableArray array];
+        for (NSDictionary *dict in mainCourse) {
+            [arrM addObject:dict[@"name"]];
         }
+        self.courseMack.text = [NSString stringWithFormat:@"课程标签: %@",[arrM componentsJoinedByString:@"、"]];
+        
+        
+//        if (self.schoolMark) {
+//            self.courseMack.text =[NSString stringWithFormat:@"课程标签: %@",self.schoolMark] ;
+//        }else
+//        {
+//            self.courseMack.text = @"课程标签: 其他";
+//        }
         
         
         NSDictionary *schoolCommentLevel =schoolInfoDic[@"schoolCommentLevel"];
@@ -657,6 +674,7 @@
         LMAddRecommendViewController *add = [[LMAddRecommendViewController alloc] init];
         
         add.id = self.id;
+        add.urlStr = [NSString stringWithFormat:@"%@%@",RequestURL,@"comment/schoolComment.json"];
         
         [self.navigationController pushViewController:add animated:YES];
     }else
@@ -673,6 +691,17 @@
 - (IBAction)call:(id)sender {
     
     if (self.phoneNum.length) {
+        
+        NSString *version = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
+        NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+        
+        LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+        NSString *sid = account.sid;
+        NSString *coId = [NSString stringWithFormat:@"%lli",_id];
+        NSDictionary *dict = @{@"sid":sid,@"type":@"3",@"id":coId,@"version":version,@"device":deviceInfo};
+        
+        [MTA trackCustomKeyValueEvent:@"school_call_record" props:dict];
+        
         
         [ACETelPrompt callPhoneNumber:self.phoneNum call:^(NSTimeInterval duration) {
             

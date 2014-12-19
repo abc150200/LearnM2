@@ -18,6 +18,20 @@
     [super viewDidLoad];
     
    self.tableView.rowHeight = 30;
+    
+    
+    UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width,40)];
+    UILabel *label  = [[UILabel alloc] init];
+    label.width = 100;
+    label.height = 40;
+    label.centerX = self.view.centerX;
+    label.y = 0;
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont systemFontOfSize:14];
+    label.backgroundColor = [UIColor colorWithRed:219 green:219 blue:219 alpha:1];
+    moreView.backgroundColor = [UIColor colorWithRed:219 green:219 blue:219 alpha:1];
+    [moreView addSubview:label];
+    self.tableView.tableFooterView = moreView;
 }
 
 
@@ -36,7 +50,8 @@
     }
     
     cell.textLabel.text = self.listArr[indexPath.row];
-    
+    cell.textLabel.font = [UIFont systemFontOfSize:14];
+    cell.textLabel.textColor = [UIColor darkGrayColor];
     return cell;
 }
 

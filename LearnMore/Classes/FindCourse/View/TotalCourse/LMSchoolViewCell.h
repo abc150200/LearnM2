@@ -17,4 +17,6 @@
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
+@property (weak, nonatomic) IBOutlet UILabel *keyWord;
+
 @end

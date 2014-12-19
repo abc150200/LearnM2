@@ -28,6 +28,7 @@
 @property (copy, nonatomic) NSString *courseImage;
 @property (nonatomic, assign) int needBook;  //标记
 @property (nonatomic, strong) NSDictionary *courseCommentLevel;//课程点评
+@property (nonatomic, copy) NSString *gps;//默认gps
 @end
 
 

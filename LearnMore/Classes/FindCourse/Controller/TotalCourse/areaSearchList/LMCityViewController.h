@@ -13,7 +13,7 @@
 @protocol LMCityViewControllerDelegate <NSObject>
 
 @optional
-- (void)cityViewController:(LMCityViewController *)cityViewController level:(NSString *)level id:(NSString *)id;
+- (void)cityViewController:(LMCityViewController *)cityViewController level:(NSString *)level id:(NSString *)id title:(NSString *)title;
 
 @end
 
@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSArray *cities;
 @property (nonatomic, weak) id<LMCityViewControllerDelegate> delegate;
 
-@property (copy, nonatomic) NSString *id;
-@property (copy, nonatomic) NSString *level;
+//@property (copy, nonatomic) NSString *id;
+//@property (copy, nonatomic) NSNumber *level;
+@property (nonatomic, assign) int row;
 @end

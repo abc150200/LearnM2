@@ -21,6 +21,7 @@
 #import "LMMyActivityViewController.h"
 #import "LMAccountInfo.h"
 #import "LMAccount.h"
+#import "LMMyRecViewController.h"
 
 @interface LMSettingViewController ()
 
@@ -99,7 +100,7 @@
     //判断用户是否登录
     LMAccount *account =  [LMAccountInfo sharedAccountInfo].account;
     
-//    LMCommonItemArrow *myCollection = [LMCommonItemArrow itemWithIcon:@"me_collect" Title:@"我的收藏"];
+    LMCommonItemArrow *myCollection = [LMCommonItemArrow itemWithIcon:@"me_collect" Title:@"我的收藏"];
 //    myCollection.subtitle = @"12门课程";
 //    if(account)
 //    {
@@ -108,7 +109,7 @@
 //    {
 //        myCollection.destVc = [LMLoginViewController class];
 //    }
-    
+//    
     
     LMCommonItemArrow *freeReserve = [LMCommonItemArrow itemWithIcon:@"me_listening" Title:@"免费预约试听"];
 //    freeReserve.subtitle = @"12个预约";
@@ -133,7 +134,13 @@
     
     
 //    LMCommonItemArrow *myReview = [LMCommonItemArrow itemWithIcon:@"me_review" Title:@"我的点评"];
-    
+//    if(account)
+//    {
+//        myReview.destVc =[LMMyRecViewController class];
+//    }else
+//    {
+//        myReview.destVc = [LMLoginViewController class];
+//    }
     
     LMCommonGroup *group1 = [self addGroup];
     group1.items = @[freeReserve,signActivity];
@@ -153,8 +160,7 @@
 #warning 需要创建ID
          NSString* m_appleID = @"941536677";    //tinyray 此处的appID是在iTunes Connect创建应用程序时生成的Apple ID
         NSString *str = [NSString stringWithFormat:
-                         @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@",
-                         m_appleID ];
+                         @"itms-apps://itunes.apple.com/app/id%@",m_appleID ];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
         //NSLog(@"打分支持！！");
 //    }else{

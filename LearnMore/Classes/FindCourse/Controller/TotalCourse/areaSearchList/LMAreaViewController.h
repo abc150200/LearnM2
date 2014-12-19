@@ -15,8 +15,10 @@
 
 @optional
 
-//- (void)areaViewController:(LMAreaViewController *)controller selectedCities:(NSArray *)cities;
-- (void)areaViewController:(LMAreaViewController *)controller selectedCities:(NSArray *)cities areaId:(NSString *)areaId areaLevel:(NSString *)areaLevel title:(NSString *)title;
+- (void)areaViewController:(LMAreaViewController *)controller selectedCities:(NSArray *)cities row:(int)row;;
+//- (void)areaViewController:(LMAreaViewController *)controller selectedCities:(NSArray *)cities areaId:(NSString *)areaId areaLevel:(NSString *)areaLevel title:(NSString *)title;
+
+- (void)areaViewController:(LMAreaViewController *)controller didSelectRow:(int)row;
 
 @end
 

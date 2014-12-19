@@ -51,7 +51,8 @@
     NSDictionary *dict = self.provinces[indexPath.row];
     cell.textLabel.text = dict[@"typeName"];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
+    cell.textLabel.font = [UIFont systemFontOfSize:14];
+    cell.textLabel.textColor = [UIColor darkGrayColor];
     return cell;
 }
 

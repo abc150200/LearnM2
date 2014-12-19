@@ -34,12 +34,16 @@
 #import <CommonCrypto/CommonCryptor.h>
 #import <CommonCrypto/CommonHMAC.h>
 
+#import <CoreLocation/CoreLocation.h>
 
-@interface LMAppDelegate ()
+@interface LMAppDelegate ()<CLLocationManagerDelegate,CLLocationManagerDelegate>
 
 /** 获得的sid */
 @property (copy, nonatomic) NSString *sid;
 @property (copy, nonatomic) NSString *salt;
+
+@property(nonatomic, strong) CLLocationManager *mgr;
+@property (nonatomic, strong) CLLocationManager  *locationManager;
 
 @end
 
@@ -52,8 +56,34 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     
+    //获取设备信息
+    //获取沙盒中的版本号
+    NSString *key = (__bridge_transfer NSString *)kCFBundleVersionKey;
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *localVersion = [defaults objectForKey:key];
+    
+    UIDevice *device=[[UIDevice alloc] init];
+    NSString *deviceName = device.name;//设备所有者的名称
+    NSString *deviceModel = device.model;//设备的类别
+    NSString *deviceLocalizedModel= device.localizedModel;//设备的的本地化版本
+    NSString *devicesyStemVersion = device.systemVersion; //当前系统的版本
+    NSString *deviceUUID = device.identifierForVendor.UUIDString;//设备识别码
+    
+    NSString *deviceAll = [NSString stringWithFormat:@"%@#%@#%@#%@#%@#%@",deviceName,deviceModel,deviceLocalizedModel,devicesyStemVersion,deviceUUID,localVersion];
+    [[NSUserDefaults standardUserDefaults] setObject:deviceAll forKey:@"deviceInfo"];
+    [[NSUserDefaults standardUserDefaults] setObject:localVersion forKey:@"version"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    MyLog(@"deviceAll===%@",deviceAll);
+    
+    
     // 3.显示wiondw
     [self.window makeKeyAndVisible];
+    
+    
+    
+    
     
     [LMControllerTool chooseViewController];
     
@@ -63,10 +93,11 @@
     {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"everLaunched"];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];
-        
+//        [[NSUserDefaults standardUserDefaults] synchronize];
     }else
     {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstLaunch"];
+//        [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
     
@@ -172,7 +203,20 @@
     }
     
     
-#warning 自动登录
+    //定位
+    self.locationManager = [[CLLocationManager alloc]init];
+    _locationManager.delegate = self;
+    _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    _locationManager.distanceFilter = 500.0f;
+    
+    if (iOS8) {
+        
+        [_locationManager requestWhenInUseAuthorization];
+    }
+    
+    [_locationManager startUpdatingLocation];
+
+    
     
     //云分析
     [MTA startWithAppkey:@"IN8FWR1U74WS"];
@@ -244,6 +288,30 @@
      [XGPush handleLaunching:launchOptions successCallback:successBlock errorCallback:errorBlock];
     
     
+    
+    
+    
+    //首次打开app统计
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    //url地址
+    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"commons/open.json"];
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    parameters[@"version"] = localVersion;
+    parameters[@"device"] = deviceAll;
+  
+    [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        LogObj(responseObject);
+        MyLog(@"responseObject===%@",responseObject);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        LogObj(error.localizedDescription);
+    }];
+    
+    
+    
     return YES;
 }
 
@@ -312,9 +380,6 @@
     // Required
 //    [APService handleRemoteNotification:userInfo];
 }
-
-
-
 
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -398,6 +463,33 @@
     
     [[UIApplication sharedApplication] registerForRemoteNotifications];
 #endif
+}
+
+#pragma mark -实现CLLocationManagerDelegate的代理方法
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    CLLocation *currLocation = [locations lastObject];
+    NSLog(@" 纬度=%f 经度=%f ", currLocation.coordinate.latitude, currLocation.coordinate.longitude);
+    NSString *localGps = [NSString stringWithFormat:@"%@,%@",@(currLocation.coordinate.latitude),@(currLocation.coordinate.longitude)];
+    
+    //存起来
+    [[NSUserDefaults standardUserDefaults] setObject:localGps forKey:@"localGps"];
+    [[NSUserDefaults standardUserDefaults]  synchronize];
+    
+    
+}
+
+#pragma mark 获取用户位置数据失败的回调方法，在此通知用户
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    if ([error code] == kCLErrorDenied)
+    {
+        MyLog(@"访问被拒绝");
+    }
+    if ([error code] == kCLErrorLocationUnknown) {
+        MyLog(@"无法获取位置信息");
+    }
 }
 
 

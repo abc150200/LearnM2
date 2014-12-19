@@ -43,6 +43,8 @@
 @property (nonatomic, strong) IWPopMenu *popMenu;
 @property (nonatomic, weak) UISegmentedControl *segm;
 
+@property (nonatomic, strong) NSArray  *areaArr;
+
 
 
 @property (nonatomic, strong) LMCourseListViewController *clv;
@@ -56,6 +58,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     
     //设置导航栏
     [self setupNav];
@@ -90,6 +93,8 @@
     [self loadNewData];
     
 }
+
+
 
 
 - (void)viewWillAppear:(BOOL)animated
@@ -175,6 +180,13 @@
         arr[@"area"] = @"0_0";
     }
     
+    NSString *gpsStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"localGps"];
+    
+    if (gpsStr) {
+        arr[@"gps"] = gpsStr;
+    }
+    
+    
     if (self.searchContent) {
         arr[@"keyword"] = self.searchContent;
     }
@@ -247,10 +259,11 @@
             menuView.backgroundColor = [UIColor whiteColor];
             self.menuView = menuView;
             
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 30)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, 50, 30)];
             label.text = @"不限";
             label.textAlignment = NSTextAlignmentCenter;
             label.font = [UIFont systemFontOfSize:14];
+            label.textColor = [UIColor darkGrayColor];
             [menuView addSubview:label];
             
             UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 30)];
@@ -280,10 +293,11 @@
             menuView.backgroundColor = [UIColor whiteColor];
             self.menuView = menuView;
             
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 30)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, 50, 30)];
             label.text = @"不限";
             label.textAlignment = NSTextAlignmentCenter;
             label.font = [UIFont systemFontOfSize:14];
+            label.textColor = [UIColor darkGrayColor];
             [menuView addSubview:label];
             
             UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 30)];
@@ -337,7 +351,7 @@
             [menuView addSubview:lvc.view];
             self.lvc = lvc;
             lvc.delegate = self;
-            lvc.listArr = @[@"默认排序",@"最新发布",@"收藏最多",@"免费试听"];
+            lvc.listArr = @[@"智能排序",@"最新发布",@"收藏最多",@"免费试听"];
             [lvc.tableView reloadData];
         }
         
@@ -358,8 +372,10 @@
 
 - (void)allMenu
 {
-    self.areaId = @"0";
-    self.levelId = @"0";
+    self.TypeId = nil;
+    
+    [self.headView.titleBtn setTitle:@"全  部" forState:UIControlStateNormal];
+    [self.headView.titleBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_normal"] forState:UIControlStateNormal];
     
     [self loadNewData];
     
@@ -371,7 +387,8 @@
 {
     self.areaId = @"0";
     self.levelId = @"0";
-    
+    [self.headView.cityBtn setTitle:@"全  城" forState:UIControlStateNormal];
+    [self.headView.cityBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_normal"] forState:UIControlStateNormal];
     [self loadNewData];
     
     [self.popMenu dismiss];
@@ -382,30 +399,6 @@
 {
     self.cVc.cities = cities;
     self.cVc.row = row;
-}
-
-// 选中区域大类的代理方法
-- (void)areaViewController:(LMAreaViewController *)controller selectedCities:(NSArray *)cities areaId:(NSString *)areaId areaLevel:(NSString *)areaLevel title:(NSString *)title
-{
-    self.lcc.cities = cities;
-    
-    self.lcc.id  = areaId;
-    self.lcc.level = areaLevel;
-    
-    [self.headView.cityBtn setTitle:title forState:UIControlStateNormal];
-    [self.headView.cityBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_normal"] forState:UIControlStateNormal];
-}
-
-//选中区域小类的代理
-
-- (void)cityViewController:(LMCityViewController *)cityViewController level:(NSString *)level id:(NSString *)id
-{
-    self.areaId = id;
-    self.levelId = level;
-    
-    [self loadNewData];
-    
-    [self.popMenu dismiss];
 }
 
 //传递分类数据的代理
@@ -421,6 +414,68 @@
     [self.popMenu dismiss];
     
 }
+
+// 选中区域大类的代理方法
+
+- (void)areaViewController:(LMAreaViewController *)controller selectedCities:(NSArray *)cities row:(int)row
+{
+    self.lcc.cities = cities;
+    self.lcc.row = row;
+}
+
+//选中区域小类的代理
+
+- (void)cityViewController:(LMCityViewController *)cityViewController level:(NSString *)level id:(NSString *)id title:(NSString *)title
+{
+    self.areaId = id;
+    self.levelId = level;
+    
+    [self.headView.cityBtn setTitle:title forState:UIControlStateNormal];
+    [self.headView.cityBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_normal"] forState:UIControlStateNormal];
+
+    [self loadNewData];
+
+    [self.popMenu dismiss];
+}
+
+//传递区域大类的index
+- (void)areaViewController:(LMAreaViewController *)controller didSelectRow:(int)row
+{
+    self.lcc.row = row;
+}
+
+
+
+
+//// 选中区域大类的代理方法
+//- (void)areaViewController:(LMAreaViewController *)controller selectedCities:(NSArray *)cities areaId:(NSString *)areaId areaLevel:(NSString *)areaLevel title:(NSString *)title
+//{
+//    
+//    
+//
+//    self.lcc.cities = cities;
+//    
+//    self.lcc.id  = areaId;
+//    self.lcc.level = areaLevel;
+//    
+//    [self.headView.cityBtn setTitle:title forState:UIControlStateNormal];
+//    
+//    [self.headView.cityBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_normal"] forState:UIControlStateNormal];
+//}
+
+//选中区域小类的代理
+
+//- (void)cityViewController:(LMCityViewController *)cityViewController level:(NSString *)level id:(NSString *)id
+//{
+//    self.areaId = id;
+//    self.levelId = level;
+//    
+//    [self loadNewData];
+//    
+//    [self.popMenu dismiss];
+//}
+
+
 
 //年龄代理
 - (void)ageViewController:(LMAgeViewController *)ageViewController age:(int)age title:(NSString *)title
@@ -463,6 +518,23 @@
         _courseLists = [NSMutableArray array];
     }
     return _courseLists;
+}
+
+
+- (NSArray *)areaArr
+{
+    if (_areaArr == nil) {
+        
+        NSString *areaStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"areaKey"];
+        NSArray *areaArr = [areaStr objectFromJSONString];
+        
+        NSDictionary *dict = areaArr[0];
+        
+        NSArray *areaStr1 = dict[@"areas"];
+        
+        _areaArr = areaStr1;
+    }
+    return _areaArr;
 }
  
 
