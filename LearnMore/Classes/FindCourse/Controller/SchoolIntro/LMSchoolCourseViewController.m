@@ -12,7 +12,7 @@
 #import "LMCourseInfo.h"
 #import "LMCourseIntroViewController.h"
 
-@interface LMSchoolCourseViewController ()
+@interface LMSchoolCourseViewController ()<UIScrollViewDelegate>
 
 @end
 
@@ -23,7 +23,7 @@
     
     self.tableView.rowHeight = 93;
     
-    
+    self.tableView.bounces = NO;
 }
 
 
@@ -63,8 +63,7 @@
     LMCourseInfo *tCourse = self.datas[indexPath.row];
     
     long long id = tCourse.id;
-    
-    
+ 
     LMCourseIntroViewController *ci  = [[LMCourseIntroViewController alloc] init];
     ci.id = id;
     
@@ -72,7 +71,18 @@
     
 }
 
-
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    
+    if(scrollView.contentOffset.y == 0)
+    {
+        self.tableView.scrollEnabled = NO;
+    }
+    else
+    {
+        self.tableView.scrollEnabled = YES;
+    }
+}
 
 
 

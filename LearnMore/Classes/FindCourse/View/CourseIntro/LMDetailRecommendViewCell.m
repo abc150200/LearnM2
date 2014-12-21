@@ -91,12 +91,21 @@
     self.userLabel.text = str;
     self.timeLabel.text = [NSString timeWithLong:recommend.createTime];
     self.contentLabel.text = recommend.commentText;
+    
+    NSMutableArray *arrM = [NSMutableArray array];
     if ([recommend.images hasPrefix:@"http"]) {
-        self.photosView.photos = [recommend.images componentsSeparatedByString:@","];
+        NSArray* arr = [recommend.images componentsSeparatedByString:@","];
+        for (NSString *str in arr) {
+            if([str hasPrefix:@"http"])
+                [arrM addObject:str];
+            
+            self.photosView.photos = arrM;
+        }
     }else
     {
         self.photosView.photos = 0;
     }
+    
     
     CGRect rect = CGRectMake(self.contentView.width - 85, 15, 70, 14);
     

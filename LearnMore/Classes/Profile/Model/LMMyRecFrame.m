@@ -45,29 +45,29 @@
     
     //标题
     CGFloat titleLabelX = RecPadding;
-    CGFloat titleLabelY = 11;
-    CGSize titleSize = [[NSString timeWithLong:_myRec.createTime] sizeWithAttributes:@{NSFontAttributeName:LMTitleFont} ];
+    CGFloat titleLabelY = 13;
+    CGSize titleSize = [_myRec.commentText sizeWithAttributes:@{NSFontAttributeName:LMTitleFont} ];
     CGFloat titleLabelW = LMCellWidth - 2*(RecPadding + Padding);
     CGFloat titleLabelH = titleSize.height;
     _titleLabelF = CGRectMake(titleLabelX, titleLabelY, titleLabelW, titleLabelH);
     
     //线条
-    CGFloat dividerX = RecPadding;
-    CGFloat dividerY = 44;
-    CGFloat dividerW = LMCellWidth - 2 * Padding;
+    CGFloat dividerX =  0;
+    CGFloat dividerY =  44;
+    CGFloat dividerW = LMCellWidth - 2 * Padding ;
     CGFloat dividerH = 1;
     _dividerF = CGRectMake(dividerX, dividerY, dividerW, dividerH);
     
     //评分
-    CGFloat recLabelX = 120;
-    CGFloat recLabelY = 48.5;
+    CGFloat recLabelX = 95;
+    CGFloat recLabelY = 50;
     CGFloat recLabelW = 30;
     CGFloat recLabelH = 21;
     _recLabelF = CGRectMake(recLabelX, recLabelY, recLabelW, recLabelH);
     
     //设置文本
-    CGFloat contentLabelX = RecPadding;
-    CGFloat contentLabelY = 45;
+    CGFloat contentLabelX =  RecPadding;
+    CGFloat contentLabelY = 74;
     CGSize contentMaxSize = CGSizeMake(LMCellWidth - 2 * (Padding + RecPadding), MAXFLOAT);
     NSDictionary *att = @{NSFontAttributeName : LMContentFont};
     CGSize size = [_myRec.commentText boundingRectWithSize:contentMaxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:att context:nil].size;
@@ -91,6 +91,17 @@
         recViewH = CGRectGetMaxY(_contentLabelF) + Padding;
         
     }
+    
+    
+#warning 一定不要忘记设置这个,否则出错
+    //设置点评内容
+    CGFloat recViewX = Padding;
+    CGFloat recViewY = CGRectGetMaxY(_downImgF);
+    CGFloat recViewW = LMCellWidth - 2 * Padding;
+    
+    _recViewF = CGRectMake(recViewX, recViewY, recViewW, recViewH);
+    
+    
     
     //设置最下面的竖线
     CGFloat upImg1X = Padding;

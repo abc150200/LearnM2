@@ -133,17 +133,17 @@
     }
     
     
-//    LMCommonItemArrow *myReview = [LMCommonItemArrow itemWithIcon:@"me_review" Title:@"我的点评"];
-//    if(account)
-//    {
-//        myReview.destVc =[LMMyRecViewController class];
-//    }else
-//    {
-//        myReview.destVc = [LMLoginViewController class];
-//    }
+    LMCommonItemArrow *myReview = [LMCommonItemArrow itemWithIcon:@"me_review" Title:@"我的点评"];
+    if(account)
+    {
+        myReview.destVc =[LMMyRecViewController class];
+    }else
+    {
+        myReview.destVc = [LMLoginViewController class];
+    }
     
     LMCommonGroup *group1 = [self addGroup];
-    group1.items = @[freeReserve,signActivity];
+    group1.items = @[freeReserve,signActivity,myReview];
     
     
     

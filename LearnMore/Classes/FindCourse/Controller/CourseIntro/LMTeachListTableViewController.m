@@ -9,8 +9,9 @@
 #import "LMTeachListTableViewController.h"
 #import "LMTeacherInfo.h"
 #import "LMCourseTeachCell.h"
+#import "LMTeacherIntroViewController.h"
 
-@interface LMTeachListTableViewController ()
+@interface LMTeachListTableViewController ()<UIScrollViewDelegate>
 
 @end
 
@@ -21,6 +22,7 @@
     [super viewDidLoad];
     
     self.tableView.rowHeight = 70;
+    self.tableView.bounces = NO;
 }
 
 #pragma mark - 数据源方法
@@ -51,10 +53,24 @@
     
     long long teacherId = cell.teacherId;
     
-    if ([self.delegate respondsToSelector:@selector(teachListTableViewController:teacherId:)]) {
-        [self.delegate teachListTableViewController:self teacherId:teacherId];
-    }
+    LMTeacherIntroViewController *teach = [[LMTeacherIntroViewController alloc] init];
+    teach.id = teacherId;
     
+    [self.navigationController pushViewController:teach animated:YES];
+    
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    
+    if(scrollView.contentOffset.y == 0)
+    {
+        self.tableView.scrollEnabled = NO;
+    }
+    else
+    {
+        self.tableView.scrollEnabled = YES;
+    }
 }
 
 @end

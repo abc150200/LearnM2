@@ -49,9 +49,10 @@
 #import "LMTResultViewController.h"
 #import "LMCourseDetailViewController.h"
 
+
 #import "MTA.h"
 
-@interface LMCourseIntroViewController ()<UIScrollViewDelegate,LMTeachListTableViewControllerDelegate,LMMenuButtonViewDelegate>
+@interface LMCourseIntroViewController ()<UIScrollViewDelegate,LMMenuButtonViewDelegate>
 
 
 /** 老师列表数组 */
@@ -320,7 +321,6 @@
     //老师信息控制器
     LMTeachListTableViewController *tv = [[LMTeachListTableViewController alloc] initWithStyle:UITableViewStylePlain];
     self.tl = tv;
-    tv.delegate = self;
     [self addChildViewController:tv];
     [self.myScrollView addSubview:tv.tableView];
     tv.tableView.x = CGRectGetMaxX(trv.view.frame);
@@ -358,15 +358,22 @@
        
    }
     
-//    if (self.cv.webView.scrollView.contentOffset.y == 0 || self.trv.webView.scrollView.contentOffset.y) {
-//        self.scrollView.scrollEnabled = YES;
-//        self.myScrollView.scrollEnabled = NO;
-//    }
-//    else
-//    {
-//        self.scrollView.scrollEnabled = NO;
-//        self.myScrollView.scrollEnabled = YES;
-//    }
+    MyLog(@"self.scrollView.contentOffset.y===%f",self.scrollView.contentOffset.y);
+    
+    MyLog(@"self.scrollView.caaaaaaat.y===%f",CGRectGetMaxY(self.schoolSkin.frame) + LMPadding - 64);
+    
+    CGFloat height = CGRectGetMaxY(self.schoolSkin.frame) + LMPadding - 64;
+    
+    if ((int)self.scrollView.contentOffset.y == (int)height) {
+        self.cv.webView.scrollView.scrollEnabled = YES;
+        self.trv.webView.scrollView.scrollEnabled = YES;
+        self.tl.tableView.scrollEnabled = YES;
+    }else
+    {
+        self.cv.webView.scrollView.scrollEnabled = NO;
+        self.trv.webView.scrollView.scrollEnabled = NO;
+        self.tl.tableView.scrollEnabled = NO;
+    }
 
 }
 
@@ -710,7 +717,7 @@
         NSDictionary *dateDic = [responseObject[@"data"] objectFromJSONString];
         MyLog(@"%@",dateDic);
         
-        self.parentRec.text = [NSString stringWithFormat:@"家长点评（%@）",dateDic[@"tcount"]];
+        self.parentRec.text = [NSString stringWithFormat:@"课程点评（%@）",dateDic[@"tcount"]];
         
         NSArray *recomArr = [LMRecommend objectArrayWithKeyValuesArray:dateDic[@"comments"]];
         NSMutableArray *frameModels = [NSMutableArray arrayWithCapacity:recomArr.count];
@@ -906,14 +913,7 @@
     [self.navigationController pushViewController:si animated:YES];
 }
 
-/** 跳转老师介绍页面 */
-- (void)teachListTableViewController:(LMTeachListTableViewController *)teachListTableViewController teacherId:(long long)teacherId
-{
-    LMTeacherIntroViewController *teach = [[LMTeacherIntroViewController alloc] init];
-    teach.id = teacherId;
-    
-    [self.navigationController pushViewController:teach animated:YES];
-}
+
 /** 电话 */
 - (IBAction)call:(id)sender {
     

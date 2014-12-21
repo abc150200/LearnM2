@@ -12,11 +12,15 @@
 #define LMRecLabelFont [UIFont systemFontOfSize:12]
 
 #import <Foundation/Foundation.h>
+@class LMLevel;
 
 @interface LMMyRec : NSObject
-@property (assign, nonatomic) long createTime;
+@property (nonatomic, assign) long long id;
+@property (nonatomic, assign) int commentType;
+@property (nonatomic, assign) long long typeId;
+@property (assign, nonatomic) long long createTime;
 @property (copy, nonatomic) NSString *typeName;
-@property (nonatomic, strong) NSDictionary *level;
+@property (nonatomic, strong) LMLevel *level;
 @property (copy, nonatomic) NSString *commentText;
 @property (copy, nonatomic) NSString *images;
 @end

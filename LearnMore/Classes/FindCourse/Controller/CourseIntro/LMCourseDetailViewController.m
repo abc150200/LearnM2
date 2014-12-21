@@ -12,7 +12,7 @@
 
 
 
-@interface LMCourseDetailViewController ()
+@interface LMCourseDetailViewController ()<UIScrollViewDelegate>
 
 
 
@@ -27,9 +27,11 @@
 {
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width , LMMyScrollMarkHeight)];
     self.view = self.webView;
+    self.webView.scrollView.delegate = self;
     self.view.height = self.webView.height;
     
     self.webView.scrollView.bounces = NO;
+
 }
 
 
@@ -42,6 +44,22 @@
     
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
   
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    MyLog(@"WebViewscrollViewDidScroll===%f",scrollView.contentOffset.y);
+
+    
+    if(scrollView.contentOffset.y == 0)
+    {
+        self.webView.scrollView.scrollEnabled = NO;
+    }
+    else
+    {
+        self.webView.scrollView.scrollEnabled = YES;
+    }
+    
 }
 
 

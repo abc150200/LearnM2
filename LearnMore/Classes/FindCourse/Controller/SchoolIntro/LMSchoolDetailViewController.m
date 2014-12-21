@@ -12,9 +12,9 @@
 
 #import "LMSchoolDetailViewController.h"
 
-@interface LMSchoolDetailViewController ()
+@interface LMSchoolDetailViewController ()<UIScrollViewDelegate>
 
-@property (nonatomic, strong) UIWebView *webView;
+
 
 @end
 
@@ -25,7 +25,7 @@
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width , LMMyScrollMarkHeight)];
     self.view = self.webView;
     self.view.height = self.webView.height;
-    
+    self.webView.scrollView.delegate = self;
     self.webView.scrollView.bounces = NO;
 }
 
@@ -33,10 +33,24 @@
 {
     [super viewDidLoad];
     
-    
-//    NSString *urlString = [NSString stringWithFormat:@"http://www.learnmore.com.cn/m/school_des.html?id=%lli",_id];
-    
+   
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]]];
+    
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    MyLog(@"WebViewscrollViewDidScroll===%f",scrollView.contentOffset.y);
+    
+    
+    if(scrollView.contentOffset.y == 0)
+    {
+        self.webView.scrollView.scrollEnabled = NO;
+    }
+    else
+    {
+        self.webView.scrollView.scrollEnabled = YES;
+    }
     
 }
 

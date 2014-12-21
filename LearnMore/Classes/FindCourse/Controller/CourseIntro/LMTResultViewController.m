@@ -10,7 +10,7 @@
 
 #import "LMTResultViewController.h"
 
-@interface LMTResultViewController ()
+@interface LMTResultViewController ()<UIScrollViewDelegate>
 
 @end
 
@@ -22,7 +22,7 @@
     self.webView = webView;
     self.view = webView;
     self.view.height = webView.height;
-    
+    self.webView.scrollView.delegate = self;
     self.webView.scrollView.bounces = NO;
 }
 
@@ -31,13 +31,27 @@
     [super viewDidLoad];
     
     
-//    NSString *urlString = [NSString stringWithFormat:@"http://www.learnmore.com.cn/m/course_achieve.html?id=%lli",_id];
-    
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]]];
     
     
 }
 
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    MyLog(@"WebViewscrollViewDidScroll===%f",scrollView.contentOffset.y);
+    
+    
+    if(scrollView.contentOffset.y == 0)
+    {
+        self.webView.scrollView.scrollEnabled = NO;
+    }
+    else
+    {
+        self.webView.scrollView.scrollEnabled = YES;
+    }
+    
+}
 
 
 @end

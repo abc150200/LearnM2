@@ -30,6 +30,9 @@
     
     self.tableView.rowHeight = 30;
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    
+//    NSIndexPath *firstPath = [NSIndexPath indexPathForRow:0 inSection:0];
+//    [self.tableView selectRowAtIndexPath:firstPath animated:YES scrollPosition:UITableViewScrollPositionTop];
 
 }
 
@@ -53,6 +56,9 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.font = [UIFont systemFontOfSize:14];
     cell.textLabel.textColor = [UIColor darkGrayColor];
+    
+//    cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"btn_pressed"]];
+    
     return cell;
 }
 

@@ -255,7 +255,7 @@
         case 0:
         {
             //显示菜单
-            UIView *menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 200)];
+            UIView *menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 210)];
             menuView.backgroundColor = [UIColor whiteColor];
             self.menuView = menuView;
             
@@ -273,13 +273,13 @@
             
             
             CZProvinceViewController *pVc = [[CZProvinceViewController alloc] init];
-            pVc.view.frame = CGRectMake(0, 30, self.view.width * 0.5, 170);
+            pVc.view.frame = CGRectMake(0, 30, self.view.width * 0.5, 180);
             [menuView addSubview:pVc.view];
             self.pVc = pVc;
             pVc.provinceDelegate = self;
             
             CZCityViewController *cVc = [[CZCityViewController alloc] init];
-            cVc.view.frame = CGRectMake(150, 30, self.view.width * 0.5, 170);
+            cVc.view.frame = CGRectMake(150, 30, self.view.width * 0.5, 180);
             [menuView addSubview:cVc.view];
             self.cVc = cVc;
             cVc.delegate = self;
@@ -289,7 +289,7 @@
         case 1:
         {
             //显示菜单
-            UIView *menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 200)];
+            UIView *menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 210)];
             menuView.backgroundColor = [UIColor whiteColor];
             self.menuView = menuView;
             
@@ -307,13 +307,13 @@
             
             
             LMAreaViewController *lac = [[LMAreaViewController alloc] init];
-            lac.view.frame = CGRectMake(0, 30, self.view.width * 0.5, 170);
+            lac.view.frame = CGRectMake(0, 30, self.view.width * 0.5, 180);
             [menuView addSubview:lac.view];
             self.lac = lac;
             lac.areaDelegate = self;
             
             LMCityViewController *lcc = [[LMCityViewController alloc] init];
-            lcc.view.frame = CGRectMake(150, 30, self.view.width * 0.5, 170);
+            lcc.view.frame = CGRectMake(150, 30, self.view.width * 0.5, 180);
             [menuView addSubview:lcc.view];
             self.lcc = lcc;
             self.lcc.delegate = self;
@@ -323,12 +323,12 @@
         case 2:
         {
             //显示菜单
-            UIView *menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 200)];
+            UIView *menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 210)];
             menuView.backgroundColor = [UIColor whiteColor];
             self.menuView = menuView;
             
             LMAgeViewController *avc = [[LMAgeViewController alloc] init];
-            avc.view.frame = CGRectMake(0, 0, self.view.width , 200);
+            avc.view.frame = CGRectMake(0, 0, self.view.width , 210);
             [menuView addSubview:avc.view];
             self.avc = avc;
             avc.delegate = self;
@@ -342,12 +342,12 @@
             
         {
             //显示菜单
-            UIView *menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 200)];
+            UIView *menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 210)];
             menuView.backgroundColor = [UIColor whiteColor];
             self.menuView = menuView;
             
             LMlistViewController *lvc = [[LMlistViewController alloc] init];
-            lvc.view.frame = CGRectMake(0, 0, self.view.width , 200);
+            lvc.view.frame = CGRectMake(0, 0, self.view.width , 210);
             [menuView addSubview:lvc.view];
             self.lvc = lvc;
             lvc.delegate = self;

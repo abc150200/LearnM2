@@ -12,4 +12,6 @@
 @interface LMMyRecViewCell : UITableViewCell
 @property (nonatomic, strong) LMMyRecFrame *recFrame;
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+@property (nonatomic, assign) long long id;
+@property (nonatomic, assign) long long typeId;
 @end

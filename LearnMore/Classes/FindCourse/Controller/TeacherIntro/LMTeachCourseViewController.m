@@ -21,6 +21,8 @@
     [super viewDidLoad];
     
     self.tableView.rowHeight = 93;
+    
+    self.tableView.bounces = NO;
 }
 
 
@@ -63,6 +65,20 @@
     [self.navigationController pushViewController:ci animated:YES];
     
 }
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    
+    if(scrollView.contentOffset.y == 0)
+    {
+        self.tableView.scrollEnabled = NO;
+    }
+    else
+    {
+        self.tableView.scrollEnabled = YES;
+    }
+}
+
 
 
 @end

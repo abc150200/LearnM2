@@ -12,7 +12,7 @@
 #import "LMTeacherIntroViewController.h"
 
 
-@interface LMSchoolTeacherViewController ()
+@interface LMSchoolTeacherViewController ()<UIScrollViewDelegate>
 
 @end
 
@@ -23,6 +23,7 @@
     
      self.tableView.rowHeight = 70;
     
+    self.tableView.bounces = NO;
 }
 
 
@@ -61,6 +62,19 @@
     
     [self.navigationController pushViewController:ti animated:YES];
     
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    
+    if(scrollView.contentOffset.y == 0)
+    {
+        self.tableView.scrollEnabled = NO;
+    }
+    else
+    {
+        self.tableView.scrollEnabled = YES;
+    }
 }
 
 

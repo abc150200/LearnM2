@@ -43,7 +43,12 @@
 /** 主视图的底部ScrollView */
 @property (nonatomic, strong) UIScrollView *myScrollView;
 
+/** 老师课程控制器 */
 @property (nonatomic, strong) LMTeachCourseViewController *trv;
+/** 教师详情控制器 */
+@property (nonatomic, strong) LMSchoolDetailViewController *cv;
+/** 教学成果控制器 */
+@property (nonatomic, strong) LMTResultViewController *tv;
 
 @end
 
@@ -155,6 +160,7 @@
 {
     //教师详情控制器
     LMSchoolDetailViewController *cv = [[LMSchoolDetailViewController alloc] init];
+    self.cv = cv;
     cv.urlString =  [NSString stringWithFormat:@"http://www.learnmore.com.cn/m/teacher_des.html?id=%lli",_id];
     [self.myScrollView addSubview:cv.view];
     cv.view.x = 0;
@@ -178,6 +184,7 @@
     
     //教学成果控制器
     LMTResultViewController *tv = [[LMTResultViewController alloc] init];
+    self.tv = tv;
     tv.urlString =[NSString stringWithFormat:@"http://www.learnmore.com.cn/m/teacher_achieve.html?id=%lli",_id];
     [self.myScrollView addSubview:tv.view];
     tv.view.x = CGRectGetMaxX(trv.view.frame);
@@ -211,6 +218,26 @@
         CGFloat progress = x / (2 * self.view.width);
         self.menuBtnView.progress = progress;
     }
+    
+    
+    
+    MyLog(@"self.scrollView.contentOffset.y===%f",self.scrollView.contentOffset.y);
+    
+    MyLog(@"self.scrollView.caaaaaaat.y===%f",CGRectGetMaxY(self.iconView.frame) - 64);
+    
+    CGFloat height = CGRectGetMaxY(self.iconView.frame) - 64;
+    
+    if ((int)self.scrollView.contentOffset.y == (int)height) {
+        self.cv.webView.scrollView.scrollEnabled = YES;
+        self.trv.tableView.scrollEnabled = YES;
+        self.tv.webView.scrollView.scrollEnabled = YES;
+    }else
+    {
+        self.cv.webView.scrollView.scrollEnabled = NO;
+        self.trv.tableView.scrollEnabled = NO;
+        self.tv.webView.scrollView.scrollEnabled = NO;
+    }
+
     
 }
 

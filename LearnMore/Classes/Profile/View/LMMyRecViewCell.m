@@ -12,17 +12,18 @@
 #define LMRecLabelFont [UIFont systemFontOfSize:12]
 
 #import "LMMyRecViewCell.h"
-#import "LMPhotosView.h"
+#import "LMMyRecPhotosView.h"
 #import "LMMyRecFrame.h"
 #import "LMMyRec.h"
 #import "TQStarRatingDisplayView.h"
+#import "LMLevel.h"
 
 @interface LMMyRecViewCell ()
 
 @property (nonatomic, weak) UIView *topView;
 @property (nonatomic, weak) UILabel *timeLabel;
 @property (nonatomic, weak) UILabel *contentLabel;
-@property (nonatomic, weak) LMPhotosView *photosView;
+@property (nonatomic, weak) LMMyRecPhotosView *photosView;
 @property (nonatomic, weak) UIImageView *upImg;
 @property (nonatomic, weak) UIImageView *downImg;
 @property (nonatomic, weak) UIImageView *recView;
@@ -70,6 +71,7 @@
         
         //点评内容
         UIImageView *recView =[[UIImageView alloc] init];
+        recView.image = [UIImage resizableImageWithName:@"my_review_bg"];
         [self.topView addSubview:recView];
         self.recView = recView;
         recView.userInteractionEnabled = YES;
@@ -90,8 +92,8 @@
         
         //评分label
         UILabel *recLabel = [[UILabel alloc] init];
-        titleLabel.font = LMRecLabelFont;
-        titleLabel.textColor = [UIColor orangeColor];
+        recLabel.font = LMRecLabelFont;
+        recLabel.textColor = [UIColor orangeColor];
         [self.recView addSubview:recLabel];
         self.recLabel = recLabel;
         
@@ -103,9 +105,9 @@
         self.contentLabel = contentLabel;
         contentLabel.numberOfLines = 0;
         
-      
+        
         //配图容器
-        LMPhotosView *photosView = [[LMPhotosView alloc] init];
+        LMMyRecPhotosView *photosView = [[LMMyRecPhotosView alloc] init];
         [self.recView addSubview:photosView];
         self.photosView = photosView;
         
@@ -139,25 +141,37 @@
 {
     LMMyRec *myRec = self.recFrame.myRec;
     
+    self.id = myRec.id;
+    self.typeId = myRec.typeId;
+    
     self.timeLabel.text = [NSString timeWithLong:myRec.createTime];
     self.titleLabel.text = myRec.typeName;
-    NSDictionary *dict = myRec.level;
-    self.recLabel.text = dict[@"totalLevel"];
+    
+    LMLevel *dict = myRec.level;
+    self.recLabel.text = dict.totalLevel;
     
     CGRect rect = CGRectMake(25,96,90,14);
     TQStarRatingDisplayView *star = [[TQStarRatingDisplayView alloc] initWithFrame:rect numberOfStar:5 norImage:@"public_review_small_normal" highImage:@"public_review_small_pressed" starSize:14 margin:0 score:self.recLabel.text];
-    [self.contentView addSubview:star];
+    [self.topView addSubview:star];
     
-     self.contentLabel.text = myRec.commentText;
+    self.contentLabel.text = myRec.commentText;
     
+    NSMutableArray *arrM = [NSMutableArray array];
     if ([myRec.images hasPrefix:@"http"]) {
-        self.photosView.photos = [myRec.images componentsSeparatedByString:@","];
+        NSArray* arr = [myRec.images componentsSeparatedByString:@","];
+        for (NSString *str in arr) {
+            if([str hasPrefix:@"http"])
+                [arrM addObject:str];
+            
+            self.photosView.photos = arrM;
+        }
     }else
     {
         self.photosView.photos = 0;
     }
 }
 
+/** self.photosView.photos = [myRec.images componentsSeparatedByString:@","]; */
 
 /**
  *  设置frame
@@ -171,6 +185,7 @@
     self.timeLabel.frame = self.recFrame.timeLabelF;
     self.titleLabel.frame = self.recFrame.titleLabelF;
     self.divider.frame = self.recFrame.dividerF;
+    self.recLabel.frame = self.recFrame.recLabelF;
     self.contentLabel.frame = self.recFrame.contentLabelF;
     self.photosView.frame = self.recFrame.originalPhotosViewF;
     self.upImg1.frame = self.recFrame.upImg1F;

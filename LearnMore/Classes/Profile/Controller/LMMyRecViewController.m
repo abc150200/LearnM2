@@ -14,6 +14,8 @@
 #import "LMMyRec.h"
 #import "LMMyRecFrame.h"
 #import "LMMyRecViewCell.h"
+#import "LMCourseIntroViewController.h"
+#import "MJRefresh.h"
 
 @interface LMMyRecViewController ()
 @property (nonatomic, strong) NSMutableArray *recomFrames;
@@ -24,12 +26,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self loadDate];
+    self.title = @"我的点评";
     
-    }
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    //    self.tableView.backgroundColor = UIColorFromRGB(0xf0f0f0);
+    
+    //添加下拉加载
+    [self.tableView addHeaderWithTarget:self action:@selector(loadNewData)];
+    
+    //主动显示菊花
+    [self.tableView headerBeginRefreshing];
+    
+    //添加上拉加载
+    [self.tableView addFooterWithTarget:self action:@selector(loadMoreData)];
+    
+}
 
 
-- (void)loadDate
+- (void)loadNewData
 {
     
     LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
@@ -43,7 +58,7 @@
     
     //参数
     NSMutableDictionary *arr = [NSMutableDictionary dictionary];
-    arr[@"count"] = @"5";
+    arr[@"count"] = @"10";
     arr[@"time"] = [NSString timeNow];
     
     NSString *jsonStr = [arr JSONString];
@@ -74,13 +89,85 @@
         
         
         [self.tableView reloadData];
-
         
+        // 3.关闭菊花
+        [self.tableView headerEndRefreshing];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         LogObj(error.localizedDescription);
+        
+        // 3.关闭菊花
+        [self.tableView headerEndRefreshing];
     }];
+    
+}
 
+
+- (void)loadMoreData
+{
+    
+    LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    
+    //url地址
+    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"comment/userCommentList.json"];
+    
+    if (self.recomFrames.count < 10) {
+        // 3.关闭菊花
+        [self.tableView footerEndRefreshing];
+        
+        return;
+    }
+    
+    int count = self.recomFrames.count + 1;
+    
+    //参数
+    NSMutableDictionary *arr = [NSMutableDictionary dictionary];
+    arr[@"count"] = @"5";
+    arr[@"time"] = [NSString timeNow];
+    arr[@"startIndex"] = [NSString stringWithFormat:@"%d",count];
+    
+    NSString *jsonStr = [arr JSONString];
+    MyLog(@"%@",jsonStr);
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    parameters[@"sid"] = account.sid;
+    parameters[@"data"] = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:account.sessionkey];
+    
+    [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        LogObj(responseObject);
+        
+        NSString *actStr = [AESenAndDe De_Base64andAESDeToString:responseObject[@"data"] keyValue:account.sessionkey];
+        
+        NSDictionary *dict = [actStr objectFromJSONString];
+        LogObj(dict);
+        
+        NSArray *recomArr = [LMMyRec objectArrayWithKeyValuesArray:dict[@"comments"]];
+        NSMutableArray *frameModels = [NSMutableArray arrayWithCapacity:recomArr.count];
+        for (LMMyRec *recom in recomArr) {
+            LMMyRecFrame *recomFrame = [[LMMyRecFrame alloc] init];
+            recomFrame.myRec = recom;
+            [frameModels addObject:recomFrame];
+        }
+        
+        [self.recomFrames addObjectsFromArray: frameModels];
+        
+        
+        [self.tableView reloadData];
+        
+        // 3.关闭菊花
+        [self.tableView headerEndRefreshing];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        LogObj(error.localizedDescription);
+        
+        // 3.关闭菊花
+        [self.tableView headerEndRefreshing];
+    }];
+    
 }
 
 
@@ -111,6 +198,19 @@
 {
     LMMyRecFrame *recF = self.recomFrames[indexPath.row];
     return recF.cellHeight;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    LMMyRecViewCell *cell = (LMMyRecViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    
+    
+#warning commentType = 1;搞清楚!!!
+    LMCourseIntroViewController *li = [[LMCourseIntroViewController alloc] init];
+    li.id = cell.typeId;
+    [self.navigationController pushViewController:li animated:YES];
+    
 }
 
 

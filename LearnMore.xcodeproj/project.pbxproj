@@ -296,6 +296,8 @@
 		20FE4A051A00FEE800D5AD3B /* NSString+Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FE4A031A00FEE800D5AD3B /* NSString+Hash.m */; };
 		20FEBC9F1A42D8260032C065 /* smallAreas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20FEBC9E1A42D8260032C065 /* smallAreas.plist */; };
 		87801FB819E2E7B4004F3FDB /* citydict.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87801FB719E2E7B4004F3FDB /* citydict.plist */; };
+		CA6A7A981A46EB4200EF6AC4 /* LMLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = CA6A7A971A46EB4200EF6AC4 /* LMLevel.m */; };
+		CA6A7A9B1A46EB7A00EF6AC4 /* LMMyRecPhotosView.m in Sources */ = {isa = PBXBuildFile; fileRef = CA6A7A9A1A46EB7A00EF6AC4 /* LMMyRecPhotosView.m */; };
 		CABBDB241A2E26FC00298F95 /* LMPhotosView.m in Sources */ = {isa = PBXBuildFile; fileRef = CABBDB231A2E26FC00298F95 /* LMPhotosView.m */; };
 		CAFF76291A0FD5830029D627 /* TFIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFF76281A0FD5830029D627 /* TFIndicatorView.m */; };
 		CAFF762D1A0FE4700029D627 /* ACETelPrompt.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFF762C1A0FE4700029D627 /* ACETelPrompt.m */; };
@@ -824,6 +826,10 @@
 		20FE4A031A00FEE800D5AD3B /* NSString+Hash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Hash.m"; sourceTree = "<group>"; };
 		20FEBC9E1A42D8260032C065 /* smallAreas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = smallAreas.plist; sourceTree = "<group>"; };
 		87801FB719E2E7B4004F3FDB /* citydict.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = citydict.plist; sourceTree = "<group>"; };
+		CA6A7A961A46EB4200EF6AC4 /* LMLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLevel.h; sourceTree = "<group>"; };
+		CA6A7A971A46EB4200EF6AC4 /* LMLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMLevel.m; sourceTree = "<group>"; };
+		CA6A7A991A46EB7A00EF6AC4 /* LMMyRecPhotosView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyRecPhotosView.h; sourceTree = "<group>"; };
+		CA6A7A9A1A46EB7A00EF6AC4 /* LMMyRecPhotosView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyRecPhotosView.m; sourceTree = "<group>"; };
 		CABBDB221A2E26FC00298F95 /* LMPhotosView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPhotosView.h; sourceTree = "<group>"; };
 		CABBDB231A2E26FC00298F95 /* LMPhotosView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPhotosView.m; sourceTree = "<group>"; };
 		CAFF76271A0FD5830029D627 /* TFIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFIndicatorView.h; sourceTree = "<group>"; };
@@ -1123,6 +1129,8 @@
 				20BCC1EE19E6905E00A5913B /* LMCourseIntroViewController.xib */,
 				20F608FC1A3AD16F00CA5A5C /* LMCourseDetailViewController.h */,
 				20F608FD1A3AD16F00CA5A5C /* LMCourseDetailViewController.m */,
+				20079E7B1A07C9A800BC012A /* LMTeachListTableViewController.h */,
+				20079E7C1A07C9A800BC012A /* LMTeachListTableViewController.m */,
 				20F608FF1A3AD22A00CA5A5C /* LMTResultViewController.h */,
 				20F609001A3AD22A00CA5A5C /* LMTResultViewController.m */,
 				20F9A24D19EB712700BAB3D5 /* LMReserveViewController.h */,
@@ -1137,8 +1145,6 @@
 				2057BBC519FF7A8900BA2793 /* LMMapViewController.h */,
 				2057BBC619FF7A8900BA2793 /* LMMapViewController.m */,
 				2057BBC719FF7A8900BA2793 /* LMMapViewController.xib */,
-				20079E7B1A07C9A800BC012A /* LMTeachListTableViewController.h */,
-				20079E7C1A07C9A800BC012A /* LMTeachListTableViewController.m */,
 				205825191A2848C500BAA0E8 /* LMAddRecommendViewController.h */,
 				2058251A1A2848C500BAA0E8 /* LMAddRecommendViewController.m */,
 				2058251B1A2848C500BAA0E8 /* LMAddRecommendViewController.xib */,
@@ -1721,6 +1727,8 @@
 				20FCAF131A3F206A00882842 /* LMMyRec.m */,
 				20E9E6A41A3FD3F50038F09F /* LMMyRecFrame.h */,
 				20E9E6A51A3FD3F50038F09F /* LMMyRecFrame.m */,
+				CA6A7A961A46EB4200EF6AC4 /* LMLevel.h */,
+				CA6A7A971A46EB4200EF6AC4 /* LMLevel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1743,6 +1751,8 @@
 				20109CC619EE15B800FAD7CC /* LMMyActivityViewCell.xib */,
 				20E9E6A71A3FD81C0038F09F /* LMMyRecViewCell.h */,
 				20E9E6A81A3FD81C0038F09F /* LMMyRecViewCell.m */,
+				CA6A7A991A46EB7A00EF6AC4 /* LMMyRecPhotosView.h */,
+				CA6A7A9A1A46EB7A00EF6AC4 /* LMMyRecPhotosView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2213,6 +2223,7 @@
 				20F278CE1A023025004370DA /* MJRefreshFooterView.m in Sources */,
 				2092DE561A2F35EA0029873A /* LMOnerRecViewController.m in Sources */,
 				204C334E19EBB0BE00CD71B0 /* LMActivityDetailViewController.m in Sources */,
+				CA6A7A981A46EB4200EF6AC4 /* LMLevel.m in Sources */,
 				20F278B21A022191004370DA /* SDWebImagePrefetcher.m in Sources */,
 				20F2E4E61A14BB6C006CAE25 /* AESCrypt.m in Sources */,
 				2071DA6119FFB64B00CA56DC /* MJType.m in Sources */,
@@ -2276,6 +2287,7 @@
 				209379D71A04C1BA008B0B19 /* LMTeacherInfo.m in Sources */,
 				20F278CC1A023025004370DA /* MJRefreshBaseView.m in Sources */,
 				2071DA5D19FFB64B00CA56DC /* MJFoundation.m in Sources */,
+				CA6A7A9B1A46EB7A00EF6AC4 /* LMMyRecPhotosView.m in Sources */,
 				20BCC22D19E6908100A5913B /* LMSchoolCourseViewCell.m in Sources */,
 				20EF627219E7CCD1006544B3 /* LMSchoolCourse.m in Sources */,
 				20FCAF141A3F206A00882842 /* LMMyRec.m in Sources */,
@@ -2542,8 +2554,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Youxuejingxuan Technology Co., Ltd. (7JSJ5UMP3K)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Youxuejingxuan Technology Co., Ltd. (7JSJ5UMP3K)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LearnMore/Classes/Other/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
@@ -2578,7 +2590,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Youxuejingxuan Technology Co., Ltd. (7JSJ5UMP3K)";
+				CODE_SIGN_IDENTITY = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LearnMore/Classes/Other/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",

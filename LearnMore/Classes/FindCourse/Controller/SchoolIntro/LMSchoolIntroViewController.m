@@ -112,6 +112,8 @@
 @property (nonatomic, strong)  LMSchoolCourseViewController *trv;
 /** 学校点评字典 */
 @property (nonatomic, strong) NSDictionary *schoolScoreDic;
+/** 学校老师的控制器 */
+@property (nonatomic, strong) LMSchoolDetailViewController *cv;
 
 
 @end
@@ -253,6 +255,7 @@
 {
     //学校详情控制器
     LMSchoolDetailViewController *cv = [[LMSchoolDetailViewController alloc] init];
+    self.cv = cv;
     cv.urlString =  [NSString stringWithFormat:@"http://www.learnmore.com.cn/m/school_des.html?id=%lli",_id];
     [self.myScrollView addSubview:cv.view];
     cv.view.x = 0;
@@ -311,6 +314,25 @@
         CGFloat progress = x / (2 * self.view.width);
         self.menuBtnView.progress = progress;
     }
+    
+    
+    MyLog(@"self.scrollView.contentOffset.y===%f",self.scrollView.contentOffset.y);
+    
+    MyLog(@"self.scrollView.caaaaaaat.y===%f",CGRectGetMaxY(self.srv.view.frame) + LMPadding - 64);
+    
+    CGFloat height = CGRectGetMaxY(self.srv.view.frame) + LMPadding - 64;
+    
+    if ((int)self.scrollView.contentOffset.y == (int)height) {
+        self.cv.webView.scrollView.scrollEnabled = YES;
+        self.trv.tableView.scrollEnabled = YES;
+        self.tl.tableView.scrollEnabled = YES;
+    }else
+    {
+        self.cv.webView.scrollView.scrollEnabled = NO;
+        self.trv.tableView.scrollEnabled = NO;
+        self.tl.tableView.scrollEnabled = NO;
+    }
+
     
 }
 
@@ -385,7 +407,6 @@
             self.menuBtnView.y = CGRectGetMaxY(self.srv.view.frame) + LMSchoolMark;
             self.myScrollView.y = CGRectGetMaxY(self.menuBtnView.frame);
             self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight);
-
         }
 
 
@@ -611,20 +632,18 @@
         self.gps = schoolInfoDic[@"schoolGps"];
         self.address = schoolInfoDic[@"address"];
         
-        NSArray *mainCourse = [schoolInfoDic[@"mainCourse"] objectFromJSONString];
-        NSMutableArray *arrM = [NSMutableArray array];
-        for (NSDictionary *dict in mainCourse) {
-            [arrM addObject:dict[@"name"]];
+ 
+        if ([schoolInfoDic[@"mainCourse"] isKindOfClass:[NSString class]]) {
+            NSArray *mainCourse = [schoolInfoDic[@"mainCourse"] objectFromJSONString];
+            NSMutableArray *arrM = [NSMutableArray array];
+            for (NSDictionary *dict in mainCourse) {
+                [arrM addObject:dict[@"name"]];
+            }
+            self.courseMack.text = [NSString stringWithFormat:@"课程标签: %@",[arrM componentsJoinedByString:@"、"]];
+        }else
+        {
+            self.courseMack.text = @"课程标签: 暂未录入";
         }
-        self.courseMack.text = [NSString stringWithFormat:@"课程标签: %@",[arrM componentsJoinedByString:@"、"]];
-        
-        
-//        if (self.schoolMark) {
-//            self.courseMack.text =[NSString stringWithFormat:@"课程标签: %@",self.schoolMark] ;
-//        }else
-//        {
-//            self.courseMack.text = @"课程标签: 其他";
-//        }
         
         
         NSDictionary *schoolCommentLevel =schoolInfoDic[@"schoolCommentLevel"];
