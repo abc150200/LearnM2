@@ -14,6 +14,7 @@
 #import "AFNetworking.h"
 #import "AESenAndDe.h"
 #import "LMCourseBook.h"
+#import "LMCourseListMainViewController.h"
 #import "LMCourseIntroViewController.h"
 
 @interface LMMyReserveViewController ()
@@ -111,7 +112,7 @@
 
 - (IBAction)foundBtn:(id)sender {
     
-    LMActivityViewController *lv = [[LMActivityViewController alloc] init];
+    LMCourseListMainViewController *lv = [[LMCourseListMainViewController alloc] init];
     
     [self.navigationController pushViewController:lv animated:YES];
     

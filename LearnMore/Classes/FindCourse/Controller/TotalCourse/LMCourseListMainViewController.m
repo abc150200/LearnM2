@@ -447,36 +447,6 @@
 
 
 
-//// 选中区域大类的代理方法
-//- (void)areaViewController:(LMAreaViewController *)controller selectedCities:(NSArray *)cities areaId:(NSString *)areaId areaLevel:(NSString *)areaLevel title:(NSString *)title
-//{
-//    
-//    
-//
-//    self.lcc.cities = cities;
-//    
-//    self.lcc.id  = areaId;
-//    self.lcc.level = areaLevel;
-//    
-//    [self.headView.cityBtn setTitle:title forState:UIControlStateNormal];
-//    
-//    [self.headView.cityBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_normal"] forState:UIControlStateNormal];
-//}
-
-//选中区域小类的代理
-
-//- (void)cityViewController:(LMCityViewController *)cityViewController level:(NSString *)level id:(NSString *)id
-//{
-//    self.areaId = id;
-//    self.levelId = level;
-//    
-//    [self loadNewData];
-//    
-//    [self.popMenu dismiss];
-//}
-
-
-
 //年龄代理
 - (void)ageViewController:(LMAgeViewController *)ageViewController age:(int)age title:(NSString *)title
 {

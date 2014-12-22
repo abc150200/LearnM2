@@ -75,7 +75,8 @@
         LMCommonItemLabel *labelItem = (LMCommonItemLabel *)self.item;
         self.accessoryLabel.text = labelItem.text;
         //计算label的宽高
-        self.accessoryLabel.size = [labelItem.text sizeWithFont:self.accessoryLabel.font];
+//        self.accessoryLabel.size = [labelItem.text sizeWithFont:self.accessoryLabel.font];
+        self.accessoryLabel.size = [labelItem.text sizeWithAttributes:@{NSFontAttributeName : self.accessoryLabel.font}];
     }
     else
     {

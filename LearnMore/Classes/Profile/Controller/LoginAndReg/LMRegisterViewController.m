@@ -62,10 +62,6 @@
     [self.user endEditing:YES];
     
     
-    
-//    //添加监听
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidEndEditing) name:UITextFieldTextDidEndEditingNotification object:self.user];
-    
   
 }
 
@@ -76,11 +72,6 @@
     self.scrollView.contentSize = CGSizeMake(self.view.width, self.view.height + 80);
     [self.user becomeFirstResponder];
 }
-
-//- (void)viewDidDisappear:(BOOL)animated
-//{
-//    [[NSNotificationCenter defaultCenter] removeObserver:self];
-//}
 
 
 
@@ -96,7 +87,7 @@
 //验证
 - (IBAction)phoneClick:(id)sender {
     
-    timeCount = 300;
+    timeCount = 60;
     
     self.reg.userInteractionEnabled = NO;
     
@@ -298,7 +289,11 @@
 - (void)timerFireMethod
 {
     timeCount--;
+    
+    [self.reg setTitle:[NSString stringWithFormat:@"%d秒",timeCount] forState:UIControlStateNormal];
+    
     if (timeCount == 0 ) {
+        [self.reg setTitle:@"验证" forState:UIControlStateNormal];
         self.reg.userInteractionEnabled = YES;
         [self.countDownTimer invalidate];
     }

@@ -23,7 +23,7 @@
 #import "LMAccount.h"
 #import "LMMyRecViewController.h"
 
-@interface LMSettingViewController ()
+@interface LMSettingViewController ()<UIAlertViewDelegate>
 
 @end
 
@@ -142,12 +142,10 @@
         myReview.destVc = [LMLoginViewController class];
     }
     
+#warning 点评增加入口
     LMCommonGroup *group1 = [self addGroup];
-    group1.items = @[freeReserve,signActivity,myReview];
-    
-    
-    
-   
+    group1.items = @[freeReserve,signActivity];
+  
 }
 
 
@@ -157,32 +155,12 @@
     LMCommonItemArrow *myCheck = [LMCommonItemArrow itemWithIcon:@"me_grade" Title:@"为我们打分"];
     myCheck.option = ^{
         
-#warning 需要创建ID
-         NSString* m_appleID = @"941536677";    //tinyray 此处的appID是在iTunes Connect创建应用程序时生成的Apple ID
+
+         NSString* m_appleID = LMAppID;    //tinyray 此处的appID是在iTunes Connect创建应用程序时生成的Apple ID
         NSString *str = [NSString stringWithFormat:
                          @"itms-apps://itunes.apple.com/app/id%@",m_appleID ];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-        //NSLog(@"打分支持！！");
-//    }else{
-//        //初始化控制器
-//        SKStoreProductViewController *storeProductViewContorller =[[SKStoreProductViewController alloc] init];
-//        //设置代理请求为当前控制器本身
-//        storeProductViewContorller.delegate = self;
-//        //加载一个新的视图展示
-//        [storeProductViewContorller loadProductWithParameters:
-//         @{SKStoreProductParameterITunesItemIdentifier:m_appleID}//appId唯一的
-//                                              completionBlock:^(BOOL result, NSError *error) {
-//                                                  //block回调
-//                                                  if(error){
-//                                                      NSLog(@"error %@ with userInfo %@",error,[error userInfo]);
-//                                                  }else{
-//                                                      //模态弹出appstore
-//                                                      [self presentViewController:storeProductViewContorller animated:YES completion:^{}];
-//                                                  }
-//                                              }
-//         ];
-//    }
-//    
+   
     };
     
     
@@ -192,43 +170,83 @@
     
   
     
-    LMCommonItemArrow *versionUpdate = nil;
-    
-    //判断是否是第一次使用
-    //获取沙盒中的版本号
-    NSString *key = (__bridge_transfer NSString *)kCFBundleVersionKey;
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *localVersion = [defaults objectForKey:key];
-    
-    //获得plist中的版本号
-    NSDictionary *dict = [NSBundle mainBundle].infoDictionary;
-    NSString *currentVersion = dict[key];
-    
-    MyLog(@"本地%@----系统%@",localVersion,currentVersion);
-    
-    if ([currentVersion compare:localVersion] == NSOrderedDescending) {
-        //当前版本号比本地版本号高
+    LMCommonItemArrow *versionUpdate = [LMCommonItemArrow itemWithIcon:@"me_update" Title:@"版本更新"];;
+    versionUpdate.option = ^{
         
-        //存储当前系统版本号
-        [defaults setObject:currentVersion forKey:key];
-        [defaults synchronize];
+        [MBProgressHUD showMessage:@"检测中...,"];
         
-        versionUpdate = [LMCommonItemArrow itemWithIcon:@"me_update" Title:@"版本更新"];
-        versionUpdate.subtitle = @"发现新版本";
-        versionUpdate.option = ^{
-            [MBProgressHUD showSuccess:@"有新版本"];
+        //获取沙盒中的版本号
+        NSString *key = (__bridge_transfer NSString *)kCFBundleVersionKey;
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *localVersion = [defaults objectForKey:key];
+        
+        MyLog(@"localVersion===%@",localVersion);
+        
+        NSString *url = @"http://itunes.apple.com/lookup?id=941536677";
+        NSMutableURLRequest *request  = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+        [request setHTTPMethod:@"POST"];
+        
+       [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        
+           NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+           
+            NSArray *result = dic[@"results"];
+            
+            [MBProgressHUD hideHUD];
+            
+            if (result.count) {
+                
+                NSDictionary *dic2= result[0];
+                NSString *latestVersion = [dic2 objectForKey:@"version"];//应用商店当前版本
+                MyLog(@"version===%@",latestVersion);
+                NSString *trackViewUrl = [dic2 objectForKey:@"trackViewUrl"];
+                MyLog(@"trackViewUrl===%@",trackViewUrl);
+                
+                if ([latestVersion compare:localVersion] == NSOrderedDescending) {
+                    
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"更新" message:@"有新的版本更新，是否前往更新？" delegate:self cancelButtonTitle:@"暂不更新" otherButtonTitles:@"更新", nil];
+                    alert.tag = 10000;
+                    [alert show];
+                    
+                }else
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"更新" message:@"已经是最新版本了!" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    alert.tag = 10001;
+                    [alert show];
+                    
+                }
+                
+            }
+           
+       }];
+        
         };
-    }
-    else
-    {
-#warning 这里判断之后,箭头如何去掉
-        versionUpdate = [LMCommonItemArrow itemWithIcon:@"me_update" Title:@"版本更新"];
-        versionUpdate.subtitle = @"已是最新版";
-        versionUpdate.option = ^{
-            [MBProgressHUD showError:@"已是最新版"];
-        };
-    }
+        
+            
+ 
+//    if ([currentVersion compare:localVersion] == NSOrderedDescending) {
+//        //当前版本号比本地版本号高
+//        
+//        //存储当前系统版本号
+//        [defaults setObject:currentVersion forKey:key];
+//        [defaults synchronize];
+//        
+//        versionUpdate = [LMCommonItemArrow itemWithIcon:@"me_update" Title:@"版本更新"];
+//        versionUpdate.subtitle = @"发现新版本";
+//        versionUpdate.option = ^{
+//            [MBProgressHUD showSuccess:@"有新版本"];
+//        };
+//    }
+//    else
+//    {
+//#warning 这里判断之后,箭头如何去掉
+//        versionUpdate = [LMCommonItemArrow itemWithIcon:@"me_update" Title:@"版本更新"];
+//        versionUpdate.subtitle = @"已是最新版";
+//        versionUpdate.option = ^{
+//            [MBProgressHUD showError:@"已是最新版"];
+//        };
+//    }
     
     
     LMCommonItemArrow *aboutUS = [LMCommonItemArrow itemWithIcon:@"me_about" Title:@"关于我们"];
@@ -239,14 +257,17 @@
 
 }
 
-
-
-
-
-////取消按钮监听
-//-(void)productViewControllerDidFinish:(SKStoreProductViewController*)viewController{
-//    [viewController dismissViewControllerAnimated:YES completion:^{}];
-//}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 10000) {
+        if (buttonIndex == 1) {
+            NSString* m_appleID = LMAppID;    //tinyray 此处的appID是在iTunes Connect创建应用程序时生成的Apple ID
+            NSString *str = [NSString stringWithFormat:
+                             @"itms-apps://itunes.apple.com/app/id%@",m_appleID ];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+        }
+    }
+}
 
 
 

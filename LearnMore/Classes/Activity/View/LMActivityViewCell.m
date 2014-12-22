@@ -56,7 +56,6 @@
     
     
 #warning 在ViewDidLoad 已让其失去交互
-    
     if([self.delegate respondsToSelector:@selector(activityViewCellDidClickBtn:)])
     {
         [self.delegate activityViewCellDidClickBtn:self];

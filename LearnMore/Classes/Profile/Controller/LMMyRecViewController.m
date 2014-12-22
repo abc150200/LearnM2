@@ -159,13 +159,13 @@
         [self.tableView reloadData];
         
         // 3.关闭菊花
-        [self.tableView headerEndRefreshing];
+        [self.tableView footerEndRefreshing];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         LogObj(error.localizedDescription);
         
         // 3.关闭菊花
-        [self.tableView headerEndRefreshing];
+        [self.tableView footerEndRefreshing];
     }];
     
 }

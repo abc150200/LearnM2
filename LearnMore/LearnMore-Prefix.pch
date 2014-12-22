@@ -42,7 +42,6 @@
 #import "JSONKit.h"
 #import "MJExtension.h"
 #import "UIImageView+WebCache.h"
-#import "UIImage+NJ.h"
 #import "NSString+Path.h"
 
 //RGB color macro
@@ -64,5 +63,7 @@
 /** webView底部的空白 */
 #define LMWebViewButton 0
 
+/** 多学appStoreID */
+#define LMAppID @"941536677"
 
 #endif

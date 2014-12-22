@@ -13,7 +13,6 @@
 
 @property (nonatomic, strong) LMCourseList *courseList;
 //符合条件的结果总数
-#warning 什么格式??
 @property (nonatomic, assign) int tcount;
 
 @end

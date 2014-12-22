@@ -10,7 +10,6 @@
 
 #import "LMAppDelegate.h"
 #import "UMSocial.h"
-//#import "APService.h"
 #import "UMSocialWechatHandler.h"
 #import "UMSocialQQHandler.h"
 #import "UMSocialSinaHandler.h"
@@ -63,6 +62,17 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *localVersion = [defaults objectForKey:key];
     
+    //获得plist中的版本号
+    NSDictionary *dict = [NSBundle mainBundle].infoDictionary;
+    NSString *currentVersion = dict[key];
+    if ([currentVersion compare:localVersion] == NSOrderedDescending) {
+        //当前版本号比本地版本号高
+        
+        //存储当前系统版本号
+        [defaults setObject:currentVersion forKey:key];
+        [defaults synchronize];
+    }
+    
     UIDevice *device=[[UIDevice alloc] init];
     NSString *deviceName = device.name;//设备所有者的名称
     NSString *deviceModel = device.model;//设备的类别
@@ -70,7 +80,7 @@
     NSString *devicesyStemVersion = device.systemVersion; //当前系统的版本
     NSString *deviceUUID = device.identifierForVendor.UUIDString;//设备识别码
     
-    NSString *deviceAll = [NSString stringWithFormat:@"%@#%@#%@#%@#%@#%@",deviceName,deviceModel,deviceLocalizedModel,devicesyStemVersion,deviceUUID,localVersion];
+    NSString *deviceAll = [NSString stringWithFormat:@"%@#%@#%@#%@#%@#%@",deviceName,deviceModel,deviceLocalizedModel,devicesyStemVersion,deviceUUID,currentVersion];
     [[NSUserDefaults standardUserDefaults] setObject:deviceAll forKey:@"deviceInfo"];
     [[NSUserDefaults standardUserDefaults] setObject:localVersion forKey:@"version"];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -286,10 +296,7 @@
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
      [XGPush handleLaunching:launchOptions successCallback:successBlock errorCallback:errorBlock];
-    
-    
-    
-    
+
     
     //首次打开app统计
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -298,7 +305,10 @@
     NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"commons/open.json"];
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    parameters[@"version"] = localVersion;
+    if(currentVersion)
+    {
+        parameters[@"version"] = currentVersion;
+    }
     parameters[@"device"] = deviceAll;
   
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {

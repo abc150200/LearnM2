@@ -12,6 +12,7 @@
 
 
 @interface LMAboutUsViewController ()<LMFeedbackViewControllerDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *desc;
 
 @end
 
@@ -29,7 +30,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    //获取沙盒中的版本号
+    NSString *key = (__bridge_transfer NSString *)kCFBundleVersionKey;
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *localVersion = [defaults objectForKey:key];
+    
+    self.desc.text = [NSString stringWithFormat:@"多学 %@",localVersion];
 }
 - (IBAction)ButtonClick {
     

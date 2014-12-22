@@ -23,7 +23,6 @@
 		200409721A231612005D477D /* LMAdverce.m in Sources */ = {isa = PBXBuildFile; fileRef = 200409711A231612005D477D /* LMAdverce.m */; };
 		20079E7D1A07C9A800BC012A /* LMTeachListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20079E7C1A07C9A800BC012A /* LMTeachListTableViewController.m */; };
 		20079E801A07CB0100BC012A /* LMTeachList.m in Sources */ = {isa = PBXBuildFile; fileRef = 20079E7F1A07CB0100BC012A /* LMTeachList.m */; };
-		20079E831A083A8A00BC012A /* UIImage+NJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 20079E821A083A8A00BC012A /* UIImage+NJ.m */; };
 		200DA9DA1A0E262A004C2EFB /* LMCourseTeachCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 200DA9D81A0E262A004C2EFB /* LMCourseTeachCell.m */; };
 		200DA9DB1A0E262A004C2EFB /* LMCourseTeachCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 200DA9D91A0E262A004C2EFB /* LMCourseTeachCell.xib */; };
 		20109CC719EE15B800FAD7CC /* LMMyActivityViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20109CC519EE15B800FAD7CC /* LMMyActivityViewCell.m */; };
@@ -205,8 +204,6 @@
 		20F278D01A023025004370DA /* UIScrollView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F278C61A023025004370DA /* UIScrollView+Extension.m */; };
 		20F278D11A023025004370DA /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F278C81A023025004370DA /* UIScrollView+MJRefresh.m */; };
 		20F278D21A023025004370DA /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F278CA1A023025004370DA /* UIView+Extension.m */; };
-		20F278D81A023E4B004370DA /* PJFiled.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F278D51A023E4B004370DA /* PJFiled.m */; };
-		20F278D91A023E4B004370DA /* PJReflect.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F278D71A023E4B004370DA /* PJReflect.m */; };
 		20F2E4B41A14BAA9006CAE25 /* FBEncryptorAES.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F2E4AF1A14BAA9006CAE25 /* FBEncryptorAES.m */; };
 		20F2E4B51A14BAA9006CAE25 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F2E4B11A14BAA9006CAE25 /* GTMBase64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		20F2E4E51A14BB6C006CAE25 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 20F2E4DA1A14BB6C006CAE25 /* .gitignore */; };
@@ -271,11 +268,6 @@
 		20F9A25D19EBA1B300BAB3D5 /* LMActivityViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20F9A25B19EBA1B300BAB3D5 /* LMActivityViewCell.xib */; };
 		20FAB80B1A35618F0077183C /* LMOneSchRecViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FAB8091A35618F0077183C /* LMOneSchRecViewController.m */; };
 		20FAB80C1A35618F0077183C /* LMOneSchRecViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20FAB80A1A35618F0077183C /* LMOneSchRecViewController.xib */; };
-		20FAD7E11A0A105D008D44DB /* FDFontPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FAD7D51A0A105D008D44DB /* FDFontPickerViewController.m */; };
-		20FAD7E21A0A105D008D44DB /* FDLabelConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FAD7D71A0A105D008D44DB /* FDLabelConfigViewController.m */; };
-		20FAD7E31A0A105D008D44DB /* FDLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FAD7D91A0A105D008D44DB /* FDLabelView.m */; };
-		20FAD7E41A0A105D008D44DB /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FAD7DC1A0A105D008D44DB /* HTMLNode.m */; };
-		20FAD7E51A0A105D008D44DB /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FAD7DE1A0A105D008D44DB /* HTMLParser.m */; };
 		20FAD7EB1A0A17CD008D44DB /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 20FAD7EA1A0A17CD008D44DB /* libxml2.2.dylib */; };
 		20FB5CCD1A2EB493003F613B /* TQStarRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FB5CCC1A2EB493003F613B /* TQStarRatingView.m */; };
 		20FBF1901A0DDA17007955B8 /* LMTeacherCourseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FBF18E1A0DDA17007955B8 /* LMTeacherCourseCell.m */; };
@@ -346,8 +338,6 @@
 		20079E7C1A07C9A800BC012A /* LMTeachListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTeachListTableViewController.m; sourceTree = "<group>"; };
 		20079E7E1A07CB0100BC012A /* LMTeachList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTeachList.h; sourceTree = "<group>"; };
 		20079E7F1A07CB0100BC012A /* LMTeachList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTeachList.m; sourceTree = "<group>"; };
-		20079E811A083A8A00BC012A /* UIImage+NJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+NJ.h"; sourceTree = "<group>"; };
-		20079E821A083A8A00BC012A /* UIImage+NJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+NJ.m"; sourceTree = "<group>"; };
 		200DA9D71A0E262A004C2EFB /* LMCourseTeachCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCourseTeachCell.h; sourceTree = "<group>"; };
 		200DA9D81A0E262A004C2EFB /* LMCourseTeachCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCourseTeachCell.m; sourceTree = "<group>"; };
 		200DA9D91A0E262A004C2EFB /* LMCourseTeachCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMCourseTeachCell.xib; sourceTree = "<group>"; };
@@ -668,10 +658,6 @@
 		20F278C81A023025004370DA /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
 		20F278C91A023025004370DA /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
 		20F278CA1A023025004370DA /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
-		20F278D41A023E4B004370DA /* PJFiled.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PJFiled.h; sourceTree = "<group>"; };
-		20F278D51A023E4B004370DA /* PJFiled.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PJFiled.m; sourceTree = "<group>"; };
-		20F278D61A023E4B004370DA /* PJReflect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PJReflect.h; sourceTree = "<group>"; };
-		20F278D71A023E4B004370DA /* PJReflect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PJReflect.m; sourceTree = "<group>"; };
 		20F2E4AE1A14BAA9006CAE25 /* FBEncryptorAES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBEncryptorAES.h; sourceTree = "<group>"; };
 		20F2E4AF1A14BAA9006CAE25 /* FBEncryptorAES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBEncryptorAES.m; sourceTree = "<group>"; };
 		20F2E4B01A14BAA9006CAE25 /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
@@ -784,16 +770,6 @@
 		20FAB8081A35618F0077183C /* LMOneSchRecViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMOneSchRecViewController.h; sourceTree = "<group>"; };
 		20FAB8091A35618F0077183C /* LMOneSchRecViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMOneSchRecViewController.m; sourceTree = "<group>"; };
 		20FAB80A1A35618F0077183C /* LMOneSchRecViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMOneSchRecViewController.xib; sourceTree = "<group>"; };
-		20FAD7D41A0A105D008D44DB /* FDFontPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDFontPickerViewController.h; sourceTree = "<group>"; };
-		20FAD7D51A0A105D008D44DB /* FDFontPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDFontPickerViewController.m; sourceTree = "<group>"; };
-		20FAD7D61A0A105D008D44DB /* FDLabelConfigViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDLabelConfigViewController.h; sourceTree = "<group>"; };
-		20FAD7D71A0A105D008D44DB /* FDLabelConfigViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDLabelConfigViewController.m; sourceTree = "<group>"; };
-		20FAD7D81A0A105D008D44DB /* FDLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDLabelView.h; sourceTree = "<group>"; };
-		20FAD7D91A0A105D008D44DB /* FDLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDLabelView.m; sourceTree = "<group>"; };
-		20FAD7DB1A0A105D008D44DB /* HTMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNode.h; sourceTree = "<group>"; };
-		20FAD7DC1A0A105D008D44DB /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNode.m; sourceTree = "<group>"; };
-		20FAD7DD1A0A105D008D44DB /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
-		20FAD7DE1A0A105D008D44DB /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLParser.m; sourceTree = "<group>"; };
 		20FAD7EA1A0A17CD008D44DB /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		20FB5CCB1A2EB493003F613B /* TQStarRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TQStarRatingView.h; sourceTree = "<group>"; };
 		20FB5CCC1A2EB493003F613B /* TQStarRatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TQStarRatingView.m; sourceTree = "<group>"; };
@@ -1493,7 +1469,6 @@
 		20D402C219D914FC003D251B /* FindCourse(找课程) */ = {
 			isa = PBXGroup;
 			children = (
-				20FAD7D21A0A105D008D44DB /* Tool */,
 				20D402C319D914FC003D251B /* Controller */,
 				20D402C619D914FC003D251B /* Model */,
 				20D402C719D914FC003D251B /* View */,
@@ -1613,8 +1588,6 @@
 			children = (
 				20EE84331A1070D600DDEC92 /* NSString+Path.h */,
 				20EE84341A1070D600DDEC92 /* NSString+Path.m */,
-				20079E811A083A8A00BC012A /* UIImage+NJ.h */,
-				20079E821A083A8A00BC012A /* UIImage+NJ.m */,
 				205426731A07AB860086C516 /* NSDictionary+Log.h */,
 				205426741A07AB860086C516 /* NSDictionary+Log.m */,
 				20FE4A001A00FEE800D5AD3B /* NSArray+Log.h */,
@@ -1649,7 +1622,6 @@
 				CAFF76271A0FD5830029D627 /* TFIndicatorView.h */,
 				CAFF76281A0FD5830029D627 /* TFIndicatorView.m */,
 				20F7A55F19EF7E4600DC526D /* AFNetworking */,
-				20F278D31A023E4B004370DA /* PjExtension */,
 				20F278BA1A023025004370DA /* MJRefresh */,
 				20F278881A022191004370DA /* SDWebImage */,
 				2071DA4319FFB64B00CA56DC /* MJExtension */,
@@ -1820,17 +1792,6 @@
 			path = MJRefresh;
 			sourceTree = "<group>";
 		};
-		20F278D31A023E4B004370DA /* PjExtension */ = {
-			isa = PBXGroup;
-			children = (
-				20F278D41A023E4B004370DA /* PJFiled.h */,
-				20F278D51A023E4B004370DA /* PJFiled.m */,
-				20F278D61A023E4B004370DA /* PJReflect.h */,
-				20F278D71A023E4B004370DA /* PJReflect.m */,
-			);
-			path = PjExtension;
-			sourceTree = "<group>";
-		};
 		20F2E4AB1A14BA80006CAE25 /* AES */ = {
 			isa = PBXGroup;
 			children = (
@@ -1998,40 +1959,6 @@
 				20F9A25B19EBA1B300BAB3D5 /* LMActivityViewCell.xib */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		20FAD7D21A0A105D008D44DB /* Tool */ = {
-			isa = PBXGroup;
-			children = (
-				20FAD7D31A0A105D008D44DB /* FDLabelView */,
-				20FAD7DA1A0A105D008D44DB /* HTMLParser */,
-			);
-			name = Tool;
-			path = Controller/Tool;
-			sourceTree = "<group>";
-		};
-		20FAD7D31A0A105D008D44DB /* FDLabelView */ = {
-			isa = PBXGroup;
-			children = (
-				20FAD7D41A0A105D008D44DB /* FDFontPickerViewController.h */,
-				20FAD7D51A0A105D008D44DB /* FDFontPickerViewController.m */,
-				20FAD7D61A0A105D008D44DB /* FDLabelConfigViewController.h */,
-				20FAD7D71A0A105D008D44DB /* FDLabelConfigViewController.m */,
-				20FAD7D81A0A105D008D44DB /* FDLabelView.h */,
-				20FAD7D91A0A105D008D44DB /* FDLabelView.m */,
-			);
-			path = FDLabelView;
-			sourceTree = "<group>";
-		};
-		20FAD7DA1A0A105D008D44DB /* HTMLParser */ = {
-			isa = PBXGroup;
-			children = (
-				20FAD7DB1A0A105D008D44DB /* HTMLNode.h */,
-				20FAD7DC1A0A105D008D44DB /* HTMLNode.m */,
-				20FAD7DD1A0A105D008D44DB /* HTMLParser.h */,
-				20FAD7DE1A0A105D008D44DB /* HTMLParser.m */,
-			);
-			path = HTMLParser;
 			sourceTree = "<group>";
 		};
 		20FBF18C1A0DD9E4007955B8 /* TeacherIntro */ = {
@@ -2215,7 +2142,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				20D402E819D91A1C003D251B /* MJTabBarButton.m in Sources */,
-				20FAD7E51A0A105D008D44DB /* HTMLParser.m in Sources */,
 				2001FE1F1A2F09BE0009F8E4 /* SDWebImageManager+MJ.m in Sources */,
 				2071DA6519FFB64B00CA56DC /* NSObject+MJMember.m in Sources */,
 				20869F9619F8E9F100C0B4C5 /* LMSearchViewController.m in Sources */,
@@ -2277,7 +2203,6 @@
 				20F9A25C19EBA1B300BAB3D5 /* LMActivityViewCell.m in Sources */,
 				20F278D01A023025004370DA /* UIScrollView+Extension.m in Sources */,
 				2001FE1B1A2F09BE0009F8E4 /* MJPhotoLoadingView.m in Sources */,
-				20079E831A083A8A00BC012A /* UIImage+NJ.m in Sources */,
 				20F4C3D319ECD390002766A4 /* LMComposeView.m in Sources */,
 				20EE84381A107CF700DDEC92 /* LMCourseType.m in Sources */,
 				20B8A2841A11C4D20028C875 /* LMAreaViewController.m in Sources */,
@@ -2305,7 +2230,6 @@
 				20F986F51A26D2DB005727A5 /* LMMainTableViewController.m in Sources */,
 				2071DA5E19FFB64B00CA56DC /* MJIvar.m in Sources */,
 				20FCAF081A3EDCC700882842 /* LMTeachCourseViewController.m in Sources */,
-				20F278D91A023E4B004370DA /* PJReflect.m in Sources */,
 				20C5C9DD19ED3A2F0010FE36 /* LMMyReserveViewCell.m in Sources */,
 				20F2E4E91A14BB6C006CAE25 /* NSData+CommonCrypto.m in Sources */,
 				20F2E4F31A14CC1A006CAE25 /* NSString+encrypto.m in Sources */,
@@ -2317,10 +2241,8 @@
 				20DD49DB19FF52FB00332A52 /* UIBarButtonItem+Extension.m in Sources */,
 				20D402DB19D914FC003D251B /* LMAppDelegate.m in Sources */,
 				20EF626F19E77D44006544B3 /* LMSchoolIntroButton.m in Sources */,
-				20F278D81A023E4B004370DA /* PJFiled.m in Sources */,
 				20D402ED19D91A28003D251B /* MJTabBarController.m in Sources */,
 				2001FE181A2F09BE0009F8E4 /* MJPhoto.m in Sources */,
-				20FAD7E31A0A105D008D44DB /* FDLabelView.m in Sources */,
 				20BCC23219E6908100A5913B /* LMListButton.m in Sources */,
 				2071DA6B19FFBDC000CA56DC /* LMTotalCourse.m in Sources */,
 				2058251C1A2848C500BAA0E8 /* LMAddRecommendViewController.m in Sources */,
@@ -2349,7 +2271,6 @@
 				2001FE1E1A2F09BE0009F8E4 /* MJPhotoView.m in Sources */,
 				20F278B41A022191004370DA /* UIImage+GIF.m in Sources */,
 				20F278AB1A022191004370DA /* NSData+ImageContentType.m in Sources */,
-				20FAD7E41A0A105D008D44DB /* HTMLNode.m in Sources */,
 				20CF1DA01A15FDB7007C13F9 /* LMAccount.m in Sources */,
 				20F278AF1A022191004370DA /* SDWebImageDownloader.m in Sources */,
 				20FBF1901A0DDA17007955B8 /* LMTeacherCourseCell.m in Sources */,
@@ -2395,7 +2316,6 @@
 				20F9A25019EB712700BAB3D5 /* LMReserveViewController.m in Sources */,
 				20F278AA1A022191004370DA /* MKAnnotationView+WebCache.m in Sources */,
 				20EE843E1A10F67900DDEC92 /* LMlistViewController.m in Sources */,
-				20FAD7E11A0A105D008D44DB /* FDFontPickerViewController.m in Sources */,
 				20F278AE1A022191004370DA /* SDWebImageDecoder.m in Sources */,
 				2071DA5B19FFB64B00CA56DC /* MJArgument.m in Sources */,
 				20E9E6A91A3FD81C0038F09F /* LMMyRecViewCell.m in Sources */,
@@ -2407,7 +2327,6 @@
 				20F8B08A19E918E30048CC65 /* LMSchoolIntroViewController.m in Sources */,
 				20869FA319F8FB9500C0B4C5 /* LMSearchBar.m in Sources */,
 				20109CC719EE15B800FAD7CC /* LMMyActivityViewCell.m in Sources */,
-				20FAD7E21A0A105D008D44DB /* FDLabelConfigViewController.m in Sources */,
 				20D402F119D93968003D251B /* LMConsultRecordViewController.m in Sources */,
 				20EB39FB1A25A8520016B1A3 /* LMCourseRecommendViewController.m in Sources */,
 				20CF1DA41A1603BC007C13F9 /* LMAccountTool.m in Sources */,

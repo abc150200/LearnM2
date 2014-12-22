@@ -13,7 +13,5 @@
 
 @property (nonatomic, strong) NSMutableDictionary *arr;
 
-
-
 - (void)loadNewData;
 @end

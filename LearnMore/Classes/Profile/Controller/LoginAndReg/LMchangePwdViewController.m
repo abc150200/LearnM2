@@ -53,6 +53,8 @@
     [super viewDidAppear:animated];
     self.scrollView.contentSize = CGSizeMake(self.view.width, self.view.height + 100);
     [self.user becomeFirstResponder];
+    
+    
 }
 
 
@@ -228,7 +230,9 @@
 - (void)timerFireMethod
 {
     timeCount--;
+     [self.auth setTitle:[NSString stringWithFormat:@"%d秒",timeCount] forState:UIControlStateNormal];
     if (timeCount == 0 ) {
+        [self.auth setTitle:@"验证" forState:UIControlStateNormal];
         self.auth.userInteractionEnabled = YES;
         [self.countDownTimer invalidate];
     }

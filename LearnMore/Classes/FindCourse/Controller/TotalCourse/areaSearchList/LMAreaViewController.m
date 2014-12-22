@@ -71,29 +71,6 @@
     return cell;
 }
 
-#warning 暂时传递给二级,以后再改
-
-//#pragma mark - 代理方法
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    // 直接取城市数组
-//    if ([self.areaDelegate respondsToSelector:@selector(areaViewController:selectedCities:areaId:areaLevel: title:)]) {
-//        
-//        
-////        NSArray *cities = self.areas[indexPath.row][@"cities"];
-//        
-//        NSArray *cities = self.areas;
-//        
-//#warning 暂时传递给二级,以后再改
-//        NSDictionary *dict = cities[indexPath.row];
-//        NSString *areaId = dict[@"id"];
-//        NSString *areaLevel = dict[@"level"];
-//        NSString *title = dict[@"areaName"];
-//
-//    
-//        [self.areaDelegate areaViewController:self selectedCities:cities areaId:areaId areaLevel:areaLevel title:title];
-//    }
-//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
