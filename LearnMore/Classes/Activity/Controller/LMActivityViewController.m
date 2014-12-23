@@ -88,7 +88,7 @@
         LogObj(actList);
         
         
-        self.actLists = [LMActList objectArrayWithKeyValuesArray:actList];
+        self.actLists = (NSMutableArray *)[LMActList objectArrayWithKeyValuesArray:actList];
         
         [self.tableView reloadData];
     

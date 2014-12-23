@@ -100,7 +100,7 @@
     //判断用户是否登录
     LMAccount *account =  [LMAccountInfo sharedAccountInfo].account;
     
-    LMCommonItemArrow *myCollection = [LMCommonItemArrow itemWithIcon:@"me_collect" Title:@"我的收藏"];
+//    LMCommonItemArrow *myCollection = [LMCommonItemArrow itemWithIcon:@"me_collect" Title:@"我的收藏"];
 //    myCollection.subtitle = @"12门课程";
 //    if(account)
 //    {
@@ -156,7 +156,7 @@
     myCheck.option = ^{
         
 
-         NSString* m_appleID = LMAppID;    //tinyray 此处的appID是在iTunes Connect创建应用程序时生成的Apple ID
+         NSString* m_appleID = LMAppID;    //此处的appID是在iTunes Connect创建应用程序时生成的Apple ID
         NSString *str = [NSString stringWithFormat:
                          @"itms-apps://itunes.apple.com/app/id%@",m_appleID ];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
@@ -223,30 +223,6 @@
         
         };
         
-            
- 
-//    if ([currentVersion compare:localVersion] == NSOrderedDescending) {
-//        //当前版本号比本地版本号高
-//        
-//        //存储当前系统版本号
-//        [defaults setObject:currentVersion forKey:key];
-//        [defaults synchronize];
-//        
-//        versionUpdate = [LMCommonItemArrow itemWithIcon:@"me_update" Title:@"版本更新"];
-//        versionUpdate.subtitle = @"发现新版本";
-//        versionUpdate.option = ^{
-//            [MBProgressHUD showSuccess:@"有新版本"];
-//        };
-//    }
-//    else
-//    {
-//#warning 这里判断之后,箭头如何去掉
-//        versionUpdate = [LMCommonItemArrow itemWithIcon:@"me_update" Title:@"版本更新"];
-//        versionUpdate.subtitle = @"已是最新版";
-//        versionUpdate.option = ^{
-//            [MBProgressHUD showError:@"已是最新版"];
-//        };
-//    }
     
     
     LMCommonItemArrow *aboutUS = [LMCommonItemArrow itemWithIcon:@"me_about" Title:@"关于我们"];

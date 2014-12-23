@@ -50,7 +50,7 @@
 {
     
     // 根据用户设置的文本计算按钮的宽度
-    CGSize titleSize =  [title sizeWithFont:self.titleLabel.font];
+    CGSize titleSize =  [title sizeWithAttributes:@{NSFontAttributeName :self.titleLabel.font}];
     CGFloat buttonWidth = titleSize.width + IWTitleButtonImageW;
     // 将计算后的frame设置给按钮
     self.width = buttonWidth;

@@ -27,7 +27,7 @@
     
     [[UIColor whiteColor] setFill];
     
-    [[self placeholder]drawInRect:rect withFont:[UIFont systemFontOfSize:16] ];
+    [[self placeholder]drawInRect:rect withAttributes:@{NSFontAttributeName :[UIFont systemFontOfSize:16]} ];
     
     [super drawRect:rect];
     

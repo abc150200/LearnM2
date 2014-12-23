@@ -487,7 +487,7 @@
 {
     
     
-    NSString *urlStr = [NSString stringWithFormat:@"http://www.manytu.com/m/courseDetail.html?id=%lli",_id];
+    NSString *urlStr = [NSString stringWithFormat:@"http://www.learnmore.com/m/courseDetail.html?id=%lli",_id];
 
     
     NSString *text = nil;

@@ -220,7 +220,6 @@
     _locationManager.distanceFilter = 500.0f;
     
     if (iOS8) {
-        
         [_locationManager requestWhenInUseAuthorization];
     }
     
