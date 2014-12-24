@@ -20,5 +20,6 @@
 @property (copy, nonatomic) NSString *contactUser;  //联系人
 @property (copy, nonatomic) NSString *contactPhone; //联系电话
 @property (copy, nonatomic) NSString *schoolName; //联系电话
+@property (copy, nonatomic) NSString *actAddress;
 
 @end

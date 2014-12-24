@@ -135,6 +135,8 @@
   */
 @property (nonatomic, strong) LMTResultViewController *trv ;
 
+/**  收藏按钮 */
+@property (nonatomic, strong) UIButton *collectBtn;
 
 @end
 
@@ -165,6 +167,29 @@
     
     self.toolView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - self.toolView.height , self.view.width, self.toolView.height);
     
+    
+    //添加分享,收藏
+    UIButton *collectBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    self.collectBtn = collectBtn;
+    [collectBtn setImage:[UIImage imageNamed:@"public_nav_collect_normal"] forState:UIControlStateNormal];
+    [collectBtn addTarget:self action:@selector(collection) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake(35, 0, 25, 25)];
+    [shareBtn setImage:[UIImage imageNamed:@"public_nav_share"] forState:UIControlStateNormal];
+    [shareBtn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIView *rightBarItemsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 25)];
+    [rightBarItemsView addSubview:collectBtn];
+    [rightBarItemsView addSubview:shareBtn];
+    
+    UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithCustomView:rightBarItemsView];
+    
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObject:rightBarItem];
+    
+    
+    //加载数据
+     [self loadData];
+    
 }
 
 - (void)goBack
@@ -193,15 +218,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OnerRecViewControllerChange:) name:@"OneRecNotification" object:nil];
     
     
-    
-    //添加分享,收藏
-//    UIBarButtonItem *item0 = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"public_nav_collect_normal"] style:UIBarButtonItemStylePlain target:self action:@selector(collection)];
-    UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"public_nav_share"] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
-    
-//    self.navigationItem.rightBarButtonItems = @[item1,item0];
-    self.navigationItem.rightBarButtonItem = item1;
-    
-   
     /** 整个scrollView */
     UIScrollView *scrollView = [[UIScrollView alloc] init];
     scrollView.tag = 11;
@@ -240,7 +256,7 @@
   
     [self loadRecommendData];
 
-    [self loadData];
+   
     
     
     
@@ -417,8 +433,11 @@
 - (void)collection
 {
     
+    
     LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
     if (account) {
+        
+        self.collectBtn.enabled = NO;
         
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         
@@ -452,19 +471,45 @@
             
             switch (code) {
                 case 10001:
-                [MBProgressHUD showSuccess:@"收藏成功"];
+                {
+                    if ([self.collectBtn.currentImage isEqual:[UIImage imageNamed:@"public_nav_collect_normal"]]) {
+                        
+                        [MBProgressHUD showSuccess:@"收藏成功"];
+                        [self.collectBtn setImage:[UIImage imageNamed:@"public_nav_collect_pressed"] forState:UIControlStateNormal];
+                        self.collectBtn.enabled = YES;
+                    }else
+                    {
+                        [MBProgressHUD showSuccess:@"取消收藏"];
+                        [self.collectBtn setImage:[UIImage imageNamed:@"public_nav_collect_normal"] forState:UIControlStateNormal];
+                        self.collectBtn.enabled = YES;
+                    }
+                    
+                }
+                
                 break;
                 
                 case 30002:
-                [MBProgressHUD showError:@"用户未登录或超时"];
+                {
+                    [MBProgressHUD showError:@"用户未登录或超时"];
+                    self.collectBtn.enabled = YES;
+                }
+                
                 break;
                 
                 case 63001:
-                [MBProgressHUD showError:@"用户已收藏"];
+                {
+                    [MBProgressHUD showError:@"用户已收藏"];
+                    self.collectBtn.enabled = YES;
+                }
+                
                 break;
                 
                 default:
-                [MBProgressHUD showError:@"服务器异常,收藏失败"];
+                {
+                    [MBProgressHUD showError:@"服务器异常,收藏失败"];
+                    self.collectBtn.enabled = YES;
+                }
+                
                 break;
             }
             
@@ -524,7 +569,6 @@
     
 #warning 分享改变规则
     //标题
-    
     NSString *title = [NSString stringWithFormat:@"免费试听来啦，快来多学预约试听%@",self.courseNameLabel.text];
     [UMSocialData defaultData].extConfig.wechatSessionData.title =title;
     [UMSocialData defaultData].extConfig.wechatTimelineData.title = title;
@@ -549,7 +593,14 @@
     
     NSString *jsonStr = [arr JSONString];
     
+   
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    
+    LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
+    if (account) {
+        parameters[@"sid"] = account.sid;
+    }
+    
     parameters[@"param"] = jsonStr;
     
     NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
@@ -593,7 +644,11 @@
 //            self.courseTime.text = [NSString stringWithFormat:@"共%d课时",[courseInfoDic[@"courseTime"] intValue]];
         
             self.schoolNameLabel.text = courseInfoDic[@"schoolFullName"];
-            
+        
+        
+        if ([courseInfoDic[@"favStatus"] intValue]) {
+             [self.collectBtn setImage:[UIImage imageNamed:@"public_nav_collect_pressed"] forState:UIControlStateNormal];
+        }
             
             NSString *str = courseInfoDic[@"courseImage"];
         
@@ -1031,15 +1086,7 @@
     return _myScrollView;
 }
 
-//- (void)setupMyScrollView
-//{
-//    CGFloat y = CGRectGetMaxY(self.menuBtnView.frame);
-//    CGFloat w = self.view.width;
-//    UIScrollView *myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, y, w, LMMyScrollMarkHeight)];
-//    self.myScrollView = myScrollView;
-//    myScrollView.tag = 12;
-//    [self.scrollView addSubview:self.myScrollView];
-//}
+
 
 
 @end

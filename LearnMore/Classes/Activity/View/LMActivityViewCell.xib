@@ -8,69 +8,65 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="LMActivityViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="185"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="184"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8ia-vz-pcd">
-                        <rect key="frame" x="5" y="5" width="310" height="185"/>
+                        <rect key="frame" x="5" y="5" width="310" height="175"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="380,210" translatesAutoresizingMaskIntoConstraints="NO" id="RGG-fJ-tSJ">
                                 <rect key="frame" x="0.0" y="0.0" width="310" height="175"/>
                             </imageView>
-                            <view alpha="0.90000000000000013" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="99N-HU-adO">
-                                <rect key="frame" x="0.0" y="120" width="320" height="60"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="宝宝爬行大赛" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v8E-Ku-ldP">
-                                        <rect key="frame" x="5" y="14" width="170" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="好太太网" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lrb-wz-IS1">
-                                        <rect key="frame" x="5" y="35" width="170" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="11月01日-12月28日" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UN1-tz-Iws">
-                                        <rect key="frame" x="190" y="36" width="113" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="activity_list_adress" translatesAutoresizingMaskIntoConstraints="NO" id="vlF-i7-uPb" userLabel="前面大头针">
+                                <rect key="frame" x="10" y="156" width="15" height="15"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="好太太网" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lrb-wz-IS1">
+                                <rect key="frame" x="10" y="115" width="207" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="11月01日-12月28日" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UN1-tz-Iws">
+                                <rect key="frame" x="10" y="136" width="207" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oFS-N9-aqY">
+                                <rect key="frame" x="254" y="115" width="36" height="36"/>
+                                <state key="normal" title="Button" backgroundImage="activity_list_like_normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="selected" backgroundImage="activity_list_like_pressed"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="北京市海淀区长远天地大厦" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4eW-RT-B23">
+                                <rect key="frame" x="28" y="153" width="189" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mOG-3U-Mvq">
-                        <rect key="frame" x="210" y="130" width="80" height="30"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <state key="normal" title="立即报名" backgroundImage="btn_activity">
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                        <connections>
-                            <action selector="book:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="R7F-Q8-5rU"/>
-                        </connections>
-                    </button>
                 </subviews>
             </tableViewCellContentView>
             <connections>
                 <outlet property="actImageView" destination="RGG-fJ-tSJ" id="AkO-oQ-yp8"/>
-                <outlet property="freeBtn" destination="mOG-3U-Mvq" id="uWf-ka-xIg"/>
+                <outlet property="addressLabel" destination="4eW-RT-B23" id="pLP-KN-4qp"/>
                 <outlet property="schoolNameLabel" destination="Lrb-wz-IS1" id="i4N-pP-krQ"/>
                 <outlet property="timeLabel" destination="UN1-tz-Iws" id="gNX-eH-sVu"/>
-                <outlet property="titleLabel" destination="v8E-Ku-ldP" id="AiQ-bh-xc3"/>
             </connections>
-            <point key="canvasLocation" x="367" y="150.5"/>
+            <point key="canvasLocation" x="367" y="150"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="380,210" width="380" height="210"/>
-        <image name="btn_activity" width="80" height="30"/>
+        <image name="activity_list_adress" width="11" height="12"/>
+        <image name="activity_list_like_normal" width="36" height="36"/>
+        <image name="activity_list_like_pressed" width="36" height="36"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

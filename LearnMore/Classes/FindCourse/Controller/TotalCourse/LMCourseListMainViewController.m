@@ -78,7 +78,7 @@
     self.headView = headView;
     self.headView.delegate = self;
    
-    
+#warning 或者让他默认选中第一个
     //创建courseView
     LMCourseListViewController *clv = [[LMCourseListViewController alloc] init];
     self.clv = clv;
@@ -168,8 +168,7 @@
 /** 参数 */
 - (void)loadNewData
 {
-    
-    
+
     //参数
     NSMutableDictionary *arr = [NSMutableDictionary dictionary];
     

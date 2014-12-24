@@ -58,7 +58,7 @@
 #define UMAppKey @"2659915290"
 //5402c43efd98c5e571017999
 //请求
-#define RequestURL @"http://api.manytu.com/"
+#define RequestURL @"http://api.learnmore.com.cn/"
 
 /** webView底部的空白 */
 #define LMWebViewButton 0

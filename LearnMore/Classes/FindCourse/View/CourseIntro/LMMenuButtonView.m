@@ -97,7 +97,7 @@
     // 设置按钮的字体,颜色
     btn.titleLabel.font = [UIFont systemFontOfSize:15];
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor orangeColor] forState:UIControlStateSelected];
+    [btn setTitleColor:UIColorFromRGB(0x9ac72c) forState:UIControlStateSelected];
     
     // 添加点击事件
     [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
@@ -131,7 +131,7 @@
 - (void)setTitleBtnLineView
 {
     self.titleBtnLineView = [[UIView alloc] init];
-    self.titleBtnLineView.backgroundColor = [UIColor orangeColor];
+    self.titleBtnLineView.backgroundColor = UIColorFromRGB(0x9ac72c);
     [self addSubview:self.titleBtnLineView];
     
 }

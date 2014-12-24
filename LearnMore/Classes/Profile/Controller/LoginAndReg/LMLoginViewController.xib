@@ -38,12 +38,12 @@
                                     <rect key="frame" x="15" y="34" width="290" height="87"/>
                                 </imageView>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="11位手机号" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="xRw-Sm-xMn">
-                                    <rect key="frame" x="64" y="44" width="239" height="30"/>
+                                    <rect key="frame" x="64" y="43" width="239" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
                                 </textField>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="login_accout" translatesAutoresizingMaskIntoConstraints="NO" id="Y6e-hL-gKc">
-                                    <rect key="frame" x="28" y="48" width="23" height="22"/>
+                                    <rect key="frame" x="28" y="43" width="23" height="29"/>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fvC-RB-6rN">
                                     <rect key="frame" x="13" y="240" width="69" height="30"/>
@@ -86,7 +86,7 @@
     </objects>
     <resources>
         <image name="login" width="580" height="172"/>
-        <image name="login_accout" width="23" height="23"/>
+        <image name="login_accout" width="23" height="29"/>
         <image name="login_btn" width="580" height="80"/>
         <image name="login_password" width="23" height="23"/>
     </resources>

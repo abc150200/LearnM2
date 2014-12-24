@@ -16,6 +16,7 @@
 #import "LMMyRecViewCell.h"
 #import "LMCourseIntroViewController.h"
 #import "MJRefresh.h"
+#import "LMSchoolIntroViewController.h"
 
 @interface LMMyRecViewController ()
 @property (nonatomic, strong) NSMutableArray *recomFrames;
@@ -205,12 +206,22 @@
     
     LMMyRecViewCell *cell = (LMMyRecViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     
+    int commentType = cell.commentType;
     
-#warning commentType = 1;搞清楚!!!
-    LMCourseIntroViewController *li = [[LMCourseIntroViewController alloc] init];
-    li.id = cell.typeId;
-    [self.navigationController pushViewController:li animated:YES];
+    #warning commentType = 1;搞清楚!!!
+    if (commentType == 1) {
+        LMCourseIntroViewController *li = [[LMCourseIntroViewController alloc] init];
+        li.id = cell.typeId;
+        [self.navigationController pushViewController:li animated:YES];
+    }else if (commentType == 3)
+    {
+        LMSchoolIntroViewController *si = [[LMSchoolIntroViewController alloc] init];
+        si.id = cell.typeId;
+        [self.navigationController pushViewController:si animated:YES];
+    }
     
+
+
 }
 
 

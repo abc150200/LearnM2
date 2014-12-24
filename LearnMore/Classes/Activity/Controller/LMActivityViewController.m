@@ -6,17 +6,22 @@
 //  Copyright (c) 2014年 youxuejingxuan. All rights reserved.
 //
 
+#define LMTableHeight ([UIScreen mainScreen].bounds.size.height - 64 - 10 - self.segm.height - 49)
+
 #import "LMActivityViewController.h"
-#import "LMActivityViewCell.h"
-#import "LMActivityDetailViewController.h"
-#import "AFNetworking.h"
-#import "LMActList.h"
-#import "MJRefresh.h"
+//#import "LMActivityViewCell.h"
+//#import "LMActivityDetailViewController.h"
+//#import "AFNetworking.h"
+//#import "LMActList.h"
+//#import "MJRefresh.h"
+#import "LMActivityListViewController.h"
 
 
 @interface LMActivityViewController ()
-@property (nonatomic, strong) NSMutableArray *actLists;
+//@property (nonatomic, strong) NSMutableArray *actLists;
 
+@property (nonatomic, weak) UISegmentedControl *segm;
+@property (nonatomic, weak) LMActivityListViewController *clv;
 
 @end
 
@@ -30,130 +35,73 @@
     
     self.title = @"亲子活动";
     
-    self.tableView.rowHeight = 185;
     
-    //下拉刷新控件
-    [self setupRefresh];
+    //创建课程切换标签
+    NSArray *btnName = @[@"最新",@"热门",@"附近"];
     
-    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-
+    UISegmentedControl *segm = [[UISegmentedControl alloc] initWithItems:btnName];
+    self.segm = segm;
+    segm.tintColor= UIColorFromRGB(0x9ac72c);
+    
+    segm.frame = CGRectMake(10, 69, self.view.width - 20, 35);
+    [segm setTitleTextAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:18]} forState:UIControlStateNormal];
+    segm.selectedSegmentIndex = 0;
+    [self.view addSubview:segm];
+    //添加事件
+    [segm addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
+    
+    [self segmentAction:self.segm];
+    
 }
 
-//下拉刷新
-- (void)setupRefresh
+- (void)viewWillAppear:(BOOL)animated
 {
-    //添加下拉加载
-    [self.tableView addHeaderWithTarget:self action:@selector(loadData)];
+    [super viewWillAppear:animated];
     
-    //主动显示菊花
-    [self.tableView headerBeginRefreshing];
-    
-    //添加上拉加载
-    [self.tableView addFooterWithTarget:self action:@selector(loadMoreData)];
+    self.navigationController.navigationBar.hidden = NO;
 }
 
-- (void)loadData
+- (void)segmentAction:(UISegmentedControl *)Seg
 {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSInteger Index = Seg.selectedSegmentIndex;
+    MyLog(@"Seg.selectedSegmentIndex:%d",Index);
     
+    if (Index == 0){
+        
+        //创建tableView
+        LMActivityListViewController *clv = [[LMActivityListViewController alloc] init];
+
+        clv.view.frame = CGRectMake(0, CGRectGetMaxY(self.segm.frame) + 5, self.view.width, LMTableHeight);
+        
+        self.clv = clv;
+        [self addChildViewController:clv];
+        [self.view addSubview:self.clv.view];
+        [self loadParam];
+        [self.clv loadNewData];
+        
+    }else
+    {
+        
+    }
     
-    //url地址
-    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"activity/list.json"];
-    
-    
+}
+
+/** 参数 */
+- (void)loadParam
+{
     //参数
     NSMutableDictionary *arr = [NSMutableDictionary dictionary];
     arr[@"area"] = @"0_0";
     arr[@"count"] = @"20";
     
-    NSString *jsonStr = [arr JSONString];
-    MyLog(@"%@",jsonStr);
+    self.clv.arr = arr;
     
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    parameters[@"param"] = jsonStr;
-    
-    //设备信息
-    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
-    parameters[@"device"] = deviceInfo;
-    
-    [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    if (self.segm.selectedSegmentIndex == 0) {
+        [self.clv loadNewData];
+    } else
+    {
         
-        MyLog(@"%@",responseObject);
-        MyLog(@"==========================================");
-        
-        NSDictionary *actListDic = [responseObject[@"data"] objectFromJSONString];
-        MyLog(@"%@",actListDic);
-        
-        NSArray *actList = actListDic[@"list"];
-        LogObj(actList);
-        
-        
-        self.actLists = (NSMutableArray *)[LMActList objectArrayWithKeyValuesArray:actList];
-        
-        [self.tableView reloadData];
-    
-        // 3.关闭菊花
-        [self.tableView headerEndRefreshing];
-        
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        LogObj(error.localizedDescription);
-        
-        // 3.关闭菊花
-        [self.tableView headerEndRefreshing];
-    }];
-    
-}
-
-//上拉刷新
-- (void)loadMoreData
-{
-    // 3.关闭菊花
-    [self.tableView footerEndRefreshing];
-    
-}
-
-
-#pragma mark - 数据源方法
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return self.actLists.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    LMActivityViewCell *cell = [LMActivityViewCell cellWithTableView:tableView];
-    
-    cell.actlist = self.actLists[indexPath.row];
-    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //取消选中
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    LMActivityViewCell *cell = (LMActivityViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    
-    //跳转详情页面
-    LMActivityDetailViewController *ad = [[LMActivityDetailViewController alloc] init];
-    ad.id = cell.id;
-    
-    ad.actName = cell.actlist.actTitle;
-    MyLog(@"actName===%@",cell.actlist.actTitle);
-    [self.navigationController pushViewController:ad animated:YES];
-}
-
-
-/** 懒加载 */
-
-- (NSMutableArray *)actLists
-{
-    if (_actLists == nil) {
-        _actLists = [NSMutableArray array];
     }
-    return _actLists;
 }
+
 @end

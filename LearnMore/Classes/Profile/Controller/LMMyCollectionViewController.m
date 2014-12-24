@@ -32,6 +32,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width,40)];
+    UILabel *label  = [[UILabel alloc] init];
+    label.width = 100;
+    label.height = 40;
+    label.centerX = self.view.centerX;
+    label.y = 0;
+    //            label.text = @"已加载全部";
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont systemFontOfSize:14];
+    [moreView addSubview:label];
+    self.tableView.tableFooterView = moreView;
   
 }
 

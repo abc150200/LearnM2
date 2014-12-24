@@ -705,7 +705,7 @@
     [UIView animateWithDuration:0.5 animations:^{
         label.alpha = 1;
     } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.5 animations:^{
+        [UIView animateWithDuration:1.5 animations:^{
             label.alpha = 0;
         } completion:^(BOOL finished) {
             [label removeFromSuperview];

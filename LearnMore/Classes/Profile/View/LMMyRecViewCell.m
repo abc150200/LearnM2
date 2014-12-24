@@ -143,6 +143,7 @@
     
     self.id = myRec.id;
     self.typeId = myRec.typeId;
+    self.commentType = myRec.commentType;
     
     self.timeLabel.text = [NSString timeWithLong:myRec.createTime];
     self.titleLabel.text = myRec.typeName;

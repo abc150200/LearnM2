@@ -8,15 +8,7 @@
 
 #import <UIKit/UIKit.h>
 @class LMActList;
-@class LMActivityViewCell;
 
-//自定义代理
-@protocol LMActivityViewCellDelegate <NSObject>
-
-@optional
-- (void)activityViewCellDidClickBtn:(LMActivityViewCell *)activityViewCell;
-
-@end
 
 
 @interface LMActivityViewCell : UITableViewCell
@@ -28,5 +20,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
-@property (nonatomic, weak) id<LMActivityViewCellDelegate> delegate;
+
 @end

@@ -270,6 +270,7 @@
 		20FAB80C1A35618F0077183C /* LMOneSchRecViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20FAB80A1A35618F0077183C /* LMOneSchRecViewController.xib */; };
 		20FAD7EB1A0A17CD008D44DB /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 20FAD7EA1A0A17CD008D44DB /* libxml2.2.dylib */; };
 		20FB5CCD1A2EB493003F613B /* TQStarRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FB5CCC1A2EB493003F613B /* TQStarRatingView.m */; };
+		20FBE7CA1A4AD28600CB03A1 /* LMActivityListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FBE7C91A4AD28600CB03A1 /* LMActivityListViewController.m */; };
 		20FBF1901A0DDA17007955B8 /* LMTeacherCourseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FBF18E1A0DDA17007955B8 /* LMTeacherCourseCell.m */; };
 		20FBF1911A0DDA17007955B8 /* LMTeacherCourseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20FBF18F1A0DDA17007955B8 /* LMTeacherCourseCell.xib */; };
 		20FBF1941A0DF90B007955B8 /* LMTeacherCouse.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FBF1931A0DF90B007955B8 /* LMTeacherCouse.m */; };
@@ -773,6 +774,8 @@
 		20FAD7EA1A0A17CD008D44DB /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		20FB5CCB1A2EB493003F613B /* TQStarRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TQStarRatingView.h; sourceTree = "<group>"; };
 		20FB5CCC1A2EB493003F613B /* TQStarRatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TQStarRatingView.m; sourceTree = "<group>"; };
+		20FBE7C81A4AD28600CB03A1 /* LMActivityListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityListViewController.h; sourceTree = "<group>"; };
+		20FBE7C91A4AD28600CB03A1 /* LMActivityListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityListViewController.m; sourceTree = "<group>"; };
 		20FBF18D1A0DDA17007955B8 /* LMTeacherCourseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTeacherCourseCell.h; sourceTree = "<group>"; };
 		20FBF18E1A0DDA17007955B8 /* LMTeacherCourseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTeacherCourseCell.m; sourceTree = "<group>"; };
 		20FBF18F1A0DDA17007955B8 /* LMTeacherCourseCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMTeacherCourseCell.xib; sourceTree = "<group>"; };
@@ -1936,6 +1939,8 @@
 				204C334B19EBB0BE00CD71B0 /* LMActivityDetailViewController.h */,
 				204C334C19EBB0BE00CD71B0 /* LMActivityDetailViewController.m */,
 				204C334D19EBB0BE00CD71B0 /* LMActivityDetailViewController.xib */,
+				20FBE7C81A4AD28600CB03A1 /* LMActivityListViewController.h */,
+				20FBE7C91A4AD28600CB03A1 /* LMActivityListViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2328,6 +2333,7 @@
 				20869FA319F8FB9500C0B4C5 /* LMSearchBar.m in Sources */,
 				20109CC719EE15B800FAD7CC /* LMMyActivityViewCell.m in Sources */,
 				20D402F119D93968003D251B /* LMConsultRecordViewController.m in Sources */,
+				20FBE7CA1A4AD28600CB03A1 /* LMActivityListViewController.m in Sources */,
 				20EB39FB1A25A8520016B1A3 /* LMCourseRecommendViewController.m in Sources */,
 				20CF1DA41A1603BC007C13F9 /* LMAccountTool.m in Sources */,
 				20C5C9D319ED2E080010FE36 /* LMMyCollectionViewCell.m in Sources */,

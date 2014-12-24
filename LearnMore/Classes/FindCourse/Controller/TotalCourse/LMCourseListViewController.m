@@ -42,11 +42,6 @@
 }
 
 
-
-
-
-
-
 //下拉刷新
 - (void)loadNewData
 {

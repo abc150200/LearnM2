@@ -57,7 +57,8 @@
         [self.headView addSubview:btn];
         
         [btn setTitle:self.btnList[i] forState:UIControlStateNormal];
-        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+        btn.titleLabel.font = [UIFont systemFontOfSize:14];
          btn.backgroundColor  = [UIColor whiteColor];
         [btn addTarget:self action:@selector(btnClickSearch:) forControlEvents:UIControlEventTouchUpInside];
         

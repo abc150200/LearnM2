@@ -10,16 +10,14 @@
 #import "LMActList.h"
 
 @interface LMActivityViewCell ()
-
-
-
 @property (weak, nonatomic) IBOutlet UILabel *schoolNameLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 
 @property (weak, nonatomic) IBOutlet UIImageView *actImageView;
 
-@property (weak, nonatomic) IBOutlet UIButton *freeBtn;
+@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
+
 @end
 
 @implementation LMActivityViewCell
@@ -29,9 +27,10 @@
     self.actImageView.clipsToBounds = YES;
     self.actImageView.layer.cornerRadius = 5;
     self.actImageView.backgroundColor = [UIColor lightGrayColor];
+    self.addressLabel.textColor = UIColorFromRGB(0x9ac72c);
     
-
-    self.freeBtn.userInteractionEnabled = NO;
+    self.actImageView.layer.borderColor = UIColorFromRGB(0xc7c7c7).CGColor;
+    self.actImageView.layer.borderWidth = 1.0f;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -52,22 +51,20 @@
 }
 
 
-- (IBAction)book:(id)sender {
-    
-    
-#warning 在ViewDidLoad 已让其失去交互
-    if([self.delegate respondsToSelector:@selector(activityViewCellDidClickBtn:)])
-    {
-        [self.delegate activityViewCellDidClickBtn:self];
-    }
-    
-}
+
 
 -(void)setActlist:(LMActList *)actlist
 {
     _actlist = actlist;
     
-    self.titleLabel.text = _actlist.actTitle;
+//    self.titleLabel.text = _actlist.actTitle;
+    if ( actlist.actAddress) {
+        self.addressLabel.text = actlist.actAddress;
+    }else
+    {
+        self.addressLabel.text = @"北京市海淀区长远天地大厦";
+    }
+    
     self.schoolNameLabel.text = _actlist.schoolName;
     self.timeLabel.text = [NSString stringWithFormat:@"%@-%@",_actlist.actBeginTime,_actlist.actEndTime];
     

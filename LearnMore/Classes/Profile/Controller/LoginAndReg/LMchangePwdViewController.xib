@@ -26,26 +26,26 @@
                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h16-pk-qhj">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="324"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sign_up" translatesAutoresizingMaskIntoConstraints="NO" id="IGV-bs-JO8">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="reg_bg" translatesAutoresizingMaskIntoConstraints="NO" id="IGV-bs-JO8">
                                     <rect key="frame" x="15" y="34" width="290" height="138"/>
                                 </imageView>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="11位手机号" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="nxb-Ox-ur7">
-                                    <rect key="frame" x="56" y="44" width="177" height="30"/>
+                                    <rect key="frame" x="56" y="44" width="129" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="6-32位密码" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="LgA-qg-zYc">
-                                    <rect key="frame" x="56" y="138" width="241" height="30"/>
+                                    <rect key="frame" x="56" y="138" width="212" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                                 </textField>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="login_password" translatesAutoresizingMaskIntoConstraints="NO" id="rgk-nv-RZH">
-                                    <rect key="frame" x="25" y="47" width="23" height="23"/>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="login_accout" translatesAutoresizingMaskIntoConstraints="NO" id="rgk-nv-RZH">
+                                    <rect key="frame" x="25" y="44" width="23" height="29"/>
                                 </imageView>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="login_password" translatesAutoresizingMaskIntoConstraints="NO" id="Ubk-Cy-9YC">
                                     <rect key="frame" x="25" y="141" width="23" height="23"/>
                                 </imageView>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="login_accout" translatesAutoresizingMaskIntoConstraints="NO" id="zZk-jL-y8B">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="enroll_verification" translatesAutoresizingMaskIntoConstraints="NO" id="zZk-jL-y8B">
                                     <rect key="frame" x="25" y="96" width="23" height="22"/>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q0P-Ni-lGV">
@@ -59,16 +59,18 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JtM-AQ-CA8">
-                                    <rect key="frame" x="247" y="47" width="50" height="23"/>
-                                    <state key="normal" title="验证" backgroundImage="sign_up_btn">
+                                    <rect key="frame" x="183" y="39" width="110" height="36"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <state key="normal" title="获取验证码" backgroundImage="reg_nomal">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <state key="disabled" backgroundImage="reg_disabled"/>
                                     <connections>
                                         <action selector="phoneClick:" destination="-1" eventType="touchUpInside" id="RHD-e5-0cC"/>
                                     </connections>
                                 </button>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="手机验证码" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="1y3-2Y-LDV">
-                                    <rect key="frame" x="56" y="92" width="241" height="30"/>
+                                    <rect key="frame" x="56" y="92" width="212" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
@@ -172,11 +174,13 @@
         </view>
     </objects>
     <resources>
-        <image name="login_accout" width="23" height="23"/>
+        <image name="enroll_verification" width="23" height="23"/>
+        <image name="login_accout" width="23" height="29"/>
         <image name="login_btn" width="580" height="80"/>
         <image name="login_password" width="23" height="23"/>
-        <image name="sign_up" width="580" height="260"/>
-        <image name="sign_up_btn" width="99" height="46"/>
+        <image name="reg_bg" width="580" height="260"/>
+        <image name="reg_disabled" width="200" height="72"/>
+        <image name="reg_nomal" width="200" height="72"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

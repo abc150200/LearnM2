@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 youxuejingxuan. All rights reserved.
 //
 
+#define LMPadding 20
+
 #import "LMActivityDetailViewController.h"
 #import "UMSocial.h"
 #import "AFNetworking.h"
@@ -53,6 +55,15 @@
 
 @property (nonatomic, weak) UIWebView *webView;
 
+/** 导航栏相关 */
+@property (nonatomic, weak) UIButton *backBtn;
+@property (nonatomic, weak) UIButton *collectBtn;
+@property (nonatomic, strong) UIView *rightBarItemsView ;
+@property (nonatomic, weak) UIButton *shareBtn;
+
+/** 底部工具条 */
+@property (strong, nonatomic) IBOutlet UIView *toolView;
+
 @end
 
 @implementation LMActivityDetailViewController
@@ -66,31 +77,80 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    //重写返回按钮
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem barButtonItemWithImageName:@"activity_nav_black" target:self sel:@selector(goBack)];
+    
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(8, 20, 34, 34)];
+    self.backBtn = backBtn;
+    [backBtn setBackgroundImage:[UIImage imageNamed:@"activity_nav_black"] forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+    [[UIApplication sharedApplication].keyWindow addSubview:backBtn];
+    
+    //添加分享,收藏
+    UIButton *collectBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 34, 34)];
+    self.collectBtn = collectBtn;
+    [collectBtn setImage:[UIImage imageNamed:@"activity_nav_collect_normal"] forState:UIControlStateNormal];
+    [collectBtn addTarget:self action:@selector(collection) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake(38, 0, 34, 34)];
+    self.shareBtn = shareBtn;
+    [shareBtn setImage:[UIImage imageNamed:@"activity_nav_share"] forState:UIControlStateNormal];
+    [shareBtn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
+    
+#warning 为何这样做会超出他的可点击范围
+//    UIView *rightBarItemsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 76, 34)];
+//    self.rightBarItemsView = rightBarItemsView;
+//    [rightBarItemsView addSubview:collectBtn];
+//    [rightBarItemsView addSubview:shareBtn];
+    
+   [[UIApplication sharedApplication].keyWindow addSubview:collectBtn];
+    collectBtn.frame = CGRectMake(self.view.width - 84, 20, 34, 34);
+    
+    [[UIApplication sharedApplication].keyWindow addSubview:shareBtn];
+    shareBtn.frame = CGRectMake(self.view.width - 8 - 34 , 20, 34, 34);
+    
+      self.navigationController.navigationBar.hidden = YES;
+}
+
+- (void)goBack
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     self.title = @"活动详情";
     
-//    CLProgressHUD *hud = [CLProgressHUD shareInstance];
-//    hud.type = CLProgressHUDTypeDarkBackground;
-//    hud.shape = CLProgressHUDShapeCircle;
-//    [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
+    CLProgressHUD *hud = [CLProgressHUD shareInstance];
+    hud.type = CLProgressHUDTypeDarkBackground;
+    hud.shape = CLProgressHUDShapeCircle;
+    [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
 
-#warning 暂时屏蔽
-//    UIBarButtonItem *item0 = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"public_nav_collect_normal"] style:UIBarButtonItemStylePlain target:self action:@selector(collection)];
-    UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"public_nav_share"] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
-//
-//    self.navigationItem.rightBarButtonItems = @[item1,item0];
-    self.navigationItem.rightBarButtonItem = item1;
+//#warning 暂时屏蔽
+////    UIBarButtonItem *item0 = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"public_nav_collect_normal"] style:UIBarButtonItemStylePlain target:self action:@selector(collection)];
+//    UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"public_nav_share"] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
+////
+////    self.navigationItem.rightBarButtonItems = @[item1,item0];
+//    self.navigationItem.rightBarButtonItem = item1;
+//    
     
+    [self.view addSubview:self.toolView];
+    self.toolView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - self.toolView.height, self.view.width, self.toolView.height);
     
     /** 添加scrollView */
     UIScrollView *scrollView = [[UIScrollView alloc] init];
+    scrollView.backgroundColor = UIColorFromRGB(0xf0f0f0);
     scrollView.x = 0;
-    scrollView.y = 0;
+    scrollView.y = -20;
     scrollView.width = self.view.width;
-    scrollView.height = self.view.height;
+    scrollView.height = [UIScreen mainScreen].bounds.size.height - self.toolView.height + 20;
     self.scrollView = scrollView;
     [self.view addSubview:self.scrollView];
     
@@ -105,7 +165,7 @@
     UIWebView *webView = [[UIWebView alloc] init];
     webView.delegate = self;
     webView.x = 0;
-    webView.y = CGRectGetMaxY(self.headView.frame);
+    webView.y = CGRectGetMaxY(self.headView.frame) + LMPadding;
     webView.width = self.view.width;
     webView.height = 64;
     self.webView = webView;
@@ -123,6 +183,19 @@
   
     [self.webView addObserver:self forKeyPath:@"scrollView.contentSize" options:NSKeyValueObservingOptionNew context:nil];
     
+  
+
+
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return NO;
 }
 
 - (void)dealloc
@@ -134,7 +207,11 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
+
+    [self.backBtn removeFromSuperview];
+    [self.collectBtn removeFromSuperview];
+    [self.shareBtn removeFromSuperview];
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -216,7 +293,7 @@
             
             self.schoolNameLabel.text = actInfoDic[@"schoolName"];
     
-//        [CLProgressHUD dismiss];
+        [CLProgressHUD dismiss];
 
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

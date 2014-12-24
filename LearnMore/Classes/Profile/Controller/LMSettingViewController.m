@@ -86,8 +86,6 @@
         accountInfo.destVc = [LMLoginViewController class];
     }
     
-
-
     LMCommonGroup *group0 = [self addGroup];
     group0.items = @[accountInfo];
     
@@ -100,19 +98,17 @@
     //判断用户是否登录
     LMAccount *account =  [LMAccountInfo sharedAccountInfo].account;
     
-//    LMCommonItemArrow *myCollection = [LMCommonItemArrow itemWithIcon:@"me_collect" Title:@"我的收藏"];
-//    myCollection.subtitle = @"12门课程";
-//    if(account)
-//    {
-//        myCollection.destVc =[LMMyCollectionViewController class];
-//    }else
-//    {
-//        myCollection.destVc = [LMLoginViewController class];
-//    }
-//    
+    LMCommonItemArrow *myCollection = [LMCommonItemArrow itemWithIcon:@"me_collect" Title:@"我的收藏"];
+    if(account)
+    {
+        myCollection.destVc =[LMMyCollectionViewController class];
+    }else
+    {
+        myCollection.destVc = [LMLoginViewController class];
+    }
+    
     
     LMCommonItemArrow *freeReserve = [LMCommonItemArrow itemWithIcon:@"me_listening" Title:@"免费预约试听"];
-//    freeReserve.subtitle = @"12个预约";
     if(account)
     {
         freeReserve.destVc =[LMMyReserveViewController class];
@@ -123,7 +119,6 @@
     
     
     LMCommonItemArrow *signActivity = [LMCommonItemArrow itemWithIcon:@"me_activity" Title:@"报名活动"];
-//    signActivity.subtitle = @"12个活动";
     if(account)
     {
         signActivity.destVc =[LMMyActivityViewController class];
@@ -144,7 +139,7 @@
     
 #warning 点评增加入口
     LMCommonGroup *group1 = [self addGroup];
-    group1.items = @[freeReserve,signActivity];
+    group1.items = @[myCollection,freeReserve,signActivity,myReview];
   
 }
 
