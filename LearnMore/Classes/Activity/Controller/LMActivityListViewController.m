@@ -12,9 +12,12 @@
 #import "AFNetworking.h"
 #import "LMActList.h"
 #import "MJRefresh.h"
+#import "LMAccount.h"
+#import "LMAccountInfo.h"
 
 @interface LMActivityListViewController ()
 @property (nonatomic, strong) NSMutableArray *actLists;
+@property (nonatomic, assign) int tCount;
 @end
 
 @implementation LMActivityListViewController
@@ -24,8 +27,7 @@
     
     self.tableView.rowHeight = 185;
     
-    //下拉刷新控件
-    [self setupRefresh];
+   
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
@@ -56,7 +58,12 @@
     
 
     NSString *jsonStr = [self.arr JSONString];
-    MyLog(@"%@",jsonStr);
+    MyLog(@"jsonStr=下拉刷新==========%@",jsonStr);
+    
+    if (_arr[@"startindex"]) {
+         [self.arr removeObjectForKey:_arr[@"startindex"]];
+    }
+   
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"param"] = jsonStr;
@@ -65,21 +72,53 @@
     NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
     parameters[@"device"] = deviceInfo;
     
+    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+    if(account)
+    {
+        parameters[@"sid"] = account.sid;
+    }
+    
+    MyLog(@"parameters=下拉刷新==========%@",parameters);
+    
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        MyLog(@"%@",responseObject);
-        MyLog(@"==========================================");
+        MyLog(@"responseObject=下拉刷新===========%@",responseObject);
         
         NSDictionary *actListDic = [responseObject[@"data"] objectFromJSONString];
-        MyLog(@"%@",actListDic);
+        MyLog(@"data=下拉刷新==========%@",actListDic);
         
         NSArray *actList = actListDic[@"list"];
-        LogObj(actList);
         
         
         self.actLists = (NSMutableArray *)[LMActList objectArrayWithKeyValuesArray:actList];
         
-        [self.tableView reloadData];
+        int count = [actListDic[@"tcount"] intValue];
+        self.tCount = count;
+        
+        
+        if(self.actLists.count == 0)
+        {
+            UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width,40)];
+            UILabel *label  = [[UILabel alloc] init];
+            label.width = 100;
+            label.height = 40;
+            label.centerX = self.view.centerX;
+            label.y = 0;
+            label.text = @"暂无数据";
+            label.textAlignment = NSTextAlignmentCenter;
+            label.font = [UIFont systemFontOfSize:14];
+            label.backgroundColor = [UIColor colorWithRed:219 green:219 blue:219 alpha:1];
+            moreView.backgroundColor = [UIColor colorWithRed:219 green:219 blue:219 alpha:1];
+            [moreView addSubview:label];
+            self.tableView.tableFooterView = moreView;
+            [self.tableView reloadData];
+            
+        }else
+        {
+            [self.tableView reloadData];
+        }
+        
+        
         
         // 3.关闭菊花
         [self.tableView headerEndRefreshing];
@@ -97,8 +136,68 @@
 //上拉刷新
 - (void)loadMoreData
 {
-    // 3.关闭菊花
-    [self.tableView footerEndRefreshing];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    
+    //url地址
+    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"activity/list.json"];
+    
+    if(self.actLists.count < 5 || self.actLists.count == self.tCount )
+    {
+        // 3.关闭菊花
+        [self.tableView footerEndRefreshing];
+        
+        return;
+        
+    }
+    
+    int count = self.actLists.count + 1;
+    
+    self.arr[@"startindex"] = [NSString stringWithFormat:@"%d",count];
+    self.arr[@"time"] = [NSString timeNow];
+    
+    NSString *jsonStr = [self.arr JSONString];
+    MyLog(@"jsonStr=上拉刷新=============%@",jsonStr);
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    parameters[@"param"] = jsonStr;
+    
+    
+    //设备信息
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    parameters[@"device"] = deviceInfo;
+    
+    
+    MyLog(@"parameters=上拉刷新==============%@",parameters);
+    
+    [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        MyLog(@"responseObject=上拉刷新==============%@",responseObject);
+        
+        NSDictionary *actListDic = [responseObject[@"data"] objectFromJSONString];
+        MyLog(@"data=上拉刷新==============%@",actListDic);
+        
+        NSArray *actList = actListDic[@"list"];
+        
+         NSArray *newListArr = [LMActList objectArrayWithKeyValuesArray:actList];
+        
+        [self.actLists addObjectsFromArray:newListArr];
+
+        [self.tableView reloadData];
+
+     
+     // 3.关闭菊花
+     [self.tableView footerEndRefreshing];
+     
+     
+     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         LogObj(error.localizedDescription);
+         
+         // 3.关闭菊花
+         [self.tableView footerEndRefreshing];
+         
+     }];
+    
     
 }
 

@@ -67,7 +67,19 @@
         
         self.bookStuInfo.text = @"报名学生信息";
     }
+    
+    /** 键盘退出手势 */
+    UITapGestureRecognizer *tapGr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
+    tapGr.cancelsTouchesInView =NO;
+    [self.scrollView addGestureRecognizer:tapGr];
+    
 }
+
+-(void)viewTapped:(UITapGestureRecognizer*)tapGr{
+    [self.scrollView endEditing:YES];
+    
+}
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -110,7 +122,7 @@
 /** scrollView的代理方法 */
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    [self.scrollView endEditing:YES];
+    [self.view endEditing:YES];
 }
 
 - (IBAction)commit:(id)sender {

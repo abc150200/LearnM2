@@ -114,7 +114,8 @@
 @property (nonatomic, strong) NSDictionary *schoolScoreDic;
 /** 学校老师的控制器 */
 @property (nonatomic, strong) LMSchoolDetailViewController *cv;
-
+/** 地址数组 */
+@property (nonatomic, strong) NSMutableArray *addressArr;
 
 @end
 
@@ -406,7 +407,12 @@
             self.srv.view.height = 88 ;
             self.menuBtnView.y = CGRectGetMaxY(self.srv.view.frame) + LMSchoolMark;
             self.myScrollView.y = CGRectGetMaxY(self.menuBtnView.frame);
-            self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight);
+            if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"] || [[NSString deviceString]  isEqualToString: @"iPhone 4"]) {
+                self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight + 24 + 64);
+            }else
+            {
+                self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight);
+            }
         }
 
 
@@ -429,7 +435,13 @@
     self.srv.view.height = 88 + height;
     self.menuBtnView.y = CGRectGetMaxY(self.srv.view.frame) + LMSchoolMark;
     self.myScrollView.y = CGRectGetMaxY(self.menuBtnView.frame);
-    self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight);
+    if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"] || [[NSString deviceString]  isEqualToString: @"iPhone 4"]) {
+        self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight + 24 + 64);
+    }else
+    {
+         self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight);
+    }
+   
 }
 
 
@@ -632,6 +644,11 @@
         self.gps = schoolInfoDic[@"schoolGps"];
         self.address = schoolInfoDic[@"address"];
         
+        
+        NSDictionary *dict3 = @{@"gps":schoolInfoDic[@"gps"],@"address":schoolInfoDic[@"address"]};
+        [self.addressArr addObject:dict3];
+        
+        
  
         if ([schoolInfoDic[@"mainCourse"] isKindOfClass:[NSString class]]) {
             NSArray *mainCourse = [schoolInfoDic[@"mainCourse"] objectFromJSONString];
@@ -714,10 +731,17 @@
         NSString *version = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
         NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
         
-        LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
-        NSString *sid = account.sid;
         NSString *coId = [NSString stringWithFormat:@"%lli",_id];
-        NSDictionary *dict = @{@"sid":sid,@"type":@"3",@"id":coId,@"version":version,@"device":deviceInfo};
+        
+        LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+        NSDictionary *dict = nil;
+        if (account) {
+            NSString *sid = account.sid;
+            dict = @{@"sid":sid,@"type":@"1",@"id":coId,@"version":version,@"device":deviceInfo};
+        }else
+        {
+            dict = @{@"type":@"1",@"id":coId,@"version":version,@"device":deviceInfo};
+        }
         
         [MTA trackCustomKeyValueEvent:@"school_call_record" props:dict];
         
@@ -735,8 +759,8 @@
 /** 跳转地图页面 */
 - (IBAction)mapClick:(id)sender {
     LMMapViewController *lm = [[LMMapViewController alloc] init];
-    lm.gps = self.gps;
-    lm.address = self.address;
+
+    lm.adressArr = self.addressArr;
     
     [self presentViewController:lm animated:YES completion:nil];
     
@@ -758,6 +782,15 @@
     return _myScrollView;
 }
 
+
+
+- (NSMutableArray *)addressArr
+{
+    if (_addressArr == nil) {
+        _addressArr = [NSMutableArray array];
+    }
+    return _addressArr;
+}
 
 
 

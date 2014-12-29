@@ -28,8 +28,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
- 
     
+    //下拉刷新控件
+    [self setupRefresh];
+  
+}
+
+
+//下拉刷新
+- (void)setupRefresh
+{
     //添加下拉加载
     [self.tableView addHeaderWithTarget:self action:@selector(loadNewData)];
     
@@ -38,8 +46,8 @@
     
     //添加上拉加载
     [self.tableView addFooterWithTarget:self action:@selector(loadMoreData)];
-  
 }
+
 
 
 //下拉刷新
@@ -145,7 +153,7 @@
     
     NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"course/list.json"];
     
-    if(self.courseLists.count < 20 || self.courseLists.count == self.tCount )
+    if(self.courseLists.count < 10 || self.courseLists.count == self.tCount )
     {
         // 3.关闭菊花
         [self.tableView footerEndRefreshing];
@@ -160,7 +168,7 @@
     
     
     NSString *jsonStr = [self.arr JSONString];
-    MyLog(@"%@=======",jsonStr);
+    MyLog(@"==课程上拉刷新参数%@=======",jsonStr);
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"param"] = jsonStr;

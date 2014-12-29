@@ -78,19 +78,21 @@
     self.headView = headView;
     self.headView.delegate = self;
    
-#warning 或者让他默认选中第一个
-    //创建courseView
-    LMCourseListViewController *clv = [[LMCourseListViewController alloc] init];
-    self.clv = clv;
-    [self addChildViewController:clv];
-    self.clv.view.frame = CGRectMake(0, 107, self.view.width,[UIScreen mainScreen].bounds.size.height - 107);
-    if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"]) {
-        self.clv.view.y = 43;
-        self.clv.view.height = [UIScreen mainScreen].bounds.size.height - 43;
-    }
-    [self.view addSubview:self.clv.view];
-
-    [self loadNewData];
+#warning 或者让他默认选中第一个,应该可以删掉了
+//    //创建courseView
+//    LMCourseListViewController *clv = [[LMCourseListViewController alloc] init];
+//    self.clv = clv;
+//    [self addChildViewController:clv];
+//    self.clv.view.frame = CGRectMake(0, 107, self.view.width,[UIScreen mainScreen].bounds.size.height - 107);
+//    if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"]) {
+//        self.clv.view.y = 43;
+//        self.clv.view.height = [UIScreen mainScreen].bounds.size.height - 43;
+//    }
+//    [self.view addSubview:self.clv.view];
+//
+//    [self loadNewData];
+    
+    [self segmentAction:self.segm];
     
 }
 
@@ -146,8 +148,7 @@
          [self.slv removeFromParentViewController];
          [self addChildViewController:clv];
          [self.view addSubview:self.clv.view];
-         [self loadNewData];
-         [self.clv loadNewData];
+         [self loadParam];
          
      } else
      {
@@ -157,8 +158,7 @@
          [self addChildViewController:slv];
          [self.clv.view removeFromSuperview];
          [self.view addSubview:self.slv.view];
-         [self loadNewData];
-         [self.slv loadNewData];
+         [self loadParam];
      }
 
 }
@@ -166,7 +166,7 @@
 
 
 /** 参数 */
-- (void)loadNewData
+- (void)loadParam
 {
 
     //参数
@@ -178,6 +178,8 @@
     {
         arr[@"area"] = @"0_0";
     }
+    
+    arr[@"count"] = @"10";
     
     NSString *gpsStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"localGps"];
     
@@ -207,10 +209,10 @@
     self.slv.arr = arr;
     
     if (self.segm.selectedSegmentIndex == 0) {
-        [self.clv loadNewData];
+        [self.clv setupRefresh];
     } else
     {
-        [self.slv loadNewData];
+        [self.slv setupRefresh];
     }
 
 }
@@ -376,7 +378,7 @@
     [self.headView.titleBtn setTitle:@"全  部" forState:UIControlStateNormal];
     [self.headView.titleBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_normal"] forState:UIControlStateNormal];
     
-    [self loadNewData];
+    [self loadParam];
     
     [self.popMenu dismiss];
     
@@ -388,7 +390,7 @@
     self.levelId = @"0";
     [self.headView.cityBtn setTitle:@"全  城" forState:UIControlStateNormal];
     [self.headView.cityBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_normal"] forState:UIControlStateNormal];
-    [self loadNewData];
+    [self loadParam];
     
     [self.popMenu dismiss];
 }
@@ -408,7 +410,7 @@
     [self.headView.titleBtn setTitle:title forState:UIControlStateNormal];
     [self.headView.titleBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_normal"] forState:UIControlStateNormal];
     
-    [self loadNewData];
+    [self loadParam];
     
     [self.popMenu dismiss];
     
@@ -432,7 +434,7 @@
     [self.headView.cityBtn setTitle:title forState:UIControlStateNormal];
     [self.headView.cityBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_normal"] forState:UIControlStateNormal];
 
-    [self loadNewData];
+    [self loadParam];
 
     [self.popMenu dismiss];
 }
@@ -454,7 +456,7 @@
     [self.headView.ageBtn setTitle:title forState:UIControlStateNormal];
     [self.headView.ageBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_normal"] forState:UIControlStateNormal];
     
-    [self loadNewData];
+    [self loadParam];
     
     [self.popMenu dismiss];
 }
@@ -466,7 +468,7 @@
     [self.headView.selectedBtn setTitle:title forState:UIControlStateNormal];
     [self.headView.selectedBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_normal"] forState:UIControlStateNormal];
     
-    [self loadNewData];
+    [self loadParam];
     
     [self.popMenu dismiss];
 }

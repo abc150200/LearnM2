@@ -20,7 +20,7 @@
 + (NSString *)timeNow;
 + (NSString *)getTimeNow;
 /** 返回年月 */
-+ (NSString *)timeFmtWithLong:(long)longTime;
++ (NSString *)timeFmtWithLong:(long long)longTime;
 /** 返回解析的年龄 */
 + (NSString *)ageBegin:(int)ageBegin ageEnd:(int)ageEnd;
 /** 返回数字年龄(回复中用) */

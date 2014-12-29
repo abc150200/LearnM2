@@ -33,7 +33,7 @@
 
 #define YYEncode(str) [str dataUsingEncoding:NSUTF8StringEncoding]
 
-@interface LMAddRecommendViewController ()<UITextViewDelegate,UIScrollViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface LMAddRecommendViewController ()<UITextViewDelegate,UIScrollViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIScrollViewDelegate>
 
 {
     //    AFHTTPClient    *_httpClient;
@@ -43,9 +43,7 @@
 @property (weak, nonatomic)  UIView *contentView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, strong) LMComposeView *tv;
-//@property (weak, nonatomic) IBOutlet UIImageView *iv1;
-//@property (weak, nonatomic) IBOutlet UIImageView *iv2;
-//@property (weak, nonatomic) IBOutlet UIImageView *iv3;
+
 @property (nonatomic, strong) NSMutableArray *imageViews;
 
 @property (nonatomic, strong) NSMutableArray *images;
@@ -61,9 +59,6 @@
 
 @property (copy, nonatomic) NSMutableArray *imageNames;//存储图片名的数组
 @property (nonatomic, copy)  NSString *DocumentsPath;
-
-@property (weak, nonatomic) IBOutlet UILabel *star1;
-@property (weak, nonatomic) IBOutlet UILabel *star2;
 
 @property (strong, nonatomic) IBOutlet UIButton *picBtn;
 
@@ -100,6 +95,7 @@
     UIView *contentView = [[UIView alloc] init];
     contentView.backgroundColor = [UIColor whiteColor];
     [self.scrollView addSubview:contentView];
+    self.scrollView.delegate = self;
     self.contentView = contentView;
     
     LMComposeView *tv = [[LMComposeView alloc] init];
@@ -171,6 +167,16 @@
     };
   
     
+    //退出键盘手势
+    UITapGestureRecognizer *tapGr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
+    tapGr.cancelsTouchesInView =NO;
+    [self.view addGestureRecognizer:tapGr];
+    
+}
+
+-(void)viewTapped:(UITapGestureRecognizer*)tapGr{
+    [self.tv resignFirstResponder];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -180,6 +186,12 @@
     self.scrollView.contentSize = CGSizeMake(self.view.width, self.view.height + 300);
     self.scrollView.delegate = self;
     
+}
+
+/** scrollView的代理方法 */
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self.scrollView endEditing:YES];
 }
 
 - (IBAction)camera:(id)sender {
@@ -201,83 +213,6 @@
             
             return;
         }
-
-    
-    
-//    if ([ALAssetsLibrary authorizationStatus] == ALAuthorizationStatusNotDetermined) {
-//        
-//        ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
-//        
-//        [assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
-//            
-//            if (*stop) {
-//                //点击“好”回调方法:
-//                NSLog(@"好");
-//                return;
-//                
-//            }
-//            *stop = TRUE;
-//            
-//        } failureBlock:^(NSError *error) {
-//            
-//            //点击“不允许”回调方法:
-//            NSLog(@"不允许");
-//            [self dismissViewControllerAnimated:YES completion:nil];
-//            
-//        }];
-//    }
-//    
-//    NSString *mediaType = AVMediaTypeVideo;// Or AVMediaTypeAudio
-//    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
-//    NSLog(@"---cui--authStatus--------%d",authStatus);
-//    // This status is normally not visible—the AVCaptureDevice class methods for discovering devices do not return devices the user is restricted from accessing.
-//    if(authStatus ==AVAuthorizationStatusRestricted){
-//        NSLog(@"Restricted");
-//    }else if(authStatus == AVAuthorizationStatusDenied){
-//        // The user has explicitly denied permission for media capture.
-//        NSLog(@"Denied");     //应该是这个，如果不允许的话
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
-//                                                        message:@"请在设备的<设置-隐私-相机>中允许访问相机。"
-//                                                       delegate:self
-//                                              cancelButtonTitle:@"确定"
-//                                              otherButtonTitles:nil];
-//        [alert show];
-//        
-//        return;
-//    }
-//    else if(authStatus == AVAuthorizationStatusAuthorized){//允许访问
-//        // The user has explicitly granted permission for media capture, or explicit user permission is not necessary for the media type in question.
-//        NSLog(@"Authorized");
-//        
-//    }else if(authStatus == AVAuthorizationStatusNotDetermined){
-//        // Explicit user permission is required for media capture, but the user has not yet granted or denied such permission.
-//        [AVCaptureDevice requestAccessForMediaType:mediaType completionHandler:^(BOOL granted) {
-//            if(granted){//点击允许访问时调用
-//                //用户明确许可与否，媒体需要捕获，但用户尚未授予或拒绝许可。
-//                NSLog(@"Granted access to %@", mediaType);
-//            }
-//            else {
-//                NSLog(@"Not granted access to %@", mediaType);
-//            }
-//            
-//        }];
-//    }else {
-//        NSLog(@"Unknown authorization status");
-//    }
-    
-    //(authStatus == AVAuthorizationStatusDenied)
-    
-//    BOOL isCameraValid = YES;
-//    //判断iOS7的宏，没有就自己写个，下边的方法是iOS7新加的，7以下调用会报错
-//    if(isIOS7AndLater)
-//    {
-//        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-//        if (authStatus != AVAuthorizationStatusAuthorized)
-//        {
-//            isCameraValid = NO;
-//        }
-//    }
-//}
 
     UIActionSheet *mySheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"打开照相机",@"从相册中选取", nil];
     
@@ -627,7 +562,6 @@
     {
         arr[@"level"] = @"0";
     }
-    MyLog(@"level===%@",self.TotalValue);
     
     
     if(self.starValue1)
@@ -638,7 +572,6 @@
     {
         arr[@"level1"] = @"0";
     }
-     MyLog(@"level1===%@",self.starValue1);
     
     
     if(self.starValue1)
@@ -661,7 +594,7 @@
     
     if(self.starValue4)
     {
-        arr[@"level4"] = self.starValue3;
+        arr[@"level4"] = self.starValue4;
     }
     else
     {
@@ -676,7 +609,7 @@
     arr[@"text"] = self.tv.text;
     
     NSString *jsonStr = [arr JSONString];
-    MyLog(@"%@",jsonStr);
+    MyLog(@"jsonStr=============%@",jsonStr);
     
     //加密
     NSString *dataJson = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:self.sessionkey];
@@ -688,9 +621,11 @@
     NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
     parameters[@"device"] = deviceInfo;
     
+    MyLog(@"parameters==============%@",parameters);
+    
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        LogObj(responseObject);
+        MyLog(@"responseObject===============%@",responseObject);
 
         long long code2 = [responseObject[@"code"] longLongValue];
         
@@ -775,14 +710,6 @@
     return _images;
 }
 
-
-//- (NSMutableArray *)imageViews
-//{
-//    if (_imageViews == nil) {
-//        _imageViews = @[self.iv1,self.iv2,self.iv3];
-//    }
-//    return _imageViews;
-//}
 
 - (NSMutableArray *)imagesUrl
 {

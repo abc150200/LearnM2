@@ -77,11 +77,13 @@
         [self addChildViewController:clv];
         [self.view addSubview:self.clv.view];
         [self loadParam];
-        [self.clv loadNewData];
         
+    } else if (Index == 1)
+    {
+        [self loadParam];
     }else
     {
-        
+        [self loadParam];
     }
     
 }
@@ -92,15 +94,30 @@
     //参数
     NSMutableDictionary *arr = [NSMutableDictionary dictionary];
     arr[@"area"] = @"0_0";
-    arr[@"count"] = @"20";
+    arr[@"count"] = @"5";
+    
+    NSString *gpsStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"localGps"];
+    if (gpsStr) {
+        arr[@"gps"] = gpsStr;
+    }
     
     self.clv.arr = arr;
     
     if (self.segm.selectedSegmentIndex == 0) {
-        [self.clv loadNewData];
-    } else
-    {
         
+        arr[@"order"] = @"1";
+        self.clv.arr = arr;
+        [self.clv setupRefresh];
+    } else if ((self.segm.selectedSegmentIndex == 1))
+    {
+        arr[@"order"] = @"2";
+        self.clv.arr = arr;
+        [self.clv setupRefresh];
+    }else
+    {
+        arr[@"order"] = @"3";
+        self.clv.arr = arr;
+        [self.clv setupRefresh];
     }
 }
 

@@ -61,12 +61,12 @@
     return timeNow;
 }
 
-+ (NSString *)timeFmtWithLong:(long)longTime
++ (NSString *)timeFmtWithLong:(long long)longTime
 {
     
     NSDate *date = [[NSDate alloc]initWithTimeIntervalSince1970:longTime/1000.0];
     NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
-    fmt.dateFormat = @"MM月dd日";
+    fmt.dateFormat = @"yyyy年MM月dd日";
     return [fmt stringFromDate:date];
 }
 
@@ -74,7 +74,6 @@
 + (NSString *)timeWithLong:(long long)longTime
 {
     
-//    NSDate *date = [[NSDate alloc]initWithTimeIntervalSinceNow:(longTime - 777600000)/1000.0];
     NSDate *date = [[NSDate alloc]initWithTimeIntervalSince1970:longTime/1000.0];
     NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
     fmt.dateFormat = @"yyyy-MM-dd";

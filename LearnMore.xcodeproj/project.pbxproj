@@ -60,7 +60,6 @@
 		205426681A0725FF0086C516 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 205426671A0725FF0086C516 /* libsqlite3.0.dylib */; };
 		205426691A07260C0086C516 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 20EC4E2B1A03309400AFD446 /* libz.dylib */; };
 		2054266B1A0726F40086C516 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2054266A1A0726F40086C516 /* libstdc++.dylib */; };
-		205426721A078D020086C516 /* LMDetailAct.m in Sources */ = {isa = PBXBuildFile; fileRef = 205426711A078D010086C516 /* LMDetailAct.m */; };
 		205426751A07AB860086C516 /* NSDictionary+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 205426741A07AB860086C516 /* NSDictionary+Log.m */; };
 		2057BBC819FF7A8900BA2793 /* LMMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2057BBC619FF7A8900BA2793 /* LMMapViewController.m */; };
 		2057BBC919FF7A8900BA2793 /* LMMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2057BBC719FF7A8900BA2793 /* LMMapViewController.xib */; };
@@ -268,6 +267,7 @@
 		20F9A25D19EBA1B300BAB3D5 /* LMActivityViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20F9A25B19EBA1B300BAB3D5 /* LMActivityViewCell.xib */; };
 		20FAB80B1A35618F0077183C /* LMOneSchRecViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FAB8091A35618F0077183C /* LMOneSchRecViewController.m */; };
 		20FAB80C1A35618F0077183C /* LMOneSchRecViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20FAB80A1A35618F0077183C /* LMOneSchRecViewController.xib */; };
+		20FACC4C1A4FE5050006B7E6 /* LMAddrList.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FACC4B1A4FE5050006B7E6 /* LMAddrList.m */; };
 		20FAD7EB1A0A17CD008D44DB /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 20FAD7EA1A0A17CD008D44DB /* libxml2.2.dylib */; };
 		20FB5CCD1A2EB493003F613B /* TQStarRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FB5CCC1A2EB493003F613B /* TQStarRatingView.m */; };
 		20FBE7CA1A4AD28600CB03A1 /* LMActivityListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FBE7C91A4AD28600CB03A1 /* LMActivityListViewController.m */; };
@@ -292,7 +292,6 @@
 		CA6A7A981A46EB4200EF6AC4 /* LMLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = CA6A7A971A46EB4200EF6AC4 /* LMLevel.m */; };
 		CA6A7A9B1A46EB7A00EF6AC4 /* LMMyRecPhotosView.m in Sources */ = {isa = PBXBuildFile; fileRef = CA6A7A9A1A46EB7A00EF6AC4 /* LMMyRecPhotosView.m */; };
 		CABBDB241A2E26FC00298F95 /* LMPhotosView.m in Sources */ = {isa = PBXBuildFile; fileRef = CABBDB231A2E26FC00298F95 /* LMPhotosView.m */; };
-		CAFF76291A0FD5830029D627 /* TFIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFF76281A0FD5830029D627 /* TFIndicatorView.m */; };
 		CAFF762D1A0FE4700029D627 /* ACETelPrompt.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFF762C1A0FE4700029D627 /* ACETelPrompt.m */; };
 /* End PBXBuildFile section */
 
@@ -404,8 +403,6 @@
 		205426531A0725CF0086C516 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		205426671A0725FF0086C516 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		2054266A1A0726F40086C516 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
-		205426701A078D010086C516 /* LMDetailAct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMDetailAct.h; sourceTree = "<group>"; };
-		205426711A078D010086C516 /* LMDetailAct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMDetailAct.m; sourceTree = "<group>"; };
 		205426731A07AB860086C516 /* NSDictionary+Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Log.h"; sourceTree = "<group>"; };
 		205426741A07AB860086C516 /* NSDictionary+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Log.m"; sourceTree = "<group>"; };
 		2057BBC519FF7A8900BA2793 /* LMMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMapViewController.h; sourceTree = "<group>"; };
@@ -771,6 +768,8 @@
 		20FAB8081A35618F0077183C /* LMOneSchRecViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMOneSchRecViewController.h; sourceTree = "<group>"; };
 		20FAB8091A35618F0077183C /* LMOneSchRecViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMOneSchRecViewController.m; sourceTree = "<group>"; };
 		20FAB80A1A35618F0077183C /* LMOneSchRecViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMOneSchRecViewController.xib; sourceTree = "<group>"; };
+		20FACC4A1A4FE5050006B7E6 /* LMAddrList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAddrList.h; sourceTree = "<group>"; };
+		20FACC4B1A4FE5050006B7E6 /* LMAddrList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAddrList.m; sourceTree = "<group>"; };
 		20FAD7EA1A0A17CD008D44DB /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		20FB5CCB1A2EB493003F613B /* TQStarRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TQStarRatingView.h; sourceTree = "<group>"; };
 		20FB5CCC1A2EB493003F613B /* TQStarRatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TQStarRatingView.m; sourceTree = "<group>"; };
@@ -811,8 +810,6 @@
 		CA6A7A9A1A46EB7A00EF6AC4 /* LMMyRecPhotosView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyRecPhotosView.m; sourceTree = "<group>"; };
 		CABBDB221A2E26FC00298F95 /* LMPhotosView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPhotosView.h; sourceTree = "<group>"; };
 		CABBDB231A2E26FC00298F95 /* LMPhotosView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPhotosView.m; sourceTree = "<group>"; };
-		CAFF76271A0FD5830029D627 /* TFIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFIndicatorView.h; sourceTree = "<group>"; };
-		CAFF76281A0FD5830029D627 /* TFIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFIndicatorView.m; sourceTree = "<group>"; };
 		CAFF762B1A0FE4700029D627 /* ACETelPrompt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACETelPrompt.h; sourceTree = "<group>"; };
 		CAFF762C1A0FE4700029D627 /* ACETelPrompt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACETelPrompt.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1622,8 +1619,6 @@
 				20F2E4D91A14BB6C006CAE25 /* Gurpartap-AESCrypt-ObjC 3 */,
 				20F2E4AB1A14BA80006CAE25 /* AES */,
 				CAFF762A1A0FE4700029D627 /* ACETelPrompt */,
-				CAFF76271A0FD5830029D627 /* TFIndicatorView.h */,
-				CAFF76281A0FD5830029D627 /* TFIndicatorView.m */,
 				20F7A55F19EF7E4600DC526D /* AFNetworking */,
 				20F278BA1A023025004370DA /* MJRefresh */,
 				20F278881A022191004370DA /* SDWebImage */,
@@ -1950,8 +1945,8 @@
 			children = (
 				20F277F01A01EBD8004370DA /* LMActList.h */,
 				20F277F11A01EBD8004370DA /* LMActList.m */,
-				205426701A078D010086C516 /* LMDetailAct.h */,
-				205426711A078D010086C516 /* LMDetailAct.m */,
+				20FACC4A1A4FE5050006B7E6 /* LMAddrList.h */,
+				20FACC4B1A4FE5050006B7E6 /* LMAddrList.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2191,6 +2186,7 @@
 				20F7A57B19EF7E4600DC526D /* AFURLSessionManager.m in Sources */,
 				200236AC1A19A6BB004446C9 /* LMControllerTool.m in Sources */,
 				2057BBC819FF7A8900BA2793 /* LMMapViewController.m in Sources */,
+				20FACC4C1A4FE5050006B7E6 /* LMAddrList.m in Sources */,
 				20F2E4EA1A14BB6C006CAE25 /* NSString+Base64.m in Sources */,
 				CABBDB241A2E26FC00298F95 /* LMPhotosView.m in Sources */,
 				20F278B51A022191004370DA /* UIImage+MultiFormat.m in Sources */,
@@ -2258,7 +2254,6 @@
 				2071DA6219FFB64B00CA56DC /* MJTypeEncoding.m in Sources */,
 				20BCC22A19E6908100A5913B /* IWSearchBar.m in Sources */,
 				20F7A5E319EFD62700DC526D /* IWPopMenu.m in Sources */,
-				CAFF76291A0FD5830029D627 /* TFIndicatorView.m in Sources */,
 				204C335E19EBDA2B00CD71B0 /* LMCommonGroup.m in Sources */,
 				20F278B81A022191004370DA /* UIImageView+WebCache.m in Sources */,
 				20F7A57719EF7E4600DC526D /* AFSecurityPolicy.m in Sources */,
@@ -2293,7 +2288,6 @@
 				2071DA6819FFB94600CA56DC /* LMCourseList.m in Sources */,
 				20F278B71A022191004370DA /* UIImageView+HighlightedWebCache.m in Sources */,
 				20F986F21A26CFA0005727A5 /* LMCourseListViewController.m in Sources */,
-				205426721A078D020086C516 /* LMDetailAct.m in Sources */,
 				20F278D21A023025004370DA /* UIView+Extension.m in Sources */,
 				20F4C3C319ECB94E002766A4 /* LMMyAccountViewController.m in Sources */,
 				20F7A57819EF7E4600DC526D /* AFURLConnectionOperation.m in Sources */,

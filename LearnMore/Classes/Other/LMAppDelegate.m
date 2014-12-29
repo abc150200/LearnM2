@@ -55,6 +55,15 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     
+
+    // 3.显示wiondw
+    [self.window makeKeyAndVisible];
+    
+    //4.显示新特性
+    [LMControllerTool chooseViewController];
+    
+    
+    
     //获取设备信息
     //获取沙盒中的版本号
     NSString *key = (__bridge_transfer NSString *)kCFBundleVersionKey;
@@ -87,30 +96,6 @@
     
     MyLog(@"deviceAll===%@",deviceAll);
     
-    
-    // 3.显示wiondw
-    [self.window makeKeyAndVisible];
-    
-    
-    
-    
-    
-    [LMControllerTool chooseViewController];
-    
-    
-    //判断是不是第一次运行
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"everLaunched"])
-    {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"everLaunched"];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];
-//        [[NSUserDefaults standardUserDefaults] synchronize];
-    }else
-    {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstLaunch"];
-//        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    
-    
     /** 读取账号 */
     LMAccount *account = [LMAccountTool account];
 //   [LMAccountInfo sharedAccountInfo].account = account;
@@ -131,8 +116,16 @@
         [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
             LogObj(responseObject);
             
-            self.salt = responseObject[@"salt"];
-            self.sid = responseObject[@"sid"];
+            long long code = [responseObject[@"code"] longLongValue];
+            if (code == 10001) {
+                self.salt = responseObject[@"salt"];
+                self.sid = responseObject[@"sid"];
+            }else
+            {
+                return ;
+            }
+            
+            
             
             /** 登录 */
             AFHTTPRequestOperationManager *manager2 = [AFHTTPRequestOperationManager manager];
@@ -153,34 +146,30 @@
             
             
             NSString *jsonStr = [arr JSONString];
-            MyLog(@"%@",jsonStr);
+            MyLog(@"jsonStr=============%@",jsonStr);
             
             //通讯密钥
             NSString *result = [account.pwd stringByAppendingString:self.salt];
             MyLog(@"%@==拼接之后",result);
-            //        NSString *key = [[self getSha1String:result]  substringToIndex:16];
+    
             NSString *key = [[[result sha1]  substringToIndex:16] lowercaseString];
             MyLog(@"%@==全部密钥",[[result sha1] lowercaseString] );
             MyLog(@"%@==密钥",key);
             
             
-            //        parameters2[@"data"] = [AESCrypt encrypt:jsonStr password:key];
             parameters2[@"data"] = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:key];
             
             MyLog(@"%@===请求参数",parameters2);
             
             [manager2 POST:url2 parameters:parameters2 success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                LogObj(responseObject);
+                MyLog(@"responseObject===============%@",responseObject);
                 
                 NSString *dataStr = responseObject[@"data"];
                 
                 NSString *dataJson = [AESenAndDe De_Base64andAESDeToString:dataStr keyValue:key];
                 NSDictionary *dict = [dataJson objectFromJSONString];
                 
-                LogObj(dict);
-                
-                MyLog(@"name===%@",responseObject);
-                
+    
                 
                 NSMutableDictionary *dictM = [NSMutableDictionary dictionaryWithDictionary:dict];
                 dictM[@"userPhone"] = account.userPhone;

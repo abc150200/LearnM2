@@ -84,9 +84,9 @@
     startBtn.backgroundColor = [UIColor clearColor];
     
     //按钮frame
-    startBtn.size = CGSizeMake(self.view.width * 0.5, self.view.height * 0.3);
+    startBtn.size = CGSizeMake(150, 100);
     startBtn.centerX = self.view.width * 0.5;
-    startBtn.y = self.view.height * 0.7;
+    startBtn.centerY = self.view.height * 0.5;
     
     // 监听开始按钮点击事件
     [startBtn addTarget:self action:@selector(startBtnOnClick) forControlEvents:UIControlEventTouchUpInside];

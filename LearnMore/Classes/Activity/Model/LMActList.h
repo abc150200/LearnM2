@@ -15,11 +15,18 @@
 @property (assign, nonatomic) int actPrice; //价格
 @property (assign, nonatomic) int actCount; //全部名额
 @property (assign, nonatomic) int actNowCount;  //当前剩余名额
-@property (copy, nonatomic) NSString *actBeginTime; //开始时间
-@property (copy, nonatomic) NSString *actEndTime;   //结束时间
+@property (assign, nonatomic) long long actBeginTime; //开始时间
+@property (assign, nonatomic) long long actEndTime;   //结束时间
 @property (copy, nonatomic) NSString *contactUser;  //联系人
 @property (copy, nonatomic) NSString *contactPhone; //联系电话
 @property (copy, nonatomic) NSString *schoolName; //联系电话
 @property (copy, nonatomic) NSString *actAddress;
+@property (copy, nonatomic) NSString *gps;//gps
+@property (nonatomic, assign) long long visitCount;//访问人数
+//@property (nonatomic, assign) NSNumber *visitCount;
+//@property (nonatomic, copy) NSString *visitCount;
+@property (nonatomic, copy) NSString *leftDays;//剩余天数
+
+@property (nonatomic, strong) NSArray *addrList;
 
 @end

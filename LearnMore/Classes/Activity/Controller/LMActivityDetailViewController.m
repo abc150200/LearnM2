@@ -11,7 +11,6 @@
 #import "LMActivityDetailViewController.h"
 #import "UMSocial.h"
 #import "AFNetworking.h"
-#import "LMDetailAct.h"
 #import "LMMapViewController.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "LMReserveViewController.h"
@@ -21,8 +20,10 @@
 #import "LMAccount.h"
 #import "LMLoginViewController.h"
 #import "MTA.h"
+#import "MBProgressHUD+NJ.h"
+#import "AESenAndDe.h"
 
-@interface LMActivityDetailViewController ()<UIWebViewDelegate>
+@interface LMActivityDetailViewController ()<UIWebViewDelegate,UIAlertViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UIView *headView;
 
@@ -35,11 +36,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *actImageView;
 
 @property (weak, nonatomic) IBOutlet UILabel *leastCount;
-/** 地址的View */
-@property (weak, nonatomic) IBOutlet UIView *addressView;
-
-/** 预留空白 */
-@property (weak, nonatomic) IBOutlet UIView *whiteView;
 
 @property (nonatomic, weak) UIView *htmlView;
 
@@ -58,11 +54,16 @@
 /** 导航栏相关 */
 @property (nonatomic, weak) UIButton *backBtn;
 @property (nonatomic, weak) UIButton *collectBtn;
-@property (nonatomic, strong) UIView *rightBarItemsView ;
+//@property (nonatomic, strong) UIView *rightBarItemsView ;
 @property (nonatomic, weak) UIButton *shareBtn;
 
 /** 底部工具条 */
 @property (strong, nonatomic) IBOutlet UIView *toolView;
+@property (weak, nonatomic) IBOutlet UILabel *addrssLabel;
+@property (weak, nonatomic) IBOutlet UIButton *mapBtn;
+
+/** 地址字典 */
+@property (nonatomic, strong) NSMutableArray *arrAddress;
 
 @end
 
@@ -72,7 +73,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        
+        
     }
     return self;
 }
@@ -81,44 +83,28 @@
 {
     [super viewWillAppear:animated];
     
-    //重写返回按钮
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem barButtonItemWithImageName:@"activity_nav_black" target:self sel:@selector(goBack)];
-    
-    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(8, 20, 34, 34)];
-    self.backBtn = backBtn;
-    [backBtn setBackgroundImage:[UIImage imageNamed:@"activity_nav_black"] forState:UIControlStateNormal];
-    [backBtn addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
-    [[UIApplication sharedApplication].keyWindow addSubview:backBtn];
-    
     //添加分享,收藏
     UIButton *collectBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 34, 34)];
     self.collectBtn = collectBtn;
-    [collectBtn setImage:[UIImage imageNamed:@"activity_nav_collect_normal"] forState:UIControlStateNormal];
+    [collectBtn setImage:[UIImage imageNamed:@"public_nav_collect_normal"] forState:UIControlStateNormal];
     [collectBtn addTarget:self action:@selector(collection) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake(38, 0, 34, 34)];
     self.shareBtn = shareBtn;
-    [shareBtn setImage:[UIImage imageNamed:@"activity_nav_share"] forState:UIControlStateNormal];
+    [shareBtn setImage:[UIImage imageNamed:@"public_nav_share"] forState:UIControlStateNormal];
     [shareBtn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
     
-#warning 为何这样做会超出他的可点击范围
-//    UIView *rightBarItemsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 76, 34)];
-//    self.rightBarItemsView = rightBarItemsView;
-//    [rightBarItemsView addSubview:collectBtn];
-//    [rightBarItemsView addSubview:shareBtn];
+    UIView *rightBarItemsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 76, 34)];
+    [rightBarItemsView addSubview:collectBtn];
+    [rightBarItemsView addSubview:shareBtn];
     
-   [[UIApplication sharedApplication].keyWindow addSubview:collectBtn];
-    collectBtn.frame = CGRectMake(self.view.width - 84, 20, 34, 34);
+    UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithCustomView:rightBarItemsView];
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObject:rightBarItem];
     
-    [[UIApplication sharedApplication].keyWindow addSubview:shareBtn];
-    shareBtn.frame = CGRectMake(self.view.width - 8 - 34 , 20, 34, 34);
-    
-      self.navigationController.navigationBar.hidden = YES;
-}
 
-- (void)goBack
-{
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    /** 加载数据 */
+    [self loadData];
 }
 
 
@@ -132,14 +118,7 @@
     hud.type = CLProgressHUDTypeDarkBackground;
     hud.shape = CLProgressHUDShapeCircle;
     [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
-
-//#warning 暂时屏蔽
-////    UIBarButtonItem *item0 = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"public_nav_collect_normal"] style:UIBarButtonItemStylePlain target:self action:@selector(collection)];
-//    UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"public_nav_share"] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
-////
-////    self.navigationItem.rightBarButtonItems = @[item1,item0];
-//    self.navigationItem.rightBarButtonItem = item1;
-//    
+ 
     
     [self.view addSubview:self.toolView];
     self.toolView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - self.toolView.height, self.view.width, self.toolView.height);
@@ -148,9 +127,10 @@
     UIScrollView *scrollView = [[UIScrollView alloc] init];
     scrollView.backgroundColor = UIColorFromRGB(0xf0f0f0);
     scrollView.x = 0;
-    scrollView.y = -20;
+#warning 正常情况下是0???
+    scrollView.y = 64;
     scrollView.width = self.view.width;
-    scrollView.height = [UIScreen mainScreen].bounds.size.height - self.toolView.height + 20;
+    scrollView.height = [UIScreen mainScreen].bounds.size.height - self.toolView.height - 64;
     self.scrollView = scrollView;
     [self.view addSubview:self.scrollView];
     
@@ -158,9 +138,8 @@
  
     scrollView.bounces = NO;
 
-    
-    /** 加载数据 */
-    [self loadData];
+    self.toolView.backgroundColor = UIColorFromRGB(0xf0f0f0);
+   
     
     UIWebView *webView = [[UIWebView alloc] init];
     webView.delegate = self;
@@ -182,21 +161,9 @@
     self.scrollView.contentSize =CGSizeMake(self.view.width,self.view.height);
   
     [self.webView addObserver:self forKeyPath:@"scrollView.contentSize" options:NSKeyValueObservingOptionNew context:nil];
-    
-  
-
-
+ 
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
-    return UIStatusBarStyleLightContent;
-}
-
-- (BOOL)prefersStatusBarHidden
-{
-    return NO;
-}
 
 - (void)dealloc
 {
@@ -208,10 +175,6 @@
 {
     [super viewWillDisappear:animated];
 
-    [self.backBtn removeFromSuperview];
-    [self.collectBtn removeFromSuperview];
-    [self.shareBtn removeFromSuperview];
-    self.navigationController.navigationBar.hidden = NO;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -221,19 +184,6 @@
 }
 
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [webView sizeToFit];
-        
-        CGFloat webViewHeight=[webView.scrollView contentSize].height;
-        
-        MyLog(@"webViewHeight===%f",webViewHeight);
-        
-//         self.scrollView.contentSize =CGSizeMake(self.view.width, webViewHeight + self.headView.height - 49);
-    });
-
-}
 
 
 - (void)loadData
@@ -251,20 +201,28 @@
     
     
     NSString *jsonStr = [arr JSONString];
-    MyLog(@"%@",jsonStr);
+    MyLog(@"jsonStr==========%@",jsonStr);
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"param"] = jsonStr;
+    
+    LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
+    if (account) {
+        parameters[@"sid"] = account.sid;
+    }
     
     //设备信息
     NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
     parameters[@"device"] = deviceInfo;
     
+     MyLog(@"parameters===========%@",parameters);
+    
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
+        MyLog(@"responseObject===============%@",responseObject);
         
         NSDictionary *dateDic = [responseObject[@"data"] objectFromJSONString];
-        MyLog(@"%@",dateDic);
+        MyLog(@"data==============%@",dateDic);
         
         /** 取出活动字典 */
         NSDictionary *actInfoDic = dateDic[@"activity"];
@@ -275,6 +233,11 @@
         
             self.actTitle = actInfoDic[@"actTitle"];
             self.actTitleLabel.text = actInfoDic[@"actTitle"];
+        
+            //收藏
+            if ([actInfoDic[@"favStatus"] intValue]) {
+                [self.collectBtn setImage:[UIImage imageNamed:@"public_nav_collect_pressed"] forState:UIControlStateNormal];
+            }
   
             self.timeLabel.text = [NSString stringWithFormat:@"%@-%@",dateStart,dateEnd];
             
@@ -289,9 +252,35 @@
                 
                 self.actImageView.layer.masksToBounds = YES;
                 [self.actImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"activity"]];
+                self.actImageView.layer.borderColor = UIColorFromRGB(0xc7c7c7).CGColor;
+                self.actImageView.layer.borderWidth = 1.0f;
             }
             
             self.schoolNameLabel.text = actInfoDic[@"schoolName"];
+        
+         //地址
+        NSArray *arr = actInfoDic[@"addrList"];
+        if (arr.count == 0) {
+            self.addrssLabel.text = @"线上活动";
+            self.mapBtn.enabled = NO;
+        }else if (arr.count == 1)
+        {
+            NSDictionary *dic = arr[0];
+            self.addrssLabel.text = dic[@"address"];
+            NSDictionary *dict3 = @{@"gps":dic[@"gps"],@"address":dic[@"address"]};
+            [self.arrAddress addObject:dict3];
+        }else
+        {
+            self.addrssLabel.text = @"多商圈";
+        
+            NSMutableArray *arrM = [NSMutableArray array];
+            for (NSDictionary *dic1 in arr) {
+                NSDictionary *dict2 = @{@"gps":dic1[@"gps"],@"address":dic1[@"address"]};
+                [arrM addObject:dict2];
+            }
+            self.arrAddress = arrM;
+            
+        }
     
         [CLProgressHUD dismiss];
 
@@ -304,7 +293,99 @@
 
 - (void)collection
 {
-    NSLog(@"-------");
+    
+    LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
+    if (account) {
+        
+        self.collectBtn.enabled = NO;
+        
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        
+        
+        //url地址
+        NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"favorite/favActivity.json"];
+        
+        
+        //参数
+        NSMutableDictionary *arr = [NSMutableDictionary dictionary];
+        arr[@"id"] = [NSString stringWithFormat:@"%lli",self.id];
+        arr[@"time"] = [NSString timeNow];
+    
+        
+        NSString *jsonStr = [arr JSONString];
+        MyLog(@"%@",jsonStr);
+        
+        NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+        parameters[@"sid"] = account.sid;
+        parameters[@"data"] = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:account.sessionkey];
+        
+        //设备信息
+        NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+        parameters[@"device"] = deviceInfo;
+        
+        [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            
+            LogObj(responseObject);
+            
+            long long code = [responseObject[@"code"] longLongValue];
+            
+            switch (code) {
+                case 10001:
+                {
+                    if ([self.collectBtn.currentImage isEqual:[UIImage imageNamed:@"public_nav_collect_normal"]]) {
+                        
+                        [MBProgressHUD showSuccess:@"收藏成功"];
+                        [self.collectBtn setImage:[UIImage imageNamed:@"public_nav_collect_pressed"] forState:UIControlStateNormal];
+                        self.collectBtn.enabled = YES;
+                    }else
+                    {
+                        [MBProgressHUD showSuccess:@"取消收藏"];
+                        [self.collectBtn setImage:[UIImage imageNamed:@"public_nav_collect_normal"] forState:UIControlStateNormal];
+                        self.collectBtn.enabled = YES;
+                    }
+                    
+                }
+                    
+                    break;
+                    
+                case 30002:
+                {
+                    [MBProgressHUD showError:@"用户未登录或超时"];
+                    self.collectBtn.enabled = YES;
+                }
+                    
+                    break;
+                    
+                case 63001:
+                {
+                    [MBProgressHUD showError:@"用户已收藏"];
+                    self.collectBtn.enabled = YES;
+                }
+                    
+                    break;
+                    
+                default:
+                {
+                    [MBProgressHUD showError:@"服务器异常,收藏失败"];
+                    self.collectBtn.enabled = YES;
+                }
+                    
+                    break;
+            }
+            
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            LogObj(error.localizedDescription);
+        }];
+    } else
+    {
+        
+        LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+        [self.navigationController pushViewController:lg animated:YES];
+        
+    }
+    
+    
 }
 
 - (void)share
@@ -357,26 +438,34 @@
 }
 
 //电话
-- (IBAction)cll:(id)sender {
+- (IBAction)call:(id)sender {
     
     if (self.phoneNum.length) {
         
         NSString *version = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
         NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
         
-        LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
-        NSString *sid = account.sid;
         NSString *coId = [NSString stringWithFormat:@"%lli",_id];
-        NSDictionary *dict = @{@"sid":sid,@"type":@"2",@"id":coId,@"version":version,@"device":deviceInfo};
+        
+        LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+        NSDictionary *dict = nil;
+        if (account) {
+            NSString *sid = account.sid;
+            dict = @{@"sid":sid,@"type":@"1",@"id":coId,@"version":version,@"device":deviceInfo};
+        }else
+        {
+            dict = @{@"type":@"1",@"id":coId,@"version":version,@"device":deviceInfo};
+        }
+        
         
         [MTA trackCustomKeyValueEvent:@"activity_call_record" props:dict];
         
         
-        [ACETelPrompt callPhoneNumber:self.phoneNum call:^(NSTimeInterval duration) {
-            
-        } cancel:^{
-            
-        }];
+        
+        UIAlertView *alert  = [[UIAlertView alloc] initWithTitle:nil message:self.phoneNum delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"呼叫", nil];
+        
+        alert.delegate = self;
+        [alert show];
     }
 }
 
@@ -385,9 +474,8 @@
     
     LMMapViewController *lm = [[LMMapViewController alloc] init];
     
-#warning 以后更改
-    lm.gps = @"116.307185,39.977783";
-    lm.address = @"苏州街长远天地大厦a座";
+
+    lm.adressArr = self.arrAddress;
     
     [self presentViewController:lm animated:YES completion:nil];
     
@@ -399,9 +487,63 @@
     long long time = [parame longLongValue];
     NSDate *date = [[NSDate alloc]initWithTimeIntervalSince1970:time/1000.0];
     NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
-    fmt.dateFormat = @"MM月dd日";
+    fmt.dateFormat = @"yyyy年MM月dd日";
     LogObj([fmt stringFromDate:date]);
     return [fmt stringFromDate:date];
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        NSString *phoneNum = self.phoneNum;
+        NSURL *phoneURL = [NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",phoneNum]];
+        [[UIApplication sharedApplication] openURL:phoneURL];
+        
+        MyLog(@"name===1");
+        
+        //拨打电话记录统计
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        
+        //url地址
+        NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"commons/phoneCall.json"];
+        
+        NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+        
+        NSString *version = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
+        NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+        
+        LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
+        if (account) {
+            parameters[@"sid"] = account.sid;
+        }
+        parameters[@"type"] = @"1";
+        parameters[@"id"] = [NSString stringWithFormat:@"%lli",_id];
+        parameters[@"version"] = version;
+        parameters[@"device"] = deviceInfo;
+        
+        [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            
+            MyLog(@"responseObject===%@",responseObject);
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            LogObj(error.localizedDescription);
+        }];
+        
+    }else
+    {
+        MyLog(@"name===0");
+    }
+    
+}
+
+
+- (NSMutableArray *)arrAddress
+{
+    if (_arrAddress == nil) {
+        _arrAddress = [NSMutableArray array];
+    }
+    return _arrAddress;
+}
+
 
 @end

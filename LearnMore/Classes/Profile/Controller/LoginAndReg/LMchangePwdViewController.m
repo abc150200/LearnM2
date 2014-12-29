@@ -45,8 +45,18 @@
     self.scrollView.delegate = self;
     self.scrollView.backgroundColor = [UIColor colorWithRed:180 green:180 blue:180 alpha:1];
     
-    [self.user endEditing:YES];
+    UITapGestureRecognizer *tapGr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
+    tapGr.cancelsTouchesInView =NO;
+    [self.scrollView addGestureRecognizer:tapGr];
+    
 }
+
+-(void)viewTapped:(UITapGestureRecognizer*)tapGr{
+    [self.user resignFirstResponder];
+    [self.pwd resignFirstResponder];
+    [self.txtAuth resignFirstResponder];
+}
+
 
 - (void)viewDidAppear:(BOOL)animated
 {

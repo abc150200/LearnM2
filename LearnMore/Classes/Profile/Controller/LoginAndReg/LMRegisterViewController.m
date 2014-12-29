@@ -14,6 +14,12 @@
 #import "MBProgressHUD+NJ.h"
 #import "LMSettingViewController.h"
 
+#import "LMAccountTool.h"
+#import "LMAccountInfo.h"
+#import "LMAccount.h"
+#import "AESenAndDe.h"
+#import "AESenAndDe.h"
+
 #import "AFNetworking.h"
 
 #import <Foundation/NSData.h>
@@ -59,10 +65,16 @@
     
     self.scrollView.delegate = self;
     
-    [self.user endEditing:YES];
+    UITapGestureRecognizer *tapGr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
+    tapGr.cancelsTouchesInView =NO;
+    [self.scrollView addGestureRecognizer:tapGr];
     
-    
-  
+}
+
+-(void)viewTapped:(UITapGestureRecognizer*)tapGr{
+    [self.user resignFirstResponder];
+    [self.pwd resignFirstResponder];
+    [self.txtAuth resignFirstResponder];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -111,7 +123,7 @@
         parameters[@"mobile"] = self.user.text;
         
         [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            LogObj(responseObject);
+            MyLog(@"responseObject===验证码============%@",responseObject);
             
         long long code = [responseObject[@"code"] longLongValue];
             switch (code) {
@@ -183,11 +195,16 @@
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"mobile"] = self.user.text;
     
+    // 显示一个蒙版(遮盖)
+    [MBProgressHUD showMessage:@"正在注册中...."];
+    
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        LogObj(responseObject);
+        
+        MyLog(@"responseObject===注册返回============%@",responseObject);
         
         if([responseObject[@"exist"]intValue] == 1)
         {
+            [MBProgressHUD hideHUD];
             [MBProgressHUD showError:@"手机号已被注册"];
             return ;
         }
@@ -231,32 +248,61 @@
                 
                 switch (code) {
                     case 10001:
-                        [MBProgressHUD showSuccess:@"注册成功,请登录"];
-                        [self.navigationController popViewControllerAnimated:YES];
+                    {
+                        [MBProgressHUD hideHUD];
+                        [MBProgressHUD showMessage:@"注册成功,正在登录..."];
+                        
+//                        NSMutableDictionary *dictM = [NSMutableDictionary dictionary];
+//                        dictM[@"userPhone"] = self.user.text;
+//                        dictM[@"pwd"] = self.pwd.text;
+                        
+                        [self aotuLoginWithAccount:self.user.text pwd:self.pwd.text];
+                       
+                        
+//                        [self.navigationController popViewControllerAnimated:YES];
+                    }
                         break;
                         
                     case 30001:
+                    {
+                        [MBProgressHUD hideHUD];
                         [MBProgressHUD showError:@"用户不存在"];
+                    }
                         break;
                     
                     case 30005:
+                    {
+                        [MBProgressHUD hideHUD];
                         [MBProgressHUD showError:@"验证码不正确"];
+                    }
                         break;
                         
                     case 42008:
+                    {
+                        [MBProgressHUD hideHUD];
                         [MBProgressHUD showError:@"验证码不能为空"];
+                    }
                         break;
                         
                     case 42009:
+                    {
+                        [MBProgressHUD hideHUD];
                         [MBProgressHUD showError:@"验证码不匹配"];
+                    }
                         break;
                         
                     case 42010:
+                    {
+                        [MBProgressHUD hideHUD];
                         [MBProgressHUD showError:@"用户帐号已经存在"];
+                    }
                         break;
                         
                     default:
+                    {
+                        [MBProgressHUD hideHUD];
                         [MBProgressHUD showError:@"服务器异常,请稍后再试"];
+                    }
                         break;
                 }
                 
@@ -353,7 +399,117 @@
     [self.scrollView endEditing:YES];
 }
 
+//自动登录
+- (void)aotuLoginWithAccount:(NSString *)account pwd:(NSString *)pwd
+{
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    //url地址
+    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"user/salt.json"];
+    
+    //参数
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    parameters[@"mobile"] = account;
+    
+    [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        LogObj(responseObject);
+        
+        self.salt = responseObject[@"salt"];
+        self.sid = responseObject[@"sid"];
+        
+        /** 登录 */
+        AFHTTPRequestOperationManager *manager2 = [AFHTTPRequestOperationManager manager];
+        
+        //url地址
+        NSString *url2 = [NSString stringWithFormat:@"%@%@",RequestURL,@"user/login.json"];
+        
+        //参数
+        NSMutableDictionary *parameters2 = [NSMutableDictionary dictionary];
+        parameters2[@"mobile"] = account;
+        parameters2[@"sid"] = self.sid;
+        
+        NSMutableDictionary *arr = [NSMutableDictionary dictionary];
+        
+        arr[@"time"] = [NSString timeNow];
+        NSString *pwdResult = [pwd stringByAppendingString:self.salt];
+        arr[@"password"] = [pwdResult sha1];
+        
+        
+        NSString *jsonStr = [arr JSONString];
+        MyLog(@"jsonStr=============%@",jsonStr);
+        
+        //通讯密钥
+        NSString *result = [pwd stringByAppendingString:self.salt];
+        MyLog(@"%@==拼接之后",result);
+        
+        NSString *key = [[[result sha1]  substringToIndex:16] lowercaseString];
+        MyLog(@"%@==全部密钥",[[result sha1] lowercaseString] );
+        MyLog(@"%@==密钥",key);
+        
+        
+        parameters2[@"data"] = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:key];
+        
+        MyLog(@"%@===请求参数",parameters2);
+        
+        [manager2 POST:url2 parameters:parameters2 success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            MyLog(@"responseObject===============%@",responseObject);
+            
+            long long code = [responseObject[@"code"] longLongValue];
+            
+            if(code == 10001)
+            {
+                NSString *dataStr = responseObject[@"data"];
+                
+                NSString *dataJson = [AESenAndDe De_Base64andAESDeToString:dataStr keyValue:key];
+                NSDictionary *dict = [dataJson objectFromJSONString];
+                
+                
+                
+                NSMutableDictionary *dictM = [NSMutableDictionary dictionaryWithDictionary:dict];
+                dictM[@"userPhone"] = account;
+                dictM[@"pwd"] = pwd;
+                
+                MyLog(@"name===%@",dictM);
+                
+                
+                //字典转对象
+                LMAccount *account  = [LMAccount accountWithDict:dictM];
+                [LMAccountTool saveAccount:account];
+                
+                
+                [[LMAccountInfo sharedAccountInfo] setAccount:account];
+                LogObj([LMAccountInfo sharedAccountInfo].account);
+                
+                
+                [MBProgressHUD hideHUD];
+                [MBProgressHUD showSuccess:@"登录成功"];
+                
+                for (UIViewController *controller in self.navigationController.viewControllers) {
+                    if ([controller isKindOfClass:[LMSettingViewController class]]) {
+                        [self.navigationController popToViewController:controller animated:YES];
+                    }
+                }
+                
+            }
+            
+           
+            
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            LogObj(error.localizedDescription);
+            
+        }];
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        LogObj(error.localizedDescription);
+        
+    }];
+    
+    
 
+}
 
 
 

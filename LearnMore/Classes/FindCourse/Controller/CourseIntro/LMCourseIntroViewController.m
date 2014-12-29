@@ -52,7 +52,7 @@
 
 #import "MTA.h"
 
-@interface LMCourseIntroViewController ()<UIScrollViewDelegate,LMMenuButtonViewDelegate>
+@interface LMCourseIntroViewController ()<UIScrollViewDelegate,LMMenuButtonViewDelegate,UIAlertViewDelegate>
 
 
 /** 老师列表数组 */
@@ -138,6 +138,9 @@
 /**  收藏按钮 */
 @property (nonatomic, strong) UIButton *collectBtn;
 
+/** 地址字典 */
+@property (nonatomic, strong) NSMutableArray *addressArr;
+
 @end
 
 @implementation LMCourseIntroViewController
@@ -166,7 +169,7 @@
     
     
     self.toolView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - self.toolView.height , self.view.width, self.toolView.height);
-    
+    self.toolView.backgroundColor = UIColorFromRGB(0xf0f0f0);
     
     //添加分享,收藏
     UIButton *collectBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
@@ -185,8 +188,7 @@
     UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithCustomView:rightBarItemsView];
     
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObject:rightBarItem];
-    
-    
+
     //加载数据
      [self loadData];
     
@@ -252,7 +254,13 @@
     [self.scrollView addSubview: self.schoolSkin];
 
     
-    self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight);
+    
+     if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"]) {
+         self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight + 64 + 20);
+     }else
+     {
+         self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight );
+     }
   
     [self loadRecommendData];
 
@@ -623,6 +631,11 @@
         self.address.text = courseInfoDic[@"address"];
         
         self.gps = courseInfoDic[@"gps"];
+        
+        
+        NSDictionary *dict3 = @{@"gps":courseInfoDic[@"gps"],@"address":courseInfoDic[@"address"]};
+        [self.addressArr addObject:dict3];
+        
     
         self.phoneNum  = courseInfoDic[@"schoolPhone"];
         
@@ -800,7 +813,12 @@
             
             self.myScrollView.y = CGRectGetMaxY(self.menuBtnView.frame);
             
-            self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight);
+            if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"] || [[NSString deviceString]  isEqualToString: @"iPhone 4"]) {
+                self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight + 64 + 24);
+            }else
+            {
+                self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight );
+            }
         }
  
         
@@ -827,8 +845,13 @@
     
     self.myScrollView.y = CGRectGetMaxY(self.menuBtnView.frame);
     
-    self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight);
-}                        
+    if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"] || [[NSString deviceString]  isEqualToString: @"iPhone 4"]) {
+        self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight + 64 + 24);
+    }else
+    {
+        self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight );
+    }
+}
 
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -949,8 +972,9 @@
 /** 跳转地图页面 */
 - (IBAction)mapClick:(id)sender {
     LMMapViewController *lm = [[LMMapViewController alloc] init];
-    lm.gps = self.gps;
-    lm.address = self.address.text;
+//    lm.gps = self.gps;
+//    lm.address = self.address.text;
+    lm.adressArr = self.addressArr;
     
     [self presentViewController:lm animated:YES completion:nil];
     
@@ -978,21 +1002,83 @@
         NSString *version = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
         NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
         
-        LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
-        NSString *sid = account.sid;
         NSString *coId = [NSString stringWithFormat:@"%lli",_id];
-        NSDictionary *dict = @{@"sid":sid,@"type":@"1",@"id":coId,@"version":version,@"device":deviceInfo};
+        
+        LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+        NSDictionary *dict = nil;
+        if (account) {
+            NSString *sid = account.sid;
+            dict = @{@"sid":sid,@"type":@"1",@"id":coId,@"version":version,@"device":deviceInfo};
+        }else
+        {
+            dict = @{@"type":@"1",@"id":coId,@"version":version,@"device":deviceInfo};
+        }
+        
 
         [MTA trackCustomKeyValueEvent:@"course_call_record" props:dict];
+
+//        [ACETelPrompt callPhoneNumber:self.phoneNum call:^(NSTimeInterval duration) {
+//            MyLog(@"name===1");
+//            MyLog(@"name===%f",duration);
+//        } cancel:^{
+//             MyLog(@"name===2");
+//        }];
         
-        [ACETelPrompt callPhoneNumber:self.phoneNum call:^(NSTimeInterval duration) {
-            
-        } cancel:^{
-            
-        }];
+        UIAlertView *alert  = [[UIAlertView alloc] initWithTitle:nil message:self.phoneNum delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"呼叫", nil];
+        
+        alert.delegate = self;
+        [alert show];
     }
     
 }
+
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        NSString *phoneNum = self.phoneNum;
+        NSURL *phoneURL = [NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",phoneNum]];
+        [[UIApplication sharedApplication] openURL:phoneURL];
+        
+        MyLog(@"name===1");
+        
+        //拨打电话记录统计
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        
+        //url地址
+        NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"commons/phoneCall.json"];
+        
+        NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+        
+        NSString *version = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
+        NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+        
+        LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
+        if (account) {
+            parameters[@"sid"] = account.sid;
+        }
+        parameters[@"type"] = @"1";
+        parameters[@"id"] = [NSString stringWithFormat:@"%lli",_id];
+        parameters[@"version"] = version;
+        parameters[@"device"] = deviceInfo;
+        
+        [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            
+            MyLog(@"responseObject===%@",responseObject);
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            LogObj(error.localizedDescription);
+        }];
+        
+    }else
+    {
+        MyLog(@"name===0");
+    }
+
+}
+
+
+
 
 /** 预约按钮 */
 - (IBAction)reserveBtn:(id)sender {
@@ -1084,6 +1170,15 @@
         [self.scrollView addSubview:self.myScrollView];
     }
     return _myScrollView;
+}
+
+
+- (NSMutableArray *)addressArr
+{
+    if (_addressArr == nil) {
+        _addressArr = [NSMutableArray array];
+    }
+    return _addressArr;
 }
 
 

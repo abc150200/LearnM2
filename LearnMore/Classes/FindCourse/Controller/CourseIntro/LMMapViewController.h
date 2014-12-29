@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface LMMapViewController : UIViewController
-@property (copy, nonatomic) NSString *gps;
-@property (copy, nonatomic) NSString *address;
+//@property (copy, nonatomic) NSString *gps;
+//@property (copy, nonatomic) NSString *address;
+@property (nonatomic, strong) NSArray *adressArr;
 @end

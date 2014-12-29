@@ -59,6 +59,7 @@
 //5402c43efd98c5e571017999
 //请求
 #define RequestURL @"http://api.learnmore.com.cn/"
+//#define RequestURL @"http://192.168.1.241:8100/"
 
 /** webView底部的空白 */
 #define LMWebViewButton 0

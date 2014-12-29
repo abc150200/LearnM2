@@ -7,27 +7,12 @@
 //
 
 #import "LMActList.h"
+#import "LMAddrList.h"
 
 @implementation LMActList
-- (NSString *)actBeginTime
+// 该方法的作用是告诉框架, 哪个一个属性中存放什么样的值
+- (NSDictionary *)objectClassInArray
 {
-    long long time = [_actBeginTime longLongValue];
-    NSDate *date = [[NSDate alloc]initWithTimeIntervalSince1970:time/1000.0];
-    NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
-    fmt.dateFormat = @"MM月dd日";
-    LogObj([fmt stringFromDate:date]);
-    return [fmt stringFromDate:date];
+    return @{@"addrList": [LMAddrList class]};
 }
-
-- (NSString *)actEndTime
-{
-    long long time = [_actEndTime longLongValue];
-    NSDate *date = [[NSDate alloc]initWithTimeIntervalSince1970:time/1000.0];
-    NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
-    fmt.dateFormat = @"MM月dd日";
-    LogObj([fmt stringFromDate:date]);
-    return [fmt stringFromDate:date];
-}
-
-
 @end

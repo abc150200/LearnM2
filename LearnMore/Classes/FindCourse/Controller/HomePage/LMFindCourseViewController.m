@@ -41,7 +41,7 @@
 
 
 
-@interface LMFindCourseViewController ()<CityListViewControllerDelegate,UITextFieldDelegate,LMCourseCollectionViewControllerDelegate,UINavigationControllerDelegate,UIScrollViewDelegate,LMCourseRecommendViewControllerDelegate>
+@interface LMFindCourseViewController ()<CityListViewControllerDelegate,LMCourseCollectionViewControllerDelegate,UINavigationControllerDelegate,UIScrollViewDelegate,LMCourseRecommendViewControllerDelegate>
 
 @property (nonatomic, weak) IWCityButton *cityButton;
 
@@ -594,11 +594,6 @@
         NSArray *adsArr = dateDic[@"ad"];
         self.adArr = adsArr;
         
-//        [adsArr writeToFile:LMAdsDocPath atomically:YES];
-//        
-//      NSArray *addArr =   [NSArray arrayWithContentsOfFile:LMAdsDocPath];
-//        MyLog(@"addArr===%@",addArr);
-        
         [self setupAdScrollView];
         
 
@@ -715,12 +710,13 @@
   
 }
 
-#pragma mark - LMCityListViewControllerDelegate
-- (void)cityListViewController:(CityListViewController *)cityListViewController didSeclectCity:(NSString *)city
-{
-    [self.cityButton setTitle:city forState:UIControlStateNormal];
-
-}
+#warning 点击城市改变标题的,暂时不用
+//#pragma mark - LMCityListViewControllerDelegate
+//- (void)cityListViewController:(CityListViewController *)cityListViewController didSeclectCity:(NSString *)city
+//{
+//    [self.cityButton setTitle:city forState:UIControlStateNormal];
+//
+//}
 
 
 #pragma mark - LMCourseCollectionViewControllerDelegate

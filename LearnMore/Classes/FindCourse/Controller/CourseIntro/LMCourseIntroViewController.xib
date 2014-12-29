@@ -93,6 +93,7 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <state key="highlighted" backgroundImage="btn_class_detail_tel_pressed"/>
                     <connections>
                         <action selector="call:" destination="-1" eventType="touchUpInside" id="wB0-2w-FEc"/>
                     </connections>
@@ -115,6 +116,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <state key="disabled" backgroundImage="btn_class_detail_losed"/>
+                    <state key="highlighted" backgroundImage="btn_class_detail_free_pressed"/>
                     <connections>
                         <action selector="reserveBtn:" destination="-1" eventType="touchUpInside" id="8AN-g6-ZUI"/>
                     </connections>
@@ -312,8 +314,10 @@
     <resources>
         <image name="380,210" width="380" height="210"/>
         <image name="btn_class_detail_free" width="152" height="35"/>
+        <image name="btn_class_detail_free_pressed" width="15" height="35"/>
         <image name="btn_class_detail_losed" width="152" height="35"/>
         <image name="btn_class_detail_tel" width="152" height="35"/>
+        <image name="btn_class_detail_tel_pressed" width="15" height="35"/>
         <image name="btn_review" width="126" height="35"/>
         <image name="me_arrow" width="10" height="15"/>
         <image name="public_address" width="20" height="20"/>

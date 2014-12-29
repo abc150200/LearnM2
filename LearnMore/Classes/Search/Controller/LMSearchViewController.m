@@ -109,9 +109,19 @@
 #warning 分割线为何不出来
     [self.tableView setSeparatorColor:[UIColor blackColor]];
     
-   
-                        
+    //退出键盘手势
+    UITapGestureRecognizer *tapGr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
+    tapGr.cancelsTouchesInView =NO;
+    [self.view addGestureRecognizer:tapGr];
+    
 }
+
+-(void)viewTapped:(UITapGestureRecognizer*)tapGr{
+    [self.searchBar resignFirstResponder];
+ 
+}
+                        
+
 
 - (void)btnClickSearch:(UIButton *)btn
 {

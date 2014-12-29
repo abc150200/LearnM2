@@ -97,8 +97,13 @@
     
     [self.scrollView addSubview:self.iconView];
     
-    
-   self.scrollView.contentSize =  CGSizeMake(self.view.width, CGRectGetMaxY(self.iconView.frame) + LMMyScrollMarkHeight);
+    if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"] || [[NSString deviceString]  isEqualToString: @"iPhone 4"]) {
+        self.scrollView.contentSize =  CGSizeMake(self.view.width, CGRectGetMaxY(self.iconView.frame) + LMMyScrollMarkHeight + 64 + 24);
+    }else
+    {
+        self.scrollView.contentSize =  CGSizeMake(self.view.width, CGRectGetMaxY(self.iconView.frame) + LMMyScrollMarkHeight);
+    }
+   
     
     
     [self loadInfo];

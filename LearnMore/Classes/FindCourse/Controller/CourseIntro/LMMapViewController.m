@@ -37,11 +37,38 @@
     //    self.mapView = mapView;
     //    [self.view addSubview:mapView];
     
-    
-    NSArray *arr = [self.gps componentsSeparatedByString:@","];
+    for (NSDictionary *dict in self.adressArr) {
+        
+        NSArray *arr = [dict[@"gps"] componentsSeparatedByString:@","];
         CLLocationDegrees latitude = [arr[1] doubleValue];
-    self.latitude = latitude;
+        self.latitude = latitude;
         CLLocationDegrees longtitude = [arr[0] doubleValue];
+        self.longtitude = longtitude;
+        
+        self.mapView.showsUserLocation = YES;
+        
+        
+        CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(latitude,longtitude);
+        
+        float zoomLevel = 0.1;
+        MKCoordinateRegion region = MKCoordinateRegionMake(coords, MKCoordinateSpanMake(zoomLevel, zoomLevel));
+        [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
+        
+        NSString *title = dict[@"address"];
+        
+        [self createAnnotationWithCoords:coords title:title];
+    }
+  
+    
+}
+- (IBAction)backClick:(id)sender {
+    
+    NSDictionary *dict1 = self.adressArr[0];
+    
+    NSArray *arr = [dict1[@"gps"] componentsSeparatedByString:@","];
+    CLLocationDegrees latitude = [arr[1] doubleValue];
+    self.latitude = latitude;
+    CLLocationDegrees longtitude = [arr[0] doubleValue];
     self.longtitude = longtitude;
     
     self.mapView.showsUserLocation = YES;
@@ -49,22 +76,21 @@
     
     CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(latitude,longtitude);
     
-    float zoomLevel = 0.01;
+    float zoomLevel = 0.1;
     MKCoordinateRegion region = MKCoordinateRegionMake(coords, MKCoordinateSpanMake(zoomLevel, zoomLevel));
     [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
     
-     [self createAnnotationWithCoords:coords];
+    NSString *title = dict1[@"address"];
     
-}
-- (IBAction)backClick:(id)sender {
+    [self createAnnotationWithCoords:coords title:title];
     
-    CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(self.latitude,self.longtitude);
-    
-    float zoomLevel = 0.01;
-    MKCoordinateRegion region = MKCoordinateRegionMake(coords, MKCoordinateSpanMake(zoomLevel, zoomLevel));
-    [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
-    
-     [self createAnnotationWithCoords:coords];
+//    CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(self.latitude,self.longtitude);
+//    
+//    float zoomLevel = 0.01;
+//    MKCoordinateRegion region = MKCoordinateRegionMake(coords, MKCoordinateSpanMake(zoomLevel, zoomLevel));
+//    [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
+//    
+//    [self createAnnotationWithCoords:coords title:@"当前位置"];
 }
 
 //一键返回
@@ -74,12 +100,12 @@
 }
 
 //创建大头针
-- (void)createAnnotationWithCoords:(CLLocationCoordinate2D)coords
+- (void)createAnnotationWithCoords:(CLLocationCoordinate2D)coords title:(NSString *)title
 {
     LMCustomAnnotation *anotation = [[LMCustomAnnotation alloc] initWithCoordinate:coords];
     
 
-    anotation.title = self.address;
+    anotation.title = title;
     
 #warning 为什么不能自动显示大头针
     [self.mapView selectAnnotation:anotation animated:YES];

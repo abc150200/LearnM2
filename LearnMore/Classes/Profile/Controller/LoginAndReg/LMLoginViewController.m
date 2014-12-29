@@ -57,7 +57,17 @@
     
     
     self.scrollView.backgroundColor = [UIColor colorWithRed:180 green:180 blue:180 alpha:1];
+    
 
+    UITapGestureRecognizer *tapGr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
+    tapGr.cancelsTouchesInView =NO;
+    [self.scrollView addGestureRecognizer:tapGr];
+  
+}
+
+-(void)viewTapped:(UITapGestureRecognizer*)tapGr{
+    [self.account resignFirstResponder];
+    [self.pwd resignFirstResponder];
 }
 
 
