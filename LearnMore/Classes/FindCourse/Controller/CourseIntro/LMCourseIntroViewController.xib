@@ -8,8 +8,11 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LMCourseIntroViewController">
             <connections>
                 <outlet property="address" destination="Ep9-p4-9qq" id="M2q-Xf-hdc"/>
+                <outlet property="cerf" destination="Jcn-yw-2xV" id="vkL-52-DTu"/>
                 <outlet property="courseImageView" destination="CwQ-Yg-gE0" id="H2u-7E-RZd"/>
                 <outlet property="courseNameLabel" destination="Cev-ts-z71" id="So3-jn-Xm7"/>
+                <outlet property="discount" destination="oMR-h9-pVv" id="wci-g1-968"/>
+                <outlet property="ensure" destination="elW-Kn-xqU" id="Nb6-hp-wR6"/>
                 <outlet property="freeListen" destination="Qgd-ak-vIe" id="etE-08-hRf"/>
                 <outlet property="headView" destination="3E9-6a-dYW" id="1kA-hy-Zhf"/>
                 <outlet property="level" destination="TWD-Ye-iPe" id="CU3-aE-Txy"/>
@@ -39,37 +42,45 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="外教口语一对一" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Cev-ts-z71">
-                    <rect key="frame" x="120" y="16" width="187" height="21"/>
+                    <rect key="frame" x="120" y="15" width="187" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="适合学生: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vjy-l9-usI">
-                    <rect key="frame" x="120" y="68" width="61" height="21"/>
+                    <rect key="frame" x="120" y="66" width="61" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3-7岁, 0基础" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UxY-2y-9tk">
-                    <rect key="frame" x="189" y="68" width="118" height="21"/>
+                    <rect key="frame" x="189" y="66" width="118" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="类型:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gu8-cS-lkK">
-                    <rect key="frame" x="120" y="43" width="37" height="21"/>
+                    <rect key="frame" x="120" y="42" width="37" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="英语" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s13-Tx-vE0">
-                    <rect key="frame" x="163" y="43" width="142" height="21"/>
+                    <rect key="frame" x="163" y="42" width="142" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lable_ensure" id="elW-Kn-xqU">
+                    <rect key="frame" x="120" y="90" width="50" height="15"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lable_discout" id="oMR-h9-pVv">
+                    <rect key="frame" x="175" y="90" width="35" height="15"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
@@ -164,11 +175,15 @@
                     </state>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="新航道" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ug4-et-e0g">
-                    <rect key="frame" x="75" y="9" width="225" height="21"/>
+                    <rect key="frame" x="75" y="9" width="100" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lable_cerf" id="Jcn-yw-2xV">
+                    <rect key="frame" x="180" y="12" width="50" height="15"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="380,210" id="4TX-o8-Gsn">
                     <rect key="frame" x="15" y="9" width="50" height="39"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -314,11 +329,14 @@
     <resources>
         <image name="380,210" width="380" height="210"/>
         <image name="btn_class_detail_free" width="152" height="35"/>
-        <image name="btn_class_detail_free_pressed" width="15" height="35"/>
+        <image name="btn_class_detail_free_pressed" width="152" height="35"/>
         <image name="btn_class_detail_losed" width="152" height="35"/>
         <image name="btn_class_detail_tel" width="152" height="35"/>
-        <image name="btn_class_detail_tel_pressed" width="15" height="35"/>
+        <image name="btn_class_detail_tel_pressed" width="152" height="35"/>
         <image name="btn_review" width="126" height="35"/>
+        <image name="lable_cerf" width="50" height="15"/>
+        <image name="lable_discout" width="35" height="15"/>
+        <image name="lable_ensure" width="50" height="15"/>
         <image name="me_arrow" width="10" height="15"/>
         <image name="public_address" width="20" height="20"/>
     </resources>

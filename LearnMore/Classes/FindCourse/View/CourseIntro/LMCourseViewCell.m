@@ -10,16 +10,22 @@
 #import "LMCourseList.h"
 #import "TQStarRatingDisplayView.h"
 #import <CoreLocation/CoreLocation.h>
+#import "LMAuths.h"
+#import "LMCourseComment.h"
 
 @interface LMCourseViewCell ()
 
 @property (copy, nonatomic) NSString *ageInfo;
 @property (weak, nonatomic) IBOutlet UIImageView *free;
 @property (weak, nonatomic) IBOutlet UILabel *disstanLabel;
+@property (weak, nonatomic) IBOutlet UILabel *visit;
 
 /** gps */
 @property (nonatomic, copy) NSString *latitude;
 @property (nonatomic, copy) NSString *longitude;
+@property (weak, nonatomic) IBOutlet UIImageView *cer;
+@property (weak, nonatomic) IBOutlet UIImageView *ensure;
+@property (weak, nonatomic) IBOutlet UIImageView *discount;
 
 @end
 
@@ -29,13 +35,13 @@
 - (void)awakeFromNib
 {
 
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+    self.courseImageView.layer.borderColor = UIColorFromRGB(0xc7c7c7).CGColor;
+    self.courseImageView.layer.borderWidth = 0.5f;
+    self.visit.textColor = UIColorFromRGB(0xfa952f);
+    
+    self.cer.hidden = YES;
+    self.ensure.hidden = YES;
+    self.discount.hidden = YES;
 }
 
 + (instancetype)cellWithTableView:(UITableView *)tableView
@@ -69,15 +75,31 @@
         NSURL *url = [NSURL URLWithString:str];
         [self.courseImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"380,210"]];
     }
-    self.courseImageView.layer.borderColor = UIColorFromRGB(0xc7c7c7).CGColor;  
-    self.courseImageView.layer.borderWidth = 1.0f;
     
-    CGRect rect = CGRectMake(115,45,90,14);
-    NSDictionary *dict = _courselist.courseCommentLevel;
-    NSString *str1 = dict[@"avgTotalLevel"];
+    
+    CGRect rect = CGRectMake(110,31,90,14);
+    LMCourseComment *dict = _courselist.courseCommentLevel;
+    NSString *str1 = dict.avgTotalLevel;
     TQStarRatingDisplayView *star = [[TQStarRatingDisplayView alloc] initWithFrame:rect numberOfStar:5 norImage:@"public_review_small_normal" highImage:@"public_review_small_pressed" starSize:14 margin:0 score:str1];
     [self.contentView addSubview:star];
     
+    self.visit.text = dict.visitCount;
+    
+    
+    //认证
+    NSArray *arrCer = _courselist.auths;
+    for (int i = 0; i < arrCer.count; i++) {
+        LMAuths *auth = arrCer[i];
+        if (auth.id == 1  ) {
+            self.cer.hidden = NO;
+        }
+        if (auth.id == 4  ) {
+            self.ensure.hidden = NO;
+        }
+        if (auth.id == 7  ) {
+            self.discount.hidden = NO;
+        }
+    }
     
     
     NSArray *arr1 = [_courselist.gps componentsSeparatedByString:@","];
@@ -86,7 +108,7 @@
     NSString *gpsStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"localGps"];
     NSArray *arr2 = [gpsStr componentsSeparatedByString:@","];
     CLLocation *loc2 = [[CLLocation alloc] initWithLatitude:[arr2[0] doubleValue] longitude:[arr2[1] doubleValue]];
-    
+  
     // 2.计算2个位置的直线距离(CLLocationDistance单位是m)
     CLLocationDistance distance = [loc1 distanceFromLocation:loc2];
     NSLog(@"%.0f", distance);

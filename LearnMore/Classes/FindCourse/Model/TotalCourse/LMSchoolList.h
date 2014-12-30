@@ -7,12 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+@class LMSchoolComment;
 
 @interface LMSchoolList : NSObject
 @property (assign, nonatomic) long long id;
 @property (copy, nonatomic) NSString *schoolImage;
 @property (copy, nonatomic) NSString *schoolFullName;
 @property (nonatomic, strong) NSString *mainCourse;
-@property (nonatomic, strong) NSDictionary *schoolCommentLevel;
+@property (nonatomic, strong) LMSchoolComment *schoolCommentLevel;
 @property (nonatomic, copy) NSString *gps;
+
+@property (nonatomic, strong) NSArray *auths;
+
 @end

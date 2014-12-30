@@ -8,45 +8,78 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="110" id="IpP-RX-loL" customClass="LMSchoolViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="88"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="98"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IpP-RX-loL" id="iQw-tI-JqO">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="87"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="课程名称111" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HpX-eS-O57">
-                        <rect key="frame" x="115" y="10" width="185" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <rect key="frame" x="110" y="10" width="195" height="14"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="xxx教育品牌xx分校" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PQm-tO-bwK">
-                        <rect key="frame" x="115" y="58" width="131" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="avatar_default_big" translatesAutoresizingMaskIntoConstraints="NO" id="xgT-fe-Qn2">
-                        <rect key="frame" x="15" y="5" width="90" height="76"/>
-                    </imageView>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="500m" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JTD-2k-9dz">
-                        <rect key="frame" x="255" y="58" width="50" height="21"/>
+                        <rect key="frame" x="110" y="75" width="145" height="12"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="avatar_default_big" translatesAutoresizingMaskIntoConstraints="NO" id="xgT-fe-Qn2">
+                        <rect key="frame" x="10" y="10" width="90" height="76"/>
+                    </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="500m" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JTD-2k-9dz">
+                        <rect key="frame" x="256" y="74" width="50" height="12"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="class_detail_line" translatesAutoresizingMaskIntoConstraints="NO" id="XOf-IE-dmu">
+                        <rect key="frame" x="10" y="97" width="310" height="1"/>
+                    </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PkD-eP-J0s">
+                        <rect key="frame" x="251" y="31" width="23" height="12"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="人浏览" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Jn-uM-e3T">
+                        <rect key="frame" x="274" y="31" width="32" height="12"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="lable_cerf" translatesAutoresizingMaskIntoConstraints="NO" id="vJh-FB-4ZO">
+                        <rect key="frame" x="110" y="52" width="50" height="15"/>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="lable_ensure" translatesAutoresizingMaskIntoConstraints="NO" id="5Op-xh-OlI">
+                        <rect key="frame" x="165" y="52" width="50" height="15"/>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="lable_discout" translatesAutoresizingMaskIntoConstraints="NO" id="5oh-yK-uPk">
+                        <rect key="frame" x="220" y="52" width="35" height="15"/>
+                    </imageView>
                 </subviews>
             </tableViewCellContentView>
             <connections>
+                <outlet property="cerf" destination="vJh-FB-4ZO" id="DdC-iW-syv"/>
+                <outlet property="discount" destination="5oh-yK-uPk" id="QUD-lE-qbc"/>
                 <outlet property="distanLabel" destination="JTD-2k-9dz" id="oK9-BN-xiA"/>
+                <outlet property="ensure" destination="5Op-xh-OlI" id="bq7-bi-eYc"/>
                 <outlet property="keyWord" destination="PQm-tO-bwK" id="TGo-Sx-gRb"/>
                 <outlet property="nameLabel" destination="HpX-eS-O57" id="CxA-iy-4On"/>
                 <outlet property="schoolImage" destination="xgT-fe-Qn2" id="tiq-Tb-J7b"/>
+                <outlet property="visit" destination="PkD-eP-J0s" id="zqu-4R-5rC"/>
             </connections>
+            <point key="canvasLocation" x="140" y="153"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="avatar_default_big" width="85" height="85"/>
+        <image name="class_detail_line" width="1" height="1"/>
+        <image name="lable_cerf" width="50" height="15"/>
+        <image name="lable_discout" width="35" height="15"/>
+        <image name="lable_ensure" width="50" height="15"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

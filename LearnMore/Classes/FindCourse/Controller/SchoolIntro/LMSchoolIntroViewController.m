@@ -116,6 +116,7 @@
 @property (nonatomic, strong) LMSchoolDetailViewController *cv;
 /** 地址数组 */
 @property (nonatomic, strong) NSMutableArray *addressArr;
+@property (weak, nonatomic) IBOutlet UIImageView *cerf;
 
 @end
 
@@ -144,6 +145,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.cerf.hidden = YES;
+    
+    //设置浏览判断语句
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"look"];
     
      self.title = @"学校信息";
     
@@ -640,6 +646,17 @@
         LogObj(dateDic[@"school"]);
         MyLog(@"name===%@",dateDic[@"school"]);
         
+        //认证
+        NSArray *arrCer = schoolInfoDic[@"auths"];
+        for (int i = 0; i < arrCer.count; i++) {
+            NSDictionary *authDic = arrCer[i];
+            long long authId = [authDic[@"id"]longLongValue];
+            if (authId == 1  ) {
+                self.cerf.hidden = NO;
+            }
+        
+        }
+        
         self.phoneNum = schoolInfoDic[@"contactPhone"];
         self.gps = schoolInfoDic[@"schoolGps"];
         self.address = schoolInfoDic[@"address"];
@@ -670,7 +687,7 @@
         self.level3.text = schoolCommentLevel[@"avgLevel3"];
         self.level4.text = schoolCommentLevel[@"avgLevel4"];
         
-        TQStarRatingDisplayView *star = [[TQStarRatingDisplayView alloc] initWithFrame:CGRectMake(125,45,90,14) numberOfStar:5 norImage:@"public_review_small_normal" highImage:@"public_review_small_pressed" starSize:14 margin:5 score:schoolCommentLevel[@"avgTotalLevel"]];
+        TQStarRatingDisplayView *star = [[TQStarRatingDisplayView alloc] initWithFrame:CGRectMake(125,58,90,14) numberOfStar:5 norImage:@"public_review_small_normal" highImage:@"public_review_small_pressed" starSize:14 margin:5 score:schoolCommentLevel[@"avgTotalLevel"]];
         [self.schoolDisplay addSubview:star];
         
         self.tLevel.text = schoolCommentLevel[@"avgTotalLevel"];

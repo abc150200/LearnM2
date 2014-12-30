@@ -31,6 +31,8 @@
     
     //下拉刷新控件
     [self setupRefresh];
+    
+    
   
 }
 

@@ -41,7 +41,7 @@
 
 
 
-@interface LMFindCourseViewController ()<CityListViewControllerDelegate,LMCourseCollectionViewControllerDelegate,UINavigationControllerDelegate,UIScrollViewDelegate,LMCourseRecommendViewControllerDelegate>
+@interface LMFindCourseViewController ()<CityListViewControllerDelegate,LMCourseCollectionViewControllerDelegate,UINavigationControllerDelegate,UIScrollViewDelegate,LMCourseRecommendViewControllerDelegate,UIAlertViewDelegate>
 
 @property (nonatomic, weak) IWCityButton *cityButton;
 
@@ -76,6 +76,9 @@
 
 @property (nonatomic, copy) NSString *gps;
 
+//引导页
+@property (nonatomic, weak) UIButton *alertViewBtn;
+@property (nonatomic, weak) UIView *alertView;
 @end
 
 @implementation LMFindCourseViewController
@@ -85,18 +88,6 @@
    
     
     [super viewDidLoad];
-    
-//    //第一次进来加载
-//    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
-//    
-//        self.adArr = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ads.plist" ofType:nil]];
-//        
-//    }else
-//    {
-//       self.adArr = [NSArray arrayWithContentsOfFile:LMAdsDocPath];
-//    }
-
-    
     
     CLProgressHUD *hud = [CLProgressHUD shareInstance];
     hud.type = CLProgressHUDTypeDarkBackground;
@@ -209,7 +200,7 @@
     LMCourseRecommendViewController *cr = [[LMCourseRecommendViewController alloc] init];
     self.cr = cr;
     cr.delegate = self;
-    cr.tableView.rowHeight = 88;
+    cr.tableView.rowHeight = 98;
     CGFloat CrHeight = cr.tableView.rowHeight * 10;
     cr.tableView.frame = CGRectMake(0,CGRectGetMaxY(view1.frame), self.view.width, CrHeight);
     [self.conScrollView addSubview:cr.tableView];
@@ -251,6 +242,49 @@
     
 	
 }
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    //设置浏览判断语句
+    NSString *lastTime =[[NSUserDefaults standardUserDefaults] objectForKey:@"lastTime"];
+    if(lastTime != nil)
+    {
+        NSString *nowTime = [NSString timeNow];
+        MyLog(@"name===%i",([nowTime longLongValue] - [lastTime longLongValue]) >= 48*60*60*1000);
+        if(([nowTime longLongValue] - [lastTime longLongValue]) >= 48*60*60*1000)
+        {
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"lookLater"];
+        }
+    }
+    
+     //判断语句
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"reject"]) {
+        
+        if(![[NSUserDefaults standardUserDefaults] boolForKey:@"lookLater"]){
+        
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"look"])
+            {
+                [self addAlertView];
+                [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"look"];
+            }
+            
+        }
+    }
+ 
+    
+}
+
+////评分引导页面
+//- (void)showScore
+//{
+//    
+//    UIAlertView *alert  = [[UIAlertView alloc] initWithTitle:nil message:@"评分引导" delegate:self cancelButtonTitle:@"残忍拒绝" otherButtonTitles:@"赐个5星",@"再看看表现", nil];
+//    
+//    alert.delegate = self;
+//    [alert show];
+//}
 
 - (void)setupAdScrollView
 {
@@ -742,25 +776,24 @@
    
 }
 
-
-
-//- (NSArray *)adArr
-//{
-//    if (_adArr == nil) {
-//        
-//        //第一次进来加载
-//        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
-//            
-//            _adArr = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ads.plist" ofType:nil]];
-//
-//        }else
-//        {
-//              _adArr = [NSArray arrayWithContentsOfFile:LMAdsDocPath];
-//        }
-//    }
-//    return _adArr;
-//}
-
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1)
+        {
+             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"reject"];
+        
+        }else if (buttonIndex == 2)
+        {
+            NSString *lastTime =[NSString timeNow];//@"1417363200000";// ;//测试1419696000
+            [[NSUserDefaults standardUserDefaults] setObject:lastTime forKey:@"lastTime"];
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"lookLater"];
+        
+        }else
+        {
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"reject"];
+        }
+    
+}
 
 
 - (NSArray *)recommendCourseLists
@@ -770,5 +803,111 @@
     }
     return _recommendCourseLists;
 }
+
+
+- (void)addAlertView
+{
+    UIButton *alertViewBtn = [[UIButton alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    alertViewBtn.alpha = 0.5;
+    alertViewBtn.backgroundColor = [UIColor blackColor];
+    [alertViewBtn addTarget:self action:@selector(alterViewQuit) forControlEvents:UIControlEventTouchUpInside];
+    [[UIApplication sharedApplication].keyWindow addSubview:alertViewBtn];
+    self.alertViewBtn  = alertViewBtn;
+    
+    UIView *alertView = [[UIView alloc] init];
+    alertView.backgroundColor = UIColorFromRGB(0xfffddd);
+    alertView.layer.cornerRadius = 2.5f;
+    alertView.clipsToBounds = YES;
+    alertView.size = CGSizeMake(230, 285);
+    alertView.centerX = self.view.centerX;
+    alertView.centerY = self.view.centerY;
+    [[UIApplication sharedApplication].keyWindow  addSubview:alertView];
+//    [alertViewBtn addSubview:alertView];
+    self.alertView = alertView;
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(45, 0, 140, 68)];
+    imageView.image = [UIImage imageNamed:@"review_loading"];
+    [alertView addSubview:imageView];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(25, 70, 180, 40)];
+    label.text = @"  主人,如果觉得“多学”好,    请赐予我们一个5星的评价吧";
+    label.textColor = UIColorFromRGB(0xff9e01);
+    label.font = [UIFont systemFontOfSize:14];
+    label.numberOfLines = 0;
+    [alertView addSubview:label];
+
+    
+    UIButton *scoreBtn = [[UIButton alloc] initWithFrame:CGRectMake(25, 117, 180, 48)];
+    [scoreBtn setBackgroundImage:[UIImage imageNamed:@"btn_review_loading_normal"] forState:UIControlStateNormal];
+    [scoreBtn setBackgroundImage:[UIImage imageNamed:@"btn_review_loading_pressed"] forState:UIControlStateHighlighted];
+    [scoreBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [scoreBtn setTitle:@"赐个5星" forState:UIControlStateNormal];
+    scoreBtn.titleLabel.font = [UIFont systemFontOfSize:21];
+    [scoreBtn addTarget:self action:@selector(scoreFive) forControlEvents:UIControlEventTouchUpInside];
+    [alertView addSubview:scoreBtn];
+
+    
+    UIButton *laterBtn = [[UIButton alloc] initWithFrame:CGRectMake(50, 175, 130, 44)];
+    [laterBtn setBackgroundImage:[UIImage imageNamed:@"btn2_review_loading_normal"] forState:UIControlStateNormal];
+    [laterBtn setBackgroundImage:[UIImage imageNamed:@"btn2_review_loading_pressed"] forState:UIControlStateHighlighted];
+    [laterBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [laterBtn setTitle:@"再看看表现" forState:UIControlStateNormal];
+    laterBtn.titleLabel.font = [UIFont systemFontOfSize:21];
+    [laterBtn addTarget:self action:@selector(scoreLater) forControlEvents:UIControlEventTouchUpInside];
+    [alertView addSubview:laterBtn];
+    
+    UIButton *rejectBtn = [[UIButton alloc] initWithFrame:CGRectMake(50, 229, 130, 44)];
+    [rejectBtn setBackgroundImage:[UIImage imageNamed:@"btn2_review_loading_normal"] forState:UIControlStateNormal];
+    [rejectBtn setBackgroundImage:[UIImage imageNamed:@"btn2_review_loading_pressed"] forState:UIControlStateHighlighted];
+    [rejectBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [rejectBtn setTitle:@"残忍拒绝" forState:UIControlStateNormal];
+    rejectBtn.titleLabel.font = [UIFont systemFontOfSize:21];
+    [rejectBtn addTarget:self action:@selector(reject) forControlEvents:UIControlEventTouchUpInside];
+    [alertView addSubview:rejectBtn];
+
+    
+}
+
+- (void)alterViewQuit
+{
+    MyLog(@"点击背景===");
+    NSString *lastTime =[NSString timeNow];//@"1417363200000";// ;//测试1419696000
+    [[NSUserDefaults standardUserDefaults] setObject:lastTime forKey:@"lastTime"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"lookLater"];
+    
+    [self.alertView removeFromSuperview];
+    [self.alertViewBtn removeFromSuperview];
+}
+
+- (void)scoreFive
+{
+    MyLog(@"scoreFive===");
+    NSString* m_appleID = LMAppID;    //此处的appID是在iTunes Connect创建应用程序时生成的Apple ID
+    NSString *str = [NSString stringWithFormat:
+                     @"itms-apps://itunes.apple.com/app/id%@",m_appleID ];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"reject"];
+    [self.alertView removeFromSuperview];
+    [self.alertViewBtn removeFromSuperview];
+}
+
+- (void)scoreLater
+{
+    MyLog(@"scoreLater===");
+    NSString *lastTime =[NSString timeNow];//@"1417363200000";// ;//测试1419696000
+    [[NSUserDefaults standardUserDefaults] setObject:lastTime forKey:@"lastTime"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"lookLater"];
+    [self.alertView removeFromSuperview];
+    [self.alertViewBtn removeFromSuperview];
+}
+
+- (void)reject
+{
+   MyLog(@"reject===");
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"reject"];
+    [self.alertView removeFromSuperview];
+    [self.alertViewBtn removeFromSuperview];
+}
+
 
 @end

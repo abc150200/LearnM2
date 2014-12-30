@@ -183,8 +183,6 @@
 
 - (void)reginst
 {
-   
-    
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     

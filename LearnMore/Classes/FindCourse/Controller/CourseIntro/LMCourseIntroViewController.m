@@ -123,6 +123,10 @@
 
 @property (copy, nonatomic) NSString *courseImageUrl;
 
+/** 认证 */
+@property (weak, nonatomic) IBOutlet UIImageView *ensure;
+@property (weak, nonatomic) IBOutlet UIImageView *discount;
+@property (weak, nonatomic) IBOutlet UIImageView *cerf;
 
 /** 菜单按钮的view */
 @property (nonatomic, weak) LMMenuButtonView *menuBtnView;
@@ -150,6 +154,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         
+        self.ensure.hidden = YES;
+        self.discount.hidden = YES;
+        self.cerf.hidden = YES;
         
     }
     return self;
@@ -207,6 +214,9 @@
 {
     [super viewDidLoad];
     
+    //设置浏览判断语句
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"look"];
+    
     self.title = @"课程简介";
     
     [self.writeRecBtn setTitleColor:UIColorFromRGB(0x9ac72c) forState:UIControlStateNormal];
@@ -262,9 +272,11 @@
          self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight );
      }
   
+//    [self loadCer];
+    
     [self loadRecommendData];
 
-   
+    
     
     
     
@@ -584,7 +596,38 @@
     [UMSocialData defaultData].extConfig.qzoneData.title = title;
 }
 
+- (void)loadCer
+{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    
+    //url地址
+    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"commons/auth.json"];
+    
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    
+    LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
+    if (account) {
+        parameters[@"sid"] = account.sid;
+    }
+    
+    
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    parameters[@"device"] = deviceInfo;
+    
+    NSString *version = [[NSUserDefaults standardUserDefaults]  objectForKey:@"version"];
+    parameters[@"version"] = version;
+    
+    [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        MyLog(@"responseObject===============%@",responseObject);
 
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        LogObj(error.localizedDescription);
+    }];
+    
+}
 
 - (void)loadData
 {
@@ -652,6 +695,22 @@
         int ageStart = [courseInfoDic[@"propAgeStart"] intValue];
         int ageEnd = [courseInfoDic[@"propAgeEnd"]intValue];
         self.propStuLabel.text = [NSString stringWithFormat:@"%@",[NSString ageBegin:ageStart ageEnd:ageEnd]];
+        
+        //认证
+        NSArray *arrCer = courseInfoDic[@"auths"];
+        for (int i = 0; i < arrCer.count; i++) {
+            NSDictionary *authDic = arrCer[i];
+            long long authId = [authDic[@"id"]longLongValue];
+            if (authId == 1  ) {
+                self.cerf.hidden = NO;
+            }
+            if (authId == 4  ) {
+                self.ensure.hidden = NO;
+            }
+            if (authId == 7  ) {
+                self.discount.hidden = NO;
+            }
+        }
         
    
 //            self.courseTime.text = [NSString stringWithFormat:@"共%d课时",[courseInfoDic[@"courseTime"] intValue]];
@@ -1086,7 +1145,7 @@
     
     if(self.needBook)
     {
-    
+        
         LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
         if (account) {
        

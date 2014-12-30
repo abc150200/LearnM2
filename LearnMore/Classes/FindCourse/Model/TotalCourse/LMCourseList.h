@@ -11,9 +11,10 @@
  ]} */
 
 #import <Foundation/Foundation.h>
+@class LMCourseComment;
 
 @interface LMCourseList : NSObject
-#warning id什么格式??
+
 @property (assign, nonatomic) long long id; //课程编号
 @property (copy, nonatomic) NSString *courseName;// 课程名称
 @property (copy, nonatomic) NSString *schoolFullName;// 所属学校名字
@@ -27,8 +28,10 @@
 @property (copy, nonatomic) NSString *schoolGps;//坐标
 @property (copy, nonatomic) NSString *courseImage;
 @property (nonatomic, assign) int needBook;  //标记
-@property (nonatomic, strong) NSDictionary *courseCommentLevel;//课程点评
+@property (nonatomic, strong) LMCourseComment *courseCommentLevel;//课程点评
 @property (nonatomic, copy) NSString *gps;//默认gps
+
+@property (nonatomic, strong) NSArray *auths;
 @end
 
 

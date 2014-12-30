@@ -10,6 +10,8 @@
 #import "LMSchoolList.h"
 #import "TQStarRatingDisplayView.h"
 #import <CoreLocation/CoreLocation.h>
+#import "LMSchoolComment.h"
+#import "LMAuths.h"
 
 
 @interface LMSchoolViewCell ()
@@ -21,6 +23,10 @@
 @property (weak, nonatomic) IBOutlet UIImageView *schoolImage;
 
 @property (weak, nonatomic) IBOutlet UILabel *distanLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *cerf;
+@property (weak, nonatomic) IBOutlet UIImageView *ensure;
+@property (weak, nonatomic) IBOutlet UIImageView *discount;
+@property (weak, nonatomic) IBOutlet UILabel *visit;
 
 @end
 
@@ -29,6 +35,15 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    
+    self.schoolImage.layer.borderColor = UIColorFromRGB(0xc7c7c7).CGColor;
+    self.schoolImage.layer.borderWidth = 0.5f;
+    
+    self.visit.textColor = UIColorFromRGB(0xfa952f);
+    
+    self.cerf.hidden = YES;
+    self.ensure.hidden = YES;
+    self.discount.hidden = YES;
 }
 
 + (instancetype)cellWithTableView:(UITableView *)tableView
@@ -47,8 +62,7 @@
 {
     _schoolList = schoolList;
     [self.schoolImage sd_setImageWithURL:[NSURL URLWithString:_schoolList.schoolImage] placeholderImage:[UIImage imageNamed:@"380,210"]];
-    self.schoolImage.layer.borderColor = UIColorFromRGB(0xc7c7c7).CGColor;
-    self.schoolImage.layer.borderWidth = 1.0f;
+    
     
     self.nameLabel.text = _schoolList.schoolFullName;
     self.id = _schoolList.id;
@@ -63,16 +77,33 @@
     self.keyWord.text = str;
     
     
-    CGRect rect = CGRectMake(115,36,90,14);
     
-    NSDictionary *dict = _schoolList.schoolCommentLevel;
-    NSString *str1 = dict[@"avgTotalLevel"];
+    CGRect rect = CGRectMake(110,31,90,14);
+    
+    LMSchoolComment *dict = _schoolList.schoolCommentLevel;
+    NSString *str1 = dict.avgTotalLevel;
     TQStarRatingDisplayView *star = [[TQStarRatingDisplayView alloc] initWithFrame:rect numberOfStar:5 norImage:@"public_review_small_normal" highImage:@"public_review_small_pressed" starSize:14 margin:0 score:str1];
     [self.contentView addSubview:star];
 
+    self.visit.text = dict.visitCount;
     
     NSArray *arr1 = [_schoolList.gps componentsSeparatedByString:@","];
     CLLocation *loc1 = [[CLLocation alloc] initWithLatitude:[arr1[1] doubleValue]  longitude:[arr1[0] doubleValue]];
+    
+    //认证
+    NSArray *arrCer = _schoolList.auths;
+    for (int i = 0; i < arrCer.count; i++) {
+        LMAuths *auth = arrCer[i];
+        if (auth.id == 1  ) {
+            self.cerf.hidden = NO;
+        }
+        if (auth.id == 4  ) {
+            self.ensure.hidden = NO;
+        }
+        if (auth.id == 7  ) {
+            self.discount.hidden = NO;
+        }
+    }
 
     
     NSString *gpsStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"localGps"];

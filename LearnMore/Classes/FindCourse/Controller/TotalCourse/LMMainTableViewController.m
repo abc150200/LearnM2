@@ -28,8 +28,8 @@
 //        self.tableView.height = [UIScreen mainScreen].bounds.size.height - 64 - 43;
 //    }
    
-    self.tableView.rowHeight = 88;
-//    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
+    self.tableView.rowHeight = 98;
+    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
 //    self.tableView.showsVerticalScrollIndicator = NO;
 //    self.tableView.contentInset = UIEdgeInsetsMake(5, 0, 10, 0);
 }

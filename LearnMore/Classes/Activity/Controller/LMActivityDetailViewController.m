@@ -89,19 +89,21 @@
     [collectBtn setImage:[UIImage imageNamed:@"public_nav_collect_normal"] forState:UIControlStateNormal];
     [collectBtn addTarget:self action:@selector(collection) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake(38, 0, 34, 34)];
-    self.shareBtn = shareBtn;
-    [shareBtn setImage:[UIImage imageNamed:@"public_nav_share"] forState:UIControlStateNormal];
-    [shareBtn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
+#warning 暂时隐藏掉
+//    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake(38, 0, 34, 34)];
+//    self.shareBtn = shareBtn;
+//    [shareBtn setImage:[UIImage imageNamed:@"public_nav_share"] forState:UIControlStateNormal];
+//    [shareBtn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    UIView *rightBarItemsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 76, 34)];
+//    [rightBarItemsView addSubview:collectBtn];
+//    [rightBarItemsView addSubview:shareBtn];
+//    
+//    UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithCustomView:rightBarItemsView];
+//    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObject:rightBarItem];
     
-    UIView *rightBarItemsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 76, 34)];
-    [rightBarItemsView addSubview:collectBtn];
-    [rightBarItemsView addSubview:shareBtn];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"public_nav_share"] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
     
-    UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithCustomView:rightBarItemsView];
-    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObject:rightBarItem];
-    
-
     
     /** 加载数据 */
     [self loadData];
@@ -253,7 +255,7 @@
                 self.actImageView.layer.masksToBounds = YES;
                 [self.actImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"activity"]];
                 self.actImageView.layer.borderColor = UIColorFromRGB(0xc7c7c7).CGColor;
-                self.actImageView.layer.borderWidth = 1.0f;
+                self.actImageView.layer.borderWidth = 0.5f;
             }
             
             self.schoolNameLabel.text = actInfoDic[@"schoolName"];
