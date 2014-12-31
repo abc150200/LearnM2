@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *free;
 @property (weak, nonatomic) IBOutlet UILabel *disstanLabel;
 @property (weak, nonatomic) IBOutlet UILabel *visit;
+@property (weak, nonatomic) IBOutlet UILabel *visitLook;
 
 /** gps */
 @property (nonatomic, copy) NSString *latitude;
@@ -83,7 +84,15 @@
     TQStarRatingDisplayView *star = [[TQStarRatingDisplayView alloc] initWithFrame:rect numberOfStar:5 norImage:@"public_review_small_normal" highImage:@"public_review_small_pressed" starSize:14 margin:0 score:str1];
     [self.contentView addSubview:star];
     
-    self.visit.text = dict.visitCount;
+    if([dict.visitCount intValue])
+    {
+        self.visit.text = dict.visitCount;
+    }else
+    {
+        self.visit.hidden = YES;
+        self.visitLook.hidden = YES;
+    }
+    
     
     
     //认证
@@ -106,19 +115,26 @@
     CLLocation *loc1 = [[CLLocation alloc] initWithLatitude:[arr1[1] doubleValue]  longitude:[arr1[0] doubleValue]];
  
     NSString *gpsStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"localGps"];
-    NSArray *arr2 = [gpsStr componentsSeparatedByString:@","];
-    CLLocation *loc2 = [[CLLocation alloc] initWithLatitude:[arr2[0] doubleValue] longitude:[arr2[1] doubleValue]];
-  
-    // 2.计算2个位置的直线距离(CLLocationDistance单位是m)
-    CLLocationDistance distance = [loc1 distanceFromLocation:loc2];
-    NSLog(@"%.0f", distance);
     
-    if (distance >= 1000) {
-        self.disstanLabel.text = [NSString stringWithFormat:@"%.1fkm",distance/1000];
+    if (gpsStr) {
+        NSArray *arr2 = [gpsStr componentsSeparatedByString:@","];
+        CLLocation *loc2 = [[CLLocation alloc] initWithLatitude:[arr2[0] doubleValue] longitude:[arr2[1] doubleValue]];
+        
+        // 2.计算2个位置的直线距离(CLLocationDistance单位是m)
+        CLLocationDistance distance = [loc1 distanceFromLocation:loc2];
+        NSLog(@"%.0f", distance);
+        
+        if (distance >= 1000) {
+            self.disstanLabel.text = [NSString stringWithFormat:@"%.1fkm",distance/1000];
+        }else
+        {
+            self.disstanLabel.text = [NSString stringWithFormat:@"%.0fm",distance];
+        }
     }else
     {
-        self.disstanLabel.text = [NSString stringWithFormat:@"%.0fm",distance];
+        self.disstanLabel.text = @"距离未知";
     }
+    
     
     
 }

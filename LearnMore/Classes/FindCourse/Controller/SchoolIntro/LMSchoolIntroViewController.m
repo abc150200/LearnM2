@@ -5,8 +5,8 @@
 //  Created by study on 14-10-9.
 //  Copyright (c) 2014年 youxuejingxuan. All rights reserved.
 //
-#define LMSchoolMark 20
-#define LMPadding 20
+#define LMSchoolMark 12
+#define LMPadding 12
 #define LMLeftPadding 15
 #define LMViewMovedTime 0.3
 
@@ -505,17 +505,10 @@
         
         if(self.teachers.count == 0)
         {
-            UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width,40)];
-            UILabel *label  = [[UILabel alloc] init];
-            label.width = 100;
-            label.height = 40;
-            label.centerX = self.view.centerX;
-            label.y = 0;
-            label.text = @"暂无数据";
-            label.textAlignment = NSTextAlignmentCenter;
-            label.font = [UIFont systemFontOfSize:14];
-            [moreView addSubview:label];
-            self.tl.tableView.tableFooterView = moreView;
+            UIImageView *defaultImg = [[UIImageView alloc] init];
+            defaultImg.image = [UIImage imageNamed:@"default"];
+            defaultImg.frame = CGRectMake(0, -(64+self.menuBtnView.height) + 1 , [UIScreen mainScreen].bounds.size.width, 317.5);
+            self.tl.tableView.tableFooterView = defaultImg;
         }else
         {
             UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width,40)];
@@ -573,17 +566,10 @@
         
         if(courseArr.count == 0)
         {
-            UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width,40)];
-            UILabel *label  = [[UILabel alloc] init];
-            label.width = 100;
-            label.height = 40;
-            label.centerX = self.view.centerX;
-            label.y = 0;
-            label.text = @"暂无数据";
-            label.textAlignment = NSTextAlignmentCenter;
-            label.font = [UIFont systemFontOfSize:14];
-            [moreView addSubview:label];
-            self.trv.tableView.tableFooterView = moreView;
+            UIImageView *defaultImg = [[UIImageView alloc] init];
+            defaultImg.image = [UIImage imageNamed:@"default"];
+            defaultImg.frame = CGRectMake(0, -(64+self.menuBtnView.height) + 1 , self.view.width, 317.5);
+            self.trv.tableView.tableFooterView = defaultImg;
         }else
         {
             UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width,40)];
@@ -648,13 +634,21 @@
         
         //认证
         NSArray *arrCer = schoolInfoDic[@"auths"];
-        for (int i = 0; i < arrCer.count; i++) {
-            NSDictionary *authDic = arrCer[i];
-            long long authId = [authDic[@"id"]longLongValue];
-            if (authId == 1  ) {
-                self.cerf.hidden = NO;
-            }
         
+        if(arrCer.count)
+        {
+            
+            for (int i = 0; i < arrCer.count; i++) {
+                NSDictionary *authDic = arrCer[i];
+                long long authId = [authDic[@"id"]longLongValue];
+                if (authId == 1  ) {
+                    self.cerf.hidden = NO;
+                }
+            }
+    
+        }else
+        {
+            self.cerf.hidden = YES;
         }
         
         self.phoneNum = schoolInfoDic[@"contactPhone"];

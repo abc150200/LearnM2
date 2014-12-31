@@ -56,7 +56,7 @@
         //文本
         UILabel *contentLabel = [[UILabel alloc] init];
         contentLabel.font = LMContentFont;
-        contentLabel.textColor = [UIColor blackColor];
+        contentLabel.textColor = [UIColor grayColor];
         [self.topView addSubview:contentLabel];
         self.contentLabel = contentLabel;
         contentLabel.numberOfLines = 0;

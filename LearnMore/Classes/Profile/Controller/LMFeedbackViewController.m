@@ -79,6 +79,11 @@
         NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
         parameters[@"content"] = self.tv.text;
         
+        NSString *version = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
+        NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+        parameters[@"version"] = version;
+        parameters[@"device"] = deviceInfo;
+        
         [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
             LogObj(responseObject);
             

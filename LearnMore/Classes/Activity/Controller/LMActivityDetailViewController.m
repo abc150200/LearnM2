@@ -182,7 +182,7 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
      [self.webView sizeToFit];
-     self.scrollView.contentSize =CGSizeMake(self.view.width, self.webView.scrollView.contentSize.height + self.headView.height - LMWebViewButton);
+     self.scrollView.contentSize =CGSizeMake(self.view.width, self.webView.scrollView.contentSize.height + self.headView.height - LMWebViewButton + LMPadding);
 }
 
 
@@ -242,8 +242,16 @@
             }
   
             self.timeLabel.text = [NSString stringWithFormat:@"%@-%@",dateStart,dateEnd];
-            
-            self.leastCount.text = [NSString stringWithFormat:@"剩余%d名额",([actInfoDic[@"actCount"] intValue] - [actInfoDic[@"actNowCount"] intValue])];
+        
+        
+        int count = ([actInfoDic[@"actCount"] intValue] - [actInfoDic[@"actNowCount"] intValue]);
+        if(count == 0)
+        {
+            self.leastCount.text = @"已报满";
+        }else
+        {
+            self.leastCount.text = [NSString stringWithFormat:@"剩余%d名额",count];
+        }
             
             self.phoneNum = actInfoDic[@"contactPhone"];
             

@@ -7,6 +7,7 @@
 //
 
 #import "LMlistViewController.h"
+#import "LMCourseOrder.h"
 
 @interface LMlistViewController ()
 
@@ -49,7 +50,9 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
     }
     
-    cell.textLabel.text = self.listArr[indexPath.row];
+    LMCourseOrder *courseOrder = self.listArr[indexPath.row];
+    
+    cell.textLabel.text = courseOrder.orderName;
     cell.textLabel.font = [UIFont systemFontOfSize:14];
     cell.textLabel.textColor = [UIColor darkGrayColor];
     return cell;
@@ -58,9 +61,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
-    NSString *title = self.listArr[indexPath.row];
+    LMCourseOrder *courseOrder = self.listArr[indexPath.row];
+    NSString *title = courseOrder.orderName;
+    int row = courseOrder.orderId;
     if ([self.delegate respondsToSelector:@selector(listViewControllerDidClick: title: row:)]) {
-        [self.delegate listViewControllerDidClick:self title:title row:indexPath.row];
+        [self.delegate listViewControllerDidClick:self title:title row:row];
     }
     
 }

@@ -25,6 +25,7 @@
 #import "LMListButton.h"
 #import "LMCourseListViewController.h"
 #import "LMSchoolListViewController.h"
+#import "LMCourseOrder.h"
 
 
 
@@ -44,6 +45,7 @@
 @property (nonatomic, weak) UISegmentedControl *segm;
 
 @property (nonatomic, strong) NSArray  *areaArr;
+@property (nonatomic, strong) NSArray *courseOrders;
 
 
 
@@ -77,22 +79,12 @@
     MyLog(@"headView===%@",NSStringFromCGRect(self.headView.frame));
     self.headView = headView;
     self.headView.delegate = self;
-   
-#warning 或者让他默认选中第一个,应该可以删掉了
-//    //创建courseView
-//    LMCourseListViewController *clv = [[LMCourseListViewController alloc] init];
-//    self.clv = clv;
-//    [self addChildViewController:clv];
-//    self.clv.view.frame = CGRectMake(0, 107, self.view.width,[UIScreen mainScreen].bounds.size.height - 107);
-//    if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"]) {
-//        self.clv.view.y = 43;
-//        self.clv.view.height = [UIScreen mainScreen].bounds.size.height - 43;
-//    }
-//    [self.view addSubview:self.clv.view];
-//
-//    [self loadNewData];
+
     
     [self segmentAction:self.segm];
+    
+    
+    [self loadOrder];
     
 }
 
@@ -163,6 +155,38 @@
 
 }
 
+- (void)loadOrder
+{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    
+    //url地址
+    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"commons/order.json"];
+    
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    
+    
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    parameters[@"device"] = deviceInfo;
+    
+    NSString *version = [[NSUserDefaults standardUserDefaults]  objectForKey:@"version"];
+    parameters[@"version"] = version;
+    
+    [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        MyLog(@"responseObject===============%@",responseObject);
+        
+        NSArray *courseOrders = [LMCourseOrder objectArrayWithKeyValuesArray:responseObject[@"courseOrders"]];
+        self.courseOrders = courseOrders;
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        LogObj(error.localizedDescription);
+    }];
+    
+}
+
 
 
 /** 参数 */
@@ -176,7 +200,7 @@
         arr[@"area"] = [NSString stringWithFormat:@"%@_%@",self.levelId,self.areaId];
     }else
     {
-        arr[@"area"] = @"0_0";
+        arr[@"area"] = @"4_-9999999";
     }
     
     arr[@"count"] = @"10";
@@ -270,23 +294,24 @@
             UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 30)];
             btn.backgroundColor = [UIColor clearColor];
             [menuView addSubview:btn];
-            [btn addTarget:self action:@selector(allMenu) forControlEvents:UIControlEventTouchUpInside];
+            [btn addTarget:self action:@selector(allMenu2) forControlEvents:UIControlEventTouchUpInside];
             
             
-            CZProvinceViewController *pVc = [[CZProvinceViewController alloc] init];
-            pVc.view.frame = CGRectMake(0, 30, self.view.width * 0.5, 180);
-            [menuView addSubview:pVc.view];
-            self.pVc = pVc;
-            pVc.provinceDelegate = self;
+            LMAreaViewController *lac = [[LMAreaViewController alloc] init];
+            lac.view.frame = CGRectMake(0, 30, self.view.width * 0.5, 180);
+            [menuView addSubview:lac.view];
+            self.lac = lac;
+            lac.areaDelegate = self;
             
-            CZCityViewController *cVc = [[CZCityViewController alloc] init];
-            cVc.view.frame = CGRectMake(150, 30, self.view.width * 0.5, 180);
-            [menuView addSubview:cVc.view];
-            self.cVc = cVc;
-            cVc.delegate = self;
-            
+            LMCityViewController *lcc = [[LMCityViewController alloc] init];
+            lcc.view.frame = CGRectMake(150, 30, self.view.width * 0.5, 180);
+            [menuView addSubview:lcc.view];
+            self.lcc = lcc;
+            self.lcc.delegate = self;
         }
+        
             break;
+            
         case 1:
         {
             //显示菜单
@@ -304,22 +329,23 @@
             UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 30)];
             btn.backgroundColor = [UIColor clearColor];
             [menuView addSubview:btn];
-            [btn addTarget:self action:@selector(allMenu2) forControlEvents:UIControlEventTouchUpInside];
+            [btn addTarget:self action:@selector(allMenu) forControlEvents:UIControlEventTouchUpInside];
             
             
-            LMAreaViewController *lac = [[LMAreaViewController alloc] init];
-            lac.view.frame = CGRectMake(0, 30, self.view.width * 0.5, 180);
-            [menuView addSubview:lac.view];
-            self.lac = lac;
-            lac.areaDelegate = self;
+            CZProvinceViewController *pVc = [[CZProvinceViewController alloc] init];
+            pVc.view.frame = CGRectMake(0, 30, self.view.width * 0.5, 180);
+            [menuView addSubview:pVc.view];
+            self.pVc = pVc;
+            pVc.provinceDelegate = self;
             
-            LMCityViewController *lcc = [[LMCityViewController alloc] init];
-            lcc.view.frame = CGRectMake(150, 30, self.view.width * 0.5, 180);
-            [menuView addSubview:lcc.view];
-            self.lcc = lcc;
-            self.lcc.delegate = self;
+            CZCityViewController *cVc = [[CZCityViewController alloc] init];
+            cVc.view.frame = CGRectMake(150, 30, self.view.width * 0.5, 180);
+            [menuView addSubview:cVc.view];
+            self.cVc = cVc;
+            cVc.delegate = self;
             
         }
+        
             break;
         case 2:
         {
@@ -333,7 +359,7 @@
             [menuView addSubview:avc.view];
             self.avc = avc;
             avc.delegate = self;
-            avc.listArr = @[@"全部",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18"];
+            avc.listArr = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"ageList.plist" ofType:nil]];
             [avc.tableView reloadData];
         }
         
@@ -352,7 +378,7 @@
             [menuView addSubview:lvc.view];
             self.lvc = lvc;
             lvc.delegate = self;
-            lvc.listArr = @[@"智能排序",@"最新发布",@"收藏最多",@"免费试听"];
+            lvc.listArr = self.courseOrders;
             [lvc.tableView reloadData];
         }
         
@@ -449,9 +475,9 @@
 
 
 //年龄代理
-- (void)ageViewController:(LMAgeViewController *)ageViewController age:(int)age title:(NSString *)title
+- (void)ageViewController:(LMAgeViewController *)ageViewController age:(NSString *)age title:(NSString *)title
 {
-    self.ageId = [NSString stringWithFormat:@"%d_%d",age,(age + 1)];
+    self.ageId = [NSString stringWithFormat:@"%@",age];
     
     [self.headView.ageBtn setTitle:title forState:UIControlStateNormal];
     [self.headView.ageBtn setImage:[UIImage imageNamed:@"btn_class_list_classify_normal"] forState:UIControlStateNormal];
@@ -507,6 +533,14 @@
     }
     return _areaArr;
 }
- 
+
+
+- (NSArray *)courseOrders
+{
+    if (_courseOrders == nil) {
+        _courseOrders = [NSArray array];
+    }
+    return _courseOrders;
+}
 
 @end

@@ -27,7 +27,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="钢琴 | 3-7岁 " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r6t-Pg-sbg">
-                        <rect key="frame" x="98" y="34" width="112" height="21"/>
+                        <rect key="frame" x="98" y="36" width="214" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -46,7 +46,7 @@
                 <outlet property="schoolInfoLabel" destination="5cd-7T-BYp" id="cHk-BN-S27"/>
                 <outlet property="secondTypeName" destination="r6t-Pg-sbg" id="nXU-Fa-EGT"/>
             </connections>
-            <point key="canvasLocation" x="327" y="267"/>
+            <point key="canvasLocation" x="327" y="265"/>
         </tableViewCell>
     </objects>
     <resources>

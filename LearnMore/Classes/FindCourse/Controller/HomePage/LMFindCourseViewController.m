@@ -656,9 +656,17 @@
         
         self.typrArr = [LMCourseType objectArrayWithKeyValuesArray:courseTypesArr];
         
+//        self.cv.titles = self.typrArr;
+//        [self.cv reloadInputViews];
+        
         NSString *str = @"courseTypes.plist";
         NSString *courseTypesPath = [str appendDocumentPath];
         LogObj(courseTypesPath);
+        
+//        NSArray *courseArr = dateDic[@"courseTypes"];
+//        NSString *courseArrStr = [courseArr JSONString];
+//        [[NSUserDefaults standardUserDefaults] setObject:courseArrStr forKey:@"areaKey"];
+//        [[NSUserDefaults standardUserDefaults] synchronize];
         
         [courseTypesArr writeToFile:courseTypesPath atomically:YES];
     

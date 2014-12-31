@@ -15,8 +15,7 @@
 
 @interface LMCourseCollectionViewController ()
 
-//标题数组
-@property (nonatomic, strong) NSArray *titles;
+
 
 @end
 

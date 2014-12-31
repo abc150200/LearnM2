@@ -142,7 +142,7 @@
     [super layoutSubviews];
     
     // 设置底部灰色的先的frame
-    self.lineView.frame = CGRectMake(0, self.height - 2, self.width, 1);
+    self.lineView.frame = CGRectMake(0, self.height - 2, self.width, 0.5);
     
     // 设置3个标题按钮的线
     NSUInteger count = self.titleBtns.count;

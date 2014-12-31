@@ -17,8 +17,10 @@
 #import "LMCourseIntroViewController.h"
 #import "MJRefresh.h"
 #import "LMSchoolIntroViewController.h"
+#import "LMCourseListMainViewController.h"
 
 @interface LMMyRecViewController ()
+@property (strong, nonatomic) IBOutlet UIView *firstView;
 @property (nonatomic, strong) NSMutableArray *recomFrames;
 @end
 
@@ -88,8 +90,13 @@
         
         self.recomFrames = frameModels;
         
-        
-        [self.tableView reloadData];
+        if (self.recomFrames.count == 0) {
+            [self.tableView addSubview:self.firstView];
+            self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        } else
+        {
+            [self.tableView reloadData];
+        }
         
         // 3.关闭菊花
         [self.tableView headerEndRefreshing];
@@ -171,6 +178,12 @@
     
 }
 
+- (IBAction)foundBtn:(id)sender {
+    
+    LMCourseListMainViewController *mv = [[LMCourseListMainViewController alloc] init];
+    
+    [self.navigationController pushViewController:mv animated:YES];
+}
 
 #pragma mark - 数据源方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

@@ -11,6 +11,6 @@
 @interface LMActBook : NSObject
 @property (nonatomic, assign) long long typeId;
 @property (copy, nonatomic) NSString *actTitle;
-@property (nonatomic, assign) long actBeginTime;
-@property (nonatomic, assign) long actEndTime;
+@property (nonatomic, assign)  long long actBeginTime;
+@property (nonatomic, assign) long long actEndTime;
 @end

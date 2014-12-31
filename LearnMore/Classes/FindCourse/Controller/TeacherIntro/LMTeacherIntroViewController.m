@@ -318,17 +318,10 @@
         
         if(courseArr.count == 0)
         {
-            UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width,40)];
-            UILabel *label  = [[UILabel alloc] init];
-            label.width = 100;
-            label.height = 40;
-            label.centerX = self.view.centerX;
-            label.y = 0;
-            label.text = @"暂无数据";
-            label.textAlignment = NSTextAlignmentCenter;
-            label.font = [UIFont systemFontOfSize:14];
-            [moreView addSubview:label];
-            self.trv.tableView.tableFooterView = moreView;
+            UIImageView *defaultImg = [[UIImageView alloc] init];
+            defaultImg.image = [UIImage imageNamed:@"default"];
+            defaultImg.frame = CGRectMake(0, -(64+self.menuBtnView.height) + 1 , [UIScreen mainScreen].bounds.size.width, 317.5);
+            self.trv.tableView.tableFooterView = defaultImg;
         }else
         {
             UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width,40)];

@@ -23,9 +23,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
+  
+        self.cityBtn = [self addOneButtonWithTitle:@"附  近"];
         self.titleBtn = [self addOneButtonWithTitle:@"分  类"];
-        self.cityBtn = [self addOneButtonWithTitle:@"全  城"];
         self.ageBtn = [self addOneButtonWithTitle:@"年  龄"];
         self.selectedBtn = [self addOneButtonWithTitle:@"智能筛选"];
         

@@ -20,6 +20,9 @@
 
 @interface LMCourseCollectionViewController : UICollectionViewController
 
+//标题数组
+@property (nonatomic, strong) NSArray *titles;
+
 @property (nonatomic, weak) id<LMCourseCollectionViewControllerDelegate> delegate;
 
 @end

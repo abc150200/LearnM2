@@ -13,7 +13,7 @@
 @protocol LMAgeViewControllerDelegate <NSObject>
 
 @optional
-- (void)ageViewController:(LMAgeViewController *)ageViewController age:(int)age title:(NSString *)title;
+- (void)ageViewController:(LMAgeViewController *)ageViewController age:(NSString *)age title:(NSString *)title;
 
 @end
 

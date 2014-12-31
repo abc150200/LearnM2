@@ -4,15 +4,21 @@
 <array>
 	<dict>
 		<key>title</key>
-		<string>语言交流</string>
+		<string>亲子早教</string>
 		<key>icon</key>
-		<string>btn_home_communication</string>
+		<string>btn_home_education</string>
 	</dict>
 	<dict>
 		<key>title</key>
 		<string>美术绘画</string>
 		<key>icon</key>
 		<string>btn_home_paint</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>国学书法</string>
+		<key>icon</key>
+		<string>btn_home_hand</string>
 	</dict>
 	<dict>
 		<key>title</key>
@@ -28,33 +34,9 @@
 	</dict>
 	<dict>
 		<key>title</key>
-		<string>模特演艺</string>
-		<key>icon</key>
-		<string>btn_home_body</string>
-	</dict>
-	<dict>
-		<key>title</key>
 		<string>体育运动</string>
 		<key>icon</key>
 		<string>btn_home_camp</string>
-	</dict>
-	<dict>
-		<key>title</key>
-		<string>科学技术</string>
-		<key>icon</key>
-		<string>btn_home_science</string>
-	</dict>
-	<dict>
-		<key>title</key>
-		<string>亲子早教</string>
-		<key>icon</key>
-		<string>btn_home_education</string>
-	</dict>
-	<dict>
-		<key>title</key>
-		<string>手工才艺</string>
-		<key>icon</key>
-		<string>btn_home_handmake</string>
 	</dict>
 	<dict>
 		<key>title</key>
@@ -64,9 +46,27 @@
 	</dict>
 	<dict>
 		<key>title</key>
-		<string>国学书法</string>
+		<string>模特演艺</string>
 		<key>icon</key>
-		<string>btn_home_hand</string>
+		<string>btn_home_body</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>科学技术</string>
+		<key>icon</key>
+		<string>btn_home_science</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>手工才艺</string>
+		<key>icon</key>
+		<string>btn_home_handmake</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>语言交流</string>
+		<key>icon</key>
+		<string>btn_home_communication</string>
 	</dict>
 	<dict>
 		<key>title</key>

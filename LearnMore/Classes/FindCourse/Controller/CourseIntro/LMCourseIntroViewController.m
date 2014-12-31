@@ -6,10 +6,10 @@
 //  Copyright (c) 2014年 youxuejingxuan. All rights reserved.
 //
 
-#define LMPadding 20
+#define LMPadding 12
 #define LMLeftPadding 15
 #define LMNavHeight 0
-#define LMCourseMark 20
+#define LMCourseMark 12
 #define LMViewMovedTime 0.3
 
 #define LMMyScrollMarkHeight  ([UIScreen mainScreen].bounds.size.height - self.menuBtnView.height - self.toolView.height - 64)
@@ -68,7 +68,7 @@
 /** 课程图片 */
 @property (weak, nonatomic) IBOutlet UIImageView *courseImageView;
 /** 学校名称 */
-@property (weak, nonatomic) IBOutlet UILabel *schoolNameLabel;
+@property (copy, nonatomic) NSString *schoolName;
 /** 滚动视图 */
 @property (nonatomic, weak) UIScrollView *scrollView;
 //头部数据
@@ -126,7 +126,7 @@
 /** 认证 */
 @property (weak, nonatomic) IBOutlet UIImageView *ensure;
 @property (weak, nonatomic) IBOutlet UIImageView *discount;
-@property (weak, nonatomic) IBOutlet UIImageView *cerf;
+@property (weak, nonatomic) UIImageView *cerf;
 
 /** 菜单按钮的view */
 @property (nonatomic, weak) LMMenuButtonView *menuBtnView;
@@ -154,9 +154,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         
-        self.ensure.hidden = YES;
-        self.discount.hidden = YES;
-        self.cerf.hidden = YES;
+        
         
     }
     return self;
@@ -167,6 +165,10 @@
 {
     [super viewWillAppear:animated];
     
+    
+    self.ensure.hidden = YES;
+    self.discount.hidden = YES;
+    self.cerf.hidden = YES;
     
     
     [self.view addSubview:self.toolView];
@@ -213,6 +215,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     
     //设置浏览判断语句
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"look"];
@@ -265,7 +268,7 @@
 
     
     
-     if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"]) {
+     if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"] || [[NSString deviceString]  isEqualToString: @"iPhone 4"]) {
          self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight + 64 + 20);
      }else
      {
@@ -276,9 +279,6 @@
     
     [self loadRecommendData];
 
-    
-    
-    
     
     // 3个控制器的菜单按钮
     [self setupTitleButtonView];
@@ -552,7 +552,7 @@
 {
     
     
-    NSString *urlStr = [NSString stringWithFormat:@"http://www.learnmore.com/m/courseDetail.html?id=%lli",_id];
+    NSString *urlStr = [NSString stringWithFormat:@"http://www.learnmore.com.cn/m/courseDetail.html?id=%lli",_id];
 
     
     NSString *text = nil;
@@ -687,6 +687,7 @@
         
             
         self.courseNameLabel.text = courseInfoDic[@"courseName"];
+        self.courseNameLabel.numberOfLines = 0;
         
         self.typeNameLabel.text = courseInfoDic[@"secondTypeName"];
         
@@ -695,27 +696,87 @@
         int ageStart = [courseInfoDic[@"propAgeStart"] intValue];
         int ageEnd = [courseInfoDic[@"propAgeEnd"]intValue];
         self.propStuLabel.text = [NSString stringWithFormat:@"%@",[NSString ageBegin:ageStart ageEnd:ageEnd]];
-        
-        //认证
-        NSArray *arrCer = courseInfoDic[@"auths"];
-        for (int i = 0; i < arrCer.count; i++) {
-            NSDictionary *authDic = arrCer[i];
-            long long authId = [authDic[@"id"]longLongValue];
-            if (authId == 1  ) {
-                self.cerf.hidden = NO;
-            }
-            if (authId == 4  ) {
-                self.ensure.hidden = NO;
-            }
-            if (authId == 7  ) {
-                self.discount.hidden = NO;
-            }
-        }
-        
-   
+    
 //            self.courseTime.text = [NSString stringWithFormat:@"共%d课时",[courseInfoDic[@"courseTime"] intValue]];
         
-            self.schoolNameLabel.text = courseInfoDic[@"schoolFullName"];
+        
+       self.schoolName = courseInfoDic[@"schoolFullName"];
+        
+        UILabel *label  = [[UILabel alloc] init];
+        CGSize size = CGSizeMake(self.view.width - 75 - 65, 21);
+        CGSize schoolNameSize = [courseInfoDic[@"schoolFullName"] boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil].size;
+        label.frame = CGRectMake(75, 9, schoolNameSize.width, 21);
+        label.font = [UIFont systemFontOfSize:14];
+        label.textColor = [UIColor blackColor];
+        label.text = courseInfoDic[@"schoolFullName"];
+        [self.schoolSkin addSubview:label];
+     
+//        CGFloat x = schoolNameSize.width + 75;
+//        UIImageView *imageCer = [[UIImageView alloc] initWithFrame:CGRectMake(x + 5, 7, 50, 25)];
+//        imageCer.image = [UIImage imageNamed:@"class_detail_cerf"];
+//        [self.schoolSkin addSubview:imageCer];
+//        self.cerf = imageCer;
+        
+        //认证课程
+        NSArray *arrCer = courseInfoDic[@"auths"];
+        if(arrCer.count)
+        {
+            for (int i = 0; i < arrCer.count; i++) {
+                NSDictionary *authDic = arrCer[i];
+                long long authId = [authDic[@"id"]longLongValue];
+                
+                if (authId == 4  ) {
+                    self.ensure.hidden = NO;
+                }
+                if (authId == 7  ) {
+                    self.discount.hidden = NO;
+                }
+            }
+            
+        }else
+        {
+            self.ensure.hidden = YES;
+            self.discount.hidden = YES;
+        }
+        
+        
+        //认证学校
+        NSArray *arrCer2 = courseInfoDic[@"school"][@"auths"];
+        if(arrCer2.count)
+        {
+        
+            for (int i = 0; i < arrCer.count; i++) {
+                NSDictionary *authDic = arrCer[i];
+                long long authId = [authDic[@"id"]longLongValue];
+                
+                if (authId == 1  ) {
+                    self.cerf.hidden = NO;
+                    
+                    CGFloat x = schoolNameSize.width + 75;
+                    UIImageView *imageCer = [[UIImageView alloc] initWithFrame:CGRectMake(x + 5, 7, 50, 25)];
+                    imageCer.image = [UIImage imageNamed:@"class_detail_cerf"];
+                    [self.schoolSkin addSubview:imageCer];
+                    self.cerf = imageCer;
+                    
+                }
+          
+            }
+        }else
+        {
+            self.cerf.hidden = YES;
+            
+            UILabel *label  = [[UILabel alloc] init];
+            CGSize size = CGSizeMake(self.view.width - 75 , 21);
+            CGSize schoolNameSize = [courseInfoDic[@"schoolFullName"] boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil].size;
+            label.frame = CGRectMake(75, 9, schoolNameSize.width, 21);
+            label.font = [UIFont systemFontOfSize:14];
+            label.textColor = [UIColor blackColor];
+            label.text = courseInfoDic[@"schoolFullName"];
+            [self.schoolSkin addSubview:label];
+        }
+        
+        
+        
         
         
         if ([courseInfoDic[@"favStatus"] intValue]) {
@@ -776,17 +837,11 @@
         
         if(self.teachers.count == 0)
         {
-            UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width,40)];
-            UILabel *label  = [[UILabel alloc] init];
-            label.width = 100;
-            label.height = 40;
-            label.centerX = self.view.centerX;
-            label.y = 0;
-            label.text = @"暂无数据";
-            label.textAlignment = NSTextAlignmentCenter;
-            label.font = [UIFont systemFontOfSize:14];
-            [moreView addSubview:label];
-            self.tl.tableView.tableFooterView = moreView;
+            UIImageView *defaultImg = [[UIImageView alloc] init];
+            defaultImg.image = [UIImage imageNamed:@"default"];
+            defaultImg.frame = CGRectMake(0, -(64+self.menuBtnView.height) + 1 , self.view.width, 317.5);
+            self.tl.tableView.tableFooterView = defaultImg;
+            
         }else
         {
             UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width,40)];
@@ -1153,7 +1208,7 @@
             rvc.id = self.id;
             rvc.from = FromCourse;
             rvc.title = @"预约免费试听";
-            rvc.schoolName = self.schoolNameLabel.text;
+            rvc.schoolName = self.schoolName;
             rvc.courseName = self.courseNameLabel.text;
             [self.navigationController pushViewController:rvc animated:YES];
         }else

@@ -56,7 +56,7 @@
     
     for (UIViewController *controller in self.navigationController.viewControllers) {
         if ([controller isKindOfClass:[LMActivityDetailViewController class]]) {
-            [self.navigationController popToViewController:controller animated:YES];
+            [self.navigationController popToViewController:controller animated:NO];
         }
     }
 }

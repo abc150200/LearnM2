@@ -61,6 +61,7 @@
     NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"school/list.json"];
     /** http://api.manytu.com/course/list.json?param={"area":"0_0"} */
     
+    self.arr[@"startIndex"] = @"0";
     NSString *jsonStr = [self.arr JSONString];
     MyLog(@"%@",jsonStr);
     

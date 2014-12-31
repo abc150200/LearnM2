@@ -32,8 +32,8 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
     }
-    
-    cell.textLabel.text = self.listArr[indexPath.row];
+    NSDictionary *dict = self.listArr[indexPath.row];
+    cell.textLabel.text = dict[@"ageName"];
     cell.textLabel.font = [UIFont systemFontOfSize:14];
     cell.textLabel.textColor = [UIColor darkGrayColor];
     
@@ -42,30 +42,25 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath == 0) {
+    NSDictionary *dict = self.listArr[indexPath.row];
+    NSString *title = dict[@"ageName"];
+    NSString *ageId = dict[@"ageID"];
+   
         if ([self.delegate respondsToSelector:@selector(ageViewController:age: title:)]) {
-            [self.delegate ageViewController:self age:0 title:@"0岁"];
-        }
-    }else
-    {
-        if ([self.delegate respondsToSelector:@selector(ageViewController:age: title:)]) {
-            
-            int age = [self.listArr[indexPath.row] intValue];
-            NSString *title = [NSString stringWithFormat:@"%d岁",age];
-            
+      
             if(indexPath.row == 0)
             {
-                [self.delegate ageViewController:self age:age title:@"年  龄"];
+                [self.delegate ageViewController:self age:ageId title:@"年  龄"];
             }
             else
             {
-                [self.delegate ageViewController:self age:age title:title];
+                [self.delegate ageViewController:self age:ageId title:title];
             }
             
             
         }
         
-    }
+    
 }
 
 @end

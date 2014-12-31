@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>ageName</key>
+		<string>全部</string>
+		<key>ageID</key>
+		<string>0_100</string>
+	</dict>
+	<dict>
+		<key>ageName</key>
+		<string>1岁以下</string>
+		<key>ageID</key>
+		<string>0_1</string>
+	</dict>
+	<dict>
+		<key>ageName</key>
+		<string>1-3岁</string>
+		<key>ageID</key>
+		<string>1_4</string>
+	</dict>
+	<dict>
+		<key>ageName</key>
+		<string>4-6岁</string>
+		<key>ageID</key>
+		<string>4_7</string>
+	</dict>
+	<dict>
+		<key>ageName</key>
+		<string>7-12岁</string>
+		<key>ageID</key>
+		<string>7_13</string>
+	</dict>
+	<dict>
+		<key>ageName</key>
+		<string>13-15岁</string>
+		<key>ageID</key>
+		<string>13_16</string>
+	</dict>
+	<dict>
+		<key>ageName</key>
+		<string>16-18岁</string>
+		<key>ageID</key>
+		<string>16_19</string>
+	</dict>
+	<dict>
+		<key>ageName</key>
+		<string>18岁以上</string>
+		<key>ageID</key>
+		<string>18_100</string>
+	</dict>
+</array>
+</plist>

@@ -12,7 +12,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 @interface LMActivityViewCell ()
-@property (weak, nonatomic) IBOutlet UILabel *schoolNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *actTitleLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 
@@ -55,8 +55,8 @@
     self.activityBig.clipsToBounds = YES;
     self.activityBig.layer.cornerRadius = 5;
 
-    [self.schoolNameLabel setShadowColor:[UIColor darkGrayColor]];
-    [self.schoolNameLabel setShadowOffset:CGSizeMake(-1, -1)];
+    [self.actTitleLabel setShadowColor:[UIColor darkGrayColor]];
+    [self.actTitleLabel setShadowOffset:CGSizeMake(-1, -1)];
     
     [self.timeLabel setShadowColor:[UIColor darkGrayColor]];
     [self.timeLabel setShadowOffset:CGSizeMake(-1, -1)];
@@ -89,7 +89,7 @@
     }
     
     
-    self.schoolNameLabel.text = _actlist.schoolName;
+    self.actTitleLabel.text = _actlist.actTitle;
    
     
     self.timeLabel.text = [NSString stringWithFormat:@"%@-%@", [NSString timeFmtWithLong:_actlist.actBeginTime] ,[NSString timeFmtWithLong:_actlist.actEndTime]];

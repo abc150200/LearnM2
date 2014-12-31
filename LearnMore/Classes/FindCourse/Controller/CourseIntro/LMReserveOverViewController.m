@@ -55,11 +55,6 @@
 
 
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 - (IBAction)finish:(id)sender {
    
     NSString *text = @"多学课程分享";

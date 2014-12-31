@@ -90,9 +90,11 @@
 //登录按钮
 - (IBAction)loginBtn {
   
-    LMLoginViewController  *loginVc = [[LMLoginViewController alloc] init];
+//    LMLoginViewController  *loginVc = [[LMLoginViewController alloc] init];
+//    
+//    [self.navigationController pushViewController:loginVc animated:YES];
     
-    [self.navigationController pushViewController:loginVc animated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
  
 }
 
@@ -104,59 +106,97 @@
     
     }else
     {
-        timeCount = 60;
-        
-        self.reg.enabled = NO;
-        
-        
-        NSTimer *countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod) userInfo:nil repeats:YES];
-        
-        self.countDownTimer = countDownTimer;
         
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         
         //url地址
-        NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"reg/mobilecode.json"];
+        NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"user/mobilecheck.json"];
         
         //参数
         NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
         parameters[@"mobile"] = self.user.text;
         
+        
         [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            MyLog(@"responseObject===验证码============%@",responseObject);
             
-        long long code = [responseObject[@"code"] longLongValue];
-            switch (code) {
-                case 10001:
-                    [MBProgressHUD showSuccess:@"验证码发送成功"];
-                    break;
-                    
-                case 42014:
-                    [MBProgressHUD showError:@"手机号码格式不正确/空"];
-                    break;
-                    
-                case 42021:
-                    [MBProgressHUD showError:@"短信验证失败"];
-                    break;
-                    
-                case 42022:
-                    [MBProgressHUD showError:@"间隔时间太短,请5分钟之后再验证"];
-                    break;
-                    
-                default:
-                    [MBProgressHUD showError:@"服务器异常"];
-                    break;
+            MyLog(@"responseObject===注册返回============%@",responseObject);
+            
+            if([responseObject[@"exist"]intValue] == 1)
+            {
+                [MBProgressHUD hideHUD];
+                [MBProgressHUD showError:@"手机号已被注册"];
+                return ;
             }
+            self.salt = responseObject[@"salt"];
+            self.sid = responseObject[@"sid"];
+            
+            //发送验证码
+            [self sendAuth];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             LogObj(error.localizedDescription);
             
         }];
         
+        
     }
     
     
     
+}
+
+//发送验证码
+- (void)sendAuth
+{
+    
+    
+    timeCount = 60;
+    
+    self.reg.enabled = NO;
+    
+    NSTimer *countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod) userInfo:nil repeats:YES];
+    self.countDownTimer = countDownTimer;
+    
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    //url地址
+    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"reg/mobilecode.json"];
+    
+    //参数
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    parameters[@"mobile"] = self.user.text;
+    
+    [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        MyLog(@"responseObject===验证码============%@",responseObject);
+        
+        long long code = [responseObject[@"code"] longLongValue];
+        switch (code) {
+            case 10001:
+                [MBProgressHUD showSuccess:@"验证码发送成功"];
+                break;
+                
+            case 42014:
+                [MBProgressHUD showError:@"手机号码格式不正确/空"];
+                break;
+                
+            case 42021:
+                [MBProgressHUD showError:@"短信验证失败"];
+                break;
+                
+            case 42022:
+                [MBProgressHUD showError:@"间隔时间太短,请5分钟之后再验证"];
+                break;
+                
+            default:
+                [MBProgressHUD showError:@"服务器异常"];
+                break;
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        LogObj(error.localizedDescription);
+        
+    }];
 }
 
 
@@ -184,34 +224,10 @@
 - (void)reginst
 {
     
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    
-    //url地址
-    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"user/mobilecheck.json"];
-    
-    //参数
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    parameters[@"mobile"] = self.user.text;
     
     // 显示一个蒙版(遮盖)
     [MBProgressHUD showMessage:@"正在注册中...."];
     
-    [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        MyLog(@"responseObject===注册返回============%@",responseObject);
-        
-        if([responseObject[@"exist"]intValue] == 1)
-        {
-            [MBProgressHUD hideHUD];
-            [MBProgressHUD showError:@"手机号已被注册"];
-            return ;
-        }
-        
-        self.salt = responseObject[@"salt"];
-        self.sid = responseObject[@"sid"];
-        
-        
-        
         
         if(self.salt && self.sid)
         {
@@ -320,12 +336,7 @@
             return;
         }
         
-    
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        LogObj(error.localizedDescription);
-        
-    }];
+
     
 }
 

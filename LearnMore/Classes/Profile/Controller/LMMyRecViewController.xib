@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LMMyRecViewController">
             <connections>
+                <outlet property="firstView" destination="7ql-IJ-xsP" id="DJU-Ts-IwD"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -21,5 +22,29 @@
             </connections>
             <point key="canvasLocation" x="371" y="435"/>
         </tableView>
+        <view contentMode="scaleToFill" id="7ql-IJ-xsP">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="啊哦,你没有点评的课程~" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ph-mE-jGC">
+                    <rect key="frame" x="59" y="131" width="203" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4uJ-dd-mqx">
+                    <rect key="frame" x="15" y="196" width="290" height="40"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" title="发现课程" backgroundImage="login_btn"/>
+                    <connections>
+                        <action selector="foundBtn:" destination="-1" eventType="touchUpInside" id="n6H-b4-PIf"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.91684358020000001" green="0.91684358020000001" blue="0.91684358020000001" alpha="1" colorSpace="calibratedRGB"/>
+            <nil key="simulatedStatusBarMetrics"/>
+        </view>
     </objects>
+    <resources>
+        <image name="login_btn" width="580" height="80"/>
+    </resources>
 </document>

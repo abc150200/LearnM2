@@ -61,8 +61,9 @@
     NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"course/list.json"];
     /** http://api.manytu.com/course/list.json?param={"area":"0_0"} */
 
+    self.arr[@"startIndex"] = @"0";
     NSString *jsonStr = [self.arr JSONString];
-    MyLog(@"%@",jsonStr);
+    MyLog(@"jsonStr=下拉刷新=============%@",jsonStr);
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"param"] = jsonStr;
@@ -70,10 +71,12 @@
     NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
     parameters[@"device"] = deviceInfo;
     
+#warning 在sid失效的时候会崩!
     LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
     if(account)
     {
         parameters[@"sid"] = account.sid;
+        
     }
     
     

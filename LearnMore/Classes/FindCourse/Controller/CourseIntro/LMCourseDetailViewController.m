@@ -21,8 +21,6 @@
 @implementation LMCourseDetailViewController
 
 
-
-
 - (void)loadView
 {
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width , LMMyScrollMarkHeight)];

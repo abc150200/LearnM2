@@ -56,14 +56,11 @@
     //url地址
     NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"activity/list.json"];
     
-
+    self.arr[@"startindex"] = @"0";
     NSString *jsonStr = [self.arr JSONString];
     MyLog(@"jsonStr=下拉刷新==========%@",jsonStr);
     
-    if (_arr[@"startindex"]) {
-         [self.arr removeObjectForKey:_arr[@"startindex"]];
-    }
-   
+
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"param"] = jsonStr;
@@ -94,7 +91,6 @@
         
         int count = [actListDic[@"tcount"] intValue];
         self.tCount = count;
-        
         
         if(self.actLists.count == 0)
         {
