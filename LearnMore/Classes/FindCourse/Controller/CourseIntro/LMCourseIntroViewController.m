@@ -35,6 +35,7 @@
 #import "MBProgressHUD+NJ.h"
 #import "CLProgressHUD.h"
 #import "LMLoginViewController.h"
+#import "LMRegisterViewController.h"
 #import "LMAddRecommendViewController.h"
 #import "LMDetailRecommendViewController.h"
 
@@ -48,6 +49,7 @@
 #import "LMMenuButtonView.h"
 #import "LMTResultViewController.h"
 #import "LMCourseDetailViewController.h"
+#import "LMOrderCommitViewController.h"
 
 
 #import "MTA.h"
@@ -144,6 +146,22 @@
 
 /** 地址字典 */
 @property (nonatomic, strong) NSMutableArray *addressArr;
+
+/** 价格描述 */
+@property (strong, nonatomic) IBOutlet UIView *priceView;
+
+@property (weak, nonatomic) IBOutlet UILabel *oneCourseLabel;
+@property (weak, nonatomic) IBOutlet UILabel *oneCostPrice;
+@property (weak, nonatomic) IBOutlet UILabel *oneDiscountPrice;
+@property (nonatomic, assign) long oneProductId;
+@property (strong, nonatomic) NSNumber *singlePrice;
+
+@property (weak, nonatomic) IBOutlet UILabel *allCourseLabel;
+@property (weak, nonatomic) IBOutlet UILabel *allCostPrice;
+@property (weak, nonatomic) IBOutlet UILabel *allDiscountPrice;
+
+
+
 
 @end
 
@@ -261,10 +279,15 @@
     
     [self.scrollView addSubview:onerRv.view];
     
-    self.onerRv.view.height = 88 ;
+    self.onerRv.view.height = 88;
     
     self.schoolSkin.y = CGRectGetMaxY(self.onerRv.view.frame) + LMCourseMark;
     [self.scrollView addSubview: self.schoolSkin];
+    
+    
+    //添加价格页面
+    [self.scrollView addSubview:self.priceView];
+    self.priceView.frame = CGRectMake(0, CGRectGetMaxY(self.schoolSkin.frame) + LMCourseMark, self.view.width, self.priceView.height);
 
     
     
@@ -305,7 +328,7 @@
     self.menuBtnView.x = 0;
     self.menuBtnView.width = self.view.width;
     self.menuBtnView.height = 44;
-    self.menuBtnView.y = CGRectGetMaxY(self.schoolSkin.frame) + LMCourseMark;
+    self.menuBtnView.y = CGRectGetMaxY(self.priceView.frame) + LMCourseMark;
     
     [self.scrollView addSubview:titleBtnView];
     
@@ -396,9 +419,9 @@
     
     MyLog(@"self.scrollView.contentOffset.y===%f",self.scrollView.contentOffset.y);
     
-    MyLog(@"self.scrollView.caaaaaaat.y===%f",CGRectGetMaxY(self.schoolSkin.frame) + LMPadding - 64);
+    MyLog(@"self.scrollView.caaaaaaat.y===%f",CGRectGetMaxY(self.priceView.frame) + LMPadding - 64);
     
-    CGFloat height = CGRectGetMaxY(self.schoolSkin.frame) + LMPadding - 64;
+    CGFloat height = CGRectGetMaxY(self.priceView.frame) + LMPadding - 64 ;
     
     if ((int)self.scrollView.contentOffset.y == (int)height) {
         self.cv.webView.scrollView.scrollEnabled = YES;
@@ -539,9 +562,17 @@
         }];
     } else
     {
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"]) {
+            LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+            [self.navigationController pushViewController:lg animated:YES];
+        }else
+        {
+            LMRegisterViewController *rv = [[LMRegisterViewController alloc] init];
+            [self.navigationController pushViewController:rv animated:YES];
+        }
     
-        LMLoginViewController *lg = [[LMLoginViewController alloc] init];
-        [self.navigationController pushViewController:lg animated:YES];
+        
     
     }
     
@@ -587,7 +618,6 @@
     [UMSocialData defaultData].extConfig.qqData.url = urlStr;
     [UMSocialData defaultData].extConfig.qzoneData.url = urlStr;
     
-#warning 分享改变规则
     //标题
     NSString *title = [NSString stringWithFormat:@"免费试听来啦，快来多学预约试听%@",self.courseNameLabel.text];
     [UMSocialData defaultData].extConfig.wechatSessionData.title =title;
@@ -657,13 +687,14 @@
     NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
     parameters[@"device"] = deviceInfo;
     
+    MyLog(@"parameters==============%@",parameters);
     
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
     
 
         NSDictionary *dataDic = [responseObject[@"data"] objectFromJSONString];
 
-        MyLog(@"=============请求结果===============%@",dataDic);
+        MyLog(@"responseObject===============%@",responseObject);
         
         /** 取出课程列表字典 */
         NSDictionary * courseInfoDic = dataDic[@"course"];
@@ -699,7 +730,6 @@
     
 //            self.courseTime.text = [NSString stringWithFormat:@"共%d课时",[courseInfoDic[@"courseTime"] intValue]];
         
-        
        self.schoolName = courseInfoDic[@"schoolFullName"];
         
         UILabel *label  = [[UILabel alloc] init];
@@ -711,12 +741,6 @@
         label.text = courseInfoDic[@"schoolFullName"];
         [self.schoolSkin addSubview:label];
      
-//        CGFloat x = schoolNameSize.width + 75;
-//        UIImageView *imageCer = [[UIImageView alloc] initWithFrame:CGRectMake(x + 5, 7, 50, 25)];
-//        imageCer.image = [UIImage imageNamed:@"class_detail_cerf"];
-//        [self.schoolSkin addSubview:imageCer];
-//        self.cerf = imageCer;
-        
         //认证课程
         NSArray *arrCer = courseInfoDic[@"auths"];
         if(arrCer.count)
@@ -741,13 +765,14 @@
         
         
         //认证学校
-        NSArray *arrCer2 = courseInfoDic[@"school"][@"auths"];
+        NSDictionary *schoolAuth = courseInfoDic[@"school"];
+        NSArray *arrCer2 = schoolAuth[@"auths"];
         if(arrCer2.count)
         {
         
-            for (int i = 0; i < arrCer.count; i++) {
-                NSDictionary *authDic = arrCer[i];
-                long long authId = [authDic[@"id"]longLongValue];
+            for (int i = 0; i < arrCer2.count; i++) {
+                NSDictionary *authDic = arrCer2[i];
+                long long authId = [authDic[@"id"] longLongValue];
                 
                 if (authId == 1  ) {
                     self.cerf.hidden = NO;
@@ -775,10 +800,29 @@
             [self.schoolSkin addSubview:label];
         }
         
+        //价格
+        NSArray *priceList = courseInfoDic[@"priceList"];
+        
+        if(priceList.count)
+        {
+            //一课时价格
+            NSDictionary *singleCourse = priceList[0];
+            self.oneProductId = [singleCourse[@"id"] longValue];
+            self.oneCourseLabel.text = singleCourse[@"productName"];
+            self.singlePrice = singleCourse[@"costPrice"];
+            self.oneCostPrice.text = [NSString stringWithFormat:@"￥%@",singleCourse[@"costPrice"]];
+            self.oneDiscountPrice.text = [NSString stringWithFormat:@"￥%@",singleCourse[@"discountPrice"]];
+            
+            //打包课时价格
+            NSDictionary *packCourse = priceList[1];
+            self.allCourseLabel.text = packCourse[@"productName"];
+            self.allCostPrice.text = [NSString stringWithFormat:@"￥%@",packCourse[@"costPrice"]];
+            self.allDiscountPrice.text = [NSString stringWithFormat:@"￥%@",packCourse[@"discountPrice"]];
+        }
         
         
         
-        
+        //收藏
         if ([courseInfoDic[@"favStatus"] intValue]) {
              [self.collectBtn setImage:[UIImage imageNamed:@"public_nav_collect_pressed"] forState:UIControlStateNormal];
         }
@@ -794,7 +838,8 @@
                 
             }
         
-            NSString *str2 = courseInfoDic[@"school"][@"schoolImage"];
+        //学校图标
+        NSString *str2 = courseInfoDic[@"school"][@"schoolImage"];
         self.courseImageView.layer.borderColor = UIColorFromRGB(0xc7c7c7).CGColor;
         self.courseImageView.layer.borderWidth = 1.0f;
         
@@ -808,6 +853,7 @@
         self.schoolIcon.layer.borderColor = UIColorFromRGB(0xc7c7c7).CGColor;
         self.schoolIcon.layer.borderWidth = 1.0f;
         
+        //试听
         if(!self.needBook)
         {
             self.freeListen.enabled = NO;
@@ -829,7 +875,7 @@
        
         [CLProgressHUD dismiss];
         
-        MyLog(@"courseInfoDicname===%@",courseInfoDic[@"teachers"]);
+        
         /** 刷新老师 */
         self.teachers = [LMTeacherInfo objectArrayWithKeyValuesArray:courseInfoDic[@"teachers"]];
         MyLog(@"self.teachers===%@",self.teachers);
@@ -923,7 +969,9 @@
             
             self.schoolSkin.y = CGRectGetMaxY(self.onerRv.view.frame) + LMCourseMark;
             
-             self.menuBtnView.y = CGRectGetMaxY(self.schoolSkin.frame) + LMCourseMark;
+            self.priceView.y = CGRectGetMaxY(self.schoolSkin.frame) + LMCourseMark;
+            
+            self.menuBtnView.y = CGRectGetMaxY(self.priceView.frame) + LMCourseMark;
             
             self.myScrollView.y = CGRectGetMaxY(self.menuBtnView.frame);
             
@@ -955,7 +1003,9 @@
     
     self.schoolSkin.y = CGRectGetMaxY(self.onerRv.view.frame) + LMCourseMark;
     
-    self.menuBtnView.y = CGRectGetMaxY(self.schoolSkin.frame) + LMCourseMark;
+    self.priceView.y = CGRectGetMaxY(self.schoolSkin.frame) + LMCourseMark;
+    
+    self.menuBtnView.y = CGRectGetMaxY(self.priceView.frame) + LMCourseMark;
     
     self.myScrollView.y = CGRectGetMaxY(self.menuBtnView.frame);
     
@@ -983,67 +1033,7 @@
     
 }
 
-/** 课程预定 */
-- (IBAction)bookCourse:(id)sender {
-    
-   
-        LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
-        if (account) {
-            
-            AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-            
-            
-            //url地址
-            NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"appointment/bookCourse.json"];
-            
-            
-            //参数
-            NSMutableDictionary *arr = [NSMutableDictionary dictionary];
-            arr[@"id"] = [NSString stringWithFormat:@"%lli",self.id];
-            arr[@"time"] = [NSString timeNow];
-            
-            NSString *jsonStr = [arr JSONString];
-            
-            NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-            parameters[@"sid"] = account.sid;
-            parameters[@"data"] = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:account.sessionkey];
-            
-            [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                
-                long long code = [responseObject[@"code"] longLongValue];
-                
-                switch (code) {
-                    case 10001:
-                        [MBProgressHUD showSuccess:@"收藏成功"];
-                        break;
-                        
-                    case 30002:
-                        [MBProgressHUD showError:@"登录超时"];
-                        break;
-                        
-                    case 63001:
-                        [MBProgressHUD showError:@"用户已收藏"];
-                        break;
-                        
-                    default:
-                        break;
-                }
-                
-                
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                LogObj(error.localizedDescription);
-            }];
-        } else
-        {
-            
-            LMLoginViewController *lg = [[LMLoginViewController alloc] init];
-            [self.navigationController pushViewController:lg animated:YES];
-            
-        }
 
-    
-    
-}
 
 /** 写点评 */
 - (IBAction)recommend:(id)sender {
@@ -1058,8 +1048,14 @@
         [self.navigationController pushViewController:add animated:YES];
     }else
     {
-        LMLoginViewController *log = [[LMLoginViewController alloc] init];
-        [self.navigationController pushViewController:log animated:YES];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"]) {
+            LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+            [self.navigationController pushViewController:lg animated:YES];
+        }else
+        {
+            LMRegisterViewController *rv = [[LMRegisterViewController alloc] init];
+            [self.navigationController pushViewController:rv animated:YES];
+        }
     }
     
     
@@ -1213,9 +1209,14 @@
             [self.navigationController pushViewController:rvc animated:YES];
         }else
         {
-            LMLoginViewController *lv = [[LMLoginViewController alloc] init];
-            
-            [self.navigationController pushViewController:lv animated:YES];
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"]) {
+                LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+                [self.navigationController pushViewController:lg animated:YES];
+            }else
+            {
+                LMRegisterViewController *rv = [[LMRegisterViewController alloc] init];
+                [self.navigationController pushViewController:rv animated:YES];
+            }
         }
     
     }else
@@ -1249,6 +1250,23 @@
         }];
 
     }
+    
+}
+
+- (IBAction)paySingle:(id)sender {
+    
+    LMOrderCommitViewController *ov = [[LMOrderCommitViewController alloc] init];
+    ov.productId = self.oneProductId;
+    ov.costPrice = self.singlePrice;
+    ov.productName = self.oneCourseLabel.text;
+    [self.navigationController pushViewController:ov animated:YES];
+  
+}
+
+
+- (IBAction)payAll:(id)sender {
+    
+    
     
 }
 

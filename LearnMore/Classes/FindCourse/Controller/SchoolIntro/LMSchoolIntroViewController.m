@@ -25,6 +25,7 @@
 #import "TQStarRatingDisplayView.h"
 #import "LMMapViewController.h"
 #import "LMLoginViewController.h"
+#import "LMRegisterViewController.h"
 #import "LMMenuButtonView.h"
 #import "LMSchoolDetailViewController.h"
 #import "LMSchoolCourseViewController.h"
@@ -726,8 +727,14 @@
         [self.navigationController pushViewController:add animated:YES];
     }else
     {
-        LMLoginViewController *log = [[LMLoginViewController alloc] init];
-        [self.navigationController pushViewController:log animated:YES];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"]) {
+            LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+            [self.navigationController pushViewController:lg animated:YES];
+        }else
+        {
+            LMRegisterViewController *rv = [[LMRegisterViewController alloc] init];
+            [self.navigationController pushViewController:rv animated:YES];
+        }
     }
     
     

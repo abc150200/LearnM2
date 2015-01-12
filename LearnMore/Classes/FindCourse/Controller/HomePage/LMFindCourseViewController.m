@@ -33,6 +33,7 @@
 #import "LMSchoolIntroViewController.h"
 #import "LMAdOtherViewController.h"
 #import "LMLoginViewController.h"
+#import "LMRegisterViewController.h"
 
 #import "CLProgressHUD.h"
 #import "LMAccountInfo.h"
@@ -334,10 +335,6 @@
 }
 
 
-
-
-
-
 #pragma mark -LMCourseRecommendViewControllerDelegate
 - (void)courseRecommendViewController:(LMCourseRecommendViewController *)courseRecommendViewController id:(long long)id
 {
@@ -409,8 +406,14 @@
             
         }else
         {
-            LMLoginViewController *log = [[LMLoginViewController alloc] init];
-            [self.navigationController pushViewController:log animated:YES];
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"]) {
+                LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+                [self.navigationController pushViewController:lg animated:YES];
+            }else
+            {
+                LMRegisterViewController *rv = [[LMRegisterViewController alloc] init];
+                [self.navigationController pushViewController:rv animated:YES];
+            }
         }
        
     }else

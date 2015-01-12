@@ -97,6 +97,7 @@
     [super layoutSubviews];
     // 设置蒙版的frame
     self.cover.frame = self.bounds;
+   
 }
 
 - (void)dismiss

@@ -19,6 +19,7 @@
 #import "LMAccountInfo.h"
 #import "LMAccount.h"
 #import "LMLoginViewController.h"
+#import "LMRegisterViewController.h"
 #import "MTA.h"
 #import "MBProgressHUD+NJ.h"
 #import "AESenAndDe.h"
@@ -390,8 +391,14 @@
     } else
     {
         
-        LMLoginViewController *lg = [[LMLoginViewController alloc] init];
-        [self.navigationController pushViewController:lg animated:YES];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"]) {
+            LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+            [self.navigationController pushViewController:lg animated:YES];
+        }else
+        {
+            LMRegisterViewController *rv = [[LMRegisterViewController alloc] init];
+            [self.navigationController pushViewController:rv animated:YES];
+        }
         
     }
     
@@ -438,9 +445,14 @@
         
     }else
     {
-        LMLoginViewController *lv = [[LMLoginViewController alloc] init];
-        
-        [self.navigationController pushViewController:lv animated:YES];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"]) {
+            LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+            [self.navigationController pushViewController:lg animated:YES];
+        }else
+        {
+            LMRegisterViewController *rv = [[LMRegisterViewController alloc] init];
+            [self.navigationController pushViewController:rv animated:YES];
+        }
     }
     
    

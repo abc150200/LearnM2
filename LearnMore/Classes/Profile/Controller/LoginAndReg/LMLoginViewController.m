@@ -208,6 +208,9 @@
                         MyLog(@"name===%@",dictM);
                         
                         
+                        [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"everReg"];
+                        [[NSUserDefaults standardUserDefaults] synchronize];
+                        
                         //字典转对象
                         LMAccount *account  = [LMAccount accountWithDict:dictM];
                         account.userPhone = self.account.text;
@@ -220,7 +223,12 @@
                         LogObj([LMAccountInfo sharedAccountInfo].account);
                         
                         
-                        [self.navigationController popViewControllerAnimated:YES];
+//                        [self.navigationController popViewControllerAnimated:YES];
+                        for (UIViewController *controller in self.navigationController.viewControllers) {
+                            if ([controller isKindOfClass:[LMSettingViewController class]]) {
+                                [self.navigationController popToViewController:controller animated:YES];
+                            }
+                        }
                         
                         
                     }

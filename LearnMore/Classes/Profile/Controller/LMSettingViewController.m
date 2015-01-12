@@ -22,6 +22,9 @@
 #import "LMAccountInfo.h"
 #import "LMAccount.h"
 #import "LMMyRecViewController.h"
+#import "LMTestViewController.h"
+#import "LMRegisterViewController.h"
+#import "LMMyAwardVC.h"
 
 @interface LMSettingViewController ()<UIAlertViewDelegate>
 
@@ -83,7 +86,14 @@
     }else
     {
         accountInfo.subtitle = @"未登录";
-        accountInfo.destVc = [LMLoginViewController class];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"])
+        {
+            accountInfo.destVc = [LMLoginViewController class];
+        }else
+        {
+            accountInfo.destVc = [LMRegisterViewController class];
+        }
+        
     }
     
     LMCommonGroup *group0 = [self addGroup];
@@ -104,7 +114,13 @@
         myCollection.destVc =[LMMyCollectionViewController class];
     }else
     {
-        myCollection.destVc = [LMLoginViewController class];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"])
+        {
+            myCollection.destVc = [LMLoginViewController class];
+        }else
+        {
+            myCollection.destVc = [LMRegisterViewController class];
+        }
     }
     
     
@@ -114,7 +130,14 @@
         freeReserve.destVc =[LMMyReserveViewController class];
     }else
     {
-        freeReserve.destVc = [LMLoginViewController class];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"])
+        {
+            freeReserve.destVc = [LMLoginViewController class];
+        }else
+        {
+            freeReserve.destVc = [LMRegisterViewController class];
+        }
+        
     }
     
     
@@ -124,7 +147,13 @@
         signActivity.destVc =[LMMyActivityViewController class];
     }else
     {
-        signActivity.destVc = [LMLoginViewController class];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"])
+        {
+            signActivity.destVc = [LMLoginViewController class];
+        }else
+        {
+            signActivity.destVc = [LMRegisterViewController class];
+        }
     }
     
     
@@ -134,7 +163,14 @@
         myReview.destVc =[LMMyRecViewController class];
     }else
     {
-        myReview.destVc = [LMLoginViewController class];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"])
+        {
+            myReview.destVc = [LMLoginViewController class];
+        }else
+        {
+            myReview.destVc = [LMRegisterViewController class];
+        }
+    
     }
     
 #warning 点评增加入口
@@ -223,8 +259,15 @@
     LMCommonItemArrow *aboutUS = [LMCommonItemArrow itemWithIcon:@"me_about" Title:@"关于我们"];
     aboutUS.destVc = [LMAboutUsViewController class];
     
+    
+    LMCommonItemArrow *myAward = [LMCommonItemArrow itemWithIcon:@"me_about" Title:@"我的奖券"];
+    myAward.destVc = [LMMyAwardVC class];
+    
+    LMCommonItemArrow *act = [LMCommonItemArrow itemWithIcon:@"me_about" Title:@"活动测试"];
+    act.destVc = [LMTestViewController class];
+    
     LMCommonGroup *group2 = [self addGroup];
-    group2.items = @[myCheck,versionUpdate,aboutUS];
+    group2.items = @[myCheck,versionUpdate,aboutUS,myAward,act];
 
 }
 

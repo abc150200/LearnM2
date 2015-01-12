@@ -8,6 +8,7 @@
 
 #import "LMAppRecommendViewController.h"
 #import "LMLoginViewController.h"
+#import "LMRegisterViewController.h"
 
 @interface LMAppRecommendViewController ()
 
@@ -78,8 +79,14 @@
 
 - (void)logoutBtn
 {
-    LMLoginViewController *li = [[LMLoginViewController alloc] init];
-    [self.navigationController pushViewController:li animated:YES];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"]) {
+        LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+        [self.navigationController pushViewController:lg animated:YES];
+    }else
+    {
+        LMRegisterViewController *rv = [[LMRegisterViewController alloc] init];
+        [self.navigationController pushViewController:rv animated:YES];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

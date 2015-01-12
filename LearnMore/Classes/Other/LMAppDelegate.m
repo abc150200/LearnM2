@@ -177,6 +177,8 @@
                 
                 MyLog(@"name===%@",dictM);
                 
+                [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"everReg"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
                 
                 //字典转对象
                 LMAccount *account  = [LMAccount accountWithDict:dictM];

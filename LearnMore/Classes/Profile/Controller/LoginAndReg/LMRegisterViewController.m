@@ -90,11 +90,11 @@
 //登录按钮
 - (IBAction)loginBtn {
   
-//    LMLoginViewController  *loginVc = [[LMLoginViewController alloc] init];
-//    
-//    [self.navigationController pushViewController:loginVc animated:YES];
+    LMLoginViewController  *loginVc = [[LMLoginViewController alloc] init];
     
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController pushViewController:loginVc animated:YES];
+    
+//    [self.navigationController popViewControllerAnimated:YES];
  
 }
 
@@ -263,9 +263,12 @@
                 switch (code) {
                     case 10001:
                     {
+                        [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"everReg"];
+                        [[NSUserDefaults standardUserDefaults] synchronize];
+                        
                         [MBProgressHUD hideHUD];
                         [MBProgressHUD showMessage:@"注册成功,正在登录..."];
-                        
+    
 //                        NSMutableDictionary *dictM = [NSMutableDictionary dictionary];
 //                        dictM[@"userPhone"] = self.user.text;
 //                        dictM[@"pwd"] = self.pwd.text;
@@ -480,6 +483,10 @@
                 dictM[@"pwd"] = pwd;
                 
                 MyLog(@"name===%@",dictM);
+                
+                
+                [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"everReg"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
                 
                 
                 //字典转对象

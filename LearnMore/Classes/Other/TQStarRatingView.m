@@ -13,6 +13,8 @@
 @property (nonatomic, strong) UIView *starBackgroundView;
 @property (nonatomic, strong) UIView *starForegroundView;
 
+@property (nonatomic, assign) CGFloat starSize;
+@property (nonatomic, assign) CGFloat margin;
 
 @end
 
@@ -32,6 +34,8 @@
         self.starBackgroundView = [self buidlStarViewWithImageName:norImage starSize:starSize margin:margin];
         self.starForegroundView = [self buidlStarViewWithImageName:highImage starSize:starSize margin:margin];
         
+        self.starSize = starSize;
+        self.margin = margin;
         
         [self addSubview:self.starBackgroundView];
 //        [self addSubview:self.starForegroundView];
@@ -95,6 +99,11 @@
 {
     CGPoint p = point;
     
+    /** 额外增加 */
+    CGFloat single = self.starSize + self.margin;
+    double temp = p.x / single;
+    int count = (temp + 1);
+ 
     if (p.x < 0)
     {
         p.x = 0;
@@ -104,10 +113,11 @@
         p.x = self.frame.size.width;
     }
     
-    NSString * str = [NSString stringWithFormat:@"%0.2f",p.x / self.frame.size.width];
-    float score = [str floatValue];
+//    NSString * str = [NSString stringWithFormat:@"%0.2f",p.x / self.frame.size.width];
+//    float score = int ([str floatValue] + 0.5);
+    float score = count;
     p.x = score * self.frame.size.width;
-    self.starForegroundView.frame = CGRectMake(0, 0, p.x, self.frame.size.height);
+    self.starForegroundView.frame = CGRectMake(0, 0, single * count , self.frame.size.height);
     
 //    if(self.delegate && [self.delegate respondsToSelector:@selector(starRatingView: score:)])
 //    {

@@ -128,7 +128,7 @@
 
     starRatingView.completion = ^(float score)
     {
-         self.TotalValue = [NSString stringWithFormat:@"%0.1f",score * 5];
+         self.TotalValue = [NSString stringWithFormat:@"%0.1f",score];
         MyLog(@"self.TotalValue===%@",self.TotalValue);
     };
     
@@ -137,7 +137,7 @@
     
     starRatingView1.completion = ^(float score)
     {
-         self.starValue1 = [NSString stringWithFormat:@"%0.1f",score * 5];
+         self.starValue1 = [NSString stringWithFormat:@"%0.1f",score];
     };
     
     TQStarRatingView *starRatingView2 = [[TQStarRatingView alloc] initWithFrame:CGRectMake(92, 36, 190, 30) numberOfStar:5 norImage:@"review_new_normal" highImage:@"review_new_pressed" starSize:30 margin:10];
@@ -145,7 +145,7 @@
     
     starRatingView2.completion = ^(float score)
     {
-        self.starValue2 = [NSString stringWithFormat:@"%0.1f",score * 5];
+        self.starValue2 = [NSString stringWithFormat:@"%0.1f",score];
     };
     
     
@@ -154,7 +154,7 @@
     
     starRatingView3.completion = ^(float score)
     {
-        self.starValue3 = [NSString stringWithFormat:@"%0.1f",score * 5];
+        self.starValue3 = [NSString stringWithFormat:@"%0.1f",score];
     };
     
     
@@ -163,7 +163,7 @@
     
     starRatingView4.completion = ^(float score)
     {
-        self.starValue4 = [NSString stringWithFormat:@"%0.1f",score * 5];
+        self.starValue4 = [NSString stringWithFormat:@"%0.1f",score];
     };
   
     
