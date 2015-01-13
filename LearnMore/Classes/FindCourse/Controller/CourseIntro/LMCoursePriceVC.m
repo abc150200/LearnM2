@@ -1,0 +1,50 @@
+//
+//  LMCoursePriceVC.m
+//  LearnMore
+//
+//  Created by study on 15-1-12.
+//  Copyright (c) 2015年 youxuejingxuan. All rights reserved.
+//
+
+#import "LMCoursePriceVC.h"
+#import "LMCoursePriceCell.h"
+
+
+@interface LMCoursePriceVC ()
+
+@end
+
+@implementation LMCoursePriceVC
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    
+}
+
+#pragma mark - 数据源方法
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.priceArr.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *ID = @"LMCoursePriceCell";
+    LMCoursePriceCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    if (cell == nil) {
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"LMCoursePriceCell" owner:nil options:nil] lastObject];
+    }
+    
+    // 2.给cell传递模型
+    cell.coursePrice = self.priceArr[indexPath.row];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    // 3.返回cell
+    return cell;
+}
+
+@end

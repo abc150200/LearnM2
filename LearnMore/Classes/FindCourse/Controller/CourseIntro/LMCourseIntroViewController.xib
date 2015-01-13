@@ -146,7 +146,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-266" y="-55.5"/>
+            <point key="canvasLocation" x="164" y="-206.5"/>
         </view>
         <view contentMode="scaleToFill" id="OCr-bc-dOj" userLabel="学校简介">
             <rect key="frame" x="0.0" y="0.0" width="320" height="138"/>
@@ -258,7 +258,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="148" y="-27"/>
+            <point key="canvasLocation" x="159" y="-39"/>
         </view>
         <view contentMode="scaleToFill" id="314-Td-JHE" userLabel="家长点评">
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -297,6 +297,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="148" y="368"/>
         </view>
         <view contentMode="scaleToFill" id="f2g-tL-uuP" userLabel="写点评">
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -411,7 +412,7 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="148" y="378.5"/>
+            <point key="canvasLocation" x="140" y="481.5"/>
         </view>
     </objects>
     <resources>

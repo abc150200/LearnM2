@@ -307,6 +307,10 @@
 		20FE8FAF1A529D5E00F06B64 /* LMCourseComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FE8FAE1A529D5E00F06B64 /* LMCourseComment.m */; };
 		20FE8FB21A52A5FB00F06B64 /* LMSchoolComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FE8FB11A52A5FB00F06B64 /* LMSchoolComment.m */; };
 		20FE9A7B1A63777600E05115 /* LMMyAwardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FE9A7A1A63777600E05115 /* LMMyAwardVC.m */; };
+		20FE9A7E1A637F4600E05115 /* LMCoursePriceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FE9A7D1A637F4600E05115 /* LMCoursePriceVC.m */; };
+		20FE9A811A637FAD00E05115 /* LMCoursePrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FE9A801A637FAD00E05115 /* LMCoursePrice.m */; };
+		20FE9A851A638FEA00E05115 /* LMCoursePriceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FE9A831A638FEA00E05115 /* LMCoursePriceCell.m */; };
+		20FE9A861A638FEA00E05115 /* LMCoursePriceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20FE9A841A638FEA00E05115 /* LMCoursePriceCell.xib */; };
 		20FEBC9F1A42D8260032C065 /* smallAreas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20FEBC9E1A42D8260032C065 /* smallAreas.plist */; };
 		87801FB819E2E7B4004F3FDB /* citydict.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87801FB719E2E7B4004F3FDB /* citydict.plist */; };
 		CA6A7A981A46EB4200EF6AC4 /* LMLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = CA6A7A971A46EB4200EF6AC4 /* LMLevel.m */; };
@@ -854,6 +858,13 @@
 		20FE8FB11A52A5FB00F06B64 /* LMSchoolComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSchoolComment.m; sourceTree = "<group>"; };
 		20FE9A791A63777600E05115 /* LMMyAwardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyAwardVC.h; sourceTree = "<group>"; };
 		20FE9A7A1A63777600E05115 /* LMMyAwardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyAwardVC.m; sourceTree = "<group>"; };
+		20FE9A7C1A637F4600E05115 /* LMCoursePriceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCoursePriceVC.h; sourceTree = "<group>"; };
+		20FE9A7D1A637F4600E05115 /* LMCoursePriceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCoursePriceVC.m; sourceTree = "<group>"; };
+		20FE9A7F1A637FAD00E05115 /* LMCoursePrice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCoursePrice.h; sourceTree = "<group>"; };
+		20FE9A801A637FAD00E05115 /* LMCoursePrice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCoursePrice.m; sourceTree = "<group>"; };
+		20FE9A821A638FEA00E05115 /* LMCoursePriceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCoursePriceCell.h; sourceTree = "<group>"; };
+		20FE9A831A638FEA00E05115 /* LMCoursePriceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCoursePriceCell.m; sourceTree = "<group>"; };
+		20FE9A841A638FEA00E05115 /* LMCoursePriceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMCoursePriceCell.xib; sourceTree = "<group>"; };
 		20FEBC9E1A42D8260032C065 /* smallAreas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = smallAreas.plist; sourceTree = "<group>"; };
 		87801FB719E2E7B4004F3FDB /* citydict.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = citydict.plist; sourceTree = "<group>"; };
 		CA6A7A961A46EB4200EF6AC4 /* LMLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMLevel.h; sourceTree = "<group>"; };
@@ -1182,6 +1193,8 @@
 				2092DE531A2F35EA0029873A /* LMOnerRecViewController.h */,
 				2092DE541A2F35EA0029873A /* LMOnerRecViewController.m */,
 				2092DE551A2F35EA0029873A /* LMOnerRecViewController.xib */,
+				20FE9A7C1A637F4600E05115 /* LMCoursePriceVC.h */,
+				20FE9A7D1A637F4600E05115 /* LMCoursePriceVC.m */,
 			);
 			path = CourseIntro;
 			sourceTree = "<group>";
@@ -1240,6 +1253,8 @@
 				209341841A2DBF4E002BD141 /* LMRecommend.m */,
 				208A59101A2DCBBE00D91D56 /* LMRecommedFrame.h */,
 				208A59111A2DCBBE00D91D56 /* LMRecommedFrame.m */,
+				20FE9A7F1A637FAD00E05115 /* LMCoursePrice.h */,
+				20FE9A801A637FAD00E05115 /* LMCoursePrice.m */,
 			);
 			path = CourseIntro;
 			sourceTree = "<group>";
@@ -1295,6 +1310,9 @@
 				209341811A2D7902002BD141 /* LMDetailRecommendViewCell.m */,
 				CABBDB221A2E26FC00298F95 /* LMPhotosView.h */,
 				CABBDB231A2E26FC00298F95 /* LMPhotosView.m */,
+				20FE9A821A638FEA00E05115 /* LMCoursePriceCell.h */,
+				20FE9A831A638FEA00E05115 /* LMCoursePriceCell.m */,
+				20FE9A841A638FEA00E05115 /* LMCoursePriceCell.xib */,
 			);
 			path = CourseIntro;
 			sourceTree = "<group>";
@@ -2172,6 +2190,7 @@
 				20BCC22819E6908100A5913B /* LMCourseViewCell.xib in Resources */,
 				200DA9DB1A0E262A004C2EFB /* LMCourseTeachCell.xib in Resources */,
 				20D4029319D90516003D251B /* InfoPlist.strings in Resources */,
+				20FE9A861A638FEA00E05115 /* LMCoursePriceCell.xib in Resources */,
 				20869F9719F8E9F100C0B4C5 /* LMSearchViewController.xib in Resources */,
 				20FEBC9F1A42D8260032C065 /* smallAreas.plist in Resources */,
 				20FDBB081A5CD8FE00B42418 /* LMOrderCommitViewController.xib in Resources */,
@@ -2404,6 +2423,7 @@
 				20F278D21A023025004370DA /* UIView+Extension.m in Sources */,
 				20F4C3C319ECB94E002766A4 /* LMMyAccountViewController.m in Sources */,
 				20F7A57819EF7E4600DC526D /* AFURLConnectionOperation.m in Sources */,
+				20FE9A7E1A637F4600E05115 /* LMCoursePriceVC.m in Sources */,
 				20F608FB1A3AC5F700CA5A5C /* LMMenuButtonView.m in Sources */,
 				20F278AD1A022191004370DA /* SDWebImageCompat.m in Sources */,
 				20F278B11A022191004370DA /* SDWebImageManager.m in Sources */,
@@ -2428,6 +2448,8 @@
 				20F9A25019EB712700BAB3D5 /* LMReserveViewController.m in Sources */,
 				20F278AA1A022191004370DA /* MKAnnotationView+WebCache.m in Sources */,
 				20EE843E1A10F67900DDEC92 /* LMlistViewController.m in Sources */,
+				20FE9A811A637FAD00E05115 /* LMCoursePrice.m in Sources */,
+				20FE9A851A638FEA00E05115 /* LMCoursePriceCell.m in Sources */,
 				20F278AE1A022191004370DA /* SDWebImageDecoder.m in Sources */,
 				2071DA5B19FFB64B00CA56DC /* MJArgument.m in Sources */,
 				20E9E6A91A3FD81C0038F09F /* LMMyRecViewCell.m in Sources */,

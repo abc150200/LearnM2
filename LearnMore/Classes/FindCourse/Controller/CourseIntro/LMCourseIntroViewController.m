@@ -50,6 +50,8 @@
 #import "LMTResultViewController.h"
 #import "LMCourseDetailViewController.h"
 #import "LMOrderCommitViewController.h"
+#import "LMCoursePriceVC.h"
+#import "LMCoursePrice.h"
 
 
 #import "MTA.h"
@@ -159,6 +161,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *allCourseLabel;
 @property (weak, nonatomic) IBOutlet UILabel *allCostPrice;
 @property (weak, nonatomic) IBOutlet UILabel *allDiscountPrice;
+
+@property (nonatomic, strong) LMCoursePriceVC *pv;//价格控制器
+@property (nonatomic, strong) NSArray *coursePriceList;//价格列表
 
 
 
@@ -281,13 +286,25 @@
     
     self.onerRv.view.height = 88;
     
+    //学校评分
     self.schoolSkin.y = CGRectGetMaxY(self.onerRv.view.frame) + LMCourseMark;
     [self.scrollView addSubview: self.schoolSkin];
     
+    //价格列表
+    LMCoursePriceVC *pv = [[LMCoursePriceVC alloc] init];
+    self.pv = pv;
+    pv.view.x = 0;
+    pv.view.y = CGRectGetMaxY(self.schoolSkin.frame) + LMCourseMark;
+    pv.view.width = self.view.width;
+    pv.view.height = 88;
+    [self.scrollView addSubview:pv.view];
     
-    //添加价格页面
-    [self.scrollView addSubview:self.priceView];
-    self.priceView.frame = CGRectMake(0, CGRectGetMaxY(self.schoolSkin.frame) + LMCourseMark, self.view.width, self.priceView.height);
+    
+    
+    
+//    //添加价格页面
+//    [self.scrollView addSubview:self.priceView];
+//    self.priceView.frame = CGRectMake(0, CGRectGetMaxY(self.pv.view.frame) + LMCourseMark, self.view.width, self.priceView.height);
 
     
     
@@ -418,12 +435,21 @@
    }
     
     MyLog(@"self.scrollView.contentOffset.y===%f",self.scrollView.contentOffset.y);
+
     
-    MyLog(@"self.scrollView.caaaaaaat.y===%f",CGRectGetMaxY(self.priceView.frame) + LMPadding - 64);
+   
     
-    CGFloat height = CGRectGetMaxY(self.priceView.frame) + LMPadding - 64 ;
+    CGFloat scrollHeight;
+    if (self.coursePriceList.count) {
+         scrollHeight = CGRectGetMaxY(self.pv.view.frame) + LMPadding - 64 ;
+    }else
+    {
+        scrollHeight = CGRectGetMaxY(self.schoolSkin.frame) + LMPadding - 64 ;
+    }
+
+     MyLog(@"self.scrollView.caaaaaaat.y====scrollHeight=%f",scrollHeight);
     
-    if ((int)self.scrollView.contentOffset.y == (int)height) {
+    if ((int)self.scrollView.contentOffset.y == (int)scrollHeight) {
         self.cv.webView.scrollView.scrollEnabled = YES;
         self.trv.webView.scrollView.scrollEnabled = YES;
         self.tl.tableView.scrollEnabled = YES;
@@ -560,10 +586,10 @@
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             LogObj(error.localizedDescription);
         }];
-    } else
+    } else  
     {
         
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"]) {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"] ) {
             LMLoginViewController *lg = [[LMLoginViewController alloc] init];
             [self.navigationController pushViewController:lg animated:YES];
         }else
@@ -571,8 +597,6 @@
             LMRegisterViewController *rv = [[LMRegisterViewController alloc] init];
             [self.navigationController pushViewController:rv animated:YES];
         }
-    
-        
     
     }
     
@@ -800,26 +824,65 @@
             [self.schoolSkin addSubview:label];
         }
         
+//        //价格
+//        NSArray *priceList = courseInfoDic[@"priceList"];
+//        
+//        if(priceList.count)
+//        {
+//            //一课时价格
+//            NSDictionary *singleCourse = priceList[0];
+//            self.oneProductId = [singleCourse[@"id"] longValue];
+//            self.oneCourseLabel.text = singleCourse[@"productName"];
+//            self.singlePrice = singleCourse[@"costPrice"];
+//            self.oneCostPrice.text = [NSString stringWithFormat:@"￥%@",singleCourse[@"costPrice"]];
+//            self.oneDiscountPrice.text = [NSString stringWithFormat:@"￥%@",singleCourse[@"discountPrice"]];
+//            
+//            //打包课时价格
+//            NSDictionary *packCourse = priceList[1];
+//            self.allCourseLabel.text = packCourse[@"productName"];
+//            self.allCostPrice.text = [NSString stringWithFormat:@"￥%@",packCourse[@"costPrice"]];
+//            self.allDiscountPrice.text = [NSString stringWithFormat:@"￥%@",packCourse[@"discountPrice"]];
+//        }
+        
+        
         //价格
-        NSArray *priceList = courseInfoDic[@"priceList"];
-        
-        if(priceList.count)
-        {
-            //一课时价格
-            NSDictionary *singleCourse = priceList[0];
-            self.oneProductId = [singleCourse[@"id"] longValue];
-            self.oneCourseLabel.text = singleCourse[@"productName"];
-            self.singlePrice = singleCourse[@"costPrice"];
-            self.oneCostPrice.text = [NSString stringWithFormat:@"￥%@",singleCourse[@"costPrice"]];
-            self.oneDiscountPrice.text = [NSString stringWithFormat:@"￥%@",singleCourse[@"discountPrice"]];
+        NSArray *coursePrice = [LMCoursePrice  objectArrayWithKeyValuesArray:courseInfoDic[@"priceList"]];
+        self.coursePriceList = coursePrice;
+        self.pv.priceArr = coursePrice;
+        [self.pv.tableView reloadData];
+        if (coursePrice.count) {
+            self.pv.view.height = 44 * coursePrice.count;
             
-            //打包课时价格
-            NSDictionary *packCourse = priceList[1];
-            self.allCourseLabel.text = packCourse[@"productName"];
-            self.allCostPrice.text = [NSString stringWithFormat:@"￥%@",packCourse[@"costPrice"]];
-            self.allDiscountPrice.text = [NSString stringWithFormat:@"￥%@",packCourse[@"discountPrice"]];
+//            self.priceView.y = CGRectGetMaxY(self.pv.view.frame) + LMCourseMark;
+            
+            self.menuBtnView.y = CGRectGetMaxY(self.pv.view.frame) + LMCourseMark;
+            
+            self.myScrollView.y = CGRectGetMaxY(self.menuBtnView.frame);
+            
+            if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"] || [[NSString deviceString]  isEqualToString: @"iPhone 4"]) {
+                self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight + 64 + 24);
+            }else
+            {
+                self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight );
+            }
+            
+        }else
+        {
+            self.pv.view.height = 0;
+            
+//            self.priceView.y = CGRectGetMaxY(self.pv.view.frame) + LMCourseMark;
+            
+            self.menuBtnView.y = CGRectGetMaxY(self.schoolSkin.frame) + LMCourseMark;
+            
+            self.myScrollView.y = CGRectGetMaxY(self.menuBtnView.frame);
+            
+            if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"] || [[NSString deviceString]  isEqualToString: @"iPhone 4"]) {
+                self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight + 64 + 24);
+            }else
+            {
+                self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.menuBtnView.frame) + LMMyScrollMarkHeight );
+            }
         }
-        
         
         
         //收藏
@@ -969,9 +1032,11 @@
             
             self.schoolSkin.y = CGRectGetMaxY(self.onerRv.view.frame) + LMCourseMark;
             
-            self.priceView.y = CGRectGetMaxY(self.schoolSkin.frame) + LMCourseMark;
+            self.pv.view.y = CGRectGetMaxY(self.schoolSkin.frame) + LMCourseMark;
             
-            self.menuBtnView.y = CGRectGetMaxY(self.priceView.frame) + LMCourseMark;
+//            self.priceView.y = CGRectGetMaxY(self.pv.view.frame) + LMCourseMark;
+            
+            self.menuBtnView.y = CGRectGetMaxY(self.pv.view.frame) + LMCourseMark;
             
             self.myScrollView.y = CGRectGetMaxY(self.menuBtnView.frame);
             
@@ -1003,9 +1068,11 @@
     
     self.schoolSkin.y = CGRectGetMaxY(self.onerRv.view.frame) + LMCourseMark;
     
-    self.priceView.y = CGRectGetMaxY(self.schoolSkin.frame) + LMCourseMark;
+    self.pv.view.y = CGRectGetMaxY(self.schoolSkin.frame) + LMCourseMark;
     
-    self.menuBtnView.y = CGRectGetMaxY(self.priceView.frame) + LMCourseMark;
+//    self.priceView.y = CGRectGetMaxY(self.pv.view.frame) + LMCourseMark;
+    
+    self.menuBtnView.y = CGRectGetMaxY(self.pv.view.frame) + LMCourseMark;
     
     self.myScrollView.y = CGRectGetMaxY(self.menuBtnView.frame);
     
