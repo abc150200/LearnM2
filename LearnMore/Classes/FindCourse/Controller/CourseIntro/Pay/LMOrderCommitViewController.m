@@ -75,8 +75,8 @@ static  int defaultCount = 1;
     
     
     self.courseNameLabel.text = self.productName;
-    self.singlePriceLabel.text = [NSString stringWithFormat:@"%@元",self.costPrice];
-    self.allPriceLabel.text = [NSString stringWithFormat:@"%@元",self.costPrice] ;
+    self.singlePriceLabel.text = [NSString stringWithFormat:@"%d元",self.costPrice];
+    self.allPriceLabel.text = [NSString stringWithFormat:@"%d元",self.costPrice] ;
     
     [self.countBtn setTitle:[NSString stringWithFormat:@"%d",defaultCount] forState:UIControlStateNormal];
 
@@ -100,6 +100,8 @@ static  int defaultCount = 1;
     pVc.count = defaultCount;
     pVc.totalPrice = self.allPriceLabel.text;
     pVc.singlePrice = self.singlePriceLabel.text;
+    pVc.productTypeId = self.productTypeId;
+    pVc.productId = self.productId;
     if ([self.contactText.text length]) {  
          pVc.contact = self.contactText.text;
     }else
@@ -131,7 +133,7 @@ static  int defaultCount = 1;
         self.plusBtn.enabled = YES;
     }
     
-    long long allPrice = [self.costPrice intValue] * defaultCount;
+    long long allPrice = self.costPrice * defaultCount;
     
     self.allPriceLabel.text = [NSString stringWithFormat:@"%lli元",allPrice];
 }
@@ -147,7 +149,7 @@ static  int defaultCount = 1;
         self.plusBtn.enabled = YES;
     }
     
-    long long allPrice = [self.costPrice intValue] * defaultCount;
+    long long allPrice = self.costPrice * defaultCount;
     
     self.allPriceLabel.text = [NSString stringWithFormat:@"%lli元",allPrice];
 }

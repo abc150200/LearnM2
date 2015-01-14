@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LearnMore/Classes/FindCourse/Controller/CourseIntro/LMCourseIntroViewController.m"
-            timestampString = "442814765.548879"
+            timestampString = "442826532.201227"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "981"
-            endingLineNumber = "981"
+            startingLineNumber = "955"
+            endingLineNumber = "955"
             landmarkName = "-loadRecommendData"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LearnMore/Classes/FindCourse/Controller/CourseIntro/LMCourseIntroViewController.m"
-            timestampString = "442814765.548879"
+            timestampString = "442826532.201227"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "890"
-            endingLineNumber = "890"
+            startingLineNumber = "864"
+            endingLineNumber = "864"
             landmarkName = "-loadData"
             landmarkType = "5">
          </BreakpointContent>

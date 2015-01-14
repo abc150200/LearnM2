@@ -10,6 +10,11 @@
 #import "LMActBookVC.h"
 #import "LMPaySuccessViewController.h"
 #import "AFNetworking.h"
+#import "LMAccountInfo.h"
+#import "LMAccount.h"
+#import "AESenAndDe.h"
+#import "LMLoginViewController.h"
+#import "LMRegisterViewController.h"
 
 @interface LMPayCommitVC ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *orderInfoView;
@@ -62,26 +67,75 @@
 
 
 - (IBAction)commitBtn:(id)sender {
-//    LMActBookVC *av = [[LMActBookVC alloc] init];
-//    [self.navigationController pushViewController:av animated:YES];
+
+    LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
+    if (account) {
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
    
     
 #warning 需要更改
     //url
-    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"course/info.json"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"pay/courseOrder.json"];
     
     //参数
+    //参数
+    NSMutableDictionary *arr = [NSMutableDictionary dictionary];
+    arr[@"courseId"] = [NSString stringWithFormat:@"%li",self.productTypeId];
+    arr[@"productId"] = [NSString stringWithFormat:@"%d",self.productId];
+    arr[@"contactName"] = self.contact;
+    arr[@"contactPhone"] = self.phone;
+    arr[@"time"] = [NSString timeNow];
     
     
+    NSString *jsonStr = [arr JSONString];
+    MyLog(@"%@",jsonStr);
     
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    parameters[@"sid"] = account.sid;
+    parameters[@"data"] = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:account.sessionkey];
     
+    //设备信息
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    parameters[@"device"] = deviceInfo;
     
+        
+        [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            
+            MyLog(@"responseObject===============%@",responseObject);
+            
+            long long code = [responseObject[@"code"] longLongValue];
+            
+            NSString *collectStr = [AESenAndDe De_Base64andAESDeToString:responseObject[@"data"] keyValue:account.sessionkey];
+            
+            NSDictionary *dict = [collectStr objectFromJSONString];
+            
+            MyLog(@"dict===%@",dict);
+            
+            //订单ID
+            NSString *orderId = dict[@"orderId"];
     
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            LogObj(error.localizedDescription);
+        }];
     
-    LMPaySuccessViewController *ps = [[LMPaySuccessViewController alloc] init];
-    [self.navigationController pushViewController:ps animated:YES];
+        
+        
+    } else
+    {
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"]) {
+            LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+            [self.navigationController pushViewController:lg animated:YES];
+        }else
+        {
+            LMRegisterViewController *rv = [[LMRegisterViewController alloc] init];
+            [self.navigationController pushViewController:rv animated:YES];
+        }
+
+        //    LMPaySuccessViewController *ps = [[LMPaySuccessViewController alloc] init];
+        //    [self.navigationController pushViewController:ps animated:YES];
+    }
     
 }
 

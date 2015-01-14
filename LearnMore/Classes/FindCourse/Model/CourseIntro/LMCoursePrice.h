@@ -13,5 +13,5 @@
 @property (nonatomic, copy) NSString *productName;
 @property (nonatomic, assign) int costPrice;
 @property (nonatomic, assign) int discountPrice;
-
+@property (nonatomic, assign) long productTypeId;
 @end

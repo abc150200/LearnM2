@@ -8,7 +8,8 @@
 
 #import "LMCoursePriceVC.h"
 #import "LMCoursePriceCell.h"
-
+#import "LMOrderCommitViewController.h"
+#import "LMCoursePrice.h"
 
 @interface LMCoursePriceVC ()
 
@@ -45,6 +46,19 @@
     
     // 3.返回cell
     return cell;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    LMCoursePrice *coursePrice = self.priceArr[indexPath.row];
+    
+    LMOrderCommitViewController *ov = [[LMOrderCommitViewController alloc] init];
+    ov.productId = coursePrice.id;
+    ov.costPrice = coursePrice.discountPrice;
+    ov.productName = coursePrice.productName;
+    ov.productTypeId = coursePrice.productTypeId;
+    [self.navigationController pushViewController:ov animated:YES];
 }
 
 @end

@@ -25,6 +25,7 @@
 #import "LMTestViewController.h"
 #import "LMRegisterViewController.h"
 #import "LMMyAwardVC.h"
+#import "LMMyOrderVC.h"
 
 @interface LMSettingViewController ()<UIAlertViewDelegate>
 
@@ -173,9 +174,26 @@
     
     }
     
-#warning 点评增加入口
+    
+    LMCommonItemArrow *myOrder = [LMCommonItemArrow itemWithIcon:@"me_about" Title:@"我的订单"];
+    if(account)
+    {
+        myOrder.destVc =[LMMyOrderVC class];
+    }else
+    {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"])
+        {
+            myOrder.destVc = [LMLoginViewController class];
+        }else
+        {
+            myOrder.destVc = [LMRegisterViewController class];
+        }
+        
+    }
+    
+
     LMCommonGroup *group1 = [self addGroup];
-    group1.items = @[myCollection,freeReserve,signActivity,myReview];
+    group1.items = @[myCollection,freeReserve,signActivity,myReview,myOrder];
   
 }
 
@@ -183,6 +201,9 @@
 //2组
 - (void)setupGroup2
 {
+    //判断用户是否登录
+    LMAccount *account =  [LMAccountInfo sharedAccountInfo].account;
+    
     LMCommonItemArrow *myCheck = [LMCommonItemArrow itemWithIcon:@"me_grade" Title:@"为我们打分"];
     myCheck.option = ^{
         
@@ -204,7 +225,7 @@
     LMCommonItemArrow *versionUpdate = [LMCommonItemArrow itemWithIcon:@"me_update" Title:@"版本更新"];;
     versionUpdate.option = ^{
         
-        [MBProgressHUD showMessage:@"检测中...,"];
+        [MBProgressHUD showMessage:@"检测中..."];
         
         //获取沙盒中的版本号
         NSString *key = (__bridge_transfer NSString *)kCFBundleVersionKey;
@@ -259,9 +280,21 @@
     LMCommonItemArrow *aboutUS = [LMCommonItemArrow itemWithIcon:@"me_about" Title:@"关于我们"];
     aboutUS.destVc = [LMAboutUsViewController class];
     
-    
     LMCommonItemArrow *myAward = [LMCommonItemArrow itemWithIcon:@"me_about" Title:@"我的奖券"];
-    myAward.destVc = [LMMyAwardVC class];
+    if(account)
+    {
+        myAward.destVc =[LMMyAwardVC class];
+    }else
+    {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"])
+        {
+            myAward.destVc = [LMLoginViewController class];
+        }else
+        {
+            myAward.destVc = [LMRegisterViewController class];
+        }
+        
+    }
     
     LMCommonItemArrow *act = [LMCommonItemArrow itemWithIcon:@"me_about" Title:@"活动测试"];
     act.destVc = [LMTestViewController class];

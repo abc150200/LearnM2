@@ -149,19 +149,6 @@
 /** 地址字典 */
 @property (nonatomic, strong) NSMutableArray *addressArr;
 
-/** 价格描述 */
-@property (strong, nonatomic) IBOutlet UIView *priceView;
-
-@property (weak, nonatomic) IBOutlet UILabel *oneCourseLabel;
-@property (weak, nonatomic) IBOutlet UILabel *oneCostPrice;
-@property (weak, nonatomic) IBOutlet UILabel *oneDiscountPrice;
-@property (nonatomic, assign) long oneProductId;
-@property (strong, nonatomic) NSNumber *singlePrice;
-
-@property (weak, nonatomic) IBOutlet UILabel *allCourseLabel;
-@property (weak, nonatomic) IBOutlet UILabel *allCostPrice;
-@property (weak, nonatomic) IBOutlet UILabel *allDiscountPrice;
-
 @property (nonatomic, strong) LMCoursePriceVC *pv;//价格控制器
 @property (nonatomic, strong) NSArray *coursePriceList;//价格列表
 
@@ -298,14 +285,8 @@
     pv.view.width = self.view.width;
     pv.view.height = 88;
     [self.scrollView addSubview:pv.view];
+    [self addChildViewController:pv];
     
-    
-    
-    
-//    //添加价格页面
-//    [self.scrollView addSubview:self.priceView];
-//    self.priceView.frame = CGRectMake(0, CGRectGetMaxY(self.pv.view.frame) + LMCourseMark, self.view.width, self.priceView.height);
-
     
     
      if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"] || [[NSString deviceString]  isEqualToString: @"iPhone 4"]) {
@@ -345,7 +326,7 @@
     self.menuBtnView.x = 0;
     self.menuBtnView.width = self.view.width;
     self.menuBtnView.height = 44;
-    self.menuBtnView.y = CGRectGetMaxY(self.priceView.frame) + LMCourseMark;
+    self.menuBtnView.y = CGRectGetMaxY(self.pv.view.frame) + LMCourseMark;
     
     [self.scrollView addSubview:titleBtnView];
     
@@ -751,20 +732,20 @@
         int ageStart = [courseInfoDic[@"propAgeStart"] intValue];
         int ageEnd = [courseInfoDic[@"propAgeEnd"]intValue];
         self.propStuLabel.text = [NSString stringWithFormat:@"%@",[NSString ageBegin:ageStart ageEnd:ageEnd]];
-    
-//            self.courseTime.text = [NSString stringWithFormat:@"共%d课时",[courseInfoDic[@"courseTime"] intValue]];
+
+        self.schoolName = courseInfoDic[@"schoolFullName"];
         
-       self.schoolName = courseInfoDic[@"schoolFullName"];
-        
-        UILabel *label  = [[UILabel alloc] init];
-        CGSize size = CGSizeMake(self.view.width - 75 - 65, 21);
-        CGSize schoolNameSize = [courseInfoDic[@"schoolFullName"] boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil].size;
-        label.frame = CGRectMake(75, 9, schoolNameSize.width, 21);
-        label.font = [UIFont systemFontOfSize:14];
-        label.textColor = [UIColor blackColor];
-        label.text = courseInfoDic[@"schoolFullName"];
-        [self.schoolSkin addSubview:label];
-     
+//        UILabel *label  = [[UILabel alloc] init];
+//        CGSize size = CGSizeMake(self.view.width - 75 - 55, 21);
+//        CGSize schoolNameSize = [courseInfoDic[@"schoolFullName"] boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil].size;
+//        label.frame = CGRectMake(75, 9, schoolNameSize.width, 21);
+//        label.font = [UIFont systemFontOfSize:14];
+//        label.textColor = [UIColor blackColor];
+//        label.text = courseInfoDic[@"schoolFullName"];
+//        [self.schoolSkin addSubview:label];
+//        
+//         MyLog(@"imagerCerlabel1===%@",NSStringFromCGRect(label.frame));
+//     
         //认证课程
         NSArray *arrCer = courseInfoDic[@"auths"];
         if(arrCer.count)
@@ -801,12 +782,27 @@
                 if (authId == 1  ) {
                     self.cerf.hidden = NO;
                     
+                    
+                    UILabel *label  = [[UILabel alloc] init];
+                    CGSize size = CGSizeMake(self.view.width - 75 - 55, 21);
+                    CGSize schoolNameSize = [courseInfoDic[@"schoolFullName"] boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil].size;
+                    label.frame = CGRectMake(75, 9, schoolNameSize.width, 21);
+                    label.font = [UIFont systemFontOfSize:14];
+                    label.textColor = [UIColor blackColor];
+                    label.text = courseInfoDic[@"schoolFullName"];
+                    [self.schoolSkin addSubview:label];
+                    
+                    MyLog(@"imagerCerlabel1===%@",NSStringFromCGRect(label.frame));
+                    
+                    
+                    
                     CGFloat x = schoolNameSize.width + 75;
-                    UIImageView *imageCer = [[UIImageView alloc] initWithFrame:CGRectMake(x + 5, 7, 50, 25)];
+                    UIImageView *imageCer = [[UIImageView alloc] initWithFrame:CGRectMake(x , 7, 50, 25)];
                     imageCer.image = [UIImage imageNamed:@"class_detail_cerf"];
                     [self.schoolSkin addSubview:imageCer];
                     self.cerf = imageCer;
-                    
+                
+                    MyLog(@"imagerCer===%@",NSStringFromCGRect(imageCer.frame));
                 }
           
             }
@@ -815,35 +811,17 @@
             self.cerf.hidden = YES;
             
             UILabel *label  = [[UILabel alloc] init];
-            CGSize size = CGSizeMake(self.view.width - 75 , 21);
+            CGSize size = CGSizeMake(self.view.width - 75 - 20 , 21);
             CGSize schoolNameSize = [courseInfoDic[@"schoolFullName"] boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil].size;
             label.frame = CGRectMake(75, 9, schoolNameSize.width, 21);
             label.font = [UIFont systemFontOfSize:14];
             label.textColor = [UIColor blackColor];
             label.text = courseInfoDic[@"schoolFullName"];
             [self.schoolSkin addSubview:label];
+            
+             MyLog(@"imagerCerlabel2===%@",NSStringFromCGRect(label.frame));
         }
-        
-//        //价格
-//        NSArray *priceList = courseInfoDic[@"priceList"];
-//        
-//        if(priceList.count)
-//        {
-//            //一课时价格
-//            NSDictionary *singleCourse = priceList[0];
-//            self.oneProductId = [singleCourse[@"id"] longValue];
-//            self.oneCourseLabel.text = singleCourse[@"productName"];
-//            self.singlePrice = singleCourse[@"costPrice"];
-//            self.oneCostPrice.text = [NSString stringWithFormat:@"￥%@",singleCourse[@"costPrice"]];
-//            self.oneDiscountPrice.text = [NSString stringWithFormat:@"￥%@",singleCourse[@"discountPrice"]];
-//            
-//            //打包课时价格
-//            NSDictionary *packCourse = priceList[1];
-//            self.allCourseLabel.text = packCourse[@"productName"];
-//            self.allCostPrice.text = [NSString stringWithFormat:@"￥%@",packCourse[@"costPrice"]];
-//            self.allDiscountPrice.text = [NSString stringWithFormat:@"￥%@",packCourse[@"discountPrice"]];
-//        }
-        
+  
         
         //价格
         NSArray *coursePrice = [LMCoursePrice  objectArrayWithKeyValuesArray:courseInfoDic[@"priceList"]];
@@ -852,8 +830,6 @@
         [self.pv.tableView reloadData];
         if (coursePrice.count) {
             self.pv.view.height = 44 * coursePrice.count;
-            
-//            self.priceView.y = CGRectGetMaxY(self.pv.view.frame) + LMCourseMark;
             
             self.menuBtnView.y = CGRectGetMaxY(self.pv.view.frame) + LMCourseMark;
             
@@ -869,8 +845,6 @@
         }else
         {
             self.pv.view.height = 0;
-            
-//            self.priceView.y = CGRectGetMaxY(self.pv.view.frame) + LMCourseMark;
             
             self.menuBtnView.y = CGRectGetMaxY(self.schoolSkin.frame) + LMCourseMark;
             
@@ -1034,8 +1008,6 @@
             
             self.pv.view.y = CGRectGetMaxY(self.schoolSkin.frame) + LMCourseMark;
             
-//            self.priceView.y = CGRectGetMaxY(self.pv.view.frame) + LMCourseMark;
-            
             self.menuBtnView.y = CGRectGetMaxY(self.pv.view.frame) + LMCourseMark;
             
             self.myScrollView.y = CGRectGetMaxY(self.menuBtnView.frame);
@@ -1069,8 +1041,6 @@
     self.schoolSkin.y = CGRectGetMaxY(self.onerRv.view.frame) + LMCourseMark;
     
     self.pv.view.y = CGRectGetMaxY(self.schoolSkin.frame) + LMCourseMark;
-    
-//    self.priceView.y = CGRectGetMaxY(self.pv.view.frame) + LMCourseMark;
     
     self.menuBtnView.y = CGRectGetMaxY(self.pv.view.frame) + LMCourseMark;
     
@@ -1149,8 +1119,7 @@
 /** 跳转地图页面 */
 - (IBAction)mapClick:(id)sender {
     LMMapViewController *lm = [[LMMapViewController alloc] init];
-//    lm.gps = self.gps;
-//    lm.address = self.address.text;
+
     lm.adressArr = self.addressArr;
     
     [self presentViewController:lm animated:YES completion:nil];
@@ -1193,13 +1162,6 @@
         
 
         [MTA trackCustomKeyValueEvent:@"course_call_record" props:dict];
-
-//        [ACETelPrompt callPhoneNumber:self.phoneNum call:^(NSTimeInterval duration) {
-//            MyLog(@"name===1");
-//            MyLog(@"name===%f",duration);
-//        } cancel:^{
-//             MyLog(@"name===2");
-//        }];
         
         UIAlertView *alert  = [[UIAlertView alloc] initWithTitle:nil message:self.phoneNum delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"呼叫", nil];
         
@@ -1320,22 +1282,6 @@
     
 }
 
-- (IBAction)paySingle:(id)sender {
-    
-    LMOrderCommitViewController *ov = [[LMOrderCommitViewController alloc] init];
-    ov.productId = self.oneProductId;
-    ov.costPrice = self.singlePrice;
-    ov.productName = self.oneCourseLabel.text;
-    [self.navigationController pushViewController:ov animated:YES];
-  
-}
-
-
-- (IBAction)payAll:(id)sender {
-    
-    
-    
-}
 
 
 /** 懒加载 */

@@ -10,7 +10,9 @@
 
 @interface LMOrderCommitViewController : UIViewController
 @property (nonatomic, assign) long productId;
+@property (nonatomic, assign) long productTypeId;
 @property (copy, nonatomic) NSString *productName;
-@property (strong, nonatomic) NSNumber *costPrice;
+@property (nonatomic, assign) int costPrice;
+
 
 @end

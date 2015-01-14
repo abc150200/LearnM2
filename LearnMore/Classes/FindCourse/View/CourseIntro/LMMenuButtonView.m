@@ -122,7 +122,7 @@
 - (void)setButtomLine
 {
     self.lineView = [[UIView alloc] init];
-    self.lineView.backgroundColor = [UIColor lightGrayColor];
+    self.lineView.backgroundColor = UIColorFromRGB(0xe1e1e1);
     [self addSubview:self.lineView];
     
 }

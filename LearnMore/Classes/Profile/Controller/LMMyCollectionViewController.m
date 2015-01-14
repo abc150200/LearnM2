@@ -67,7 +67,7 @@
         NSMutableDictionary *arr = [NSMutableDictionary dictionary];
         arr[@"startIndex"] = @"1";
         arr[@"count"] = @"5";
-        arr[@"time"] = [self timeNow];
+        arr[@"time"] = [NSString timeNow];
     
         NSString *jsonStr = [arr JSONString];
         MyLog(@"%@",jsonStr);
@@ -141,12 +141,7 @@
     [self.navigationController pushViewController:cvc animated:YES];
 }
 
-- (NSString *)timeNow
-{
-    NSDate* dat = [NSDate dateWithTimeIntervalSinceNow:0];
-    NSTimeInterval a=[dat timeIntervalSince1970]*1000;
-    return [NSString stringWithFormat:@"%.0f", a];
-}
+
 
 
 /** 懒加载 */

@@ -12,7 +12,6 @@
 #import "UMSocial.h"
 #import "AFNetworking.h"
 #import "LMMapViewController.h"
-#import <MediaPlayer/MediaPlayer.h>
 #import "LMReserveViewController.h"
 #import "ACETelPrompt.h"
 #import "CLProgressHUD.h"

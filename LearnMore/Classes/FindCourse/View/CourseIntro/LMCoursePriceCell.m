@@ -13,11 +13,10 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *productNameLabel;
 
-@property (weak, nonatomic) IBOutlet UILabel *costPriceLabel;
-
-@property (weak, nonatomic) IBOutlet UILabel *discountPriceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *label;
 
 @property (nonatomic, assign) int id;
+@property (nonatomic, assign) long productTypeId;
 
 @end
 
@@ -26,8 +25,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
-    
-    
+ 
 }
 
 
@@ -36,9 +34,25 @@
     _coursePrice = coursePrice;
     
     self.id = coursePrice.id;
+    self.productTypeId = coursePrice.productTypeId;
     self.productNameLabel.text = coursePrice.productName;
-    self.costPriceLabel.text = [NSString stringWithFormat:@"￥%d",coursePrice.costPrice];
-    self.discountPriceLabel.text = [NSString stringWithFormat:@"￥%d",coursePrice.discountPrice];
+
+    NSString *discountPriceStr = [NSString stringWithFormat:@"￥%d",coursePrice.discountPrice];
+    NSString *costPriceStr = [NSString stringWithFormat:@" ￥%d",coursePrice.costPrice];
+    
+    NSMutableAttributedString *disStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@",discountPriceStr,costPriceStr]];
+    
+    int discountLength = [discountPriceStr length];
+    int costLength = [costPriceStr length];
+    
+    [disStr addAttributes:@{NSForegroundColorAttributeName : [UIColor redColor],NSFontAttributeName : [UIFont systemFontOfSize:16]} range:NSMakeRange(0, discountLength)];
+    [disStr addAttributes:@{NSForegroundColorAttributeName : [UIColor darkGrayColor],NSFontAttributeName : [UIFont systemFontOfSize:11]} range:NSMakeRange(discountLength, costLength)];
+    [disStr addAttribute:NSStrikethroughStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlinePatternSolid | NSUnderlineStyleSingle] range:NSMakeRange(discountLength + 1, costLength - 1)];
+    [disStr addAttribute:NSStrikethroughColorAttributeName value:[UIColor darkGrayColor] range:NSMakeRange(1, costLength - 1)];
+    
+    
+    self.label.attributedText = disStr;
+    
 }
 
 

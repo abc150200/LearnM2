@@ -15,5 +15,6 @@
 @property (copy, nonatomic) NSString *totalPrice;
 @property (nonatomic, copy) NSString *contact;
 @property (copy, nonatomic) NSString *phone;
-
+@property (nonatomic, assign) long productTypeId;
+@property (nonatomic, assign) int productId;
 @end

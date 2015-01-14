@@ -7,6 +7,8 @@
 //
 
 #import "LMMyAwardVC.h"
+#import "LMAccount.h"
+#import "LMAccountInfo.h"
 
 @interface LMMyAwardVC ()
 
@@ -21,7 +23,12 @@
     
     [self.view addSubview:web];
     
-    [web loadHTMLString:@"http://192.168.1.90:8081/uxue_business/login.shtml" baseURL:nil];
+    
+    LMAccount *account =  [LMAccountInfo sharedAccountInfo].account;
+    
+    NSString *urlStr = [NSString stringWithFormat:@"http://www.learnmore.com.cn/m/userGift.html?sid=%@",account.sid];
+    
+    [web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]]];
     
 }
 
