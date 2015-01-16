@@ -33,6 +33,8 @@
 #import <CommonCrypto/CommonCryptor.h>
 #import <CommonCrypto/CommonHMAC.h>
 
+#import <AlipaySDK/AlipaySDK.h>
+
 #import <CoreLocation/CoreLocation.h>
 
 @interface LMAppDelegate ()<CLLocationManagerDelegate,CLLocationManagerDelegate>
@@ -356,9 +358,7 @@
     
      MyLog(@"deviceTokenStr is %@",deviceTokenStr);
     
-    
-    // Required
-//    [APService registerDeviceToken:deviceToken];
+
 }
 
 
@@ -377,8 +377,6 @@
     [XGPush handleReceiveNotification:userInfo];
     
     
-    // Required
-//    [APService handleRemoteNotification:userInfo];
 }
 
 
@@ -411,14 +409,36 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    return  [UMSocialSnsService handleOpenURL:url];
+    //跳转支付宝钱包进行支付，需要将支付宝钱包的支付结果回传给SDK
+    if ([url.host isEqualToString:@"safepay"]) {
+        [[AlipaySDK defaultService]
+         processOrderWithPaymentResult:url
+         standbyCallback:^(NSDictionary *resultDic) {
+             NSLog(@"result = %@", resultDic);
+         }];
+    }
+    
+    [UMSocialSnsService handleOpenURL:url];
+    
+    return  YES;
 }
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation
 {
-    return  [UMSocialSnsService handleOpenURL:url];
+    //跳转支付宝钱包进行支付，需要将支付宝钱包的支付结果回传给SDK
+    if ([url.host isEqualToString:@"safepay"]) {
+        [[AlipaySDK defaultService]
+         processOrderWithPaymentResult:url
+         standbyCallback:^(NSDictionary *resultDic) {
+             NSLog(@"result = %@", resultDic);
+         }];
+    }
+    
+    [UMSocialSnsService handleOpenURL:url];
+    
+    return  YES;
 }
 
 
@@ -491,6 +511,53 @@
         MyLog(@"无法获取位置信息");
     }
 }
+
+
+///**
+// *  处理支付宝返回的URL
+// */
+//- (void)parse:(NSURL *)url application:(UIApplication *)application {
+//    
+//    //结果处理
+//    AlixPayResult *result = [self handleOpenURL:url];
+//    if (result.statusCode == 9000) {
+//        /*
+//         *用公钥验证签名 严格验证请使用result.resultString与result.signString验签
+//         */
+//        //交易成功
+//        id<DataVerifier> verifier = CreateRSADataVerifier(AlipayPubKey);
+//        if ([verifier verifyString:result.resultString withSign:result.signString]) {
+//            //验证签名成功，交易结果无篡改
+//#warning 真正的支付成功
+//            
+//#warning 给用户显示支付成功的信息
+//            
+//#warning 发送支付成功的订单信息给公司服务器
+//            
+//        }
+//    } else {
+//        //交易失败
+//    }
+//}
+//
+//- (AlixPayResult *)resultFromURL:(NSURL *)url {
+//    NSString * query = [[url query] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//#if ! __has_feature(objc_arc)
+//    return [[[AlixPayResult alloc] initWithString:query] autorelease];
+//#else
+//    return [[AlixPayResult alloc] initWithString:query];
+//#endif
+//}
+//
+//- (AlixPayResult *)handleOpenURL:(NSURL *)url {
+//    AlixPayResult * result = nil;
+//    
+//    if (url != nil && [[url host] compare:@"safepay"] == 0) {
+//        result = [self resultFromURL:url];
+//    }
+//    
+//    return result;
+//}
 
 
 @end

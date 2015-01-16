@@ -11,8 +11,8 @@
 @interface LMPayCommitVC : UIViewController
 @property (copy, nonatomic) NSString *courseName;
 @property (assign, nonatomic) int count;
-@property (nonatomic, copy) NSString *singlePrice;
-@property (copy, nonatomic) NSString *totalPrice;
+@property (nonatomic, assign) int singlePrice;
+@property (nonatomic, assign) int totalPrice;
 @property (nonatomic, copy) NSString *contact;
 @property (copy, nonatomic) NSString *phone;
 @property (nonatomic, assign) long productTypeId;

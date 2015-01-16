@@ -39,7 +39,7 @@
                         <rect key="frame" x="10" y="97" width="310" height="1"/>
                     </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PkD-eP-J0s">
-                        <rect key="frame" x="251" y="33" width="23" height="12"/>
+                        <rect key="frame" x="229" y="34" width="45" height="12"/>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -72,7 +72,7 @@
                 <outlet property="visit" destination="PkD-eP-J0s" id="zqu-4R-5rC"/>
                 <outlet property="visitLook" destination="3Jn-uM-e3T" id="s0N-VB-h2c"/>
             </connections>
-            <point key="canvasLocation" x="140" y="146"/>
+            <point key="canvasLocation" x="140" y="145"/>
         </tableViewCell>
     </objects>
     <resources>

@@ -11,6 +11,8 @@
 #import "LMAccount.h"
 #import "AFNetworking.h"
 #import "AESenAndDe.h"
+#import "LMMyOrderViewCell.h"
+#import "LMRefundVC.h"
 
 @interface LMMyOrderVC ()
 
@@ -21,6 +23,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+    self.tableView.rowHeight = 102;
    
 }
 
@@ -29,7 +33,7 @@
 {
     [super viewWillAppear:animated];
     
-    self.title = @"收藏课程";
+    self.title = @"我的订单";
     
     LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
     if (account) {
@@ -70,8 +74,32 @@
     }
     
     
-    self.tableView.rowHeight = 88;
+    
 }
 
+#pragma mark - 数据源方法
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 5;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // 1.创建cell
+    LMMyOrderViewCell  *cell = [LMMyOrderViewCell cellWithTableView:tableView];
+    
+//    // 2.给cell传递模型
+//    cell.<#Pname#> = self.<#Pname#>[indexPath.row];
+    
+    // 3.返回cell
+    return cell;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    LMRefundVC *rv = [[LMRefundVC alloc] init];
+    [self.navigationController pushViewController:rv animated:YES];
+}
 
 @end

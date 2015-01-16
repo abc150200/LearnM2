@@ -15,6 +15,11 @@
 #import "AESenAndDe.h"
 #import "LMLoginViewController.h"
 #import "LMRegisterViewController.h"
+#import "MBProgressHUD+NJ.h"
+
+#import <AlipaySDK/AlipaySDK.h>
+#import "DataSigner.h"
+#import "Order.h"
 
 @interface LMPayCommitVC ()<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *orderInfoView;
@@ -27,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *payTitle;//支付标题
 @property (weak, nonatomic) IBOutlet UILabel *tuikuan;//退款
 @property (weak, nonatomic) IBOutlet UILabel *countLabel;
+@property (copy, nonatomic) NSString *orderId;//产品ID
 
 @end
 
@@ -58,8 +64,8 @@
     //内容
     self.courseNameLabel.text = self.courseName;
     self.countLabel.text = [NSString stringWithFormat:@"%d",self.count];
-    self.singlePriceLabel.text = self.singlePrice;
-    self.allPriceLabel.text = self.totalPrice;
+    self.singlePriceLabel.text = [NSString stringWithFormat:@"%d",self.singlePrice];
+    self.allPriceLabel.text = [NSString stringWithFormat:@"%d",self.totalPrice];
     self.contactLabel.text = self.contact;
     self.phoneNumLabel.text  = self.phone;
 
@@ -70,6 +76,8 @@
 
     LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
     if (account) {
+        
+    [MBProgressHUD showMessage:@"正在支付,请稍等..."];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
    
@@ -78,7 +86,6 @@
     //url
     NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"pay/courseOrder.json"];
     
-    //参数
     //参数
     NSMutableDictionary *arr = [NSMutableDictionary dictionary];
     arr[@"courseId"] = [NSString stringWithFormat:@"%li",self.productTypeId];
@@ -104,8 +111,6 @@
             
             MyLog(@"responseObject===============%@",responseObject);
             
-            long long code = [responseObject[@"code"] longLongValue];
-            
             NSString *collectStr = [AESenAndDe De_Base64andAESDeToString:responseObject[@"data"] keyValue:account.sessionkey];
             
             NSDictionary *dict = [collectStr objectFromJSONString];
@@ -114,12 +119,14 @@
             
             //订单ID
             NSString *orderId = dict[@"orderId"];
+            self.orderId = orderId;
+            
+            //支付宝
+            [self alixPayWithOrderId:self.orderId];
     
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             LogObj(error.localizedDescription);
         }];
-    
-        
         
     } else
     {
@@ -133,10 +140,81 @@
             [self.navigationController pushViewController:rv animated:YES];
         }
 
-        //    LMPaySuccessViewController *ps = [[LMPaySuccessViewController alloc] init];
-        //    [self.navigationController pushViewController:ps animated:YES];
+        
     }
     
 }
+
+
+//alixPay
+-(void)alixPayWithOrderId:(NSString *)orderId
+{
+    
+    //获取ID
+    NSString *partner = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"Partner"];
+    NSString *seller = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"Seller"];
+    
+    // 1.创建订单模型
+    //将商品信息赋予AlixPayOrder的成员变量
+    Order *order = [[Order alloc] init];
+    order.partner = partner; // 商户ID
+    order.seller = seller; // 账号ID
+    order.tradeNO = orderId; // 订单号 (一般跟时间有关)
+//    order.amount = [NSString stringWithFormat:@"%d",self.totalPrice]; // 金额
+     order.amount = @"0.01"; // 金额
+    order.productName = self.courseName; // 商品名称
+    order.productDescription = @"好好好"; // 商品描述
+    
+    order.notifyURL =  @"http://61.177.144.188/"; //回调URL
+    
+    order.service = @"mobile.securitypay.pay";
+    order.paymentType = @"1";
+    order.inputCharset = @"utf-8";
+    order.itBPay = @"30m";
+    order.showUrl = @"m.alipay.com";
+    
+    
+    //应用注册scheme,在AlixPayDemo-Info.plist定义URL types
+    NSString *appScheme = @"alisdkdemo";
+    
+    //将商品信息拼接成字符串
+    NSString *orderSpec = [order description];
+    NSLog(@"orderSpec = %@",orderSpec);
+    
+    //获取私钥并将商户信息签名,外部商户可以根据情况存放私钥和签名,只需要遵循RSA签名规范,并将签名字符串base64编码和UrlEncode
+    id<DataSigner> signer = CreateRSADataSigner([[NSBundle mainBundle]
+                                                 objectForInfoDictionaryKey:@"RSA private key"]);
+    NSString *signedString = [signer signString:orderSpec];
+
+    
+    //将签名成功字符串格式化为订单字符串,请严格按照该格式
+    NSString *orderString = nil;
+    if (signedString != nil) {
+        orderString = [NSString stringWithFormat:@"%@&sign=\"%@\"&sign_type=\"%@\"",
+                       orderSpec, signedString, @"RSA"];
+        
+        [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
+            NSLog(@"reslut = %@",resultDic);
+            
+            if([resultDic[@"resultStatus"] isEqualToString:@"9000"])
+            {
+                [MBProgressHUD hideHUD];
+                LMPaySuccessViewController *ps = [[LMPaySuccessViewController alloc] init];
+                [self.navigationController pushViewController:ps animated:YES];
+            }else if([resultDic[@"resultStatus"] isEqualToString:@"6001"])
+            {
+                [MBProgressHUD hideHUD];
+                [MBProgressHUD showError:@"支付失败,请到我的订单中查看"];
+            }else
+            {
+                [MBProgressHUD hideHUD];
+                [MBProgressHUD showError:@"服务器异常,请稍后再试!"];
+            }
+    
+        }];
+        
+    }
+}
+
 
 @end

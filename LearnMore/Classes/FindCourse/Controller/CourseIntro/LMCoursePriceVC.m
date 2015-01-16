@@ -55,7 +55,7 @@
     
     LMOrderCommitViewController *ov = [[LMOrderCommitViewController alloc] init];
     ov.productId = coursePrice.id;
-    ov.costPrice = coursePrice.discountPrice;
+    ov.discountPrice = coursePrice.discountPrice;
     ov.productName = coursePrice.productName;
     ov.productTypeId = coursePrice.productTypeId;
     [self.navigationController pushViewController:ov animated:YES];

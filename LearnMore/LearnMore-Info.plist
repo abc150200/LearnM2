@@ -31,6 +31,7 @@
 			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>alisdkdemo</string>
 				<string>sina.2659915290</string>
 				<string>tencent1103416062</string>
 				<string>QQ41C4CAFE</string>
@@ -41,6 +42,12 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1.1.2.4</string>
+	<key>Partner</key>
+	<string>2088612902691543</string>
+	<key>Seller</key>
+	<string>duoxue@learnmore.com.cn</string>
+	<key>RSA private key</key>
+	<string>MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAKam80dmAqSM6Uqgk8AokZWhyviFkZN+0hqG7U4vOkLYV4jrYTaOyz7Bsep8lpsx4C3Qe959xSONDDN0RBZjAOOC3mu8UcC1EzdiLLvKT+/HqTHPSmBIWBrl3t+CqXG+VfS2S7GWyY/Y57zqcybjUiqFlekkA5ofHC8ztzOQP3RVAgMBAAECgYBF+OE6wEUpzBSEBgoja6U8+3LaiFKIaH5VLwPiiQfgWy/dyF7H5orF7dQDDY662OU0t03bLFmixK0zyYRxFd6f+oRDy0PjPzbEXFVaXSOwpj9vnZyE77aH9yxmV2lU+wTPK/8JJ48oWYCtGd0Y6nwoneRrj4qMsaNXFOok6ZaEPQJBANibW4NeKA++t5LfuFTg7sdT9GdMpRbSmfynIiddtyc6YYY86SCbxKBR39eod+vvlSrEiH5vpJnBZGH8kCcJns8CQQDE9dVdVwHKjXeyQisri8WU2cbJxvw7HkIR146UyMC3yHKlfetaWYU3cNvLOCOpem1LSk6zdSAoCFR/O/c1aiObAkBKnAjDkTUfZ0P4NVNa+TeGNSbkRgQ/fj9IRZGAGcmym2toP6bVcpIh3tHJiN/1xsqMtrGFS5NY2sJm9gX5TFkFAkAhgmmwnbLyUStCKrvJhtgwwPRvM+mJ7VX0TyY07grLudC3kzrNflmJ2yup4X0/wlKB8rx9D7pO1Uv68arXbZ1tAkEAg+cLtQjr1J+umbRaWHniJFHgrlPEK3Dg8qSEPdKs205mPmOn/CCktpcJaZybLEvYw84LlXy1/kv6QLRkse2E6w==</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
@@ -51,8 +58,6 @@
 	<string>我们需要通过您的地理位置获取您周边的相关数据</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>我们需要通过您的地理位置获取您周边的相关数据</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

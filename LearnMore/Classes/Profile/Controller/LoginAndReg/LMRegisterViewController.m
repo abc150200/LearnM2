@@ -249,8 +249,11 @@
             MyLog(@"%@密码和salt-has之后==",[[result sha1] lowercaseString]);
             parameters[@"sid"] = self.sid;
             parameters[@"checkCode"] = self.txtAuth.text;
-
-            //    parameters[@"version"] = @"1.0";
+            
+#warning 注册的附加信息
+            NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+            parameters[@"version"] = deviceInfo;
+            
             
             
             MyLog(@"%@",parameters);
@@ -269,14 +272,10 @@
                         [MBProgressHUD hideHUD];
                         [MBProgressHUD showMessage:@"注册成功,正在登录..."];
     
-//                        NSMutableDictionary *dictM = [NSMutableDictionary dictionary];
-//                        dictM[@"userPhone"] = self.user.text;
-//                        dictM[@"pwd"] = self.pwd.text;
                         
                         [self aotuLoginWithAccount:self.user.text pwd:self.pwd.text];
                        
-                        
-//                        [self.navigationController popViewControllerAnimated:YES];
+
                     }
                         break;
                         
