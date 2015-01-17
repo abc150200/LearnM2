@@ -11,4 +11,5 @@
 
 @interface LMCoursePriceCell : UITableViewCell
 @property (nonatomic, strong) LMCoursePrice *coursePrice;
+@property (nonatomic, assign) int id;
 @end

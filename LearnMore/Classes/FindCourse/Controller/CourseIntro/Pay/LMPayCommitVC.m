@@ -64,11 +64,25 @@
     //内容
     self.courseNameLabel.text = self.courseName;
     self.countLabel.text = [NSString stringWithFormat:@"%d",self.count];
-    self.singlePriceLabel.text = [NSString stringWithFormat:@"%d",self.singlePrice];
-    self.allPriceLabel.text = [NSString stringWithFormat:@"%d",self.totalPrice];
+    self.singlePriceLabel.text = [NSString stringWithFormat:@"%d元",self.singlePrice];
+    self.allPriceLabel.text = [NSString stringWithFormat:@"%d元",self.totalPrice];
     self.contactLabel.text = self.contact;
     self.phoneNumLabel.text  = self.phone;
+    
+    
+//    [[NSUserDefaults standardUserDefaults] setObject:self.contact forKey:@"contact"];
+//    [[NSUserDefaults standardUserDefaults] setObject:self.phone forKey:@"phone"];
+//    [[NSUserDefaults standardUserDefaults] setObject:self.courseName forKey:@"courseName"];
+//    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appPayResultWithDic:) name:@"payResultNotification" object:nil];
+    
+}
 
+- (void)appPayResultWithDic:(NSNotification *)notifi
+{
+    NSDictionary *userInfo = notifi.userInfo;
+    [self payResultWithDic:userInfo];
 }
 
 
@@ -163,9 +177,9 @@
 //    order.amount = [NSString stringWithFormat:@"%d",self.totalPrice]; // 金额
      order.amount = @"0.01"; // 金额
     order.productName = self.courseName; // 商品名称
-    order.productDescription = @"好好好"; // 商品描述
+    order.productDescription = @"多学课程"; // 商品描述
     
-    order.notifyURL =  @"http://61.177.144.188/"; //回调URL
+    order.notifyURL =  @"http://api.learnmore.com.cn/back/backUrl.json"; //回调URL
     
     order.service = @"mobile.securitypay.pay";
     order.paymentType = @"1";
@@ -193,28 +207,40 @@
         orderString = [NSString stringWithFormat:@"%@&sign=\"%@\"&sign_type=\"%@\"",
                        orderSpec, signedString, @"RSA"];
         
+        [MBProgressHUD hideHUD];
+        
         [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
             NSLog(@"reslut = %@",resultDic);
             
-            if([resultDic[@"resultStatus"] isEqualToString:@"9000"])
-            {
-                [MBProgressHUD hideHUD];
-                LMPaySuccessViewController *ps = [[LMPaySuccessViewController alloc] init];
-                [self.navigationController pushViewController:ps animated:YES];
-            }else if([resultDic[@"resultStatus"] isEqualToString:@"6001"])
-            {
-                [MBProgressHUD hideHUD];
-                [MBProgressHUD showError:@"支付失败,请到我的订单中查看"];
-            }else
-            {
-                [MBProgressHUD hideHUD];
-                [MBProgressHUD showError:@"服务器异常,请稍后再试!"];
-            }
+            [self payResultWithDic:resultDic];
     
         }];
         
     }
 }
+
+
+- (void)payResultWithDic:(NSDictionary *)resultDic
+{
+    
+    if([resultDic[@"resultStatus"] isEqualToString:@"9000"])
+    {
+        LMPaySuccessViewController *ps = [[LMPaySuccessViewController alloc] init];
+        ps.courseName = self.courseName;
+        ps.phone = self.phone;
+        ps.contact =  self.contact;
+        [self.navigationController pushViewController:ps animated:YES];
+    }else if([resultDic[@"resultStatus"] isEqualToString:@"6001"])
+    {
+        [MBProgressHUD showError:@"支付失败,请到我的订单中查看"];
+    }else
+    {
+        [MBProgressHUD showError:@"服务器异常,请稍后再试!"];
+  
+    }
+}
+
+
 
 
 @end

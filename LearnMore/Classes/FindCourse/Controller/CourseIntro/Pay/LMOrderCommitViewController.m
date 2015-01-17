@@ -8,6 +8,8 @@
 
 #import "LMOrderCommitViewController.h"
 #import "LMPayCommitVC.h"
+#import "LMAccount.h"
+#import "LMAccountInfo.h"
 
 
 static  int defaultCount = 1;
@@ -19,15 +21,13 @@ static  int defaultCount = 1;
 @property (weak, nonatomic) IBOutlet UILabel *courseNameLabel;//课程名
 @property (weak, nonatomic) IBOutlet UILabel *singlePriceLabel;//单一课价
 @property (weak, nonatomic) IBOutlet UILabel *allPriceLabel;//总课价
-@property (weak, nonatomic) IBOutlet UIButton *addNumBtn;//加1
-@property (weak, nonatomic) IBOutlet UIButton *plusNumBtn;//减1
 @property (weak, nonatomic) IBOutlet UITextField *contactText;//联系人
 @property (weak, nonatomic) IBOutlet UITextField *phoneNumText;//手机号
 @property (weak, nonatomic) IBOutlet UILabel *contactTitle;//联系人标题
 @property (weak, nonatomic) IBOutlet UILabel *tuikuan;//退款
 @property (weak, nonatomic) IBOutlet UIButton *countBtn;
-@property (weak, nonatomic) IBOutlet UIButton *plusBtn;
-@property (weak, nonatomic) IBOutlet UIButton *addBtn;
+@property (weak, nonatomic) IBOutlet UIButton *plusBtn;//加1
+@property (weak, nonatomic) IBOutlet UIButton *addBtn;//减1
 
 
 @end
@@ -48,7 +48,6 @@ static  int defaultCount = 1;
     [super viewWillAppear:animated];
     self.scrollView.contentSize = CGSizeMake(self.view.width, self.view.height + 100);
  
-    
 }
 
 - (void)viewDidLoad {
@@ -79,6 +78,15 @@ static  int defaultCount = 1;
     self.allPriceLabel.text = [NSString stringWithFormat:@"%d元",self.discountPrice] ;
     
     [self.countBtn setTitle:[NSString stringWithFormat:@"%d",defaultCount] forState:UIControlStateNormal];
+    
+    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+    if (account) {
+        self.phoneNumText.text = account.userPhone;
+    }
+    
+    //隐藏加减按钮
+    self.plusBtn.hidden = YES;
+    self.addBtn.hidden = YES;
 
 
 }
@@ -156,7 +164,6 @@ static  int defaultCount = 1;
 
 //弹警告框
 - (void)alertWithMessage:(NSString *)string{
-    
     UIAlertView *alertView = [[UIAlertView alloc]
                               initWithTitle:NSLocalizedString(@"提示", nil)
                               message:NSLocalizedString(string, nil)

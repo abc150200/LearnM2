@@ -8,7 +8,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LMOrderCommitViewController">
             <connections>
                 <outlet property="addBtn" destination="sqQ-xx-DLJ" id="M8w-n3-j99"/>
-                <outlet property="addNumBtn" destination="sqQ-xx-DLJ" id="Mkc-Mi-fN2"/>
                 <outlet property="allPriceLabel" destination="0zX-bB-xaQ" id="bJH-tY-qiI"/>
                 <outlet property="contactText" destination="H5M-DM-kmu" id="hzL-cu-5jV"/>
                 <outlet property="contactTitle" destination="wvl-hM-7mQ" id="Dd9-rT-6bo"/>
@@ -18,7 +17,6 @@
                 <outlet property="courseNameLabel" destination="dGP-rq-xSE" id="4AV-Y5-mie"/>
                 <outlet property="phoneNumText" destination="vHE-w0-w34" id="YqQ-2M-TO8"/>
                 <outlet property="plusBtn" destination="bIF-i6-llw" id="kAs-va-fBb"/>
-                <outlet property="plusNumBtn" destination="bIF-i6-llw" id="26q-1Q-2uK"/>
                 <outlet property="scrollView" destination="pML-WV-HWj" id="HU0-BC-bC8"/>
                 <outlet property="singlePriceLabel" destination="HT6-vJ-nO0" id="dzM-cU-irG"/>
                 <outlet property="tuikuan" destination="r6E-9F-Chg" id="jmf-Zf-hA4"/>
@@ -80,7 +78,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sqQ-xx-DLJ">
-                                            <rect key="frame" x="249" y="51" width="33" height="33"/>
+                                            <rect key="frame" x="187" y="50" width="33" height="33"/>
                                             <state key="normal" backgroundImage="btn_order_class_add_normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -95,8 +93,8 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="be8-Kj-4T0">
-                                            <rect key="frame" x="194" y="52" width="46" height="30"/>
-                                            <state key="normal" title="1" backgroundImage="btn_order_class_kuang">
+                                            <rect key="frame" x="246" y="51" width="46" height="30"/>
+                                            <state key="normal" title="1">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -126,12 +124,12 @@
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="H5M-DM-kmu">
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请填写联系人姓名" textAlignment="right" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="H5M-DM-kmu">
                                             <rect key="frame" x="67" y="7" width="220" height="30"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="vHE-w0-w34">
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请填写手机号" textAlignment="right" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="vHE-w0-w34">
                                             <rect key="frame" x="89" y="51" width="198" height="30"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits"/>
@@ -178,11 +176,11 @@
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fzd-Ue-kCr">
-                                    <rect key="frame" x="150" y="286" width="13" height="13"/>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sevenday" translatesAutoresizingMaskIntoConstraints="NO" id="fzd-Ue-kCr">
+                                    <rect key="frame" x="150" y="286" width="15" height="15"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="13" id="7Z4-fx-XpD"/>
-                                        <constraint firstAttribute="height" constant="13" id="nQo-fw-1iW"/>
+                                        <constraint firstAttribute="width" constant="15" id="7Z4-fx-XpD"/>
+                                        <constraint firstAttribute="height" constant="15" id="nQo-fw-1iW"/>
                                     </constraints>
                                 </imageView>
                             </subviews>
@@ -227,12 +225,12 @@
     <resources>
         <image name="btn_order_class_add_normal" width="33" height="33"/>
         <image name="btn_order_class_add_pressed" width="33" height="33"/>
-        <image name="btn_order_class_kuang" width="51" height="29"/>
         <image name="btn_order_class_normal" width="300" height="44"/>
         <image name="btn_order_class_pressed" width="300" height="44"/>
         <image name="btn_order_class_red_losed" width="33" height="33"/>
         <image name="btn_order_class_red_normal" width="33" height="33"/>
         <image name="btn_order_class_red_pressed" width="33" height="33"/>
         <image name="class_detail_line" width="1" height="1"/>
+        <image name="sevenday" width="15" height="15"/>
     </resources>
 </document>

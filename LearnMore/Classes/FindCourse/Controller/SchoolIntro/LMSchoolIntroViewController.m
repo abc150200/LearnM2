@@ -720,7 +720,7 @@
     LMAccount *account =  [LMAccountInfo sharedAccountInfo].account;
     if (account) {
         LMAddRecommendViewController *add = [[LMAddRecommendViewController alloc] init];
-        
+        add.from = FromeSchoolRem;
         add.id = self.id;
         add.urlStr = [NSString stringWithFormat:@"%@%@",RequestURL,@"comment/schoolComment.json"];
         

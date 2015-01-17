@@ -15,7 +15,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *label;
 
-@property (nonatomic, assign) int id;
+
 @property (nonatomic, assign) long productTypeId;
 
 @end

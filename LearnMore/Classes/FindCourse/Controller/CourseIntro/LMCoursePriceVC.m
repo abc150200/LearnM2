@@ -10,6 +10,7 @@
 #import "LMCoursePriceCell.h"
 #import "LMOrderCommitViewController.h"
 #import "LMCoursePrice.h"
+#import "LMProductDetailVC.h"
 
 @interface LMCoursePriceVC ()
 
@@ -52,13 +53,20 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     LMCoursePrice *coursePrice = self.priceArr[indexPath.row];
+
+//    LMOrderCommitViewController *ov = [[LMOrderCommitViewController alloc] init];
+//    ov.productId = coursePrice.id;
+//    ov.discountPrice = coursePrice.discountPrice;
+//    ov.productName = coursePrice.productName;
+//    ov.productTypeId = coursePrice.productTypeId;
+//    [self.navigationController pushViewController:ov animated:YES];
     
-    LMOrderCommitViewController *ov = [[LMOrderCommitViewController alloc] init];
-    ov.productId = coursePrice.id;
-    ov.discountPrice = coursePrice.discountPrice;
-    ov.productName = coursePrice.productName;
-    ov.productTypeId = coursePrice.productTypeId;
-    [self.navigationController pushViewController:ov animated:YES];
+    LMProductDetailVC *pv = [[LMProductDetailVC alloc] init];
+    pv.productId = coursePrice.id;
+    pv.discountPrice = coursePrice.discountPrice;
+    pv.productName = coursePrice.productName;
+    pv.productTypeId = coursePrice.productTypeId;
+    [self.navigationController pushViewController:pv animated:YES];
 }
 
 @end

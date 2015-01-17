@@ -1078,7 +1078,7 @@
     LMAccount *account =  [LMAccountInfo sharedAccountInfo].account;
     if (account) {
         LMAddRecommendViewController *add = [[LMAddRecommendViewController alloc] init];
-        
+        add.from = FromCourseRem;
         add.id = self.id;
         add.urlStr = [NSString stringWithFormat:@"%@%@",RequestURL,@"comment/courseComment.json"];
         
@@ -1325,8 +1325,6 @@
     }
     return _addressArr;
 }
-
-
 
 
 @end

@@ -10,6 +10,7 @@
                 <outlet property="commitView" destination="hXq-vI-sui" id="EMM-MG-lnc"/>
                 <outlet property="perRec" destination="PM2-6K-qaY" id="bwA-Ka-DsF"/>
                 <outlet property="picBtn" destination="rJ3-7E-Tc5" id="u3P-0t-XU4"/>
+                <outlet property="remTitle" destination="N4v-z7-tC3" id="HiE-NZ-PSm"/>
                 <outlet property="scrollView" destination="IJM-v3-trp" id="Lf0-aW-ano"/>
                 <outlet property="totalRec" destination="esR-J2-noN" id="isV-ml-86Y"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>

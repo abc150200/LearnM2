@@ -11,12 +11,7 @@
 
 @interface LMRefundReasonCell ()
 
-@property (weak, nonatomic) IBOutlet UILabel *reasonName;
 
-
-@property (nonatomic, assign) NSInteger id;
-@property (nonatomic, assign) NSInteger reasonStatus;
-@property (copy, nonatomic) NSString *reasonDes;
 
 @end
 

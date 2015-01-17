@@ -188,6 +188,8 @@
 		20EE843E1A10F67900DDEC92 /* LMlistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EE843D1A10F67900DDEC92 /* LMlistViewController.m */; };
 		20EF626F19E77D44006544B3 /* LMSchoolIntroButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EF626E19E77D44006544B3 /* LMSchoolIntroButton.m */; };
 		20EF627219E7CCD1006544B3 /* LMSchoolCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EF627119E7CCD1006544B3 /* LMSchoolCourse.m */; };
+		20F0034A1A693A3F00668C0E /* LMProductDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F003481A693A3F00668C0E /* LMProductDetailVC.m */; };
+		20F0034B1A693A3F00668C0E /* LMProductDetailVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20F003491A693A3F00668C0E /* LMProductDetailVC.xib */; };
 		20F277F21A01EBD8004370DA /* LMActList.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F277F11A01EBD8004370DA /* LMActList.m */; };
 		20F278AA1A022191004370DA /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F2788A1A022191004370DA /* MKAnnotationView+WebCache.m */; };
 		20F278AB1A022191004370DA /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F2788C1A022191004370DA /* NSData+ImageContentType.m */; };
@@ -670,6 +672,9 @@
 		20EF626E19E77D44006544B3 /* LMSchoolIntroButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSchoolIntroButton.m; sourceTree = "<group>"; };
 		20EF627019E7CCD1006544B3 /* LMSchoolCourse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSchoolCourse.h; sourceTree = "<group>"; };
 		20EF627119E7CCD1006544B3 /* LMSchoolCourse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSchoolCourse.m; sourceTree = "<group>"; };
+		20F003471A693A3F00668C0E /* LMProductDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMProductDetailVC.h; sourceTree = "<group>"; };
+		20F003481A693A3F00668C0E /* LMProductDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMProductDetailVC.m; sourceTree = "<group>"; };
+		20F003491A693A3F00668C0E /* LMProductDetailVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMProductDetailVC.xib; sourceTree = "<group>"; };
 		20F277F01A01EBD8004370DA /* LMActList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActList.h; sourceTree = "<group>"; };
 		20F277F11A01EBD8004370DA /* LMActList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActList.m; sourceTree = "<group>"; };
 		20F278891A022191004370DA /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
@@ -2344,6 +2349,9 @@
 				20FA3C201A665F6800FEC724 /* Util */,
 				20FA3B5C1A6655F500FEC724 /* Order.h */,
 				20FA3B5D1A6655F500FEC724 /* Order.m */,
+				20F003471A693A3F00668C0E /* LMProductDetailVC.h */,
+				20F003481A693A3F00668C0E /* LMProductDetailVC.m */,
+				20F003491A693A3F00668C0E /* LMProductDetailVC.xib */,
 				20FDBB041A5CD8FE00B42418 /* LMOrderCommitViewController.h */,
 				20FDBB051A5CD8FE00B42418 /* LMOrderCommitViewController.m */,
 				20FDBB061A5CD8FE00B42418 /* LMOrderCommitViewController.xib */,
@@ -2530,6 +2538,7 @@
 				20B8A2751A11BD190028C875 /* areas.plist in Resources */,
 				20BCC22C19E6908100A5913B /* LMProductCell.xib in Resources */,
 				2092DE571A2F35EA0029873A /* LMOnerRecViewController.xib in Resources */,
+				20F0034B1A693A3F00668C0E /* LMProductDetailVC.xib in Resources */,
 				20FF76C51A67D73E002E4B27 /* LMRefundTypeCell.xib in Resources */,
 				2003E5FA1A53B83C003176CF /* ageList.plist in Resources */,
 				20C5C9D419ED2E080010FE36 /* LMMyCollectionViewCell.xib in Resources */,
@@ -2651,6 +2660,7 @@
 				20FF76C81A67E797002E4B27 /* LMRefundReason.m in Sources */,
 				CA6A7A9B1A46EB7A00EF6AC4 /* LMMyRecPhotosView.m in Sources */,
 				20BCC22D19E6908100A5913B /* LMSchoolCourseViewCell.m in Sources */,
+				20F0034A1A693A3F00668C0E /* LMProductDetailVC.m in Sources */,
 				20EF627219E7CCD1006544B3 /* LMSchoolCourse.m in Sources */,
 				20FCAF141A3F206A00882842 /* LMMyRec.m in Sources */,
 				20F609011A3AD22A00CA5A5C /* LMTResultViewController.m in Sources */,

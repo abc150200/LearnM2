@@ -12,7 +12,7 @@
 #import "LMRefundTypeListVC.h"
 #import "LMRefundReasonListVC.h"
 #import "LMRefundReason.h"
-
+#import "LMRefundReasonCell.h"
 
 @interface LMRefundVC ()
 @property (strong, nonatomic) IBOutlet UIView *headView;
@@ -22,6 +22,7 @@
 @property (strong, nonatomic) IBOutlet UIView *refundSeasonTitle;
 @property (weak, nonatomic) IBOutlet UIButton *refundBtn;
 @property (strong, nonatomic) IBOutlet UIView *btnView;
+
 
 @end
 
@@ -84,6 +85,7 @@
         
         LogObj(responseObject);
         
+        //类型列表
         NSArray *typeArr = [LMRefundType objectArrayWithKeyValuesArray:responseObject[@"refundTypeList"]];
         self.tl.typeArr = typeArr;
         [self.tl.tableView reloadData];
@@ -91,6 +93,7 @@
         self.tl.view.height = 44 * (typeArr.count);
         self.refundSeasonTitle.y = CGRectGetMaxY(self.tl.view.frame);
         
+        //原因列表
         NSArray *reasonArr = [LMRefundReason objectArrayWithKeyValuesArray:responseObject[@"refundReasonList"]];
         self.rl.reasonArr  = reasonArr;
         [self.rl.tableView reloadData];
@@ -109,6 +112,17 @@
 }
 
 - (IBAction)btnClick:(id)sender {
+    
+////    NSMutableArray
+//    
+    for (int i = 0; i < self.rl.reasonArr.count; i++) {
+        LMRefundReasonCell *reaSonCell = (LMRefundReasonCell *)[self.rl.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        if (reaSonCell.btn.selected) {
+            MyLog(@"name===%@",reaSonCell.reasonName.text);
+        }
+    }
+    
+    
     
     
 }

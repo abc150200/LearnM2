@@ -26,6 +26,11 @@
     self.contentView.layer.cornerRadius = 5;
     self.contentView.clipsToBounds = YES;
     
+    
+    self.courseNameLabel.text = self.courseName;
+    self.contactLabel.text = self.contact;
+    self.phoneLabel.text = self.phone;
+    
 }
 
 - (IBAction)commit:(id)sender {

@@ -21,6 +21,8 @@
 #import "LMAccountInfo.h"
 #import "LMAccount.h"
 #import "AFNetworking.h"
+#import "LMPaySuccessViewController.h"
+#import "MBProgressHUD+NJ.h"
 
 #import "NSString+encrypto.h"
 
@@ -433,6 +435,29 @@
          processOrderWithPaymentResult:url
          standbyCallback:^(NSDictionary *resultDic) {
              NSLog(@"result = %@", resultDic);
+             
+//             if([resultDic[@"resultStatus"] isEqualToString:@"9000"])
+//             {
+//                 LMPaySuccessViewController *ps = [[LMPaySuccessViewController alloc] init];
+//                 ps.courseName = [[NSUserDefaults standardUserDefaults] objectForKey:@"courseName"];
+//                 ps.phone = [[NSUserDefaults standardUserDefaults] objectForKey:@"phone"];
+//                 ps.contact =  [[NSUserDefaults standardUserDefaults] objectForKey:@"contact"];
+//                 
+//                 [self.navigationController pushViewController:ps animated:YES];
+//             }else if([resultDic[@"resultStatus"] isEqualToString:@"6001"])
+//             {
+//                 [MBProgressHUD showError:@"支付失败,请到我的订单中查看"];
+//             }else
+//             {
+//                 [MBProgressHUD showError:@"服务器异常,请稍后再试!"];
+//             }
+             
+             
+             /** 以下两行发布通知 */
+             NSDictionary *userInfo = resultDic;
+             
+             [[NSNotificationCenter defaultCenter] postNotificationName:@"payResultNotification" object:nil userInfo:userInfo];
+             
          }];
     }
     

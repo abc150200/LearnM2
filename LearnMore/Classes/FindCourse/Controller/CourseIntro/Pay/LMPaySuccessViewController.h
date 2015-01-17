@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface LMPaySuccessViewController : UIViewController
-
+@property (copy, nonatomic) NSString *contact;
+@property (copy, nonatomic) NSString *phone;
+@property (copy, nonatomic) NSString *courseName;
 @end

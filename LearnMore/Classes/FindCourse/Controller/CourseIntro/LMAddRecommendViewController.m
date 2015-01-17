@@ -44,6 +44,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, strong) LMComposeView *tv;
 
+@property (weak, nonatomic) IBOutlet UILabel *remTitle;
 @property (nonatomic, strong) NSMutableArray *imageViews;
 
 @property (nonatomic, strong) NSMutableArray *images;
@@ -119,6 +120,11 @@
     [self.scrollView addSubview:self.commitView];
     
     
+    //评价标题
+    if(self.from == FromeSchoolRem)
+    {
+        self.remTitle.text = @"学校评价:";
+    }
     
     
     self.title = @"添加点评";
