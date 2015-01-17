@@ -7,8 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+@class LMOrderCourse;
 
 @interface LMMyOrder : NSObject
 @property (nonatomic, copy) NSString *id;
-
+@property (copy, nonatomic) NSString *productName;
+@property (nonatomic, assign) NSInteger productCount;
+@property (nonatomic, assign) NSInteger discountPrice;
+@property (copy, nonatomic) NSString *orderStatusDes;
+@property (nonatomic, strong) LMOrderCourse *course;
 @end

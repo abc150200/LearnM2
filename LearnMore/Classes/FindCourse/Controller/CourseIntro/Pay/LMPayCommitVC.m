@@ -16,12 +16,13 @@
 #import "LMLoginViewController.h"
 #import "LMRegisterViewController.h"
 #import "MBProgressHUD+NJ.h"
+#import "LMCourseIntroViewController.h"
 
 #import <AlipaySDK/AlipaySDK.h>
 #import "DataSigner.h"
 #import "Order.h"
 
-@interface LMPayCommitVC ()<UIScrollViewDelegate>
+@interface LMPayCommitVC ()<UIScrollViewDelegate,UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *orderInfoView;
 @property (weak, nonatomic) IBOutlet UIView *payToolView;
 @property (weak, nonatomic) IBOutlet UILabel *courseNameLabel;//课程名
@@ -44,6 +45,35 @@
 
    
 }
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    //重写返回按钮
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem barButtonItemWithImageName:@"public_nav_black" target:self sel:@selector(goBack)];
+    
+}
+
+- (void)goBack
+{
+    UIAlertView *alert  = [[UIAlertView alloc] initWithTitle:nil message:@"退出订单信息不会被保存,是否坚持退出" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"退出", nil];
+    alert.delegate = self;
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[LMCourseIntroViewController class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
+    }
+    
+}
+    
 
 - (void)viewDidLoad {
     

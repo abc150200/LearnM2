@@ -35,6 +35,7 @@
 		200F40DE1A5171420015D8B3 /* LMAlterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 200F40DD1A5171420015D8B3 /* LMAlterView.m */; };
 		20109CC719EE15B800FAD7CC /* LMMyActivityViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20109CC519EE15B800FAD7CC /* LMMyActivityViewCell.m */; };
 		20109CC819EE15B800FAD7CC /* LMMyActivityViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20109CC619EE15B800FAD7CC /* LMMyActivityViewCell.xib */; };
+		2011A8A81A6A144D00D15734 /* LMOrderCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2011A8A71A6A144D00D15734 /* LMOrderCourse.m */; };
 		201DB96F1A5E767600525D8C /* LMPaySuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 201DB96D1A5E767600525D8C /* LMPaySuccessViewController.m */; };
 		201DB9701A5E767600525D8C /* LMPaySuccessViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 201DB96E1A5E767600525D8C /* LMPaySuccessViewController.xib */; };
 		202060991A18757A00452DC7 /* LMReserveOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 202060971A18757A00452DC7 /* LMReserveOverViewController.m */; };
@@ -408,6 +409,8 @@
 		20109CC419EE15B800FAD7CC /* LMMyActivityViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyActivityViewCell.h; sourceTree = "<group>"; };
 		20109CC519EE15B800FAD7CC /* LMMyActivityViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyActivityViewCell.m; sourceTree = "<group>"; };
 		20109CC619EE15B800FAD7CC /* LMMyActivityViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMMyActivityViewCell.xib; sourceTree = "<group>"; };
+		2011A8A61A6A144D00D15734 /* LMOrderCourse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMOrderCourse.h; sourceTree = "<group>"; };
+		2011A8A71A6A144D00D15734 /* LMOrderCourse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMOrderCourse.m; sourceTree = "<group>"; };
 		2011B23719FE04A4001236AA /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		201DB96C1A5E767600525D8C /* LMPaySuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPaySuccessViewController.h; sourceTree = "<group>"; };
 		201DB96D1A5E767600525D8C /* LMPaySuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPaySuccessViewController.m; sourceTree = "<group>"; };
@@ -1948,6 +1951,8 @@
 				CA6A7A971A46EB4200EF6AC4 /* LMLevel.m */,
 				20FF76961A67825C002E4B27 /* LMMyOrder.h */,
 				20FF76971A67825C002E4B27 /* LMMyOrder.m */,
+				2011A8A61A6A144D00D15734 /* LMOrderCourse.h */,
+				2011A8A71A6A144D00D15734 /* LMOrderCourse.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2785,6 +2790,7 @@
 				20F278AE1A022191004370DA /* SDWebImageDecoder.m in Sources */,
 				2071DA5B19FFB64B00CA56DC /* MJArgument.m in Sources */,
 				20E9E6A91A3FD81C0038F09F /* LMMyRecViewCell.m in Sources */,
+				2011A8A81A6A144D00D15734 /* LMOrderCourse.m in Sources */,
 				20FF76B51A67CE8A002E4B27 /* LMRefundTypeListVC.m in Sources */,
 				20F608FE1A3AD16F00CA5A5C /* LMCourseDetailViewController.m in Sources */,
 				20FCF5ED1A18836A00BE1062 /* LMCourseBook.m in Sources */,

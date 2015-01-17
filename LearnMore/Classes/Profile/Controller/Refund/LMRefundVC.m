@@ -13,6 +13,11 @@
 #import "LMRefundReasonListVC.h"
 #import "LMRefundReason.h"
 #import "LMRefundReasonCell.h"
+#import "AFNetworking.h"
+#import "LMAccount.h"
+#import "LMAccountInfo.h"
+#import "AESenAndDe.h"
+#import "MBProgressHUD+NJ.h"
 
 @interface LMRefundVC ()
 @property (strong, nonatomic) IBOutlet UIView *headView;
@@ -23,6 +28,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *refundBtn;
 @property (strong, nonatomic) IBOutlet UIView *btnView;
 
+@property (weak, nonatomic) IBOutlet UILabel *courseNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *productNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *moneyLabel;
 
 @end
 
@@ -69,6 +77,12 @@
     [self refundData];
     
     
+    //部分数据
+    self.courseNameLabel.text = self.courseName;
+    self.productNameLabel.text = self.productName;
+    NSInteger totalPrice = self.discountPrice * self.productCount;
+    self.moneyLabel.text = [NSString stringWithFormat:@"%d",totalPrice];
+    
 }
 
 
@@ -113,17 +127,61 @@
 
 - (IBAction)btnClick:(id)sender {
     
-////    NSMutableArray
-//    
+    [MBProgressHUD showMessage:@"正在处理..."];
+    
+    NSMutableArray *array = [NSMutableArray array];
     for (int i = 0; i < self.rl.reasonArr.count; i++) {
         LMRefundReasonCell *reaSonCell = (LMRefundReasonCell *)[self.rl.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
         if (reaSonCell.btn.selected) {
-            MyLog(@"name===%@",reaSonCell.reasonName.text);
+            MyLog(@"name===%d",reaSonCell.id);
+            [array addObject:@(reaSonCell.id)];
         }
     }
+    NSString *resonStr = [array componentsJoinedByString:@","];
+    MyLog(@"resonStr===%@",resonStr);
     
     
-    
+    LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
+    if (account) {
+        
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        
+        
+        //url地址
+        NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"pay/refundOrder.json"];
+        
+        
+        //参数
+        NSMutableDictionary *arr = [NSMutableDictionary dictionary];
+        arr[@"orderId"] = self.orderId;
+        arr[@"refundType"] = @"1";
+        arr[@"refundReason"] = resonStr;
+        arr[@"time"] = [NSString timeNow];
+        arr[@"refundFee"] = [NSString stringWithFormat:@"%d",self.refundFee];
+        
+        NSString *jsonStr = [arr JSONString];
+        MyLog(@"jsonStr=============%@",jsonStr);
+        
+        NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+        parameters[@"sid"] = account.sid;
+        parameters[@"data"] = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:account.sessionkey];
+
+        MyLog(@"parameters==============%@",parameters);
+        
+        [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            
+            MyLog(@"responseObject===============%@",responseObject);
+            
+            NSInteger code = [responseObject[@"code"] longValue];
+            if (code == 10001 ) {
+                [MBProgressHUD hideHUD];
+                [MBProgressHUD showSuccess:@"申请成功"];
+            }
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            LogObj(error.localizedDescription);
+        }];
+    }
     
 }
 

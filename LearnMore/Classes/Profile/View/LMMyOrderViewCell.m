@@ -7,6 +7,24 @@
 //
 
 #import "LMMyOrderViewCell.h"
+#import "LMMyOrder.h"
+#import "LMOrderCourse.h"
+#import "UIImageView+WebCache.h"
+
+
+@interface LMMyOrderViewCell ()
+
+@property (weak, nonatomic) IBOutlet UILabel *courseNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *productNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *totalPriceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *productCountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *orderStatusDesLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *courseImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *needBookMark;
+
+
+@end
+
 
 @implementation LMMyOrderViewCell
 
@@ -27,6 +45,23 @@
 
 - (void)setMyOrder:(LMMyOrder *)myOrder
 {
+    _myOrder = myOrder;
+    
+    LMOrderCourse *course = myOrder.course;
+    self.courseNameLabel.text = course.courseName;
+    [self.courseImageView sd_setImageWithURL:[NSURL URLWithString:course.courseImage] placeholderImage:[UIImage imageNamed:@"380,210"]];
+    self.needBookMark.hidden = !(course.needBook);
+
+    
+    self.productNameLabel.text = myOrder.productName;
+    self.productCountLabel.text = [NSString stringWithFormat:@"%d",myOrder.productCount];
+    
+#warning 以后估计还会改吧
+    NSInteger totalPrice = (myOrder.discountPrice) * (myOrder.productCount);
+    self.totalPriceLabel.text = [NSString stringWithFormat:@"%d",totalPrice];
+    
+    self.orderStatusDesLabel.text = myOrder.orderStatusDes;
+    
     
 }
 

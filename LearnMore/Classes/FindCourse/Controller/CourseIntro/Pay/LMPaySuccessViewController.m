@@ -7,6 +7,7 @@
 //
 
 #import "LMPaySuccessViewController.h"
+#import "LMCourseIntroViewController.h"
 
 @interface LMPaySuccessViewController ()
 @property (weak, nonatomic) IBOutlet UIView *contentView;
@@ -17,6 +18,27 @@
 @end
 
 @implementation LMPaySuccessViewController
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    //重写返回按钮
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem barButtonItemWithImageName:@"public_nav_black" target:self sel:@selector(goBack)];
+    
+}
+
+- (void)goBack
+{
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[LMCourseIntroViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
+
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];

@@ -8,7 +8,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LMRefundVC">
             <connections>
                 <outlet property="btnView" destination="jzh-Jd-1q4" id="J9x-eq-hML"/>
+                <outlet property="courseNameLabel" destination="1Jl-H8-ccB" id="Iua-JR-xep"/>
                 <outlet property="headView" destination="SvK-JJ-yjx" id="IHH-1m-A4W"/>
+                <outlet property="moneyLabel" destination="sfp-y6-BWf" id="aBo-KH-odM"/>
+                <outlet property="productNameLabel" destination="lne-99-yMF" id="a2c-1x-SSA"/>
                 <outlet property="refundBtn" destination="O9U-dd-eHz" id="tsa-5f-Zek"/>
                 <outlet property="refundSeasonTitle" destination="qwi-sx-aKu" id="c8P-fG-SqQ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -50,7 +53,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="商品名:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Jl-H8-ccB">
-                    <rect key="frame" x="164" y="59" width="78" height="14"/>
+                    <rect key="frame" x="164" y="59" width="148" height="14"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
@@ -62,7 +65,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="套餐名" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lne-99-yMF">
-                    <rect key="frame" x="164" y="147" width="78" height="14"/>
+                    <rect key="frame" x="164" y="147" width="148" height="14"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
@@ -83,7 +86,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="套餐名" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sfp-y6-BWf">
-                    <rect key="frame" x="164" y="235" width="78" height="14"/>
+                    <rect key="frame" x="164" y="235" width="148" height="14"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>

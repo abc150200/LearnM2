@@ -9,5 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface LMRefundVC : UIViewController
+@property (nonatomic, copy) NSString *orderId;
+@property (nonatomic, assign) NSInteger refundFee;
+@property (copy, nonatomic) NSString *courseName;
+@property (copy, nonatomic) NSString *productName;
+@property (nonatomic, assign) NSInteger discountPrice;
+@property (nonatomic, assign) NSInteger productCount;
 
 @end

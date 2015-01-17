@@ -13,9 +13,11 @@
 #import "AESenAndDe.h"
 #import "LMMyOrderViewCell.h"
 #import "LMRefundVC.h"
+#import "LMMyOrder.h"
+#import "LMOrderCourse.h"
 
 @interface LMMyOrderVC ()
-
+@property (nonatomic, strong) NSMutableArray *orderArr;
 @end
 
 @implementation LMMyOrderVC
@@ -52,19 +54,28 @@
         arr[@"time"] = [NSString timeNow];
         
         NSString *jsonStr = [arr JSONString];
-        MyLog(@"%@",jsonStr);
+        MyLog(@"jsonStr=============%@",jsonStr);
         
         NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
         parameters[@"sid"] = account.sid;
         parameters[@"data"] = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:account.sessionkey];
         
+        MyLog(@"parameters==============%@",parameters);
+        
         [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
             
-            LogObj(responseObject);
+            MyLog(@"responseObject===============%@",responseObject);
             
             NSString *collectStr = [AESenAndDe De_Base64andAESDeToString:responseObject[@"data"] keyValue:account.sessionkey];
             
+            MyLog(@"collectStr===============%@",collectStr);
+            
             NSDictionary *dict = [collectStr objectFromJSONString];
+            
+            NSArray *orderArr = [LMMyOrder objectArrayWithKeyValuesArray:dict[@"dtsList"]];
+            self.orderArr = (NSMutableArray *)orderArr;
+            
+            [self.tableView reloadData];
             
             MyLog(@"dict===%@",dict);
             
@@ -80,7 +91,7 @@
 #pragma mark - 数据源方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return self.orderArr.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -88,8 +99,8 @@
     // 1.创建cell
     LMMyOrderViewCell  *cell = [LMMyOrderViewCell cellWithTableView:tableView];
     
-//    // 2.给cell传递模型
-//    cell.<#Pname#> = self.<#Pname#>[indexPath.row];
+    // 2.给cell传递模型
+    cell.myOrder = self.orderArr[indexPath.row];
     
     // 3.返回cell
     return cell;
@@ -98,8 +109,28 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    LMMyOrder *myOrder = self.orderArr[indexPath.row];
+    
     LMRefundVC *rv = [[LMRefundVC alloc] init];
+    rv.orderId = myOrder.id;
+    rv.productName = myOrder.productName;
+    rv.productCount = myOrder.productCount;
+    rv.discountPrice = myOrder.discountPrice;
+    
+    LMOrderCourse *course = myOrder.course;
+    rv.courseName = course.courseName;
+    
     [self.navigationController pushViewController:rv animated:YES];
+}
+
+
+
+- (NSMutableArray *)orderArr
+{
+    if (_orderArr == nil) {
+        _orderArr = [NSMutableArray array];
+    }
+    return _orderArr;
 }
 
 @end
