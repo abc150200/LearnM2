@@ -145,6 +145,8 @@
 		20C5C9DE19ED3A2F0010FE36 /* LMMyReserveViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20C5C9DC19ED3A2F0010FE36 /* LMMyReserveViewCell.xib */; };
 		20C5C9E219ED3DC50010FE36 /* LMMyActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C5C9E019ED3DC50010FE36 /* LMMyActivityViewController.m */; };
 		20C5C9E319ED3DC50010FE36 /* LMMyActivityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20C5C9E119ED3DC50010FE36 /* LMMyActivityViewController.xib */; };
+		20C835631A6A5FDC00AD09DF /* LMMyOrderDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C835611A6A5FDC00AD09DF /* LMMyOrderDetailVC.m */; };
+		20C835641A6A5FDC00AD09DF /* LMMyOrderDetailVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20C835621A6A5FDC00AD09DF /* LMMyOrderDetailVC.xib */; };
 		20CF1DA01A15FDB7007C13F9 /* LMAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 20CF1D9F1A15FDB7007C13F9 /* LMAccount.m */; };
 		20CF1DA41A1603BC007C13F9 /* LMAccountTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 20CF1DA31A1603BC007C13F9 /* LMAccountTool.m */; };
 		20CF1DA71A16101B007C13F9 /* LMAccountInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 20CF1DA61A16101B007C13F9 /* LMAccountInfo.m */; };
@@ -345,6 +347,7 @@
 		CA6A7A981A46EB4200EF6AC4 /* LMLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = CA6A7A971A46EB4200EF6AC4 /* LMLevel.m */; };
 		CA6A7A9B1A46EB7A00EF6AC4 /* LMMyRecPhotosView.m in Sources */ = {isa = PBXBuildFile; fileRef = CA6A7A9A1A46EB7A00EF6AC4 /* LMMyRecPhotosView.m */; };
 		CABBDB241A2E26FC00298F95 /* LMPhotosView.m in Sources */ = {isa = PBXBuildFile; fileRef = CABBDB231A2E26FC00298F95 /* LMPhotosView.m */; };
+		CAC470401A6AAC4500C111CB /* LMMyOrderCourseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = CAC4703F1A6AAC4500C111CB /* LMMyOrderCourseVC.m */; };
 		CAFF762D1A0FE4700029D627 /* ACETelPrompt.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFF762C1A0FE4700029D627 /* ACETelPrompt.m */; };
 /* End PBXBuildFile section */
 
@@ -601,6 +604,9 @@
 		20C5C9DF19ED3DC50010FE36 /* LMMyActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyActivityViewController.h; sourceTree = "<group>"; };
 		20C5C9E019ED3DC50010FE36 /* LMMyActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyActivityViewController.m; sourceTree = "<group>"; };
 		20C5C9E119ED3DC50010FE36 /* LMMyActivityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMMyActivityViewController.xib; sourceTree = "<group>"; };
+		20C835601A6A5FDC00AD09DF /* LMMyOrderDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyOrderDetailVC.h; sourceTree = "<group>"; };
+		20C835611A6A5FDC00AD09DF /* LMMyOrderDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyOrderDetailVC.m; sourceTree = "<group>"; };
+		20C835621A6A5FDC00AD09DF /* LMMyOrderDetailVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMMyOrderDetailVC.xib; sourceTree = "<group>"; };
 		20CF1D9E1A15FDB7007C13F9 /* LMAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAccount.h; sourceTree = "<group>"; };
 		20CF1D9F1A15FDB7007C13F9 /* LMAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAccount.m; sourceTree = "<group>"; };
 		20CF1DA21A1603BC007C13F9 /* LMAccountTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAccountTool.h; sourceTree = "<group>"; };
@@ -1027,6 +1033,8 @@
 		CA6A7A9A1A46EB7A00EF6AC4 /* LMMyRecPhotosView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyRecPhotosView.m; sourceTree = "<group>"; };
 		CABBDB221A2E26FC00298F95 /* LMPhotosView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMPhotosView.h; sourceTree = "<group>"; };
 		CABBDB231A2E26FC00298F95 /* LMPhotosView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMPhotosView.m; sourceTree = "<group>"; };
+		CAC4703E1A6AAC4500C111CB /* LMMyOrderCourseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMMyOrderCourseVC.h; sourceTree = "<group>"; };
+		CAC4703F1A6AAC4500C111CB /* LMMyOrderCourseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMMyOrderCourseVC.m; sourceTree = "<group>"; };
 		CAFF762B1A0FE4700029D627 /* ACETelPrompt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACETelPrompt.h; sourceTree = "<group>"; };
 		CAFF762C1A0FE4700029D627 /* ACETelPrompt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACETelPrompt.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1919,6 +1927,11 @@
 				20044C111A5F76540026A983 /* LMMyOrderVC.xib */,
 				20FE9A791A63777600E05115 /* LMMyAwardVC.h */,
 				20FE9A7A1A63777600E05115 /* LMMyAwardVC.m */,
+				20C835601A6A5FDC00AD09DF /* LMMyOrderDetailVC.h */,
+				20C835611A6A5FDC00AD09DF /* LMMyOrderDetailVC.m */,
+				20C835621A6A5FDC00AD09DF /* LMMyOrderDetailVC.xib */,
+				CAC4703E1A6AAC4500C111CB /* LMMyOrderCourseVC.h */,
+				CAC4703F1A6AAC4500C111CB /* LMMyOrderCourseVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2533,6 +2546,7 @@
 				20F8B09519E929630048CC65 /* LMTeacherIntroViewController.xib in Resources */,
 				20109CC819EE15B800FAD7CC /* LMMyActivityViewCell.xib in Resources */,
 				2057BBC919FF7A8900BA2793 /* LMMapViewController.xib in Resources */,
+				20C835641A6A5FDC00AD09DF /* LMMyOrderDetailVC.xib in Resources */,
 				20C5C9D919ED376F0010FE36 /* LMMyReserveViewController.xib in Resources */,
 				20BCC22E19E6908100A5913B /* LMSchoolCourseViewCell.xib in Resources */,
 				205426571A0725CF0086C516 /* UMSCommentDetailController.xib in Resources */,
@@ -2626,6 +2640,7 @@
 				2001FE1A1A2F09BE0009F8E4 /* MJPhotoBrowser.m in Sources */,
 				205426751A07AB860086C516 /* NSDictionary+Log.m in Sources */,
 				2071DA6419FFB64B00CA56DC /* NSObject+MJKeyValue.m in Sources */,
+				20C835631A6A5FDC00AD09DF /* LMMyOrderDetailVC.m in Sources */,
 				200236B01A19AA8C004446C9 /* LMNewFeatureViewController.m in Sources */,
 				20F7A57B19EF7E4600DC526D /* AFURLSessionManager.m in Sources */,
 				200236AC1A19A6BB004446C9 /* LMControllerTool.m in Sources */,
@@ -2767,6 +2782,7 @@
 				20F277F21A01EBD8004370DA /* LMActList.m in Sources */,
 				20F278B61A022191004370DA /* UIImage+WebP.m in Sources */,
 				20FBF1941A0DF90B007955B8 /* LMTeacherCouse.m in Sources */,
+				CAC470401A6AAC4500C111CB /* LMMyOrderCourseVC.m in Sources */,
 				20C5C9BE19ECF6880010FE36 /* MBProgressHUD+NJ.m in Sources */,
 				20BCC20319E6905E00A5913B /* LMFindCourseViewController.m in Sources */,
 				2093940E1A1C90EC004AE6EA /* LMActBookViewController.m in Sources */,

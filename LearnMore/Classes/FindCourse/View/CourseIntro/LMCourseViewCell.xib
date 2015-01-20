@@ -87,7 +87,7 @@
                 <outlet property="visit" destination="6SE-3g-NvH" id="e4e-pr-Mjt"/>
                 <outlet property="visitLook" destination="yN6-Be-pzm" id="ZtP-EM-ZP4"/>
             </connections>
-            <point key="canvasLocation" x="270" y="158"/>
+            <point key="canvasLocation" x="235" y="158"/>
         </tableViewCell>
     </objects>
     <resources>

@@ -34,7 +34,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="380,210" width="380" height="210"/>
+        <image name="380,210" width="180" height="152"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

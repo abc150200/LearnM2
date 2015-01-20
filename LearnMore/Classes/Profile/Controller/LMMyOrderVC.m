@@ -15,6 +15,7 @@
 #import "LMRefundVC.h"
 #import "LMMyOrder.h"
 #import "LMOrderCourse.h"
+#import "LMMyOrderDetailVC.h"
 
 @interface LMMyOrderVC ()
 @property (nonatomic, strong) NSMutableArray *orderArr;
@@ -22,18 +23,21 @@
 
 @implementation LMMyOrderVC
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    
-    self.tableView.rowHeight = 102;
-   
-}
-
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    
+    
+}
+
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    self.tableView.rowHeight = 102;
+   
     
     self.title = @"我的订单";
     
@@ -60,6 +64,9 @@
         parameters[@"sid"] = account.sid;
         parameters[@"data"] = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:account.sessionkey];
         
+        NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+        parameters[@"device"] = deviceInfo;
+        
         MyLog(@"parameters==============%@",parameters);
         
         [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -83,10 +90,9 @@
             LogObj(error.localizedDescription);
         }];
     }
-    
-    
-    
 }
+
+
 
 #pragma mark - 数据源方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -111,16 +117,20 @@
 {
     LMMyOrder *myOrder = self.orderArr[indexPath.row];
     
-    LMRefundVC *rv = [[LMRefundVC alloc] init];
-    rv.orderId = myOrder.id;
-    rv.productName = myOrder.productName;
-    rv.productCount = myOrder.productCount;
-    rv.discountPrice = myOrder.discountPrice;
+//    LMRefundVC *rv = [[LMRefundVC alloc] init];
+//    rv.orderId = myOrder.id;
+//    rv.productName = myOrder.productName;
+//    rv.productCount = myOrder.productCount;
+//    rv.discountPrice = myOrder.discountPrice;
+//    
+//    LMOrderCourse *course = myOrder.course;
+//    rv.courseName = course.courseName;
+//    
+//    [self.navigationController pushViewController:rv animated:YES];
     
-    LMOrderCourse *course = myOrder.course;
-    rv.courseName = course.courseName;
-    
-    [self.navigationController pushViewController:rv animated:YES];
+    LMMyOrderDetailVC *mv = [[LMMyOrderDetailVC alloc] init];
+    mv.orderId = myOrder.id;
+    [self.navigationController pushViewController:mv animated:YES];
 }
 
 

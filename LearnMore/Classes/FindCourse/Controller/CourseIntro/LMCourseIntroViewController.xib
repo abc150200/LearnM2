@@ -320,7 +320,7 @@
         </view>
     </objects>
     <resources>
-        <image name="380,210" width="380" height="210"/>
+        <image name="380,210" width="180" height="152"/>
         <image name="btn_class_detail_free" width="152" height="35"/>
         <image name="btn_class_detail_free_pressed" width="152" height="35"/>
         <image name="btn_class_detail_losed" width="152" height="35"/>
