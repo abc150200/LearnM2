@@ -69,4 +69,16 @@
 /** 多学appStoreID */
 #define LMAppID @"941536677"
 
+
+// 主界面宽，高
+#define MainViewWidth   [[UIScreen mainScreen] bounds].size.width
+#define MainViewHeight  [[UIScreen mainScreen] bounds].size.height
+//获取屏幕
+#define MainScreen [[UIScreen mainScreen] bounds]
+
+// 标题高度
+#define NavHight     64
+
+
+
 #endif

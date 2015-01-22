@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+    self.title = @"商品详情";
 }
 
 #pragma mark - 数据源方法

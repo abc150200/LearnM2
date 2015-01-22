@@ -1,24 +1,24 @@
 //
-//  LMPaySuccessViewController.m
+//  LMPayWaitVC.m
 //  LearnMore
 //
-//  Created by study on 15-1-8.
+//  Created by study on 15-1-21.
 //  Copyright (c) 2015年 youxuejingxuan. All rights reserved.
 //
 
-#import "LMPaySuccessViewController.h"
+#import "LMPayWaitVC.h"
 #import "LMCourseIntroViewController.h"
 #import "LMMyOrderDetailVC.h"
 
-@interface LMPaySuccessViewController ()
+
+@interface LMPayWaitVC ()
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UILabel *courseNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *contactLabel;
 @property (weak, nonatomic) IBOutlet UILabel *phoneLabel;
-
 @end
 
-@implementation LMPaySuccessViewController
+@implementation LMPayWaitVC
 
 
 - (void)viewWillAppear:(BOOL)animated
@@ -37,7 +37,7 @@
             [self.navigationController popToViewController:controller animated:YES];
         }
     }
-
+    
 }
 
 

@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LMMyOrderVC">
             <connections>
+                <outlet property="firstView" destination="5AQ-BE-HJ9" id="hrC-vc-7tL"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -19,7 +20,59 @@
                 <outlet property="dataSource" destination="-1" id="Tng-2m-Rnh"/>
                 <outlet property="delegate" destination="-1" id="9aC-8N-iBw"/>
             </connections>
-            <point key="canvasLocation" x="812" y="363"/>
+            <point key="canvasLocation" x="196" y="414"/>
         </tableView>
+        <view contentMode="scaleToFill" id="5AQ-BE-HJ9">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您还没有购买任何课程" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wbb-ic-vCU">
+                    <rect key="frame" x="225" y="214" width="150" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="150" id="AlT-Bl-XCq"/>
+                        <constraint firstAttribute="height" constant="21" id="u60-Gd-9t7"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tY5-5x-hWO">
+                    <rect key="frame" x="218" y="250" width="165" height="43"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="43" id="KNz-Ub-Fh7"/>
+                        <constraint firstAttribute="width" constant="165" id="gxP-DE-ESN"/>
+                    </constraints>
+                    <state key="normal" title="发现精彩课程" backgroundImage="btn_order_list_normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="btn_order_list_pressed"/>
+                    <connections>
+                        <action selector="findBtn:" destination="-1" eventType="touchUpInside" id="ekD-SU-RwN"/>
+                    </connections>
+                </button>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="empty_page" translatesAutoresizingMaskIntoConstraints="NO" id="fD6-No-CLN">
+                    <rect key="frame" x="231" y="75" width="139" height="139"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="139" id="Ibs-3J-VEX"/>
+                        <constraint firstAttribute="width" constant="139" id="gIU-8v-5vD"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="fD6-No-CLN" firstAttribute="leading" secondItem="tY5-5x-hWO" secondAttribute="leading" constant="13" id="86q-UT-DZC"/>
+                <constraint firstItem="fD6-No-CLN" firstAttribute="top" secondItem="5AQ-BE-HJ9" secondAttribute="top" constant="75" id="DGi-mY-IFV"/>
+                <constraint firstItem="wbb-ic-vCU" firstAttribute="top" secondItem="fD6-No-CLN" secondAttribute="bottom" id="HeR-9g-tVC"/>
+                <constraint firstAttribute="centerX" secondItem="fD6-No-CLN" secondAttribute="centerX" id="JSO-7y-BSb"/>
+                <constraint firstItem="wbb-ic-vCU" firstAttribute="leading" secondItem="fD6-No-CLN" secondAttribute="leading" constant="-6" id="b9I-NE-QK0"/>
+                <constraint firstItem="tY5-5x-hWO" firstAttribute="top" secondItem="fD6-No-CLN" secondAttribute="bottom" constant="36" id="oWf-r0-ZVc"/>
+            </constraints>
+            <point key="canvasLocation" x="908" y="420"/>
+        </view>
     </objects>
+    <resources>
+        <image name="btn_order_list_normal" width="75" height="33"/>
+        <image name="btn_order_list_pressed" width="75" height="33"/>
+        <image name="empty_page" width="139" height="139"/>
+    </resources>
 </document>

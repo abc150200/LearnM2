@@ -25,6 +25,8 @@
 + (NSString *)ageBegin:(int)ageBegin ageEnd:(int)ageEnd;
 /** 返回数字年龄(回复中用) */
 + (NSString *)timeWithLong:(long long)longTime;
+/** 订单中使用的时间 */
++ (NSString *)oderTimeWithLong:(long long)longTime;
 
 /** 判断设备 */
 + (NSString*)deviceString;

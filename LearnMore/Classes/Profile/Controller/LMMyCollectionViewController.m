@@ -16,6 +16,7 @@
 #import "LMMyCollectionViewCell.h"
 #import "LMLoginViewController.h"
 #import "LMCourseIntroViewController.h"
+#import "MJRefresh.h"
 
 @interface LMMyCollectionViewController ()
 /** 提示用户发现精彩活动的画面 */
@@ -23,7 +24,8 @@
 /**
  *  存放模型的数组
  */
-@property (nonatomic, strong) NSArray *dataList;
+@property (nonatomic, strong) NSMutableArray *dataList;
+@property (nonatomic, assign) int tCount;
 
 @end
 
@@ -33,6 +35,19 @@
 {
     [super viewDidLoad];
     
+    self.title = @"收藏课程";
+    
+    self.tableView.rowHeight = 88;
+    
+    //添加下拉加载
+    [self.tableView addHeaderWithTarget:self action:@selector(loadNewData)];
+    
+    //主动显示菊花
+    [self.tableView headerBeginRefreshing];
+    
+    //添加上拉加载
+    [self.tableView addFooterWithTarget:self action:@selector(loadMoreData)];
+  
     UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width,40)];
     UILabel *label  = [[UILabel alloc] init];
     label.width = 100;
@@ -50,63 +65,137 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    self.title = @"收藏课程";
-    
+ 
+}
+
+
+- (void)loadNewData
+{
     LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
-    if (account) {
-        
-        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-        
-        
-        //url地址
-        NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"favorite/listCourse.json"];
-        
-        
-        //参数
-        NSMutableDictionary *arr = [NSMutableDictionary dictionary];
-        arr[@"startIndex"] = @"1";
-        arr[@"count"] = @"5";
-        arr[@"time"] = [NSString timeNow];
     
-        NSString *jsonStr = [arr JSONString];
-        MyLog(@"%@",jsonStr);
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    
+    //url地址
+    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"favorite/listCourse.json"];
+    
+    
+    //参数
+    NSMutableDictionary *arr = [NSMutableDictionary dictionary];
+    arr[@"startIndex"] = @"0";
+    arr[@"count"] = @"10";
+    arr[@"time"] = [NSString timeNow];
+    
+    NSString *jsonStr = [arr JSONString];
+    MyLog(@"%@",jsonStr);
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    parameters[@"sid"] = account.sid;
+    parameters[@"data"] = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:account.sessionkey];
+    
+    [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-        parameters[@"sid"] = account.sid;
-        parameters[@"data"] = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:account.sessionkey];
+        LogObj(responseObject);
         
-        [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            
-            LogObj(responseObject);
-            
-            NSString *collectStr = [AESenAndDe De_Base64andAESDeToString:responseObject[@"data"] keyValue:account.sessionkey];
-            
-            NSDictionary *dict = [collectStr objectFromJSONString];
-            
-//            MyLog(@"dict===%@",dict);
-            
-            NSArray *favArr = dict[@"favorites"];
-         
-            self.dataList = [LMCollectCourse objectArrayWithKeyValuesArray:favArr];
-            
-            if (self.dataList.count == 0) {
-                [self.tableView addSubview:self.firstView];
-                self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-            } else
-            {
-                [self.tableView reloadData];
-            }
-            
-            
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            LogObj(error.localizedDescription);
-        }];
+        NSString *collectStr = [AESenAndDe De_Base64andAESDeToString:responseObject[@"data"] keyValue:account.sessionkey];
+        
+        NSDictionary *dict = [collectStr objectFromJSONString];
+        
+        MyLog(@"dict===%@",dict);
+        
+        NSArray *favArr = dict[@"favorites"];
+        
+        int count = [dict[@"tcount"] intValue];
+        self.tCount = count;
+        
+        self.dataList = [LMCollectCourse objectArrayWithKeyValuesArray:favArr];
+        
+        if (self.dataList.count == 0) {
+            [self.tableView addSubview:self.firstView];
+           
+            self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        } else
+        {
+            [self.tableView reloadData];
+        }
+        
+        // 3.关闭菊花
+        [self.tableView headerEndRefreshing];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        LogObj(error.localizedDescription);
+        
+        // 3.关闭菊花
+        [self.tableView headerEndRefreshing];
+    }];
+ 
+}
+
+
+- (void)loadMoreData
+{
+    LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    
+    //url地址
+    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"favorite/listCourse.json"];
+    
+    if(self.dataList.count < 10 || self.dataList.count == self.tCount )
+    {
+        // 3.关闭菊花
+        [self.tableView footerEndRefreshing];
+        
+        return;
+        
     }
     
-
+    int count = self.dataList.count + 1;
     
-    self.tableView.rowHeight = 88;
+    //参数
+    NSMutableDictionary *arr = [NSMutableDictionary dictionary];
+    arr[@"count"] = @"10";
+    arr[@"time"] = [NSString timeNow];
+    arr[@"startIndex"] = [NSString stringWithFormat:@"%d",count];
+    
+    NSString *jsonStr = [arr JSONString];
+    MyLog(@"%@",jsonStr);
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    parameters[@"sid"] = account.sid;
+    parameters[@"data"] = [AESenAndDe En_AESandBase64EnToString:jsonStr keyValue:account.sessionkey];
+    
+    [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        LogObj(responseObject);
+        
+        NSString *collectStr = [AESenAndDe De_Base64andAESDeToString:responseObject[@"data"] keyValue:account.sessionkey];
+        
+        NSDictionary *dict = [collectStr objectFromJSONString];
+        
+        MyLog(@"dict===%@",dict);
+        
+        NSArray *favArr = dict[@"favorites"];
+        
+        int count = [dict[@"tcount"] intValue];
+        self.tCount = count;
+        
+        NSArray  *newDataList = [LMCollectCourse objectArrayWithKeyValuesArray:favArr];
+        [self.dataList addObjectsFromArray:newDataList];
+    
+        [self.tableView reloadData];
+        
+        // 3.关闭菊花
+        [self.tableView footerEndRefreshing];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        LogObj(error.localizedDescription);
+        
+        // 3.关闭菊花
+        [self.tableView footerEndRefreshing];
+    }];
+    
 }
 
 - (IBAction)foundBtn {
@@ -148,7 +237,7 @@
 - (NSArray *)dataList
 {
     if (_dataList == nil) {
-        _dataList = [NSArray array];
+        _dataList = [NSMutableArray array];
     }
     return _dataList;
 }

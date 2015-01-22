@@ -12,8 +12,7 @@
 
 @interface LMRefundTypeCell ()
 
-@property (weak, nonatomic) IBOutlet UILabel *typeName;
-@property (weak, nonatomic) IBOutlet UILabel *typeDes;
+
 
 
 @end
@@ -22,7 +21,8 @@
 @implementation LMRefundTypeCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    
+    self.selectBtn.userInteractionEnabled = NO;
 }
 
 

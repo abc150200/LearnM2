@@ -39,7 +39,7 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    
+
     // 2.给cell传递模型
     cell.refundType = self.typeArr[indexPath.row];
     
@@ -47,5 +47,26 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    LMRefundTypeCell *cell = (LMRefundTypeCell *)[tableView cellForRowAtIndexPath:indexPath];
+    cell.selected = YES;
+    if (cell.selected) {
+    cell.selectBtn.selected = YES;
+    
+    }
+    else
+    {
+        cell.selectBtn.selected = NO;
+    }
+
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    LMRefundTypeCell *cell = (LMRefundTypeCell *)[tableView cellForRowAtIndexPath:indexPath];
+    cell.selected = NO;
+    cell.selectBtn.selected = NO;
+}
 
 @end

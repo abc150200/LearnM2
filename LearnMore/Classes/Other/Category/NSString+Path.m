@@ -80,6 +80,16 @@
     return [fmt stringFromDate:date];
 }
 
++ (NSString *)oderTimeWithLong:(long long)longTime
+{
+    
+    NSDate *date = [[NSDate alloc]initWithTimeIntervalSince1970:longTime/1000.0];
+    NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
+    fmt.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    return [fmt stringFromDate:date];
+}
+
+
 + (NSString *)ageBegin:(int)ageBegin ageEnd:(int)ageEnd
 {
     if ((ageBegin == 0) && (ageEnd == 100)) {

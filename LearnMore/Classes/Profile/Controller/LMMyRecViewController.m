@@ -22,6 +22,7 @@
 @interface LMMyRecViewController ()
 @property (strong, nonatomic) IBOutlet UIView *firstView;
 @property (nonatomic, strong) NSMutableArray *recomFrames;
+@property (nonatomic, assign) int tCount;
 @end
 
 @implementation LMMyRecViewController
@@ -61,7 +62,8 @@
     
     //参数
     NSMutableDictionary *arr = [NSMutableDictionary dictionary];
-    arr[@"count"] = @"10";
+    arr[@"startIndex"] = @"0";
+    arr[@"count"] = @"5";
     arr[@"time"] = [NSString timeNow];
     
     NSString *jsonStr = [arr JSONString];
@@ -89,6 +91,9 @@
         }
         
         self.recomFrames = frameModels;
+        
+        int count = [dict[@"tcount"] intValue];
+        self.tCount = count;
         
         if (self.recomFrames.count == 0) {
             [self.tableView addSubview:self.firstView];
@@ -122,7 +127,7 @@
     //url地址
     NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"comment/userCommentList.json"];
     
-    if (self.recomFrames.count < 10) {
+    if (self.recomFrames.count < 10 || self.recomFrames.count == self.tCount ) {
         // 3.关闭菊花
         [self.tableView footerEndRefreshing];
         

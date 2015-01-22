@@ -18,6 +18,7 @@
 #import "LMAccountInfo.h"
 #import "AESenAndDe.h"
 #import "MBProgressHUD+NJ.h"
+#import "LMRefundTypeCell.h"
 
 @interface LMRefundVC ()
 @property (strong, nonatomic) IBOutlet UIView *headView;
@@ -32,6 +33,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *productNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *moneyLabel;
 
+@property (nonatomic, assign) NSInteger typeSelectedId;
+
 @end
 
 @implementation LMRefundVC
@@ -41,7 +44,7 @@
     self.title  = @"申请退款";
     
     [super viewDidLoad];
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - self.btnView.height)];
     [self.view addSubview:scrollView];
     self.scrollView = scrollView;
     
@@ -52,6 +55,9 @@
     [self.scrollView addSubview:self.headView];
   
     MyLog(@"self.headView.frame===%@",NSStringFromCGRect(self.headView.frame));
+    
+    self.btnView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - self.btnView.height, self.btnView.width, self.btnView.height);
+    [self.view addSubview:self.btnView];
     
     //添加退款方式
     LMRefundTypeListVC *tl = [[LMRefundTypeListVC alloc] initWithStyle:UITableViewStylePlain];
@@ -69,10 +75,7 @@
     [self.scrollView addSubview:rl.view];
     self.rl = rl;
     
-    [self.scrollView addSubview:self.btnView];
-    self.btnView.frame = CGRectMake(0, CGRectGetMaxY(self.rl.view.frame) + 70,self.view.width,self.btnView.height);
-    
-    self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.btnView.frame) + 60 );
+    self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.rl.view.frame) + 60 );
     
     [self refundData];
     
@@ -81,7 +84,7 @@
     self.courseNameLabel.text = self.courseName;
     self.productNameLabel.text = self.productName;
     NSInteger totalPrice = self.discountPrice * self.productCount;
-    self.moneyLabel.text = [NSString stringWithFormat:@"%d",totalPrice];
+    self.moneyLabel.text = [NSString stringWithFormat:@"%d元",totalPrice];
     
 }
 
@@ -104,6 +107,11 @@
         self.tl.typeArr = typeArr;
         [self.tl.tableView reloadData];
         
+        //默认选中第一行
+        LMRefundTypeCell *typeCell = (LMRefundTypeCell *)[self.tl.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        typeCell.selected = YES;
+        typeCell.selectBtn.selected = YES;
+        
         self.tl.view.height = 44 * (typeArr.count);
         self.refundSeasonTitle.y = CGRectGetMaxY(self.tl.view.frame);
         
@@ -114,9 +122,7 @@
         
         self.rl.view.height = 44 * (reasonArr.count);
         
-        self.btnView.y = CGRectGetMaxY(self.rl.view.frame) + 70;
-        
-        self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.btnView.frame) + 60 );
+        self.scrollView.contentSize = CGSizeMake(self.view.width, CGRectGetMaxY(self.rl.view.frame));
 
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -126,9 +132,19 @@
 }
 
 - (IBAction)btnClick:(id)sender {
+  
+    //获取退款方式的id
+    for (int i = 0; i < self.tl.typeArr.count; i++) {
+       LMRefundTypeCell *typeCell = (LMRefundTypeCell *)[self.tl.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        if(typeCell.selected)
+        {
+            self.typeSelectedId = i + 1;
+        }
+            
+    }
     
-    [MBProgressHUD showMessage:@"正在处理..."];
     
+    //获取退款原因的id
     NSMutableArray *array = [NSMutableArray array];
     for (int i = 0; i < self.rl.reasonArr.count; i++) {
         LMRefundReasonCell *reaSonCell = (LMRefundReasonCell *)[self.rl.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
@@ -154,8 +170,16 @@
         //参数
         NSMutableDictionary *arr = [NSMutableDictionary dictionary];
         arr[@"orderId"] = self.orderId;
-        arr[@"refundType"] = @"1";
-        arr[@"refundReason"] = resonStr;
+        arr[@"refundType"] = [NSString stringWithFormat:@"%d",self.typeSelectedId];
+        if(![resonStr isEqualToString:@""])
+        {
+            arr[@"refundReason"] = resonStr;
+        }else
+        {
+            [self alertWithMessage:@"至少选择一个退款理由!"];
+            return;
+        }
+        
         arr[@"time"] = [NSString timeNow];
         arr[@"refundFee"] = [NSString stringWithFormat:@"%d",self.refundFee];
         
@@ -168,6 +192,8 @@
 
         MyLog(@"parameters==============%@",parameters);
         
+        [MBProgressHUD showMessage:@"正在处理..."];
+        
         [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
             
             MyLog(@"responseObject===============%@",responseObject);
@@ -175,7 +201,8 @@
             NSInteger code = [responseObject[@"code"] longValue];
             if (code == 10001 ) {
                 [MBProgressHUD hideHUD];
-                [MBProgressHUD showSuccess:@"申请成功"];
+                [MBProgressHUD showSuccess:@"退款成功"];
+                [self.navigationController popViewControllerAnimated:YES];
             }
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -184,6 +211,22 @@
     }
     
 }
+
+
+//弹警告框
+- (void)alertWithMessage:(NSString *)string{
+    
+    UIAlertView *alertView = [[UIAlertView alloc]
+                              initWithTitle:NSLocalizedString(@"提示", nil)
+                              message:NSLocalizedString(string, nil)
+                              delegate:self
+                              cancelButtonTitle:@"确定！"
+                              otherButtonTitles:nil,
+                              nil];
+    alertView.delegate = self;
+    [alertView show];
+}
+
 
 
 

@@ -19,6 +19,8 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    
+    self.btn.userInteractionEnabled = NO;
 }
 
 - (void)setRefundReason:(LMRefundReason *)refundReason

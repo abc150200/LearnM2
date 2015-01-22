@@ -56,9 +56,14 @@
     
     for (UIViewController *controller in self.navigationController.viewControllers) {
         if ([controller isKindOfClass:[LMActivityDetailViewController class]]) {
-            [self.navigationController popToViewController:controller animated:NO];
+            [self.navigationController popToViewController:controller animated:YES];
         }
     }
+////    LMActivityDetailViewController *ld = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
+//    LMActivityDetailViewController *ld = (LMActivityDetailViewController *)self.navigationController.viewControllers[1];
+//    
+////    [self.navigationController popToRootViewControllerAnimated:YES];
+//    [self.navigationController popToViewController:ld animated:YES];
 }
 
 @end

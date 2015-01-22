@@ -44,24 +44,25 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="class_list_free" translatesAutoresizingMaskIntoConstraints="NO" id="LfO-Dy-nuS">
                         <rect key="frame" x="10" y="10" width="44" height="44"/>
                     </imageView>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="交易完成" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mUQ-hF-OVu">
-                        <rect key="frame" x="110" y="79" width="68" height="14"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cF8-Pp-ItV">
+                        <rect key="frame" x="110" y="79" width="105" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <state key="normal">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
                 </subviews>
             </tableViewCellContentView>
             <connections>
                 <outlet property="courseImageView" destination="vbu-Hn-0dt" id="TTn-mx-uQw"/>
                 <outlet property="courseNameLabel" destination="FJC-PD-Qpf" id="1Na-bG-4o1"/>
                 <outlet property="needBookMark" destination="LfO-Dy-nuS" id="BoC-CU-Zqp"/>
-                <outlet property="orderStatusDesLabel" destination="mUQ-hF-OVu" id="gMF-Cy-WNK"/>
+                <outlet property="orderStatusDesBtn" destination="cF8-Pp-ItV" id="GrG-ms-cZC"/>
                 <outlet property="productCountLabel" destination="boq-RQ-OMm" id="eJh-cD-g2E"/>
                 <outlet property="productNameLabel" destination="aEi-Ug-SPp" id="9Er-fq-jJf"/>
                 <outlet property="totalPriceLabel" destination="8LO-ps-gtT" id="TDZ-lP-dlQ"/>
             </connections>
-            <point key="canvasLocation" x="327" y="252"/>
+            <point key="canvasLocation" x="327" y="249"/>
         </tableViewCell>
     </objects>
     <resources>

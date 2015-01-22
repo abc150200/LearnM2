@@ -18,7 +18,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *productNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *totalPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *productCountLabel;
-@property (weak, nonatomic) IBOutlet UILabel *orderStatusDesLabel;
+@property (weak, nonatomic) IBOutlet UIButton *orderStatusDesBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *courseImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *needBookMark;
 
@@ -54,14 +54,14 @@
 
     
     self.productNameLabel.text = myOrder.productName;
-    self.productCountLabel.text = [NSString stringWithFormat:@"%d",myOrder.productCount];
+    self.productCountLabel.text = [NSString stringWithFormat:@"数量: %d",myOrder.productCount];
     
 #warning 以后估计还会改吧
     NSInteger totalPrice = (myOrder.discountPrice) * (myOrder.productCount);
-    self.totalPriceLabel.text = [NSString stringWithFormat:@"%d",totalPrice];
+    self.totalPriceLabel.text = [NSString stringWithFormat:@"总价: %d元",totalPrice];
     
-    self.orderStatusDesLabel.text = myOrder.orderStatusDes;
-    
+    [self.orderStatusDesBtn setTitle:myOrder.orderStatusDes forState:UIControlStateNormal];
+    [self.orderStatusDesBtn setTitleColor:UIColorFromRGB(0x9ac72c) forState:UIControlStateNormal];
     
 }
 

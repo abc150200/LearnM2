@@ -36,6 +36,7 @@
 #import "LMRegisterViewController.h"
 
 #import "CLProgressHUD.h"
+#import "DejalActivityView.h"
 #import "LMAccountInfo.h"
 #import "LMAccount.h"
 
@@ -80,6 +81,10 @@
 //引导页
 @property (nonatomic, weak) UIButton *alertViewBtn;
 @property (nonatomic, weak) UIView *alertView;
+
+
+@property (nonatomic, strong) UIView *failView;
+
 @end
 
 @implementation LMFindCourseViewController
@@ -94,6 +99,7 @@
     hud.type = CLProgressHUDTypeDarkBackground;
     hud.shape = CLProgressHUDShapeCircle;
     [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
+//    [DejalWhiteActivityView currentActivityView].activityLabel.text = @"正在加载";
     
     NSString *identifier = [[NSBundle mainBundle] bundleIdentifier];
     MyLog(@"%@=====",identifier);
@@ -585,28 +591,54 @@
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         
-        [CLProgressHUD dismiss];
-        
+        [self performSelector:@selector(delayAll) withObject:nil afterDelay:1.5];
+
         NSDictionary *courseDic = [responseObject[@"data"] objectFromJSONString];
                 MyLog(@"%@",courseDic);
         
         NSArray *courseList = courseDic[@"courseList"];
         
-        
-        self.recommendCourseLists = [LMCourseList objectArrayWithKeyValuesArray:courseList];
-        
-        self.cr.courseLists = self.recommendCourseLists;
-        
-        [self.cr.tableView reloadData];
-        
+        if(courseList.count == 0)
+        {
+            [self initFailView];
+        }else
+        {
+            self.recommendCourseLists = [LMCourseList objectArrayWithKeyValuesArray:courseList];
+            
+            self.cr.courseLists = self.recommendCourseLists;
+            
+            [self.cr.tableView reloadData];
+        }
+     
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         LogObj(error.localizedDescription);
-    
+            
+            
+            [self performSelector:@selector(delayHidHud) withObject:nil afterDelay:1.5];
+
+            [self initFailView];
+            
     }];
     
      
 }
-     
+
+- (void)delayHidHud
+{
+    [CLProgressHUD dismiss];
+    
+}
+
+- (void)delayFailView
+{
+    [self.failView removeFromSuperview];
+}
+
+- (void)delayAll
+{
+    [CLProgressHUD dismiss];
+    [self.failView removeFromSuperview];
+}
     
 
 
@@ -918,6 +950,72 @@
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"reject"];
     [self.alertView removeFromSuperview];
     [self.alertViewBtn removeFromSuperview];
+}
+
+
+
+-(void)initFailView
+{
+    if (self.failView==nil)
+    {
+        
+        CGRect myRect  =[UIApplication sharedApplication].keyWindow.bounds;
+        _failView = [[UIView alloc]initWithFrame:CGRectMake(myRect.origin.x, myRect.origin.y+NavHight, myRect.size.width, myRect.size.height-NavHight)];
+        _failView.backgroundColor = [UIColor whiteColor];
+        [[UIApplication sharedApplication].keyWindow addSubview:_failView];
+        
+        UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(0,240-45,MainViewWidth, 20)];
+        lbl.textAlignment = NSTextAlignmentCenter;
+        lbl.textColor = RGBCOLOR(62, 62, 62);
+        lbl.font = [UIFont systemFontOfSize:15.0f];
+        lbl.backgroundColor = [UIColor clearColor];
+        lbl.text = @"咦，数据加载失败了";
+        [_failView addSubview:lbl];
+        
+        
+        UILabel *lbl2 = [[UILabel alloc] initWithFrame:CGRectMake(0,270-45,MainViewWidth, 20)];
+        lbl2.textAlignment = NSTextAlignmentCenter;
+        lbl2.textColor = RGBCOLOR(82, 82, 82);
+        lbl2.font = [UIFont systemFontOfSize:14.0f];
+        lbl2.backgroundColor = [UIColor clearColor];
+        lbl2.text = @"请检查下您的网络，重新加载吧";
+        [_failView addSubview:lbl2];
+        
+        
+        UIImage *bgI = [UIImage imageNamed:@"default_button"];
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        btn.frame = CGRectMake(MainViewWidth/2-bgI.size.width/2,310-45,bgI.size.width, bgI.size.height);
+        [btn setBackgroundImage:[UIImage imageNamed:@"default_button"] forState:UIControlStateNormal];
+        [btn setBackgroundImage:[UIImage imageNamed:@"default_button_press"] forState:UIControlStateHighlighted];
+        [btn setTitle:@"重新加载" forState:UIControlStateNormal];
+        [btn setTitleColor:RGBCOLOR(62, 62, 62) forState:UIControlStateNormal];
+        [btn addTarget:self
+                action:@selector(refreshDataWhenFailRequest)
+      forControlEvents:UIControlEventTouchUpInside];
+        //btn.layer.borderWidth=1;
+        //btn.layer.borderColor=RGBCOLOR(162, 162, 162).CGColor;
+        //btn.layer.cornerRadius=5;
+        [_failView addSubview:btn];
+    }
+    
+    //    for (UIView *subView in _failView.subviews)
+    //    {
+    //        [subView removeFromSuperview];
+    //    }
+    
+    
+}
+
+-(void)refreshDataWhenFailRequest
+{
+    
+    CLProgressHUD *hud = [CLProgressHUD shareInstance];
+    hud.type = CLProgressHUDTypeDarkBackground;
+    hud.shape = CLProgressHUDShapeCircle;
+    [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
+    
+    [self loadData];
+    [self loadImage];
 }
 
 

@@ -30,6 +30,8 @@
 @property (nonatomic, strong) NSMutableArray *recomArr;
 
 @property (nonatomic, strong) NSMutableArray *recomFrames;
+
+@property (nonatomic, assign) int tCount;
 @end
 
 @implementation LMDetailRecommendViewController
@@ -79,6 +81,8 @@
     
     //参数
     NSMutableDictionary *arr = [NSMutableDictionary dictionary];
+    arr[@"startIndex"] = @"0";
+    arr[@"count"] = @"10";
     arr[@"id"] = [NSString stringWithFormat:@"%lli",_id];
     arr[@"type"] = [NSString stringWithFormat:@"%d",self.type];
     arr[@"time"] = [NSString timeNow];
@@ -108,6 +112,8 @@
         
         self.recomFrames = frameModels;
        
+        int count = [dateDic[@"tcount"] intValue];
+        self.tCount = count;
 
         [self.tableView reloadData];
         
@@ -131,7 +137,7 @@
     //url地址
     NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"comment/list.json"];
     
-    if (self.recomFrames.count < 20) {
+    if (self.recomFrames.count < 10 || self.recomFrames.count == self.tCount) {
         // 3.关闭菊花
         [self.tableView footerEndRefreshing];
         

@@ -11,5 +11,9 @@
 
 @interface LMRefundTypeCell : UITableViewCell
 @property (nonatomic, strong) LMRefundType *refundType;
+@property (weak, nonatomic) IBOutlet UIButton *selectBtn;
+@property (nonatomic, assign) NSInteger id;
+@property (weak, nonatomic) IBOutlet UILabel *typeName;
+@property (weak, nonatomic) IBOutlet UILabel *typeDes;
 
 @end

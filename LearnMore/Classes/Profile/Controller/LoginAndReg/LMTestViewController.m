@@ -8,7 +8,7 @@
 
 #import "LMTestViewController.h"
 #import "LMLoginViewController.h"
-#import "LMRegisterViewController.h"`
+#import "LMRegisterViewController.h"
 
 @interface LMTestViewController () <UIWebViewDelegate>
 @property (nonatomic, weak) UIWebView *webView;

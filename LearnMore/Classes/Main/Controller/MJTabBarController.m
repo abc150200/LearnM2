@@ -81,16 +81,16 @@
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    for (UIView *subView in self.tabBar.subviews) {
-        if ([subView isKindOfClass:[UIControl class]]) {
-            [subView removeFromSuperview];
-        }
-    }
-}
+//- (void)viewDidAppear:(BOOL)animated
+//{
+//    [super viewDidAppear:animated];
+//    
+//    for (UIView *subView in self.tabBar.subviews) {
+//        if ([subView isKindOfClass:[UIControl class]]) {
+//            [subView removeFromSuperview];
+//        }
+//    }
+//}
 
 
 #pragma mark - MJTabBar的代理方法

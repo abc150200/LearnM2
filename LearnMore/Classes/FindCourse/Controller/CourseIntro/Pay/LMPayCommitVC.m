@@ -17,6 +17,7 @@
 #import "LMRegisterViewController.h"
 #import "MBProgressHUD+NJ.h"
 #import "LMCourseIntroViewController.h"
+#import "LMPayWaitVC.h"
 
 #import <AlipaySDK/AlipaySDK.h>
 #import "DataSigner.h"
@@ -99,11 +100,6 @@
     self.contactLabel.text = self.contact;
     self.phoneNumLabel.text  = self.phone;
     
-    
-//    [[NSUserDefaults standardUserDefaults] setObject:self.contact forKey:@"contact"];
-//    [[NSUserDefaults standardUserDefaults] setObject:self.phone forKey:@"phone"];
-//    [[NSUserDefaults standardUserDefaults] setObject:self.courseName forKey:@"courseName"];
-//    [[NSUserDefaults standardUserDefaults] synchronize];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appPayResultWithDic:) name:@"payResultNotification" object:nil];
     
@@ -258,15 +254,24 @@
         LMPaySuccessViewController *ps = [[LMPaySuccessViewController alloc] init];
         ps.courseName = self.courseName;
         ps.phone = self.phone;
-        ps.contact =  self.contact;
+        ps.contact = self.contact;
+        ps.orderId = self.orderId;
         [self.navigationController pushViewController:ps animated:YES];
-    }else if([resultDic[@"resultStatus"] isEqualToString:@"6001"])
+    }else if([resultDic[@"resultStatus"] isEqualToString:@"8000"])
+    {
+        LMPayWaitVC *pw = [[LMPayWaitVC alloc] init];
+        pw.courseName = self.courseName;
+        pw.phone = self.phone;
+        pw.contact = self.contact;
+        pw.orderId = self.orderId;
+        [self.navigationController pushViewController:pw animated:YES];
+    }
+    else if([resultDic[@"resultStatus"] isEqualToString:@"6001"])
     {
         [MBProgressHUD showError:@"支付失败,请到我的订单中查看"];
     }else
     {
         [MBProgressHUD showError:@"服务器异常,请稍后再试!"];
-  
     }
 }
 

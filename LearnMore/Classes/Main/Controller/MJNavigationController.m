@@ -74,7 +74,6 @@
     titleMd[NSFontAttributeName] = [UIFont systemFontOfSize:18];
     [navBar setTitleTextAttributes:titleMd];
     
- 
 }
 
 
