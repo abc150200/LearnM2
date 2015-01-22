@@ -99,7 +99,6 @@
     hud.type = CLProgressHUDTypeDarkBackground;
     hud.shape = CLProgressHUDShapeCircle;
     [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
-//    [DejalWhiteActivityView currentActivityView].activityLabel.text = @"正在加载";
     
     NSString *identifier = [[NSBundle mainBundle] bundleIdentifier];
     MyLog(@"%@=====",identifier);
@@ -150,7 +149,7 @@
     UIButton *btn = [[UIButton alloc] initWithFrame:self.searchBar.frame];
     btn.backgroundColor = [UIColor clearColor];
     [view addSubview:btn];
-    [btn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
+    [btn addTarget:self action:@selector(searchBtnClick) forControlEvents:UIControlEventTouchUpInside];
     LogFrame(btn);
     
     //创建内容scrollView
@@ -283,15 +282,7 @@
     
 }
 
-////评分引导页面
-//- (void)showScore
-//{
-//    
-//    UIAlertView *alert  = [[UIAlertView alloc] initWithTitle:nil message:@"评分引导" delegate:self cancelButtonTitle:@"残忍拒绝" otherButtonTitles:@"赐个5星",@"再看看表现", nil];
-//    
-//    alert.delegate = self;
-//    [alert show];
-//}
+
 
 - (void)setupAdScrollView
 {
@@ -337,6 +328,7 @@
 - (void)btnMoreClick
 {
     LMCourseListMainViewController *lm = [[LMCourseListMainViewController alloc] init];
+    lm.from = FromHome;
     [self.navigationController pushViewController:lm animated:YES];
 }
 
@@ -543,10 +535,9 @@
     [self addTimer];
 }
 
-- (void)btnClick
+- (void)searchBtnClick
 {
     LMSearchViewController *rv = [[LMSearchViewController alloc] init];
-    rv.from = FromHome;
     [self.navigationController pushViewController:rv animated:NO];
 }
 
@@ -813,6 +804,7 @@
     }
     
 //    lv.firstTypeName = title;
+    lv.from = FromHome;
     
     [self.navigationController pushViewController:lv animated:NO];
     
@@ -865,7 +857,6 @@
     alertView.centerX = self.view.centerX;
     alertView.centerY = self.view.centerY;
     [[UIApplication sharedApplication].keyWindow  addSubview:alertView];
-//    [alertViewBtn addSubview:alertView];
     self.alertView = alertView;
     
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(45, 0, 140, 68)];

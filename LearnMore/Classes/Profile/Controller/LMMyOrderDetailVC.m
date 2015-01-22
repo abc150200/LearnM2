@@ -209,6 +209,7 @@
             self.statusLabel.text = @"交易成功";
             self.protectView.hidden = YES;
             self.footView.hidden = YES;
+            self.statuslabeltitle.hidden = NO;
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

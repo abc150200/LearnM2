@@ -127,24 +127,14 @@
 {
     MyLog(@"23323===%@",btn.currentTitle);
     
-    if(self.from == FromHome)
-    {
-        [self.historyList addObject:btn.currentTitle];
-        
-        LMCourseListMainViewController *lv = [[LMCourseListMainViewController alloc] init];
-        
-        [self.navigationController pushViewController:lv animated:YES];
-        lv.searchContent = btn.currentTitle;
-        self.searchBar.text = nil;
-    }else
-    {
-        if ([self.delegate respondsToSelector:@selector(searchViewController:content:)]) {
-            
-            [self.delegate searchViewController:self content:btn.currentTitle];
-        }
-        
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    [self.historyList addObject:btn.currentTitle];
+    
+    LMCourseListMainViewController *lv = [[LMCourseListMainViewController alloc] init];
+    lv.from = FromeSearch;
+    [self.navigationController pushViewController:lv animated:YES];
+    lv.searchContent = btn.currentTitle;
+    self.searchBar.text = nil;
+
 }
 
 // 取消按钮点击事件
@@ -194,24 +184,13 @@
     
     [self.historyList addObject:textField.text];
     
-    if(self.from == FromHome)
-    {
-        LMCourseListMainViewController *lv = [[LMCourseListMainViewController alloc] init];
-        
-        [self.navigationController pushViewController:lv animated:YES];
-        lv.searchContent = self.searchBar.text;
-        self.searchBar.text = nil;
-    }else
-    {
-        if ([self.delegate respondsToSelector:@selector(searchViewController:content:)]) {
-            
-            [self.delegate searchViewController:self content:self.searchBar.text];
-        }
-        
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    
-    
+
+    LMCourseListMainViewController *lv = [[LMCourseListMainViewController alloc] init];
+    lv.from = FromeSearch;
+    [self.navigationController pushViewController:lv animated:YES];
+    lv.searchContent = self.searchBar.text;
+    self.searchBar.text = nil;
+
     return YES;
 }
 
@@ -248,22 +227,12 @@
 {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
-    if(self.from == FromHome)
-    {
-        LMCourseListMainViewController *lv = [[LMCourseListMainViewController alloc] init];
-        
-        [self.navigationController pushViewController:lv animated:YES];
-        lv.searchContent = cell.textLabel.text;
-        self.searchBar.text = nil;
-    }else
-    {
-        if ([self.delegate respondsToSelector:@selector(searchViewController:content:)]) {
-            
-            [self.delegate searchViewController:self content:cell.textLabel.text];
-        }
-        
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    LMCourseListMainViewController *lv = [[LMCourseListMainViewController alloc] init];
+    lv.from = FromeSearch;
+    [self.navigationController pushViewController:lv animated:YES];
+    lv.searchContent = cell.textLabel.text;
+    self.searchBar.text = nil;
+
 }
 
 

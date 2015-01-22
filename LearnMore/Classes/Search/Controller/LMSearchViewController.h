@@ -6,11 +6,7 @@
 //  Copyright (c) 2014年 youxuejingxuan. All rights reserved.
 //
 
-typedef enum
-{
-    FromHome,
-    FromeTotal
-}FromeVC;
+
 
 #import <UIKit/UIKit.h>
 @class LMSearchViewController;
@@ -25,6 +21,6 @@ typedef enum
 
 
 @interface LMSearchViewController : UITableViewController
-@property (nonatomic, assign) FromeVC from;
+
 @property (nonatomic, weak) id<LMSearchViewControllerDelegate> delegate;
 @end

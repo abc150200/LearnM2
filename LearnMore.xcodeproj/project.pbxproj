@@ -281,6 +281,7 @@
 		20F9A25819EBA0E000BAB3D5 /* LMActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F9A25519EBA0E000BAB3D5 /* LMActivityViewController.m */; };
 		20F9A25C19EBA1B300BAB3D5 /* LMActivityViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F9A25A19EBA1B300BAB3D5 /* LMActivityViewCell.m */; };
 		20F9A25D19EBA1B300BAB3D5 /* LMActivityViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20F9A25B19EBA1B300BAB3D5 /* LMActivityViewCell.xib */; };
+		20FA35341A70A04B004262D0 /* LMSchoolOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FA35331A70A04B004262D0 /* LMSchoolOrder.m */; };
 		20FA3B5E1A6655F500FEC724 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FA3B5D1A6655F500FEC724 /* Order.m */; };
 		20FA3C321A665F6800FEC724 /* base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FA3C221A665F6800FEC724 /* base64.m */; };
 		20FA3C331A665F6800FEC724 /* DataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 20FA3C251A665F6800FEC724 /* DataSigner.m */; };
@@ -849,6 +850,8 @@
 		20F9A25919EBA1B300BAB3D5 /* LMActivityViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMActivityViewCell.h; sourceTree = "<group>"; };
 		20F9A25A19EBA1B300BAB3D5 /* LMActivityViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMActivityViewCell.m; sourceTree = "<group>"; };
 		20F9A25B19EBA1B300BAB3D5 /* LMActivityViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMActivityViewCell.xib; sourceTree = "<group>"; };
+		20FA35321A70A04B004262D0 /* LMSchoolOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSchoolOrder.h; sourceTree = "<group>"; };
+		20FA35331A70A04B004262D0 /* LMSchoolOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSchoolOrder.m; sourceTree = "<group>"; };
 		20FA3B5C1A6655F500FEC724 /* Order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Order.h; sourceTree = "<group>"; };
 		20FA3B5D1A6655F500FEC724 /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
 		20FA3BD51A665F6800FEC724 /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
@@ -1469,6 +1472,8 @@
 				20FE8FB11A52A5FB00F06B64 /* LMSchoolComment.m */,
 				2003E5F61A53B109003176CF /* LMCourseOrder.h */,
 				2003E5F71A53B109003176CF /* LMCourseOrder.m */,
+				20FA35321A70A04B004262D0 /* LMSchoolOrder.h */,
+				20FA35331A70A04B004262D0 /* LMSchoolOrder.m */,
 			);
 			path = TotalCourse;
 			sourceTree = "<group>";
@@ -2644,6 +2649,7 @@
 				20FE4A041A00FEE800D5AD3B /* NSArray+Log.m in Sources */,
 				20044C121A5F76540026A983 /* LMMyOrderVC.m in Sources */,
 				20F986FB1A270594005727A5 /* LMSchoolList.m in Sources */,
+				20FA35341A70A04B004262D0 /* LMSchoolOrder.m in Sources */,
 				20BCC23119E6908100A5913B /* LMCourseHeadView.m in Sources */,
 				20F278AC1A022191004370DA /* SDImageCache.m in Sources */,
 				20F278B31A022191004370DA /* UIButton+WebCache.m in Sources */,

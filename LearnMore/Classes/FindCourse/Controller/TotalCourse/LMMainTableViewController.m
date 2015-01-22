@@ -19,11 +19,11 @@
     
 
     // 设置表格的y值
-    self.tableView.y = 107;
-    if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"]) {
-        self.tableView.y = 43;
-    }
-    self.tableView.height = [UIScreen mainScreen].bounds.size.height - 107;
+   // self.tableView.y = 107 + 30;
+    //if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"]) {
+     //   self.tableView.y = 43 + 30;
+    //}
+    //self.tableView.height = [UIScreen mainScreen].bounds.size.height - 107 - 30;
 //    if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"]) {
 //        self.tableView.height = [UIScreen mainScreen].bounds.size.height - 64 - 43;
 //    }

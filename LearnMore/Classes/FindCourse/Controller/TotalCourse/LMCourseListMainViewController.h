@@ -6,6 +6,12 @@
 //  Copyright (c) 2014年 youxuejingxuan. All rights reserved.
 //
 
+typedef enum
+{
+    FromHome,
+    FromeSearch
+}FromeVC;
+
 #import <UIKit/UIKit.h>
 
 @interface LMCourseListMainViewController : UIViewController
@@ -23,5 +29,7 @@
 
 /** 排序id */
 @property (nonatomic, assign) int orderId;
+
+@property (nonatomic, assign) FromeVC from;
 
 @end

@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 youxuejingxuan. All rights reserved.
 //
 
+#define LMResultViewH 30
+
 #import "LMCourseListMainViewController.h"
 #import "LMCourseHeadView.h"
 #import "LMCourseIntroViewController.h"
@@ -46,6 +48,11 @@
 
 @property (nonatomic, strong) NSArray  *areaArr;
 @property (nonatomic, strong) NSArray *courseOrders;
+@property (nonatomic, strong) NSArray *schoolOrders;
+@property (nonatomic, strong) NSArray *orderListArr;
+
+@property (nonatomic, weak) UIView *resultView;
+@property (nonatomic, assign) NSInteger segmNum;
 
 
 
@@ -74,15 +81,34 @@
         headView.y = 0;
     }
     
-    
     [self.view addSubview:headView];
     MyLog(@"headView===%@",NSStringFromCGRect(self.headView.frame));
     self.headView = headView;
     self.headView.delegate = self;
+    
+    //添加搜索结果显示
+    UIView *resultView = [[UIView alloc] init];
+    resultView.x = 0;
+    resultView.y = CGRectGetMaxY(self.headView.frame);
+    resultView.width = self.view.width;
+    if (self.from == FromeSearch) {
+        resultView.height = LMResultViewH;
+    }else
+    {
+        resultView.height = 0;
+    }
+    self.resultView = resultView;
+    resultView.backgroundColor = UIColorFromRGB(0xf0f0f0);
+    [self.view addSubview:resultView];
+    
+    UILabel *resultLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, self.view.width - 20, LMResultViewH)];
+    resultLabel.text = [NSString stringWithFormat:@"当前搜索: %@",self.searchContent];
+    resultLabel.textColor = [UIColor darkGrayColor];
+    resultLabel.font = [UIFont systemFontOfSize:14];
+    [resultView addSubview:resultLabel];
 
     
     [self segmentAction:self.segm];
-    
     
     [self loadOrder];
     
@@ -131,12 +157,45 @@
 {
     NSInteger Index = Seg.selectedSegmentIndex;
     MyLog(@"Seg.selectedSegmentIndex:%d",Index);
+    self.segmNum = Index;
     
      if (Index == 0) {
          
+         self.orderListArr = self.courseOrders;
          //创建courseView
          LMCourseListViewController *clv = [[LMCourseListViewController alloc] init];
          self.clv = clv;
+         
+         //设置宽度
+         if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"]) {
+
+             if(self.from == FromeSearch)
+             {
+                 self.clv.tableView.y = 43 + LMResultViewH;
+             }else
+             {
+                 self.clv.tableView.y = 43;
+             }
+         }else
+         {
+             if(self.from == FromeSearch)
+             {
+                 self.clv.tableView.y = 107 + LMResultViewH;
+             }else
+             {
+                 self.clv.tableView.y = 107;
+             }
+         }
+         
+         if(self.from == FromeSearch)
+         {
+             self.clv.tableView.height = [UIScreen mainScreen].bounds.size.height - 107 - LMResultViewH;
+         }else
+         {
+             self.clv.tableView.height = [UIScreen mainScreen].bounds.size.height - 107;
+         }
+         
+         
          [self.slv removeFromParentViewController];
          [self addChildViewController:clv];
          [self.view addSubview:self.clv.view];
@@ -144,8 +203,40 @@
          
      } else
      {
+         self.orderListArr = self.schoolOrders;
          LMSchoolListViewController *slv = [[LMSchoolListViewController alloc] init];
          self.slv = slv;
+         
+         //设置宽度
+         if ([[NSString deviceString]  isEqualToString: @"iPhone 4S"]) {
+             
+             if(self.from == FromeSearch)
+             {
+                 self.slv.tableView.y = 43 + LMResultViewH;
+             }else
+             {
+                 self.slv.tableView.y = 43;
+             }
+         }else
+         {
+             if(self.from == FromeSearch)
+             {
+                 self.slv.tableView.y = 107 + LMResultViewH;
+             }else
+             {
+                 self.slv.tableView.y = 107;
+             }
+         }
+         
+         if(self.from == FromeSearch)
+         {
+             self.slv.tableView.height = [UIScreen mainScreen].bounds.size.height - 107 - LMResultViewH;
+         }else
+         {
+             self.slv.tableView.height = [UIScreen mainScreen].bounds.size.height - 107;
+         }
+         
+         
          [self.clv removeFromParentViewController];
          [self addChildViewController:slv];
          [self.clv.view removeFromSuperview];
@@ -177,10 +268,13 @@
         
         MyLog(@"responseObject===============%@",responseObject);
         
-        NSArray *courseOrders = [LMCourseOrder objectArrayWithKeyValuesArray:responseObject[@"courseOrders"]];
-        self.courseOrders = courseOrders;
+            NSArray *courseOrders = [LMCourseOrder objectArrayWithKeyValuesArray:responseObject[@"courseOrders"]];
+            self.courseOrders = courseOrders;
+            self.orderListArr = self.courseOrders;
         
-        
+            NSArray *schoolOrders = [LMCourseOrder objectArrayWithKeyValuesArray:responseObject[@"schoolOrders"]];
+            self.schoolOrders = schoolOrders;
+  
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         LogObj(error.localizedDescription);
     }];
@@ -248,7 +342,6 @@
 - (void)navBtnClick
 {
     LMSearchViewController *lv = [[LMSearchViewController alloc] init];
-    lv.from = FromeTotal;
     lv.delegate =self;
     [self.navigationController pushViewController:lv animated:NO];
 }
@@ -378,7 +471,7 @@
             [menuView addSubview:lvc.view];
             self.lvc = lvc;
             lvc.delegate = self;
-            lvc.listArr = self.courseOrders;
+            lvc.listArr = self.orderListArr;
             [lvc.tableView reloadData];
         }
         
@@ -541,6 +634,22 @@
         _courseOrders = [NSArray array];
     }
     return _courseOrders;
+}
+
+- (NSArray *)schoolOrders
+{
+    if (_schoolOrders == nil) {
+        _schoolOrders = [NSArray array];
+    }
+    return _schoolOrders;
+}
+
+- (NSArray *)orderListArr
+{
+    if (_orderListArr == nil) {
+        _orderListArr = [NSArray array];
+    }
+    return _orderListArr;
 }
 
 @end
