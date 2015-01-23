@@ -15,6 +15,7 @@
 #import "MJRefresh.h"
 #import "LMAccount.h"
 #import "LMAccountInfo.h"
+#import "MTA.h"
 
 @interface LMSchoolListViewController ()
 @property (nonatomic, weak) UIView *moreView;
@@ -268,6 +269,18 @@
    
     li.id = cell.id;
     
+    //行为分析
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+    NSDictionary *dict = nil;
+    if (account) {
+        NSString *userPhone = account.userPhone;
+        dict = @{@"phone":userPhone,@"device":deviceInfo,@"school":[NSString stringWithFormat:@"%lli",cell.id]};
+    }else
+    {
+        dict = @{@"device":deviceInfo,@"school":[NSString stringWithFormat:@"%lli",cell.id]};
+    }
+    [MTA trackCustomKeyValueEvent:@"event_school_list_click" props:dict];
     
     
     [self.navigationController pushViewController:li animated:YES];

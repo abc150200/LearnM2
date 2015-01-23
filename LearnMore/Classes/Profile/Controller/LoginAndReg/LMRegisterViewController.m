@@ -19,6 +19,7 @@
 #import "LMAccount.h"
 #import "AESenAndDe.h"
 #import "AESenAndDe.h"
+#import "MTA.h"
 
 #import "AFNetworking.h"
 
@@ -499,6 +500,19 @@
                 
                 [MBProgressHUD hideHUD];
                 [MBProgressHUD showSuccess:@"登录成功"];
+                
+                
+                //行为分析
+                NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+                NSDictionary *dictX = nil;
+                if (account) {
+                    NSString *userPhone = account.userPhone;
+                    dictX = @{@"phone":userPhone,@"device":deviceInfo};
+                }else
+                {
+                    dictX = @{@"device":deviceInfo};
+                }
+                [MTA trackCustomKeyValueEvent:@"event_my_reg_success" props:dictX];
                 
                 for (UIViewController *controller in self.navigationController.viewControllers) {
                     if ([controller isKindOfClass:[LMSettingViewController class]]) {

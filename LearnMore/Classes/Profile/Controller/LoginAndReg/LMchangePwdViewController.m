@@ -9,6 +9,9 @@
 #import "LMchangePwdViewController.h"
 #import "AFNetworking.h"
 #import "MBProgressHUD+NJ.h"
+#import "LMAccount.h"
+#import "LMAccountInfo.h"
+#import "MTA.h"
 
  static  int timeCount = 0;
 
@@ -189,6 +192,20 @@
             {
                 [MBProgressHUD hideHUD];
                 [MBProgressHUD showSuccess:@"提交成功,请登录"];
+                
+                //行为分析
+                NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+                LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+                NSDictionary *dictX = nil;
+                if (account) {
+                    NSString *userPhone = account.userPhone;
+                    dictX = @{@"phone":userPhone,@"device":deviceInfo};
+                }else
+                {
+                    dictX = @{@"device":deviceInfo};
+                }
+                [MTA trackCustomKeyValueEvent:@"event_my_fetch_ok" props:dictX];
+                
                 [self.navigationController popViewControllerAnimated:YES];
             }
                 

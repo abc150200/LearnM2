@@ -128,7 +128,6 @@
 {
     [super viewWillAppear:animated];
     
-    
     [self.view addSubview:self.phone];
     
     //重写返回按钮
@@ -349,6 +348,18 @@
 {
     [super viewWillDisappear:animated];
     
+    //行为分析
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+    NSDictionary *dict = nil;
+    if (account) {
+        NSString *userPhone = account.userPhone;
+        dict = @{@"phone":userPhone,@"device":deviceInfo,@"school":[NSString stringWithFormat:@"%lli",self.id]};
+    }else
+    {
+        dict = @{@"device":deviceInfo,@"school":[NSString stringWithFormat:@"%lli",self.id]};
+    }
+    [MTA trackCustomKeyValueEvent:@"event_school_item_show" props:dict];
     
 }
 

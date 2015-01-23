@@ -16,6 +16,8 @@
 
 @property (nonatomic, assign) long long id;
 
+@property (nonatomic, assign) NSInteger fromCourseId;
+
 
 
 @end

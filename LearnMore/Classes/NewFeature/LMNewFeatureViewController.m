@@ -10,6 +10,9 @@
 
 #import "LMNewFeatureViewController.h"
 #import "MJTabBarController.h"
+#import "LMAccountInfo.h"
+#import "LMAccount.h"
+#import "MTA.h"
 
 @interface LMNewFeatureViewController ()<UIScrollViewDelegate>
 @property (nonatomic, weak) UIPageControl *pageControl;
@@ -100,6 +103,22 @@
  */
 - (void)startBtnOnClick
 {
+    
+    //#import "MTA.h"
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+
+    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+    NSDictionary *dict = nil;
+    if (account) {
+        NSString *userPhone = account.userPhone;
+        dict = @{@"phone":userPhone,@"device":deviceInfo};
+    }else
+    {
+        dict = @{@"device":deviceInfo};
+    }
+    
+    [MTA trackCustomKeyValueEvent:@"event_guiding_start" props:dict];
+    
     
     UIApplication *app = [UIApplication sharedApplication];
     app.statusBarHidden = NO;

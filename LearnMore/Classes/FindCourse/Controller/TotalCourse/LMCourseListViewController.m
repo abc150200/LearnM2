@@ -16,6 +16,7 @@
 #import "MJRefresh.h"
 #import "LMAccount.h"
 #import "LMAccountInfo.h"
+#import "MTA.h"
 
 @interface LMCourseListViewController ()
 @property (nonatomic, weak) UIView *moreView;
@@ -271,7 +272,20 @@
     li.title = @"课程介绍";
     li.needBook = needBook;
     li.id = cell.id;
+    li.toSchoolId = cell.schoolId;
     
+    //行为分析
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+    NSDictionary *dict = nil;
+    if (account) {
+        NSString *userPhone = account.userPhone;
+        dict = @{@"phone":userPhone,@"device":deviceInfo,@"course":[NSString stringWithFormat:@"%lli",cell.id],@"school":[NSString stringWithFormat:@"%d",cell.schoolId]};
+    }else
+    {
+        dict = @{@"device":deviceInfo,@"course":[NSString stringWithFormat:@"%lli",cell.id],@"school":[NSString stringWithFormat:@"%d",cell.schoolId]};
+    }
+    [MTA trackCustomKeyValueEvent:@"event_course_list_click" props:dict];
     
     [self.navigationController pushViewController:li animated:YES];
 }

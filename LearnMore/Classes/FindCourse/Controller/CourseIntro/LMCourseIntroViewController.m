@@ -176,6 +176,7 @@
     [super viewWillAppear:animated];
     
     
+    
     self.ensure.hidden = YES;
     self.discount.hidden = YES;
     self.cerf.hidden = YES;
@@ -1059,6 +1060,19 @@
 {
     [super viewWillDisappear:animated];
     
+    
+    //行为分析
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+    NSDictionary *dict = nil;
+    if (account) {
+        NSString *userPhone = account.userPhone;
+        dict = @{@"phone":userPhone,@"device":deviceInfo,@"course":[NSString stringWithFormat:@"%lli",self.id],@"school":[NSString stringWithFormat:@"%lli",self.schoolId]};
+    }else
+    {
+        dict = @{@"device":deviceInfo,@"course":[NSString stringWithFormat:@"%lli",self.id],@"school":[NSString stringWithFormat:@"%lli",self.schoolId]};
+    }
+    [MTA trackCustomKeyValueEvent:@"event_course_item_show" props:dict];
   
 }
 
@@ -1133,6 +1147,7 @@
     si.secondTypeName = self.typeNameLabel.text;
     si.title = @"学校信息";
     si.id = self.schoolId;
+    si.fromCourseId = self.id;
    
     
     [self.navigationController pushViewController:si animated:YES];
@@ -1154,13 +1169,12 @@
         NSDictionary *dict = nil;
         if (account) {
             NSString *sid = account.sid;
-            dict = @{@"sid":sid,@"type":@"1",@"id":coId,@"version":version,@"device":deviceInfo};
+            NSString *userPhone = account.userPhone;
+            dict = @{@"sid":sid,@"phone":userPhone,@"type":@"1",@"id":coId,@"version":version,@"device":deviceInfo};
         }else
         {
             dict = @{@"type":@"1",@"id":coId,@"version":version,@"device":deviceInfo};
         }
-        
-
         [MTA trackCustomKeyValueEvent:@"course_call_record" props:dict];
         
         UIAlertView *alert  = [[UIAlertView alloc] initWithTitle:nil message:self.phoneNum delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"呼叫", nil];
@@ -1180,7 +1194,7 @@
         [[UIApplication sharedApplication] openURL:phoneURL];
         
         MyLog(@"name===1");
-        
+ 
         //拨打电话记录统计
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         
@@ -1209,6 +1223,19 @@
             LogObj(error.localizedDescription);
         }];
         
+        
+        //行为分析
+        NSDictionary *dict = nil;
+        if (account) {
+            NSString *userPhone = account.userPhone;
+            dict = @{@"phone":userPhone,@"device":deviceInfo,@"course":[NSString stringWithFormat:@"%lli",self.id],@"school":[NSString stringWithFormat:@"%lli",self.schoolId]};
+        }else
+        {
+            dict = @{@"device":deviceInfo,@"course":[NSString stringWithFormat:@"%lli",self.id],@"school":[NSString stringWithFormat:@"%lli",self.schoolId]};
+        }
+        [MTA trackCustomKeyValueEvent:@"event_course_call_ok" props:dict];
+        
+        
     }else
     {
         MyLog(@"name===0");
@@ -1221,6 +1248,20 @@
 
 /** 预约按钮 */
 - (IBAction)reserveBtn:(id)sender {
+    
+    
+    //行为分析
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+    NSDictionary *dict = nil;
+    if (account) {
+        NSString *userPhone = account.userPhone;
+        dict = @{@"phone":userPhone,@"device":deviceInfo,@"course":[NSString stringWithFormat:@"%lli",self.id],@"school":[NSString stringWithFormat:@"%lli",self.schoolId]};
+    }else
+    {
+        dict = @{@"device":deviceInfo,@"course":[NSString stringWithFormat:@"%lli",self.id],@"school":[NSString stringWithFormat:@"%lli",self.schoolId]};
+    }
+    [MTA trackCustomKeyValueEvent:@"event_course_reg" props:dict];
     
     
     if(self.needBook)

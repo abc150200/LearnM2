@@ -39,7 +39,7 @@
 #import "DejalActivityView.h"
 #import "LMAccountInfo.h"
 #import "LMAccount.h"
-
+#import "MTA.h"
 
 
 
@@ -253,6 +253,20 @@
 {
     [super viewWillAppear:animated];
     
+    //首页访问分析
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    
+    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+    NSDictionary *dict = nil;
+    if (account) {
+        NSString *userPhone = account.userPhone;
+        dict = @{@"phone":userPhone,@"device":deviceInfo};
+    }else
+    {
+        dict = @{@"device":deviceInfo};
+    }
+    [MTA trackCustomKeyValueEvent:@"event_home_start" props:dict];
+    
     //设置浏览判断语句
     NSString *lastTime =[[NSUserDefaults standardUserDefaults] objectForKey:@"lastTime"];
     if(lastTime != nil)
@@ -362,6 +376,23 @@
                     LMAdOtherViewController *odv = [[LMAdOtherViewController alloc] init];
                     odv.urlString = [NSString stringWithFormat:@"%@%@",dic[@"pageUrl"],account.userPhone] ;
                     odv.title = dic[@"title"];
+                    
+                    //行为分析
+                    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+                    
+                    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+                    NSDictionary *dict = nil;
+                    if (account) {
+                        NSString *userPhone = account.userPhone;
+                        dict = @{@"phone":userPhone,@"device":deviceInfo,@"ad":@"H5页面",@"num":@"0"};
+                    }else
+                    {
+                        dict = @{@"device":deviceInfo,@"ad":@"H5页面",@"num":@"0"};
+                    }
+                    
+                    [MTA trackCustomKeyValueEvent:@"event_home_ad_click" props:dict];
+                    
+                    
                     [self.navigationController pushViewController:odv animated:YES];
                 }
                     break;
@@ -370,6 +401,22 @@
                 {
                     LMCourseIntroViewController *cdv = [[LMCourseIntroViewController alloc] init];
                     cdv.id = [dic[@"typeId"] intValue];
+                    
+                    //行为分析
+                    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+                    
+                    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+                    NSDictionary *dict = nil;
+                    if (account) {
+                        NSString *userPhone = account.userPhone;
+                        dict = @{@"phone":userPhone,@"device":deviceInfo,@"ad":dic[@"typeId"],@"num":@"1"};
+                    }else
+                    {
+                        dict = @{@"device":deviceInfo,@"ad":dic[@"typeId"],@"num":@"1"};
+                    }
+                    
+                    [MTA trackCustomKeyValueEvent:@"event_home_ad_click" props:dict];
+                    
                     [self.navigationController pushViewController:cdv animated:YES];
                 }
                     break;
@@ -378,6 +425,22 @@
                 {
                     LMActivityDetailViewController *adv = [[LMActivityDetailViewController alloc] init];
                     adv.id = [dic[@"typeId"] intValue];
+                    
+                    //行为分析
+                    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+                    
+                    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+                    NSDictionary *dict = nil;
+                    if (account) {
+                        NSString *userPhone = account.userPhone;
+                        dict = @{@"phone":userPhone,@"device":deviceInfo,@"ad":dic[@"typeId"],@"num":@"2"};
+                    }else
+                    {
+                        dict = @{@"device":deviceInfo,@"ad":dic[@"typeId"],@"num":@"2"};
+                    }
+                    
+                    [MTA trackCustomKeyValueEvent:@"event_home_ad_click" props:dict];
+                    
                     [self.navigationController pushViewController:adv animated:YES];
                 }
                     break;
@@ -386,6 +449,21 @@
                 {
                     LMSchoolIntroViewController *adv = [[LMSchoolIntroViewController alloc] init];
                     adv.id = [dic[@"typeId"] intValue];
+                    //行为分析
+                    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+                    
+                    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+                    NSDictionary *dict = nil;
+                    if (account) {
+                        NSString *userPhone = account.userPhone;
+                        dict = @{@"phone":userPhone,@"device":deviceInfo,@"ad":dic[@"typeId"],@"num":@"3"};
+                    }else
+                    {
+                        dict = @{@"device":deviceInfo,@"ad":dic[@"typeId"],@"num":@"3"};
+                    }
+                    
+                    [MTA trackCustomKeyValueEvent:@"event_home_ad_click" props:dict];
+                    
                     [self.navigationController pushViewController:adv animated:YES];
                 }
                     break;
@@ -394,6 +472,22 @@
                 {
                     LMTeacherIntroViewController *adv = [[LMTeacherIntroViewController alloc] init];
                     adv.id = [dic[@"typeId"] intValue];
+                    
+                    //行为分析
+                    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+                    
+                    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+                    NSDictionary *dict = nil;
+                    if (account) {
+                        NSString *userPhone = account.userPhone;
+                        dict = @{@"phone":userPhone,@"device":deviceInfo,@"ad":dic[@"typeId"],@"num":@"4"};
+                    }else
+                    {
+                        dict = @{@"device":deviceInfo,@"ad":dic[@"typeId"],@"num":@"4"};
+                    }
+                    
+                    [MTA trackCustomKeyValueEvent:@"event_home_ad_click" props:dict];
+                    
                     [self.navigationController pushViewController:adv animated:YES];
                 }
                     break;
@@ -423,8 +517,25 @@
             case 0:
             {
                 LMAdOtherViewController *odv = [[LMAdOtherViewController alloc] init];
-                odv.urlString = [NSString stringWithFormat:@"%@%@",dic[@"pageUrl"],account.userPhone];
+                odv.urlString = [NSString stringWithFormat:@"%@%@",dic[@"pageUrl"],account.userPhone] ;
                 odv.title = dic[@"title"];
+                
+                //行为分析
+                NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+                
+                LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+                NSDictionary *dict = nil;
+                if (account) {
+                    NSString *userPhone = account.userPhone;
+                    dict = @{@"phone":userPhone,@"device":deviceInfo,@"ad":@"H5页面",@"num":@"0"};
+                }else
+                {
+                    dict = @{@"device":deviceInfo,@"ad":@"H5页面",@"num":@"0"};
+                }
+                
+                [MTA trackCustomKeyValueEvent:@"event_home_ad_click" props:dict];
+                
+                
                 [self.navigationController pushViewController:odv animated:YES];
             }
                 break;
@@ -433,6 +544,22 @@
             {
                 LMCourseIntroViewController *cdv = [[LMCourseIntroViewController alloc] init];
                 cdv.id = [dic[@"typeId"] intValue];
+                NSString *adId = [NSString stringWithFormat:@"%@",dic[@"typeId"]];
+                //行为分析
+                NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+                
+                LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+                NSDictionary *dict = nil;
+                if (account) {
+                    NSString *userPhone = account.userPhone;
+                    dict = @{@"phone":userPhone,@"device":deviceInfo,@"ad":adId,@"num":@"1"};
+                }else
+                {
+                    dict = @{@"device":deviceInfo,@"ad":adId,@"num":@"1"};
+                }
+                
+                [MTA trackCustomKeyValueEvent:@"event_home_ad_click" props:dict];
+                
                 [self.navigationController pushViewController:cdv animated:YES];
             }
                 break;
@@ -441,6 +568,22 @@
             {
                 LMActivityDetailViewController *adv = [[LMActivityDetailViewController alloc] init];
                 adv.id = [dic[@"typeId"] intValue];
+                NSString *adId = [NSString stringWithFormat:@"%@",dic[@"typeId"]];
+                //行为分析
+                NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+                
+                LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+                NSDictionary *dict = nil;
+                if (account) {
+                    NSString *userPhone = account.userPhone;
+                    dict = @{@"phone":userPhone,@"device":deviceInfo,@"ad":adId,@"num":@"2"};
+                }else
+                {
+                    dict = @{@"device":deviceInfo,@"ad":adId,@"num":@"2"};
+                }
+                
+                [MTA trackCustomKeyValueEvent:@"event_home_ad_click" props:dict];
+                
                 [self.navigationController pushViewController:adv animated:YES];
             }
                 break;
@@ -449,6 +592,22 @@
             {
                 LMSchoolIntroViewController *adv = [[LMSchoolIntroViewController alloc] init];
                 adv.id = [dic[@"typeId"] intValue];
+                NSString *adId = [NSString stringWithFormat:@"%@",dic[@"typeId"]];
+                //行为分析
+                NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+                
+                LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+                NSDictionary *dict = nil;
+                if (account) {
+                    NSString *userPhone = account.userPhone;
+                    dict = @{@"phone":userPhone,@"device":deviceInfo,@"ad":adId,@"num":@"3"};
+                }else
+                {
+                    dict = @{@"device":deviceInfo,@"ad":adId,@"num":@"3"};
+                }
+                
+                [MTA trackCustomKeyValueEvent:@"event_home_ad_click" props:dict];
+                
                 [self.navigationController pushViewController:adv animated:YES];
             }
                 break;
@@ -457,6 +616,22 @@
             {
                 LMTeacherIntroViewController *adv = [[LMTeacherIntroViewController alloc] init];
                 adv.id = [dic[@"typeId"] intValue];
+                NSString *adId = [NSString stringWithFormat:@"%@",dic[@"typeId"]];
+                //行为分析
+                NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+                
+                LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+                NSDictionary *dict = nil;
+                if (account) {
+                    NSString *userPhone = account.userPhone;
+                    dict = @{@"phone":userPhone,@"device":deviceInfo,@"ad":adId,@"num":@"4"};
+                }else
+                {
+                    dict = @{@"device":deviceInfo,@"ad":adId,@"num":@"4"};
+                }
+                
+                [MTA trackCustomKeyValueEvent:@"event_home_ad_click" props:dict];
+                
                 [self.navigationController pushViewController:adv animated:YES];
             }
                 break;
@@ -537,6 +712,19 @@
 
 - (void)searchBtnClick
 {
+    //行为分析
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+    NSDictionary *dict = nil;
+    if (account) {
+        NSString *userPhone = account.userPhone;
+        dict = @{@"phone":userPhone,@"device":deviceInfo};
+    }else
+    {
+        dict = @{@"device":deviceInfo};
+    }
+    [MTA trackCustomKeyValueEvent:@"event_search_box_click" props:dict];
+    
     LMSearchViewController *rv = [[LMSearchViewController alloc] init];
     [self.navigationController pushViewController:rv animated:NO];
 }
@@ -747,6 +935,19 @@
 //    
 //    [self presentViewController:city animated:NO completion:nil];
     
+    //行为分析
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    
+    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+    NSDictionary *dict = nil;
+    if (account) {
+        NSString *userPhone = account.userPhone;
+        dict = @{@"phone":userPhone,@"device":deviceInfo};
+    }else
+    {
+        dict = @{@"device":deviceInfo};
+    }
+    [MTA trackCustomKeyValueEvent:@"event_home_city_switch_click" props:dict];
     
     UILabel *label = [[UILabel alloc] init];
     label.width = 200;

@@ -65,6 +65,7 @@
 //    self.secondTypeName.text = [NSString stringWithFormat:@"%@ | %@",_courselist.secondTypeName,[NSString ageBegin:_courselist.propAgeStart ageEnd:_courselist.propAgeEnd]];
     self.schoolInfoLabel.text = _courselist.schoolFullName;
     self.id = _courselist.id;
+    self.schoolId = _courselist.schoolId;
     self.free.hidden = !(_courselist.needBook);
     
     self.needBook = _courselist.needBook;

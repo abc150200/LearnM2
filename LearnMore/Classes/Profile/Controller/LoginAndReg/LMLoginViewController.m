@@ -15,6 +15,7 @@
 #import "MBProgressHUD+NJ.h"
 #import "LMAccount.h"
 #import "LMAccountInfo.h"
+#import "MTA.h"
 
 #import "GTMBase64.h"
 #import "AESenAndDe.h"
@@ -221,6 +222,18 @@
                         
                         [[LMAccountInfo sharedAccountInfo] setAccount:account];
                         LogObj([LMAccountInfo sharedAccountInfo].account);
+                        
+                        //行为分析
+                        NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+                        NSDictionary *dictX = nil;
+                        if (account) {
+                            NSString *userPhone = account.userPhone;
+                            dictX = @{@"phone":userPhone,@"device":deviceInfo};
+                        }else
+                        {
+                            dictX = @{@"device":deviceInfo};
+                        }
+                        [MTA trackCustomKeyValueEvent:@"event_my_login_success" props:dictX];
                         
                         
 //                        [self.navigationController popViewControllerAnimated:YES];

@@ -14,5 +14,6 @@
 /** 课程的id */
 @property (nonatomic, assign) long long  id;
 @property (nonatomic, strong) LMCourseInfo *courseInfo;
+@property (nonatomic, assign) NSInteger toSchoolId;
 @property (nonatomic, assign) int needBook;
 @end

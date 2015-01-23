@@ -11,6 +11,7 @@
 
 @interface LMCourseViewCell : UITableViewCell
 @property (nonatomic, assign) long long id;
+@property (nonatomic, assign) NSInteger schoolId;
 @property (nonatomic, assign) int needBook;
 @property (weak, nonatomic) IBOutlet UILabel *courseName;
 @property (weak, nonatomic) IBOutlet UILabel *secondTypeName;

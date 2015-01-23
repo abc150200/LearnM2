@@ -10,6 +10,9 @@
 #import "LMSearchViewController.h"
 #import "LMSearchBar.h"
 #import "LMCourseListMainViewController.h"
+#import "MTA.h"
+#import "LMAccountInfo.h"
+#import "LMAccount.h"
 
 @interface LMSearchViewController ()<UITextFieldDelegate,UIScrollViewDelegate>
 /** 导航栏标题 */
@@ -127,6 +130,21 @@
 {
     MyLog(@"23323===%@",btn.currentTitle);
     
+
+    
+    //行为分析
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+    NSDictionary *dict = nil;
+    if (account) {
+        NSString *userPhone = account.userPhone;
+        dict = @{@"phone":userPhone,@"device":deviceInfo,@"keyword":btn.currentTitle};
+    }else
+    {
+        dict = @{@"device":deviceInfo,@"keyword":btn.currentTitle};
+    }
+    [MTA trackCustomKeyValueEvent:@"event_search_hot_click" props:dict];
+    
     [self.historyList addObject:btn.currentTitle];
     
     LMCourseListMainViewController *lv = [[LMCourseListMainViewController alloc] init];
@@ -183,6 +201,19 @@
 {
     
     [self.historyList addObject:textField.text];
+    
+    //行为分析
+    NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+    LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
+    NSDictionary *dict = nil;
+    if (account) {
+        NSString *userPhone = account.userPhone;
+        dict = @{@"phone":userPhone,@"device":deviceInfo,@"keyword":textField.text};
+    }else
+    {
+        dict = @{@"device":deviceInfo,@"keyword":textField.text};
+    }
+    [MTA trackCustomKeyValueEvent:@"event_search_input_keyword" props:dict];
     
 
     LMCourseListMainViewController *lv = [[LMCourseListMainViewController alloc] init];

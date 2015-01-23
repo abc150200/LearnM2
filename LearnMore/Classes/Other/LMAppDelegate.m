@@ -59,32 +59,6 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     
-
-    // 3.显示wiondw
-    [self.window makeKeyAndVisible];
-    
-    //4.显示新特性
-    [LMControllerTool chooseViewController];
-    
-    
-    
-    //获取设备信息
-    //获取沙盒中的版本号
-    NSString *key = (__bridge_transfer NSString *)kCFBundleVersionKey;
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *localVersion = [defaults objectForKey:key];
-    
-    //获得plist中的版本号
-    NSDictionary *dict = [NSBundle mainBundle].infoDictionary;
-    NSString *currentVersion = dict[key];
-    if ([currentVersion compare:localVersion] == NSOrderedDescending) {
-        //当前版本号比本地版本号高
-        
-        //存储当前系统版本号
-        [defaults setObject:currentVersion forKey:key];
-        [defaults synchronize];
-    }
     
     UIDevice *device=[[UIDevice alloc] init];
     NSString *deviceName = device.name;//设备所有者的名称
@@ -93,12 +67,33 @@
     NSString *devicesyStemVersion = device.systemVersion; //当前系统的版本
     NSString *deviceUUID = device.identifierForVendor.UUIDString;//设备识别码
     
-    NSString *deviceAll = [NSString stringWithFormat:@"%@#%@#%@#%@#%@#%@",deviceName,deviceModel,deviceLocalizedModel,devicesyStemVersion,deviceUUID,currentVersion];
+    NSString *deviceAll = [NSString stringWithFormat:@"%@#%@#%@#%@#%@",deviceName,deviceModel,deviceLocalizedModel,devicesyStemVersion,deviceUUID];
     [[NSUserDefaults standardUserDefaults] setObject:deviceAll forKey:@"deviceInfo"];
-    [[NSUserDefaults standardUserDefaults] setObject:localVersion forKey:@"version"];
+//    [[NSUserDefaults standardUserDefaults] setObject:localVersion forKey:@"version"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     MyLog(@"deviceAll===%@",deviceAll);
+    
+    // 3.显示wiondw
+    [self.window makeKeyAndVisible];
+    
+    //4.显示新特性
+    [LMControllerTool chooseViewController];
+    
+
+   //加入版本号
+    NSString *key = (__bridge_transfer NSString *)kCFBundleVersionKey;
+
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *localVersion = [defaults objectForKey:key];
+   
+    NSString *deviceAll1 = [NSString stringWithFormat:@"%@#%@#%@#%@#%@#%@",deviceName,deviceModel,deviceLocalizedModel,devicesyStemVersion,deviceUUID,localVersion];
+    [[NSUserDefaults standardUserDefaults] setObject:deviceAll1 forKey:@"deviceInfo"];
+    [[NSUserDefaults standardUserDefaults] setObject:localVersion forKey:@"version"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    MyLog(@"deviceAll1===%@",deviceAll1);
+    MyLog(@"deviceAll2===%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"]);
     
     /** 读取账号 */
     LMAccount *account = [LMAccountTool account];
@@ -172,8 +167,8 @@
                 
                 NSString *dataJson = [AESenAndDe De_Base64andAESDeToString:dataStr keyValue:key];
                 NSDictionary *dict = [dataJson objectFromJSONString];
-                
-    
+
+
                 
                 NSMutableDictionary *dictM = [NSMutableDictionary dictionaryWithDictionary:dict];
                 dictM[@"userPhone"] = account.userPhone;
@@ -191,6 +186,18 @@
               
                 [[LMAccountInfo sharedAccountInfo] setAccount:account];
                 LogObj([LMAccountInfo sharedAccountInfo].account);
+                
+                //行为分析
+                NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
+                NSDictionary *dictX = nil;
+                if (account) {
+                    NSString *userPhone = account.userPhone;
+                    dictX = @{@"phone":userPhone,@"device":deviceInfo};
+                }else
+                {
+                    dictX = @{@"device":deviceInfo};
+                }
+                [MTA trackCustomKeyValueEvent:@"event_my_login_success" props:dictX];
                 
                 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -299,11 +306,11 @@
     NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"commons/open.json"];
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    if(currentVersion)
+    if(localVersion)
     {
-        parameters[@"version"] = currentVersion;
+        parameters[@"version"] = localVersion;
     }
-    parameters[@"device"] = deviceAll;
+    parameters[@"device"] = deviceAll1;
   
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         

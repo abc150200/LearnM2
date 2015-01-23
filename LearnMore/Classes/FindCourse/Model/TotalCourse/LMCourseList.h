@@ -16,6 +16,7 @@
 @interface LMCourseList : NSObject
 
 @property (assign, nonatomic) long long id; //课程编号
+@property (nonatomic, assign) NSInteger schoolId;//学校id
 @property (copy, nonatomic) NSString *courseName;// 课程名称
 @property (copy, nonatomic) NSString *schoolFullName;// 所属学校名字
 @property (copy, nonatomic) NSString *secondTypeName; // 课程分类
