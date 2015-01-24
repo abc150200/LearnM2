@@ -13,7 +13,7 @@
 #import "LMActivityViewController.h"
 #import "LMSettingViewController.h"
 #import "MJNavigationController.h"
-
+#import "MJBlueNavigationController.h"
 
 @interface MJTabBarController () <MJTabBarDelegate,UINavigationControllerDelegate>
 
@@ -28,22 +28,22 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         
-        MJNavigationController *nav1 = [[MJNavigationController alloc] init];
-        LMFindCourseViewController *fv = [[LMFindCourseViewController alloc] init];
-        [nav1 addChildViewController:fv];
-        [self addChildViewController:nav1];
+//        MJBlueNavigationController *nav1 = [[MJBlueNavigationController alloc] init];
+//        LMFindCourseViewController *fv = [[LMFindCourseViewController alloc] init];
+//        [nav1 addChildViewController:fv];
+//        [self addChildViewController:nav1];
         
         
-        MJNavigationController *nav2 = [[MJNavigationController alloc] init];
-        LMActivityViewController *av = [[LMActivityViewController alloc] init];
-        [nav2 addChildViewController:av];
-        [self addChildViewController:nav2];
+//        MJNavigationController *nav2 = [[MJNavigationController alloc] init];
+//        LMActivityViewController *av = [[LMActivityViewController alloc] init];
+//        [nav2 addChildViewController:av];
+//        [self addChildViewController:nav2];
         
         
-        MJNavigationController *nav3 = [[MJNavigationController alloc] init];
-        LMSettingViewController *sv = [[LMSettingViewController alloc] init];
-        [nav3 addChildViewController:sv];
-        [self addChildViewController:nav3];
+//        MJNavigationController *nav3 = [[MJNavigationController alloc] init];
+//        LMSettingViewController *sv = [[LMSettingViewController alloc] init];
+//        [nav3 addChildViewController:sv];
+//        [self addChildViewController:nav3];
         
     }
     return self;
@@ -58,7 +58,8 @@
     myTabBar.backgroundColor = UIColorFromRGB(0xfcfcfc);
     myTabBar.delegate = self;
     myTabBar.frame = self.tabBar.bounds;
-    [self.tabBar addSubview:myTabBar];
+//    [self.tabBar addSubview:myTabBar];
+    [self.tabBar removeFromSuperview];
     LogFrame(self.tabBar);
     
     // 2.添加对应个数的按钮

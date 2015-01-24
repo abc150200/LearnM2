@@ -33,7 +33,7 @@
 {
     _srcClass = srcClass;
     
-//    MJAssertParamNotNil(srcClass);
+    MJAssertParamNotNil(srcClass);
     
     _srcClassFromFoundation = [MJFoundation isClassFromFoundation:srcClass];
 }

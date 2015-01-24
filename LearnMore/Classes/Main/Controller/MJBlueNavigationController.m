@@ -1,21 +1,23 @@
 //
-//  MJNavigationController.m
-//  00-ItcastLottery
+//  MJBlueNavigationController.m
+//  LearnMore
 //
-//  Created by apple on 14-4-14.
-//  Copyright (c) 2014年 itcast. All rights reserved.
+//  Created by study on 15-1-23.
+//  Copyright (c) 2015年 youxuejingxuan. All rights reserved.
 //
 
-#import "MJNavigationController.h"
+#import "MJBlueNavigationController.h"
 
-@interface MJNavigationController ()
+@interface MJBlueNavigationController ()
 
 @end
 
-@implementation MJNavigationController
+@implementation MJBlueNavigationController
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     
     
     // 1.设置导航条的主题
@@ -52,10 +54,10 @@
     // 设置字体的大小
     itemMd[NSFontAttributeName] = [UIFont systemFontOfSize:15];
     // 去掉阴影
-//    itemMd[NSShadowAttributeName] = [NSValue valueWithUIOffset:UIOffsetZero];
+    //    itemMd[NSShadowAttributeName] = [NSValue valueWithUIOffset:UIOffsetZero];
     [item setTitleTextAttributes:itemMd forState:UIControlStateNormal];
-
-   
+    
+    
 }
 
 /**
@@ -68,14 +70,14 @@
     
     navBar.tintColor = UIColorFromRGB(0x9ac72c);
     
-//    [navBar setBackgroundImage:[UIImage resizableImageWithName:@"navX"] forBarMetrics:UIBarMetricsDefault];
+//    [navBar setBackgroundImage:[UIImage resizableImageWithName:@"home_nav2"] forBarMetrics:UIBarMetricsDefault];
     
     // 1.1.3设置标题颜色
     NSMutableDictionary *titleMd = [NSMutableDictionary dictionary];
     // 设置字体颜色
     titleMd[NSForegroundColorAttributeName] = UIColorFromRGB(0x333333);
     // 去掉阴影
-//    titleMd[NSShadowAttributeName] = [NSValue valueWithUIOffset:UIOffsetZero];
+    //    titleMd[NSShadowAttributeName] = [NSValue valueWithUIOffset:UIOffsetZero];
     // 设置字体大小
     titleMd[NSFontAttributeName] = [UIFont systemFontOfSize:18];
     [navBar setTitleTextAttributes:titleMd];
@@ -106,7 +108,5 @@
     // 移除栈顶控制器
     [self popViewControllerAnimated:YES];
 }
-
-
 
 @end

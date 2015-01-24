@@ -7,8 +7,11 @@
 //
 
 #import "LMControllerTool.h"
-#import "MJTabBarController.h"
+//#import "MJTabBarController.h"
 #import "LMNewFeatureViewController.h"
+#import "LMFindCourseViewController.h"
+#import "MJBlueNavigationController.h"
+#import "MJNavigationController.h"
 
 @implementation LMControllerTool
 + (void)chooseViewController
@@ -42,8 +45,11 @@
     {
         // 2.1创建根控制器
         // 显示TabBarController
-        MJTabBarController  *tabBarVc = [[MJTabBarController alloc] init];
-        window.rootViewController = tabBarVc;
+        MJNavigationController *nav = [[MJNavigationController alloc] init];
+//        UINavigationController *nav = [[UINavigationController alloc] init];
+        LMFindCourseViewController  *fVc = [[LMFindCourseViewController alloc] init];
+        [nav addChildViewController:fVc];
+        window.rootViewController = nav;
     }
 }
 @end

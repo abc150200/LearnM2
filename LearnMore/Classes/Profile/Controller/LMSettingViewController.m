@@ -30,6 +30,9 @@
 
 @interface LMSettingViewController ()<UIAlertViewDelegate>
 
+//nav背景颜色
+@property (nonatomic, strong) UIImage *savedNavBarImage;
+
 @end
 
 @implementation LMSettingViewController
@@ -42,11 +45,17 @@
     
     self.title = @"我的";
     
+    UINavigationBar *navBar = [UINavigationBar appearance];
+    _savedNavBarImage = [navBar backgroundImageForBarMetrics:UIBarMetricsDefault];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"home_nav@2x.png"] forBarMetrics:UIBarMetricsDefault];
     
     /** 每次进来清空 */
     self.groups = nil;
@@ -58,6 +67,27 @@
     
     
 }
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    UINavigationController *navController = self.navigationController;
+    //hack:ios5及之前版本在非动画方式pop时self.navigationController为nil,通过其他途径获取导航控制器
+    if (!navController) {
+        UIViewController *parentController = self.presentingViewController;
+        if ([parentController isKindOfClass:[UINavigationController class]]) {
+            navController = (UINavigationController*)parentController;
+        }
+    }
+    
+    NSUInteger index = [navController.viewControllers indexOfObject:self];
+    if (index == NSNotFound || index == self.navigationController.viewControllers.count-2) {//pop 或者push
+        [navController.navigationBar setBackgroundImage:_savedNavBarImage forBarMetrics:UIBarMetricsDefault];
+    }
+    
+}
+
 
 
 - (void)setupItems

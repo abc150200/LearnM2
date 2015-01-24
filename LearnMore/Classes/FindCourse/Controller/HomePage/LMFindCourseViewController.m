@@ -40,6 +40,8 @@
 #import "LMAccountInfo.h"
 #import "LMAccount.h"
 #import "MTA.h"
+#import "MJBlueNavigationController.h"
+#import "LMSettingViewController.h"
 
 
 
@@ -82,8 +84,10 @@
 @property (nonatomic, weak) UIButton *alertViewBtn;
 @property (nonatomic, weak) UIView *alertView;
 
-
 @property (nonatomic, strong) UIView *failView;
+
+//nav背景颜色
+@property (nonatomic, strong) UIImage *savedNavBarImage;
 
 @end
 
@@ -95,6 +99,9 @@
     
     [super viewDidLoad];
     
+    UINavigationBar *navBar = [UINavigationBar appearance];
+    _savedNavBarImage = [navBar backgroundImageForBarMetrics:UIBarMetricsDefault];
+    
     CLProgressHUD *hud = [CLProgressHUD shareInstance];
     hud.type = CLProgressHUDTypeDarkBackground;
     hud.shape = CLProgressHUDShapeCircle;
@@ -104,53 +111,61 @@
     MyLog(@"%@=====",identifier);
 
     
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320,35)];
-    view.backgroundColor = [UIColor clearColor];
-    self.navigationItem.titleView = view;
+    UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0,self.view.width - 20,44)];
+    navView.backgroundColor = [UIColor clearColor];
+    self.navigationItem.titleView = navView;
+    
 
     
     //创建城市按钮
     IWCityButton *cityButton = [[IWCityButton alloc] init];
-    cityButton.frame = CGRectMake(20, 0, 55, 30);
+    cityButton.frame = CGRectMake(20, 0, 55, 44);
     // 设置标题
     [cityButton setTitle:@"北京" forState:UIControlStateNormal];
-    [cityButton setTitleColor:UIColorFromRGB(0x9ac72c) forState:UIControlStateNormal];
+    [cityButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
     [cityButton setImage:[UIImage imageNamed:@"btn_home_arrow"] forState:UIControlStateNormal];
-    [view addSubview:cityButton];
+    [navView addSubview:cityButton];
     self.cityButton = cityButton;
     // 2.1监听标题按钮的点击事件
     [cityButton addTarget:self action:@selector(titleBtnOnClick:) forControlEvents:UIControlEventTouchUpInside];
  
     
-    // 创建自定义搜素框
-    UIImageView *searchBar = [[UIImageView alloc] init];
-    searchBar.x = CGRectGetMaxX(self.cityButton.frame) + 20;
-    searchBar.y = 0;
-    searchBar.width = self.view.width - 20 - self.cityButton.width -20 - 15 - 15;
-    searchBar.height = 30;
-    searchBar.image = [UIImage resizableImageWithName:@"search_nav_bg"];
-    [view addSubview:searchBar];
-    self.searchBar = searchBar;
-    
-    //添加一个放大镜
-    UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search_search"]];
-    iv.frame = CGRectMake(10, 7.5, 15, 15);
-    [self.searchBar addSubview:iv];
-    
-    //添加label
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(35, 0, 100, 30)];
-    label.font = [UIFont systemFontOfSize:15];
-    label.textColor = [UIColor lightGrayColor];
-    label.text = @"输入关键字";
-    [self.searchBar addSubview:label];
+//    // 创建自定义搜素框
+//    UIImageView *searchBar = [[UIImageView alloc] init];
+//    searchBar.x = CGRectGetMaxX(self.cityButton.frame) + 20;
+//    searchBar.y = 0;
+//    searchBar.width = self.view.width - 20 - self.cityButton.width -20 - 15 - 15;
+//    searchBar.height = 30;
+//    searchBar.image = [UIImage resizableImageWithName:@"search_nav_bg"];
+//    [view addSubview:searchBar];
+//    self.searchBar = searchBar;
+//    
+//    //添加一个放大镜
+//    UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search_search"]];
+//    iv.frame = CGRectMake(10, 7.5, 15, 15);
+//    [self.searchBar addSubview:iv];
+//    
+//    //添加label
+//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(35, 0, 100, 30)];
+//    label.font = [UIFont systemFontOfSize:15];
+//    label.textColor = [UIColor lightGrayColor];
+//    label.text = @"输入关键字";
+//    [self.searchBar addSubview:label];
 
     //覆盖一个透明的按钮
-    UIButton *btn = [[UIButton alloc] initWithFrame:self.searchBar.frame];
-    btn.backgroundColor = [UIColor clearColor];
-    [view addSubview:btn];
-    [btn addTarget:self action:@selector(searchBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    LogFrame(btn);
+    UIButton *searchBtn = [[UIButton alloc] initWithFrame:CGRectMake(navView.width - 2 *(44 + 10), 0, 44, 44)];
+    [searchBtn setBackgroundImage:[UIImage imageNamed:@"home_search"] forState:UIControlStateNormal];
+    [navView addSubview:searchBtn];
+    [searchBtn addTarget:self action:@selector(searchBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    MyLog(@"searchBtn===%@",NSStringFromCGRect(searchBtn.frame));
+    
+    //覆盖一个透明的按钮
+    UIButton *meBtn = [[UIButton alloc] initWithFrame:CGRectMake(navView.width - (44 + 10), 0, 44, 44)];
+    [meBtn setBackgroundImage:[UIImage imageNamed:@"home_me"] forState:UIControlStateNormal];
+    [navView addSubview:meBtn];
+    [meBtn addTarget:self action:@selector(meBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    MyLog(@"meBtn===%@",NSStringFromCGRect(meBtn.frame));
     
     //创建内容scrollView
     UIScrollView *conScrollView  = [[UIScrollView alloc] init];
@@ -244,14 +259,14 @@
     [self loadCity];
     
     [self loadData];
-    
-    
-	
+  
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"home_nav@2x.png"] forBarMetrics:UIBarMetricsDefault];
     
     //首页访问分析
     NSString *deviceInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceInfo"];
@@ -293,6 +308,26 @@
         }
     }
  
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    UINavigationController *navController = self.navigationController;
+    //hack:ios5及之前版本在非动画方式pop时self.navigationController为nil,通过其他途径获取导航控制器
+    if (!navController) {
+        UIViewController *parentController = self.presentingViewController;
+        if ([parentController isKindOfClass:[UINavigationController class]]) {
+            navController = (UINavigationController*)parentController;
+        }
+    }
+    
+    NSUInteger index = [navController.viewControllers indexOfObject:self];
+    if (index == NSNotFound || index == self.navigationController.viewControllers.count-2) {//pop 或者push
+        [navController.navigationBar setBackgroundImage:_savedNavBarImage forBarMetrics:UIBarMetricsDefault];
+    }
     
 }
 
@@ -727,6 +762,13 @@
     
     LMSearchViewController *rv = [[LMSearchViewController alloc] init];
     [self.navigationController pushViewController:rv animated:NO];
+}
+
+
+- (void)meBtnClick
+{
+    LMSettingViewController *set = [[LMSettingViewController alloc] init];
+    [self.navigationController pushViewController:set animated:YES];
 }
 
 
@@ -1184,16 +1226,10 @@
         [btn addTarget:self
                 action:@selector(refreshDataWhenFailRequest)
       forControlEvents:UIControlEventTouchUpInside];
-        //btn.layer.borderWidth=1;
-        //btn.layer.borderColor=RGBCOLOR(162, 162, 162).CGColor;
-        //btn.layer.cornerRadius=5;
+    
         [_failView addSubview:btn];
     }
-    
-    //    for (UIView *subView in _failView.subviews)
-    //    {
-    //        [subView removeFromSuperview];
-    //    }
+  
     
     
 }
@@ -1209,6 +1245,9 @@
     [self loadData];
     [self loadImage];
 }
+
+
+
 
 
 @end

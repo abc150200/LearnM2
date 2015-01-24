@@ -23,7 +23,7 @@
 
     
     
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, MainViewWidth, MainViewHeight)];
     
     [self.view addSubview:webView];
     

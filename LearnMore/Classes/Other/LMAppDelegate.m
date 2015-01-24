@@ -59,6 +59,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     
+    //设置导航栏背景颜色,很有效果
+//    [UINavigationBar appearance].barTintColor = UIColorFromRGB(0x6ec244);
     
     UIDevice *device=[[UIDevice alloc] init];
     NSString *deviceName = device.name;//设备所有者的名称

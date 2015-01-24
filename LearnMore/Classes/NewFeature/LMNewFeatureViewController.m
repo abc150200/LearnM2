@@ -13,6 +13,7 @@
 #import "LMAccountInfo.h"
 #import "LMAccount.h"
 #import "MTA.h"
+#import "LMFindCourseViewController.h"
 
 @interface LMNewFeatureViewController ()<UIScrollViewDelegate>
 @property (nonatomic, weak) UIPageControl *pageControl;
@@ -125,10 +126,13 @@
     
     // 跳转到首页
     // 1.创建首页控制器
-    MJTabBarController *tabBarVc = [[MJTabBarController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] init];
+    LMFindCourseViewController  *fVc = [[LMFindCourseViewController alloc] init];
+    [nav addChildViewController:fVc];
+    
     
     // 2.切换控制器
-    app.keyWindow.rootViewController = tabBarVc;
+    app.keyWindow.rootViewController = nav;
 }
 
 

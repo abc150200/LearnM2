@@ -26,7 +26,7 @@
 {
     _code = code;
     
-//    MJAssertParamNotNil(code);
+    MJAssertParamNotNil(code);
     
     if (code.length == 0 || [code isEqualToString:MJTypeSEL] ||
         [code isEqualToString:MJTypeIvar] ||

@@ -22,10 +22,11 @@
         Ivar *ivars = class_copyIvarList(c, &outCount);
         
         // 2.遍历每一个成员变量
-        for (int i = 0; i<outCount; i++) {
+        for (unsigned int i = 0; i<outCount; i++) {
             MJIvar *ivar = [[MJIvar alloc] initWithIvar:ivars[i] srcObject:self];
             ivar.srcClass = c;
             block(ivar, stop);
+            if (*stop) break;
         }
         
         // 3.释放内存
@@ -44,10 +45,11 @@
         Method *methods = class_copyMethodList(c, &outCount);
         
         // 2.遍历每一个成员变量
-        for (int i = 0; i<outCount; i++) {
+        for (unsigned int i = 0; i<outCount; i++) {
             MJMethod *method = [[MJMethod alloc] initWithMethod:methods[i] srcObject:self];
             method.srcClass = c;
             block(method, stop);
+            if (*stop) break;
         }
         
         // 3.释放内存

@@ -68,7 +68,6 @@
 {
     [super viewDidLoad];
     
-    
     //设置导航栏
     [self setupNav];
     
