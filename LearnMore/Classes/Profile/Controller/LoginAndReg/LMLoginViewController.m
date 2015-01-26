@@ -236,14 +236,33 @@
                         [MTA trackCustomKeyValueEvent:@"event_my_login_success" props:dictX];
                         
                         
-//                        [self.navigationController popViewControllerAnimated:YES];
-                        for (UIViewController *controller in self.navigationController.viewControllers) {
-                            if ([controller isKindOfClass:[LMSettingViewController class]]) {
-                                [self.navigationController popToViewController:controller animated:YES];
-                            }
-                        }
+//                        if (self.from == FromReg) {
+//                            BOOL isHas = NO;
+//                            
+//                            for (UIViewController *controller in self.navigationController.viewControllers) {
+//                                if ([controller isKindOfClass:[LMSettingViewController class]]) {
+//                                    isHas = YES;
+//                                    [self.navigationController popToViewController:controller animated:YES];
+//                                }else
+//                                {
+//                                    isHas = NO;
+//                                }
+//                                break;
+//                            }
+//                            
+//                            if(!isHas)
+//                            {
+//                                [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:self.navigationController.childViewControllers.count - 3] animated:YES];
+//                            }
+//
+//                        }else
+//                        {
+//                            [self.navigationController popViewControllerAnimated:YES];
+//                        }
                         
+                        [self.navigationController popViewControllerAnimated:YES];
                         
+          
                     }
                         break;
                         

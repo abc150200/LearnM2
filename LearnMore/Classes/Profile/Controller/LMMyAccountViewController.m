@@ -41,6 +41,8 @@
     //初始化数据
     [self setupItems];
     
+    [self.tableView reloadData];
+    
     //设置退出登录按钮
     [self setupFooterView];
 
@@ -54,6 +56,8 @@
 
 - (void)setupGroup0
 {
+
+    
     LMCommonItemLabel *accountInfo = [LMCommonItemLabel itemWithTitle:@"账号信息"];
     LMAccount *account = [LMAccountInfo sharedAccountInfo].account;
     if (account) {
@@ -76,7 +80,7 @@
     [btn setTitle:@"退出登录" forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [btn setBackgroundImage:[UIImage imageNamed:@"login_btn"] forState:UIControlStateNormal];
-    btn.frame = CGRectMake(15, 400, 290, 40);
+    btn.frame = CGRectMake(15, 350, 290, 40);
     btn.titleLabel.font = [UIFont systemFontOfSize:15];
     
 

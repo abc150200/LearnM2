@@ -91,11 +91,11 @@
                                 <constraint firstAttribute="width" constant="300" id="b1h-A3-I6S"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="48小时内学校会和您联系上课报名相关事宜,请保持联系人手机畅通。" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yt8-vv-DQx">
-                            <rect key="frame" x="150" y="304" width="300" height="32"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2个工作日内，学校的工作人员会与您联系，确认报名上课相关事宜，请保持联系人手机畅通" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yt8-vv-DQx">
+                            <rect key="frame" x="150" y="304" width="300" height="46"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="300" id="JhS-6h-3gu"/>
-                                <constraint firstAttribute="height" constant="32" id="vin-RY-4kC"/>
+                                <constraint firstAttribute="height" constant="46" id="vin-RY-4kC"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>

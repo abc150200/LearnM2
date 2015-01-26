@@ -48,7 +48,7 @@
     self.tableView.rowHeight = 102;
    
     
-    self.title = @"我的订单";
+    self.title = @"我购买的课程";
     
     self.firstView.backgroundColor = UIColorFromRGB(0xf0f0f0);
     

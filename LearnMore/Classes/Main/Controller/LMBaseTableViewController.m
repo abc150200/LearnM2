@@ -34,11 +34,11 @@
 - (void)setupTableView
 {
     //设置分组间隙
-    self.tableView.sectionHeaderHeight = 10;
+    self.tableView.sectionHeaderHeight = 15;
     self.tableView.sectionFooterHeight = 0;
     
-    //设置tableView的额外滚动区域
-    self.tableView.contentInset = UIEdgeInsetsMake(-25, 0, 0, 0);
+//    //设置tableView的额外滚动区域
+//    self.tableView.contentInset = UIEdgeInsetsMake(-25, 0, 0, 0);
     
 }
 

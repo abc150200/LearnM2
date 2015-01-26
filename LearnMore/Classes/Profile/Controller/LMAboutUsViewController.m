@@ -30,6 +30,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"关于我们";
     
     //获取沙盒中的版本号
     NSString *key = (__bridge_transfer NSString *)kCFBundleVersionKey;

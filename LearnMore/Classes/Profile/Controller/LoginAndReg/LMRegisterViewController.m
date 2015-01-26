@@ -92,10 +92,9 @@
 - (IBAction)loginBtn {
   
     LMLoginViewController  *loginVc = [[LMLoginViewController alloc] init];
-    
+    loginVc.from = FromReg;
     [self.navigationController pushViewController:loginVc animated:YES];
     
-//    [self.navigationController popViewControllerAnimated:YES];
  
 }
 
@@ -514,11 +513,20 @@
                 }
                 [MTA trackCustomKeyValueEvent:@"event_my_reg_success" props:dictX];
                 
-                for (UIViewController *controller in self.navigationController.viewControllers) {
-                    if ([controller isKindOfClass:[LMSettingViewController class]]) {
-                        [self.navigationController popToViewController:controller animated:YES];
-                    }
-                }
+//                if(self.from == FromLog)
+//                {
+//                    for (UIViewController *controller in self.navigationController.viewControllers) {
+//                        if ([controller isKindOfClass:[LMSettingViewController class]]) {
+//                            [self.navigationController popToViewController:controller animated:YES];
+//                        }
+//                    }
+//                }else
+//                {
+//                    [self.navigationController popViewControllerAnimated:YES];
+//                }
+                
+                [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:self.navigationController.childViewControllers.count - 3] animated:YES];
+                
                 
             }
             

@@ -168,19 +168,6 @@
             LogObj(error.localizedDescription);
         }];
         
-    } else
-    {
-        
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"]) {
-            LMLoginViewController *lg = [[LMLoginViewController alloc] init];
-            [self.navigationController pushViewController:lg animated:YES];
-        }else
-        {
-            LMRegisterViewController *rv = [[LMRegisterViewController alloc] init];
-            [self.navigationController pushViewController:rv animated:YES];
-        }
-
-        
     }
     
 }
@@ -200,8 +187,8 @@
     order.partner = partner; // 商户ID
     order.seller = seller; // 账号ID
     order.tradeNO = orderId; // 订单号 (一般跟时间有关)
-//    order.amount = [NSString stringWithFormat:@"%d",self.totalPrice]; // 金额
-     order.amount = @"0.01"; // 金额
+    order.amount = [NSString stringWithFormat:@"%d",self.totalPrice]; // 金额
+//     order.amount = @"0.01"; // 金额
     order.productName = self.courseName; // 商品名称
     order.productDescription = @"多学课程"; // 商品描述
     

@@ -573,10 +573,13 @@
         
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"] ) {
             LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+            lg.from = FromeOther;
+        
             [self.navigationController pushViewController:lg animated:YES];
         }else
         {
             LMRegisterViewController *rv = [[LMRegisterViewController alloc] init];
+            rv.from = FromeOtherVc;
             [self.navigationController pushViewController:rv animated:YES];
         }
     
@@ -1101,10 +1104,12 @@
     {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"]) {
             LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+            lg.from = FromeOther;
             [self.navigationController pushViewController:lg animated:YES];
         }else
         {
             LMRegisterViewController *rv = [[LMRegisterViewController alloc] init];
+            rv.from = FromeOtherVc;
             [self.navigationController pushViewController:rv animated:YES];
         }
     }
@@ -1177,7 +1182,7 @@
         }
         [MTA trackCustomKeyValueEvent:@"course_call_record" props:dict];
         
-        UIAlertView *alert  = [[UIAlertView alloc] initWithTitle:nil message:self.phoneNum delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"呼叫", nil];
+        UIAlertView *alert  = [[UIAlertView alloc] initWithTitle:@"告知学校是从《多学》获知课程信息，即有机会享受免费试听" message:self.phoneNum delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"呼叫", nil];
         
         alert.delegate = self;
         [alert show];
@@ -1281,10 +1286,13 @@
         {
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"]) {
                 LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+                lg.from = FromeOther;
+                
                 [self.navigationController pushViewController:lg animated:YES];
             }else
             {
                 LMRegisterViewController *rv = [[LMRegisterViewController alloc] init];
+                rv.from = FromeOtherVc;
                 [self.navigationController pushViewController:rv animated:YES];
             }
         }

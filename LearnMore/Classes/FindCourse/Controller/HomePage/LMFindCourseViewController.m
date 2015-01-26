@@ -89,6 +89,13 @@
 //nav背景颜色
 @property (nonatomic, strong) UIImage *savedNavBarImage;
 
+//colloctionView下边线
+@property (nonatomic, weak) UIView *space;
+@property (nonatomic, weak) UIView *selectView;
+@property (nonatomic, weak) UIView *otherView;
+@property (nonatomic, weak) UIView *viewAll;
+
+
 @end
 
 @implementation LMFindCourseViewController
@@ -115,11 +122,13 @@
     navView.backgroundColor = [UIColor clearColor];
     self.navigationItem.titleView = navView;
     
+    MyLog(@"navView.frame===%@",NSStringFromCGRect(navView.frame));
+    
 
     
     //创建城市按钮
     IWCityButton *cityButton = [[IWCityButton alloc] init];
-    cityButton.frame = CGRectMake(20, 0, 55, 44);
+    cityButton.frame = CGRectMake(10, 0, 65, 44);
     // 设置标题
     [cityButton setTitle:@"北京" forState:UIControlStateNormal];
     [cityButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -133,14 +142,14 @@
     
 
     //覆盖一个透明的按钮
-    UIButton *searchBtn = [[UIButton alloc] initWithFrame:CGRectMake(navView.width - 2 *(44 + 10), 0, 44, 44)];
+    UIButton *searchBtn = [[UIButton alloc] initWithFrame:CGRectMake(navView.width - 2 *(44 + 10) + 10, 0, 44, 44)];
     [searchBtn setBackgroundImage:[UIImage imageNamed:@"home_search"] forState:UIControlStateNormal];
     [navView addSubview:searchBtn];
     [searchBtn addTarget:self action:@selector(searchBtnClick) forControlEvents:UIControlEventTouchUpInside];
     MyLog(@"searchBtn===%@",NSStringFromCGRect(searchBtn.frame));
     
     //覆盖一个透明的按钮
-    UIButton *meBtn = [[UIButton alloc] initWithFrame:CGRectMake(navView.width - (44 + 10), 0, 44, 44)];
+    UIButton *meBtn = [[UIButton alloc] initWithFrame:CGRectMake(navView.width - (44 + 10)+ 10, 0, 44, 44)];
     [meBtn setBackgroundImage:[UIImage imageNamed:@"home_me"] forState:UIControlStateNormal];
     [navView addSubview:meBtn];
     [meBtn addTarget:self action:@selector(meBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -186,10 +195,19 @@
 
 	self.cv = cv;
     
-    //上边线
-    UIView *upLine = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(cv.collectionView.frame) - 0.5, self.view.width, 0.5)];
-    [self.conScrollView addSubview:upLine];
+    //间隔条
+    UIView *space = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(cv.collectionView.frame), self.view.width, 11)];
+    self.space = space;
+    [self.conScrollView addSubview:space];
+    space.backgroundColor = UIColorFromRGB(0xf0f0f0);
+    
+    UIView *upLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 0.5)];
+    [self.space addSubview:upLine];
     upLine.backgroundColor = UIColorFromRGB(0xd7d7d7);
+    
+    UIView *downLine = [[UIView alloc] initWithFrame:CGRectMake(0, space.height - 0.5, self.view.width, 0.5)];
+    [self.space addSubview:downLine];
+    downLine.backgroundColor = UIColorFromRGB(0xd7d7d7);
     
 #warning 暂时隐藏
     //智能选课
@@ -223,7 +241,8 @@
     
     //其他孩子都在学
   
-    UIView *otherView= [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(cv.collectionView.frame), self.view.width, 44)];
+    UIView *otherView= [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(space.frame), self.view.width, 44)];
+    self.otherView = otherView;
     [self.conScrollView addSubview:otherView];
     
     UIImageView *fontIv = [[UIImageView alloc] initWithFrame:CGRectMake(10, 14.5, 3, 15)];
@@ -254,6 +273,7 @@
     
     //查看全部课程
     UIView *viewAll= [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.cr.tableView.frame), self.view.width, 50)];
+    self.viewAll = viewAll;
     viewAll.backgroundColor = UIColorFromRGB(0xf0f0f0);
     [self.conScrollView addSubview:viewAll];
     
@@ -571,10 +591,13 @@
         {
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"]) {
                 LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+                lg.from = FromeOther;
+                
                 [self.navigationController pushViewController:lg animated:YES];
             }else
             {
                 LMRegisterViewController *rv = [[LMRegisterViewController alloc] init];
+                rv.from = FromeOtherVc;
                 [self.navigationController pushViewController:rv animated:YES];
             }
         }
@@ -943,32 +966,43 @@
     
     
     //url地址
-    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"commons/courseType.json"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",RequestURL,@"commons/indexCourseType.json"];
     
     [manager POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         LogObj(responseObject);
         
-        NSDictionary *dateDic = [responseObject[@"data"] objectFromJSONString];
+        NSArray *dateDic = responseObject[@"indexCourseTypeList"] ;
         MyLog(@"%@",dateDic);
         
-        NSArray *courseTypesArr = dateDic[@"courseTypes"];
+//        NSArray *courseTypesArr = dateDic[@"courseTypes"];
         
-        self.typrArr = [LMCourseType objectArrayWithKeyValuesArray:courseTypesArr];
+        self.typrArr = [LMCourseType objectArrayWithKeyValuesArray:dateDic];
+  
+        self.cv.titles = self.typrArr;
+        [self.cv.collectionView reloadData];
+////
+////        NSString *str = @"courseTypes.plist";
+////        NSString *courseTypesPath = [str appendDocumentPath];
+////        LogObj(courseTypesPath);
+////        
+//////        NSArray *courseArr = dateDic[@"courseTypes"];
+//////        NSString *courseArrStr = [courseArr JSONString];
+//////        [[NSUserDefaults standardUserDefaults] setObject:courseArrStr forKey:@"areaKey"];
+//////        [[NSUserDefaults standardUserDefaults] synchronize];
+//        
+//        [courseTypesArr writeToFile:courseTypesPath atomically:YES];
         
-//        self.cv.titles = self.typrArr;
-//        [self.cv reloadInputViews];
         
-        NSString *str = @"courseTypes.plist";
-        NSString *courseTypesPath = [str appendDocumentPath];
-        LogObj(courseTypesPath);
+        //计算刷新高度
+        int row =  self.typrArr.count / 4;
+        int collectHigh =  row *(10 + 60) + 10;
+        self.cv.collectionView.height = collectHigh;
+        self.space.y = CGRectGetMaxY(self.cv.collectionView.frame);
+        self.otherView.y = CGRectGetMaxY(self.space.frame);
+        self.cr.tableView.y = CGRectGetMaxY(self.otherView.frame);
+        self.viewAll.y = CGRectGetMaxY(self.cr.tableView.frame);
         
-//        NSArray *courseArr = dateDic[@"courseTypes"];
-//        NSString *courseArrStr = [courseArr JSONString];
-//        [[NSUserDefaults standardUserDefaults] setObject:courseArrStr forKey:@"areaKey"];
-//        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        [courseTypesArr writeToFile:courseTypesPath atomically:YES];
     
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         LogObj(error.localizedDescription);
@@ -1075,25 +1109,16 @@
 
 
 #pragma mark - LMCourseCollectionViewControllerDelegate
-- (void)courseCollectionViewController:(LMCourseCollectionViewController *)courseCollectionViewController title:(NSString *)title
+- (void)courseCollectionViewController:(LMCourseCollectionViewController *)courseCollectionViewController title:(NSString *)title productId:(NSNumber *)productId
 {
     LMCourseListMainViewController *lv = [[LMCourseListMainViewController alloc] init];
    
-    for (LMCourseType *type in self.typrArr) {
-        if ([title isEqualToString:type.typeName]) {
-            NSNumber *typeId =  type.id;
-            
-            lv.TypeId = typeId;
-            lv.courseTitle = title;
-            MyLog(@"%@",lv.TypeId);
-            
-        }
-    }
-    
-//    lv.firstTypeName = title;
+
+    lv.TypeId = productId;
+    lv.courseTitle = title;
     lv.from = FromHome;
     
-    [self.navigationController pushViewController:lv animated:NO];
+    [self.navigationController pushViewController:lv animated:YES];
     
    
 }
@@ -1288,6 +1313,7 @@
     
     [self loadData];
     [self loadImage];
+    [self loadCourseType];
 }
 
 

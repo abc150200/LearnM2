@@ -11,6 +11,9 @@
 #import "LMAccount.h"
 #import "LMAccountInfo.h"
 
+#import "LMLoginViewController.h"
+#import "LMRegisterViewController.h"
+
 
 static  int defaultCount = 1;
 
@@ -103,30 +106,55 @@ static  int defaultCount = 1;
 }
 
 - (IBAction)commitBtn:(id)sender {
-    LMPayCommitVC *pVc = [[LMPayCommitVC alloc] init];
-    pVc.courseName = self.productName;
-    pVc.count = defaultCount;
-    pVc.totalPrice = self.discountPrice * defaultCount;
-    pVc.singlePrice = self.discountPrice;
-    pVc.productTypeId = self.productTypeId;
-    pVc.productId = self.productId;
-    if ([self.contactText.text length]) {  
-         pVc.contact = self.contactText.text;
-    }else
+    
+    LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
+    if(account)
     {
-        [self alertWithMessage:@"联系人不能为空"];
-        return;
-    }
-   
-    if ([self.phoneNumText.text length]) {
-        pVc.phone = self.phoneNumText.text;
-    }else
+        LMPayCommitVC *pVc = [[LMPayCommitVC alloc] init];
+        pVc.courseName = self.productName;
+        pVc.count = defaultCount;
+        pVc.totalPrice = self.discountPrice * defaultCount;
+        pVc.singlePrice = self.discountPrice;
+        pVc.productTypeId = self.productTypeId;
+        pVc.productId = self.productId;
+        if ([self.contactText.text length]) {  
+             pVc.contact = self.contactText.text;
+        }else
+        {
+            [self alertWithMessage:@"联系人不能为空"];
+            return;
+        }
+       
+        if ([self.phoneNumText.text length]) {
+            pVc.phone = self.phoneNumText.text;
+        }else
+        {
+            [self alertWithMessage:@"手机号不能为空"];
+            return;
+        }
+        
+         [self.navigationController pushViewController:pVc animated:YES];
+        
+    } else
     {
-        [self alertWithMessage:@"手机号不能为空"];
-        return;
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"]) {
+            LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+            lg.from = FromeOther;
+            
+            [self.navigationController pushViewController:lg animated:YES];
+        }else
+        {
+            LMRegisterViewController *rv = [[LMRegisterViewController alloc] init];
+            rv.from = FromeOtherVc;
+            [self.navigationController pushViewController:rv animated:YES];
+        }
+        
+        
     }
     
-    [self.navigationController pushViewController:pVc animated:YES];
+    
+   
     
 }
 

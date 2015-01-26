@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *orderCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *orderTotalLabel;
 @property (weak, nonatomic) IBOutlet UILabel *contactLabel;
+@property (weak, nonatomic) IBOutlet UILabel *idCodeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *phoneLabel;
 @property (nonatomic, strong) LMMyOrderCourseVC *cl;
 @property (weak, nonatomic) IBOutlet UILabel *protectDes;
@@ -126,6 +127,7 @@
         self.orderTotalLabel.text = [NSString stringWithFormat:@"%lli元",result];
         self.contactLabel.text = dataDic[@"contactName"];
         self.phoneLabel.text = dataDic[@"contactPhone"];
+        self.idCodeLabel.text = dataDic[@"idCode"];
         
         //状态判断
         NSString *statusStr = dataDic[@"orderStatusDes"];
@@ -222,7 +224,7 @@
 //申请退款
 - (IBAction)callBack:(id)sender {
     
-    UIAlertView *alert  = [[UIAlertView alloc] initWithTitle:@"确定要申请退款吗?" message:@"申请退款后,你讲无法在学校报名成功,如果已经在学习,申请退款后将无法继续学习" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+    UIAlertView *alert  = [[UIAlertView alloc] initWithTitle:@"确定要申请退款吗?" message:@"申请退款后,你将无法在学校报名成功,如果已经在学习,申请退款后将无法继续学习" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
     alert.delegate = self;
      alert.tag = 101;
     [alert show];

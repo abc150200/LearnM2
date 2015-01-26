@@ -15,6 +15,7 @@
 #import "LMReserveOverViewController.h"
 #import "LMActBookViewController.h"
 #import "LMLoginViewController.h"
+#import "LMRegisterViewController.h"
 
 
 @interface LMReserveViewController ()<UIScrollViewDelegate>
@@ -179,7 +180,7 @@
                         
                         [MBProgressHUD showSuccess:@"预约成功"];
                         LMReserveOverViewController *bv = [[LMReserveOverViewController alloc] init];
-                        bv.title = @"介绍";
+                        bv.title = @"预约成功";
                         bv.stuName = self.nameLabel.text;
                         bv.age = [self.ageLabel.text intValue];
                         bv.schoolName = self.schoolName;
@@ -318,8 +319,17 @@
         
     }else
     {
-        LMLoginViewController *lg = [[LMLoginViewController alloc] init];
-        [self.navigationController pushViewController:lg animated:YES];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"]) {
+            LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+            lg.from = FromeOther;
+            
+            [self.navigationController pushViewController:lg animated:YES];
+        }else
+        {
+            LMRegisterViewController *rv = [[LMRegisterViewController alloc] init];
+            rv.from = FromeOtherVc;
+            [self.navigationController pushViewController:rv animated:YES];
+        }
     }
     
 }

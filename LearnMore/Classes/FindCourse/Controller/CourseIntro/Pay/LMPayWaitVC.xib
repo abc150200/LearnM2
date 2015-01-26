@@ -111,7 +111,7 @@
                                 <constraint firstAttribute="width" constant="300" id="t1m-fu-3Tq"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="订单确认完成后，学校工作人员会在2个工作日内和你联系，确认课程报名相关事宜，请保持联系人手机处于开机状态" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JIg-ek-I33">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2个工作日内，学校的工作人员会与您联系，确认报名上课相关事宜，请保持联系人手机畅通" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JIg-ek-I33">
                             <rect key="frame" x="150" y="364" width="300" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="300" id="lnQ-fJ-122"/>

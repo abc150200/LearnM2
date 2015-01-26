@@ -116,8 +116,9 @@
 
 - (IBAction)foundBtn:(id)sender {
     
-    LMActivityViewController *ac = [[LMActivityViewController alloc] init];
-    [self.navigationController pushViewController:ac animated:YES];
+//    LMActivityViewController *ac = [[LMActivityViewController alloc] init];
+//    [self.navigationController pushViewController:ac animated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - 数据源方法

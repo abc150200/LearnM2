@@ -14,6 +14,7 @@
 #import "LMAccount.h"
 #import "MTA.h"
 #import "LMFindCourseViewController.h"
+#import "MJNavigationController.h"
 
 @interface LMNewFeatureViewController ()<UIScrollViewDelegate>
 @property (nonatomic, weak) UIPageControl *pageControl;
@@ -126,7 +127,7 @@
     
     // 跳转到首页
     // 1.创建首页控制器
-    UINavigationController *nav = [[UINavigationController alloc] init];
+    MJNavigationController *nav = [[MJNavigationController alloc] init];
     LMFindCourseViewController  *fVc = [[LMFindCourseViewController alloc] init];
     [nav addChildViewController:fVc];
     

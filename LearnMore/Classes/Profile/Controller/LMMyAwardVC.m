@@ -23,6 +23,7 @@
     
     [self.view addSubview:web];
     
+    self.title = @"我的奖品";
     
     LMAccount *account =  [LMAccountInfo sharedAccountInfo].account;
     

@@ -35,7 +35,7 @@
 {
     [super viewDidLoad];
     
-    self.title = @"收藏课程";
+    self.title = @"我的收藏";
     
     self.tableView.rowHeight = 88;
     

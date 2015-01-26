@@ -81,6 +81,8 @@
 		20661E821A39719500E7AF81 /* ads.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20661E811A39719500E7AF81 /* ads.plist */; };
 		206CFFC81A75F55B004F10A5 /* LMHomeCourseViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CFFC61A75F55B004F10A5 /* LMHomeCourseViewCell.m */; };
 		206CFFC91A75F55B004F10A5 /* LMHomeCourseViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 206CFFC71A75F55B004F10A5 /* LMHomeCourseViewCell.xib */; };
+		206CFFD21A760CFE004F10A5 /* LMSecondCourseType.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CFFD11A760CFE004F10A5 /* LMSecondCourseType.m */; };
+		206CFFD51A760D1B004F10A5 /* LMCourseType.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CFFD41A760D1B004F10A5 /* LMCourseType.m */; };
 		207070AA1A04B10500DD52CE /* LMCourseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 207070A91A04B10500DD52CE /* LMCourseInfo.m */; };
 		2071DA6819FFB94600CA56DC /* LMCourseList.m in Sources */ = {isa = PBXBuildFile; fileRef = 2071DA6719FFB94600CA56DC /* LMCourseList.m */; };
 		2071DA6B19FFBDC000CA56DC /* LMTotalCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2071DA6A19FFBDC000CA56DC /* LMTotalCourse.m */; };
@@ -113,7 +115,6 @@
 		20BCC20119E6905E00A5913B /* LMCourseCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20BCC1F319E6905E00A5913B /* LMCourseCollectionViewController.m */; };
 		20BCC20319E6905E00A5913B /* LMFindCourseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20BCC1F619E6905E00A5913B /* LMFindCourseViewController.m */; };
 		20BCC20619E6905E00A5913B /* LMCourseListMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20BCC1FD19E6905E00A5913B /* LMCourseListMainViewController.m */; };
-		20BCC20D19E6907400A5913B /* LMProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 20BCC20A19E6907400A5913B /* LMProduct.m */; };
 		20BCC22719E6908100A5913B /* LMCourseViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20BCC21019E6908100A5913B /* LMCourseViewCell.m */; };
 		20BCC22819E6908100A5913B /* LMCourseViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20BCC21119E6908100A5913B /* LMCourseViewCell.xib */; };
 		20BCC22919E6908100A5913B /* IWCityButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 20BCC21419E6908100A5913B /* IWCityButton.m */; };
@@ -178,7 +179,6 @@
 		20EC4E301A0330C600AFD446 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20EC4E2F1A0330C600AFD446 /* CoreTelephony.framework */; };
 		20EC5C8B1A17350900A6C4E1 /* LMCollectCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EC5C8A1A17350900A6C4E1 /* LMCollectCourse.m */; };
 		20EE84351A1070D600DDEC92 /* NSString+Path.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EE84341A1070D600DDEC92 /* NSString+Path.m */; };
-		20EE84381A107CF700DDEC92 /* LMCourseType.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EE84371A107CF700DDEC92 /* LMCourseType.m */; };
 		20EE843E1A10F67900DDEC92 /* LMlistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EE843D1A10F67900DDEC92 /* LMlistViewController.m */; };
 		20EF626F19E77D44006544B3 /* LMSchoolIntroButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EF626E19E77D44006544B3 /* LMSchoolIntroButton.m */; };
 		20EF627219E7CCD1006544B3 /* LMSchoolCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EF627119E7CCD1006544B3 /* LMSchoolCourse.m */; };
@@ -499,6 +499,10 @@
 		206CFFC51A75F55B004F10A5 /* LMHomeCourseViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMHomeCourseViewCell.h; sourceTree = "<group>"; };
 		206CFFC61A75F55B004F10A5 /* LMHomeCourseViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHomeCourseViewCell.m; sourceTree = "<group>"; };
 		206CFFC71A75F55B004F10A5 /* LMHomeCourseViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMHomeCourseViewCell.xib; sourceTree = "<group>"; };
+		206CFFD01A760CFE004F10A5 /* LMSecondCourseType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSecondCourseType.h; sourceTree = "<group>"; };
+		206CFFD11A760CFE004F10A5 /* LMSecondCourseType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSecondCourseType.m; sourceTree = "<group>"; };
+		206CFFD31A760D1B004F10A5 /* LMCourseType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCourseType.h; sourceTree = "<group>"; };
+		206CFFD41A760D1B004F10A5 /* LMCourseType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCourseType.m; sourceTree = "<group>"; };
 		207070A81A04B10500DD52CE /* LMCourseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCourseInfo.h; sourceTree = "<group>"; };
 		207070A91A04B10500DD52CE /* LMCourseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCourseInfo.m; sourceTree = "<group>"; };
 		2071DA6619FFB94600CA56DC /* LMCourseList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCourseList.h; sourceTree = "<group>"; };
@@ -555,8 +559,6 @@
 		20BCC1F619E6905E00A5913B /* LMFindCourseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMFindCourseViewController.m; sourceTree = "<group>"; };
 		20BCC1FC19E6905E00A5913B /* LMCourseListMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCourseListMainViewController.h; sourceTree = "<group>"; };
 		20BCC1FD19E6905E00A5913B /* LMCourseListMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCourseListMainViewController.m; sourceTree = "<group>"; };
-		20BCC20919E6907400A5913B /* LMProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMProduct.h; sourceTree = "<group>"; };
-		20BCC20A19E6907400A5913B /* LMProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMProduct.m; sourceTree = "<group>"; };
 		20BCC20F19E6908100A5913B /* LMCourseViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LMCourseViewCell.h; path = ../CourseIntro/LMCourseViewCell.h; sourceTree = "<group>"; };
 		20BCC21019E6908100A5913B /* LMCourseViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LMCourseViewCell.m; path = ../CourseIntro/LMCourseViewCell.m; sourceTree = "<group>"; };
 		20BCC21119E6908100A5913B /* LMCourseViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LMCourseViewCell.xib; path = ../CourseIntro/LMCourseViewCell.xib; sourceTree = "<group>"; };
@@ -661,8 +663,6 @@
 		20EC5C8A1A17350900A6C4E1 /* LMCollectCourse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCollectCourse.m; sourceTree = "<group>"; };
 		20EE84331A1070D600DDEC92 /* NSString+Path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Path.h"; sourceTree = "<group>"; };
 		20EE84341A1070D600DDEC92 /* NSString+Path.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Path.m"; sourceTree = "<group>"; };
-		20EE84361A107CF700DDEC92 /* LMCourseType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCourseType.h; sourceTree = "<group>"; };
-		20EE84371A107CF700DDEC92 /* LMCourseType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCourseType.m; sourceTree = "<group>"; };
 		20EE843C1A10F67900DDEC92 /* LMlistViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMlistViewController.h; sourceTree = "<group>"; };
 		20EE843D1A10F67900DDEC92 /* LMlistViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMlistViewController.m; sourceTree = "<group>"; };
 		20EF626D19E77D44006544B3 /* LMSchoolIntroButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMSchoolIntroButton.h; sourceTree = "<group>"; };
@@ -1420,8 +1420,10 @@
 		20BCC20819E6907400A5913B /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
-				20BCC20919E6907400A5913B /* LMProduct.h */,
-				20BCC20A19E6907400A5913B /* LMProduct.m */,
+				206CFFD31A760D1B004F10A5 /* LMCourseType.h */,
+				206CFFD41A760D1B004F10A5 /* LMCourseType.m */,
+				206CFFD01A760CFE004F10A5 /* LMSecondCourseType.h */,
+				206CFFD11A760CFE004F10A5 /* LMSecondCourseType.m */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -1792,8 +1794,6 @@
 		20D402CE19D914FC003D251B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				20EE84361A107CF700DDEC92 /* LMCourseType.h */,
-				20EE84371A107CF700DDEC92 /* LMCourseType.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2670,6 +2670,7 @@
 				20FA35341A70A04B004262D0 /* LMSchoolOrder.m in Sources */,
 				20BCC23119E6908100A5913B /* LMCourseHeadView.m in Sources */,
 				20F278AC1A022191004370DA /* SDImageCache.m in Sources */,
+				206CFFD51A760D1B004F10A5 /* LMCourseType.m in Sources */,
 				20F278B31A022191004370DA /* UIButton+WebCache.m in Sources */,
 				20F2E4B51A14BAA9006CAE25 /* GTMBase64.m in Sources */,
 				20F7A57419EF7E4600DC526D /* AFHTTPRequestOperationManager.m in Sources */,
@@ -2707,8 +2708,8 @@
 				20FA3C371A665F6800FEC724 /* openssl_wrapper.m in Sources */,
 				2001FE1B1A2F09BE0009F8E4 /* MJPhotoLoadingView.m in Sources */,
 				20F4C3D319ECD390002766A4 /* LMComposeView.m in Sources */,
-				20EE84381A107CF700DDEC92 /* LMCourseType.m in Sources */,
 				20B8A2841A11C4D20028C875 /* LMAreaViewController.m in Sources */,
+				206CFFD21A760CFE004F10A5 /* LMSecondCourseType.m in Sources */,
 				20F2E4B41A14BAA9006CAE25 /* FBEncryptorAES.m in Sources */,
 				20D402E719D91A1C003D251B /* MJTabBar.m in Sources */,
 				20BCC22919E6908100A5913B /* IWCityButton.m in Sources */,
@@ -2831,7 +2832,6 @@
 				20F8B09419E929630048CC65 /* LMTeacherIntroViewController.m in Sources */,
 				20BCC22719E6908100A5913B /* LMCourseViewCell.m in Sources */,
 				20F7A57919EF7E4600DC526D /* AFURLRequestSerialization.m in Sources */,
-				20BCC20D19E6907400A5913B /* LMProduct.m in Sources */,
 				20B8A2851A11C4D20028C875 /* LMCityViewController.m in Sources */,
 				2001FE1D1A2F09BE0009F8E4 /* MJPhotoToolbar.m in Sources */,
 				20BCC22B19E6908100A5913B /* LMProductCell.m in Sources */,

@@ -13,7 +13,7 @@
 @protocol LMCourseCollectionViewControllerDelegate <NSObject>
 
 @optional
-- (void)courseCollectionViewController:(LMCourseCollectionViewController * )courseCollectionViewController title:(NSString *)title;
+- (void)courseCollectionViewController:(LMCourseCollectionViewController * )courseCollectionViewController title:(NSString *)title productId:(NSNumber *)productId;
 
 @end
 

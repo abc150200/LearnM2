@@ -104,6 +104,10 @@
     LMAccount *account = [LMAccountTool account];
 //   [LMAccountInfo sharedAccountInfo].account = account;
     
+#warning 改回以前登录状态的代码
+    [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"everReg"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     /** 自动登录 */
     if (account && account.pwd) {
         

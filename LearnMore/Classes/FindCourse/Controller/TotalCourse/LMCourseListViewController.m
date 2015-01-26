@@ -85,11 +85,9 @@
         
         
         NSDictionary *courseDic = [responseObject[@"data"] objectFromJSONString];
-                MyLog(@"%@",courseDic);
+                MyLog(@"courseDic======%@",courseDic);
         
         NSArray *courseList = courseDic[@"courseList"];
-        
-        
         
         self.courseLists = (NSMutableArray *)[LMCourseList objectArrayWithKeyValuesArray:courseList];
         

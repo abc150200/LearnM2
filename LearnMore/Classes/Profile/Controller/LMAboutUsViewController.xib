@@ -20,7 +20,7 @@
                     <rect key="frame" x="120" y="90" width="80" height="80"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DNf-Qr-Vad">
-                    <rect key="frame" x="15" y="325" width="290" height="40"/>
+                    <rect key="frame" x="15" y="226" width="290" height="40"/>
                     <color key="backgroundColor" red="0.87574303669999998" green="0.87574303669999998" blue="0.87574303669999998" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <state key="normal" title="意见反馈" backgroundImage="login_btn">
@@ -36,6 +36,15 @@
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JOv-2u-PiQ">
+                    <rect key="frame" x="35" y="296" width="270" height="128"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <string key="text">官方网站： http://www.learnmore.com.cn/官网微博： http://e.weibo.com/duoxue2014官方微信：多学客服电话：010-82609657客服邮箱：kf@learnmore.com.cn</string>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES"/>
+                </textView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
         </view>

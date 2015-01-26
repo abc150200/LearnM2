@@ -11,4 +11,5 @@
 @interface LMCourseType : NSObject
 @property (nonatomic, strong) NSNumber *id;
 @property (copy, nonatomic) NSString *typeName;
+@property (copy, nonatomic) NSString *typeIcon;
 @end

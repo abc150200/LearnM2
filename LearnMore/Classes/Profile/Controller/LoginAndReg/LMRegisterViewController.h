@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+typedef enum
+{
+    FromLog,
+    FromeOtherVc
+}FromeRegVc;
+
 
 @interface LMRegisterViewController : UIViewController
-
+@property (nonatomic, assign) FromeRegVc from;
 @end

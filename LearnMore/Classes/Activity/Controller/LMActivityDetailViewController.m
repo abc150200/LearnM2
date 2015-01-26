@@ -392,10 +392,12 @@
         
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"]) {
             LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+            lg.from = FromeOther;
             [self.navigationController pushViewController:lg animated:YES];
         }else
         {
             LMRegisterViewController *rv = [[LMRegisterViewController alloc] init];
+            rv.from = FromeOtherVc;
             [self.navigationController pushViewController:rv animated:YES];
         }
         
@@ -446,10 +448,13 @@
     {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"]) {
             LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+            lg.from = FromeOther;
+            
             [self.navigationController pushViewController:lg animated:YES];
         }else
         {
             LMRegisterViewController *rv = [[LMRegisterViewController alloc] init];
+            rv.from = FromeOtherVc;
             [self.navigationController pushViewController:rv animated:YES];
         }
     }

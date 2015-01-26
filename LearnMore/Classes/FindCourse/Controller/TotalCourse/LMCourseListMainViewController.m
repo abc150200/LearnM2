@@ -309,7 +309,7 @@
         arr[@"keyword"] = self.searchContent;
     }
     
-    if(self.TypeId)
+    if(self.TypeId && ![self.TypeId isEqualToNumber:@(0)])
     {
         arr[@"category"] = self.TypeId;
     }

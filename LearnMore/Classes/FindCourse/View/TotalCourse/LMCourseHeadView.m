@@ -27,7 +27,7 @@
         self.cityBtn = [self addOneButtonWithTitle:@"附  近"];
         self.titleBtn = [self addOneButtonWithTitle:@"分  类"];
         self.ageBtn = [self addOneButtonWithTitle:@"年  龄"];
-        self.selectedBtn = [self addOneButtonWithTitle:@"智能筛选"];
+        self.selectedBtn = [self addOneButtonWithTitle:@"智能排序"];
         
         // 3.创建分割线
         [self setupDivider];
@@ -119,9 +119,9 @@
     
     // 3.设置底部分割线的frame
     CGFloat separateX = 0;
-    CGFloat separateY = self.height - 1.5;
+    CGFloat separateY = self.height - 0.5;
     CGFloat separateW = self.width;
-    CGFloat separateH = 1;
+    CGFloat separateH = 0.5;
     self.separate.frame = CGRectMake(separateX, separateY, separateW, separateH);
 }
 

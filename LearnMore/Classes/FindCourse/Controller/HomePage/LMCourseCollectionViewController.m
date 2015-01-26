@@ -8,7 +8,7 @@
 
 #define LMProductCellID @"product"
 #import "LMProductCell.h"
-#import "LMProduct.h"
+#import "LMCourseType.h"
 
 #import "LMCourseCollectionViewController.h"
 #import "LMCourseListMainViewController.h"
@@ -65,8 +65,8 @@
     LMProductCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:LMProductCellID forIndexPath:indexPath];
     
     //取出模型
-    LMProduct *product = self.titles[indexPath.row];
-    cell.product = product;
+    LMCourseType *courseType = self.titles[indexPath.row];
+    cell.courseType = courseType;
     
     return cell;
 }
@@ -76,34 +76,43 @@
 {
     
     //取出模型
-    LMProduct *product = self.titles[indexPath.row];
-      NSLog(@"点击了------%@",product.title);
+    LMCourseType *product = self.titles[indexPath.row];
+      NSLog(@"点击了------%@",product.typeName);
 
-    if ([self.delegate respondsToSelector:@selector(courseCollectionViewController:title:)]) {
+    if ([self.delegate respondsToSelector:@selector(courseCollectionViewController:title:productId:)]) {
     
-        [self.delegate courseCollectionViewController:self title:product.title];
+        [self.delegate courseCollectionViewController:self title:product.typeName productId:product.id];
     }
 
 }
 
 #pragma mark - 懒加载
+//- (NSArray *)titles
+//{
+//    if (_titles == nil) {
+//
+//        //获取全路径
+//        NSString *path = [[NSBundle mainBundle] pathForResource:@"totalCourse.plist" ofType:nil];
+//        //加载数组
+//        NSArray *dictArr = [NSArray arrayWithContentsOfFile:path];
+//        
+//        //字典转模型
+//        NSMutableArray *productArr = [NSMutableArray array];
+//        for (NSDictionary *dict in dictArr) {
+//            LMProduct *proudct = [LMProduct productWithDict:dict];
+//            [productArr addObject:proudct];
+//        }
+//        _titles = productArr;
+//
+//    }
+//    return _titles;
+//}
+
+
 - (NSArray *)titles
 {
     if (_titles == nil) {
-
-        //获取全路径
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"totalCourse.plist" ofType:nil];
-        //加载数组
-        NSArray *dictArr = [NSArray arrayWithContentsOfFile:path];
-        
-        //字典转模型
-        NSMutableArray *productArr = [NSMutableArray array];
-        for (NSDictionary *dict in dictArr) {
-            LMProduct *proudct = [LMProduct productWithDict:dict];
-            [productArr addObject:proudct];
-        }
-        _titles = productArr;
-
+        _titles = [NSArray array];
     }
     return _titles;
 }

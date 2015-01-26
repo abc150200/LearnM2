@@ -7,9 +7,11 @@
 //
 
 #import "LMProductCell.h"
-#import "LMProduct.h"
+#import "LMCourseType.h"
 
 @interface LMProductCell()
+
+@property (nonatomic, assign) NSNumber *id;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
@@ -28,12 +30,13 @@
     return self;
 }
 
-- (void)setProduct:(LMProduct *)product
+- (void)setCourseType:(LMCourseType *)courseType
 {
-    _product = product;
+    _courseType = courseType;
     self.label.font = [UIFont systemFontOfSize:13];
-    self.label.text = product.title;
-    self.imageView.image = [UIImage imageNamed:product.icon];
+    self.label.text = courseType.typeName;
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:courseType.typeIcon] placeholderImage:[UIImage imageNamed:@"380,210"]];
+    self.id = courseType.id;
 }
 
 

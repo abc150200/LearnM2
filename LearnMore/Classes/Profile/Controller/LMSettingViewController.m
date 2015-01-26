@@ -32,6 +32,9 @@
 
 //nav背景颜色
 @property (nonatomic, strong) UIImage *savedNavBarImage;
+@property (strong, nonatomic) IBOutlet UIView *logBeforeView;
+@property (strong, nonatomic) IBOutlet UIView *afterView;
+@property (weak, nonatomic) IBOutlet UILabel *accountNum;
 
 @end
 
@@ -43,10 +46,21 @@
     
     [super viewDidLoad];
     
-    self.title = @"我的";
+    UIView *titleView = [[UIView alloc] init];
+    titleView.frame = CGRectMake(0, 0, 100, 40);
+    self.navigationItem.titleView = titleView;
+    UILabel *label = [[UILabel alloc] init];
+    label.text  = @"我的";
+    label.font = [UIFont systemFontOfSize:18];
+    label.textColor = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.frame = CGRectMake(0, 0, 100, 40);
+    [titleView addSubview:label];
+    
     
     UINavigationBar *navBar = [UINavigationBar appearance];
     _savedNavBarImage = [navBar backgroundImageForBarMetrics:UIBarMetricsDefault];
+    
     
 }
 
@@ -54,8 +68,38 @@
 {
     [super viewWillAppear:animated];
     
-    
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"home_nav@2x.png"] forBarMetrics:UIBarMetricsDefault];
+    
+    //判断用户是否登录
+    LMAccount *account =  [LMAccountInfo sharedAccountInfo].account;
+    if (account) {
+        self.tableView.tableHeaderView = self.afterView;
+        self.accountNum.text = account.userPhone;
+        self.afterView.backgroundColor = UIColorFromRGB(0xf0f0f0);
+        
+        UIView *underLine = [[UIView alloc] initWithFrame:CGRectMake(0, 135, self.view.width, 0.5)];
+        underLine.backgroundColor = UIColorFromRGB(0xd7d7d7);
+        [self.afterView addSubview:underLine];
+        
+        UIView *midLine = [[UIView alloc] initWithFrame:CGRectMake(160, 80, 0.5, 55)];
+        midLine.backgroundColor = UIColorFromRGB(0xd7d7d7);
+        [self.afterView addSubview:midLine];
+        
+    }else
+    {
+        self.tableView.tableHeaderView = self.logBeforeView;
+        
+        self.logBeforeView.backgroundColor = UIColorFromRGB(0xf0f0f0);
+        
+        UIView *underLine = [[UIView alloc] initWithFrame:CGRectMake(0, 135, self.view.width, 0.5)];
+        underLine.backgroundColor = UIColorFromRGB(0xd7d7d7);
+        [self.logBeforeView addSubview:underLine];
+        
+        UIView *midLine = [[UIView alloc] initWithFrame:CGRectMake(160, 80, 0.5, 55)];
+        midLine.backgroundColor = UIColorFromRGB(0xd7d7d7);
+        [self.logBeforeView addSubview:midLine];
+    }
+    
     
     /** 每次进来清空 */
     self.groups = nil;
@@ -65,8 +109,17 @@
     
     [self.tableView reloadData];
     
+    //重写返回按钮
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem barButtonItemWithImageName:@"public_nav_black_white" target:self sel:@selector(goBack)];
     
 }
+
+- (void)goBack
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
 
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -92,8 +145,8 @@
 
 - (void)setupItems
 {
-    //设置第0组
-    [self setupGroup0];
+//    //设置第0组
+//    [self setupGroup0];
     
     //设置第1组
     [self setupGroup1];
@@ -140,54 +193,25 @@
     //判断用户是否登录
     LMAccount *account =  [LMAccountInfo sharedAccountInfo].account;
     
-    LMCommonItemArrow *myCollection = [LMCommonItemArrow itemWithIcon:@"me_collect" Title:@"我的收藏"];
-    if(account)
-    {
-        myCollection.destVc =[LMMyCollectionViewController class];
-    }else
-    {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"])
-        {
-            myCollection.destVc = [LMLoginViewController class];
-        }else
-        {
-            myCollection.destVc = [LMRegisterViewController class];
-        }
-    }
+//    LMCommonItemArrow *myCollection = [LMCommonItemArrow itemWithIcon:@"me_collect" Title:@"我的收藏"];
+//    if(account)
+//    {
+//        myCollection.destVc =[LMMyCollectionViewController class];
+//    }else
+//    {
+//        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"])
+//        {
+//            myCollection.destVc = [LMLoginViewController class];
+//        }else
+//        {
+//            myCollection.destVc = [LMRegisterViewController class];
+//        }
+//    }
+//    
     
+  
     
-    LMCommonItemArrow *freeReserve = [LMCommonItemArrow itemWithIcon:@"me_listening" Title:@"免费预约试听"];
-    if(account)
-    {
-        freeReserve.destVc =[LMMyReserveViewController class];
-    }else
-    {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"])
-        {
-            freeReserve.destVc = [LMLoginViewController class];
-        }else
-        {
-            freeReserve.destVc = [LMRegisterViewController class];
-        }
-        
-    }
-    
-    
-    LMCommonItemArrow *signActivity = [LMCommonItemArrow itemWithIcon:@"me_activity" Title:@"报名活动"];
-    if(account)
-    {
-        signActivity.destVc =[LMMyActivityViewController class];
-    }else
-    {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"])
-        {
-            signActivity.destVc = [LMLoginViewController class];
-        }else
-        {
-            signActivity.destVc = [LMRegisterViewController class];
-        }
-    }
-    
+
     
     LMCommonItemArrow *myReview = [LMCommonItemArrow itemWithIcon:@"me_review" Title:@"我的点评"];
     if(account)
@@ -206,7 +230,7 @@
     }
     
     
-    LMCommonItemArrow *myOrder = [LMCommonItemArrow itemWithIcon:@"me_about" Title:@"我的订单"];
+    LMCommonItemArrow *myOrder = [LMCommonItemArrow itemWithIcon:@"me_order" Title:@"我购买的课程"];
     if(account)
     {
         myOrder.destVc =[LMMyOrderVC class];
@@ -222,9 +246,57 @@
         
     }
     
+    LMCommonItemArrow *freeReserve = [LMCommonItemArrow itemWithIcon:@"me_listening" Title:@"免费预约试听"];
+    if(account)
+    {
+        freeReserve.destVc =[LMMyReserveViewController class];
+    }else
+    {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"])
+        {
+            freeReserve.destVc = [LMLoginViewController class];
+        }else
+        {
+            freeReserve.destVc = [LMRegisterViewController class];
+        }
+        
+    }
+    
+    LMCommonItemArrow *signActivity = [LMCommonItemArrow itemWithIcon:@"me_activity" Title:@"报名活动"];
+    if(account)
+    {
+        signActivity.destVc =[LMMyActivityViewController class];
+    }else
+    {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"])
+        {
+            signActivity.destVc = [LMLoginViewController class];
+        }else
+        {
+            signActivity.destVc = [LMRegisterViewController class];
+        }
+    }
+    
+    
+    LMCommonItemArrow *myAward = [LMCommonItemArrow itemWithIcon:@"me_gift" Title:@"我的奖品"];
+    if(account)
+    {
+        myAward.destVc =[LMMyAwardVC class];
+    }else
+    {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"])
+        {
+            myAward.destVc = [LMLoginViewController class];
+        }else
+        {
+            myAward.destVc = [LMRegisterViewController class];
+        }
+        
+    }
+    
     
     LMCommonGroup *group1 = [self addGroup];
-    group1.items = @[myCollection,freeReserve,signActivity,myReview,myOrder];
+    group1.items = @[myOrder,freeReserve,signActivity,myAward];
     
 }
 
@@ -311,27 +383,13 @@
     LMCommonItemArrow *aboutUS = [LMCommonItemArrow itemWithIcon:@"me_about" Title:@"关于我们"];
     aboutUS.destVc = [LMAboutUsViewController class];
     
-    LMCommonItemArrow *myAward = [LMCommonItemArrow itemWithIcon:@"me_about" Title:@"我的奖券"];
-    if(account)
-    {
-        myAward.destVc =[LMMyAwardVC class];
-    }else
-    {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"everReg"])
-        {
-            myAward.destVc = [LMLoginViewController class];
-        }else
-        {
-            myAward.destVc = [LMRegisterViewController class];
-        }
-        
-    }
+   
     
     LMCommonItemArrow *act = [LMCommonItemArrow itemWithIcon:@"me_about" Title:@"活动测试"];
     act.destVc = [LMTestViewController class];
     
     LMCommonGroup *group2 = [self addGroup];
-    group2.items = @[myCheck,versionUpdate,aboutUS,myAward,act];
+    group2.items = @[myCheck,versionUpdate,aboutUS];
     
 }
 
@@ -347,6 +405,55 @@
     }
 }
 
+#warning 以下以后可能要判断是否是第一次登录
+- (IBAction)loginBtn:(id)sender {
+    LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+    [self.navigationController pushViewController:lg animated:YES];
+}
+
+- (IBAction)myRecBtn:(id)sender {
+    
+    //判断用户是否登录
+    LMAccount *account =  [LMAccountInfo sharedAccountInfo].account;
+    if (account) {
+        LMMyRecViewController *myRec = [[LMMyRecViewController alloc] init];
+        [self.navigationController pushViewController:myRec animated:YES];
+    }else
+    {
+        LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+        [self.navigationController pushViewController:lg animated:YES];
+    }
+}
+
+- (IBAction)myCollectBtn:(id)sender {
+    
+    //判断用户是否登录
+    LMAccount *account =  [LMAccountInfo sharedAccountInfo].account;
+    if (account) {
+        LMMyCollectionViewController *myCol = [[LMMyCollectionViewController alloc] init];
+        [self.navigationController pushViewController:myCol animated:YES];
+    }else
+    {
+        LMLoginViewController *lg = [[LMLoginViewController alloc] init];
+        [self.navigationController pushViewController:lg animated:YES];
+    }
+}
+
+- (IBAction)afterRec:(id)sender {
+    LMMyRecViewController *myRec = [[LMMyRecViewController alloc] init];
+    [self.navigationController pushViewController:myRec animated:YES];
+}
+
+
+- (IBAction)afterCollect:(id)sender {
+    LMMyCollectionViewController *myCol = [[LMMyCollectionViewController alloc] init];
+    [self.navigationController pushViewController:myCol animated:YES];
+}
+
+- (IBAction)afterAccount:(id)sender {
+    LMMyAccountViewController *av = [[LMMyAccountViewController alloc] init];
+    [self.navigationController pushViewController:av animated:YES];
+}
 
 
 @end

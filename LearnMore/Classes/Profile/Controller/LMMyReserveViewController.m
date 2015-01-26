@@ -66,7 +66,7 @@
 {
     [super viewWillAppear:animated];
     
-    self.title = @"我的预约试听";
+    self.title = @"免费预约试听";
     
     LMAccount *account = [LMAccountInfo sharedAccountInfo ].account;
     if (account) {

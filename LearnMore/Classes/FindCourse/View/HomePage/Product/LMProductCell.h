@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-@class LMProduct;
+@class LMCourseType;
 @interface LMProductCell : UICollectionViewCell
 
-@property (nonatomic, strong) LMProduct *product;
+@property (nonatomic, strong) LMCourseType *courseType;
 
 
 @end
