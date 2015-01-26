@@ -31,7 +31,7 @@
 - (void)setProduct:(LMProduct *)product
 {
     _product = product;
-    self.label.font = [UIFont systemFontOfSize:11.5];
+    self.label.font = [UIFont systemFontOfSize:13];
     self.label.text = product.title;
     self.imageView.image = [UIImage imageNamed:product.icon];
 }

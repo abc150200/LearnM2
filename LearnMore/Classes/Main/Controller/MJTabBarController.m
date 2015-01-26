@@ -44,6 +44,7 @@
 //        LMSettingViewController *sv = [[LMSettingViewController alloc] init];
 //        [nav3 addChildViewController:sv];
 //        [self addChildViewController:nav3];
+    
         
     }
     return self;

@@ -29,14 +29,14 @@
     //1,流水布局
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     //2,每个cell的尺寸
-    layout.itemSize = CGSizeMake(55, 75);
+    layout.itemSize = CGSizeMake(60, 60);
     // 3.设置cell之间的水平间距
     layout.minimumInteritemSpacing = 20;
     // 4.设置cell之间的垂直间距
     layout.minimumLineSpacing = 10;
   
     // 5.设置四周的内边距
-    layout.sectionInset = UIEdgeInsetsMake(20, 20, 10, 20);
+    layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
     
     
     return [super initWithCollectionViewLayout:layout];

@@ -30,6 +30,7 @@
 #import "AESenAndDe.h"
 #import "AESenAndDe.h"
 
+
 #import <Foundation/NSData.h>
 #import <Foundation/NSError.h>
 #import <CommonCrypto/CommonCryptor.h>
@@ -38,6 +39,7 @@
 #import <AlipaySDK/AlipaySDK.h>
 
 #import <CoreLocation/CoreLocation.h>
+
 
 @interface LMAppDelegate ()<CLLocationManagerDelegate,CLLocationManagerDelegate>
 
@@ -81,6 +83,7 @@
     
     //4.显示新特性
     [LMControllerTool chooseViewController];
+
     
 
    //加入版本号

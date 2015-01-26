@@ -20,8 +20,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-
-    
     
     UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, MainViewWidth, MainViewHeight)];
     
@@ -29,9 +27,7 @@
     
     [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]]];
     
-    
-    
-    
+
 }
 
 

@@ -40,7 +40,7 @@
 
 - (void)viewDidLoad
 {
-
+    
     [super viewDidLoad];
     
     self.title = @"我的";
@@ -62,7 +62,7 @@
     
     //初始化数据
     [self setupItems];
-
+    
     [self.tableView reloadData];
     
     
@@ -107,8 +107,8 @@
 {
     LMCommonItemArrow *accountInfo = [LMCommonItemArrow itemWithIcon:@"me_account" Title:@"账号信息"];
     
-//判断用户是否登录
-     LMAccount *account =  [LMAccountInfo sharedAccountInfo].account;
+    //判断用户是否登录
+    LMAccount *account =  [LMAccountInfo sharedAccountInfo].account;
     if(account)
     {
         accountInfo.subtitle = account.userPhone;
@@ -202,7 +202,7 @@
         {
             myReview.destVc = [LMRegisterViewController class];
         }
-    
+        
     }
     
     
@@ -222,10 +222,10 @@
         
     }
     
-
+    
     LMCommonGroup *group1 = [self addGroup];
     group1.items = @[myCollection,freeReserve,signActivity,myReview,myOrder];
-  
+    
 }
 
 
@@ -238,20 +238,20 @@
     LMCommonItemArrow *myCheck = [LMCommonItemArrow itemWithIcon:@"me_grade" Title:@"为我们打分"];
     myCheck.option = ^{
         
-
-         NSString* m_appleID = LMAppID;    //此处的appID是在iTunes Connect创建应用程序时生成的Apple ID
+        
+        NSString* m_appleID = LMAppID;    //此处的appID是在iTunes Connect创建应用程序时生成的Apple ID
         NSString *str = [NSString stringWithFormat:
                          @"itms-apps://itunes.apple.com/app/id%@",m_appleID ];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-   
+        
     };
     
     
     /** 暂时不做 */
-//    LMCommonItemArrow *appInfo = [LMCommonItemArrow itemWithIcon:@"me_app" Title:@"应用推荐"];
-//    appInfo.destVc = [LMAppRecommendViewController class];
+    //    LMCommonItemArrow *appInfo = [LMCommonItemArrow itemWithIcon:@"me_app" Title:@"应用推荐"];
+    //    appInfo.destVc = [LMAppRecommendViewController class];
     
-  
+    
     
     LMCommonItemArrow *versionUpdate = [LMCommonItemArrow itemWithIcon:@"me_update" Title:@"版本更新"];;
     versionUpdate.option = ^{
@@ -270,10 +270,10 @@
         NSMutableURLRequest *request  = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
         [request setHTTPMethod:@"POST"];
         
-       [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        
-           NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-           
+        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            
             NSArray *result = dic[@"results"];
             
             [MBProgressHUD hideHUD];
@@ -301,11 +301,11 @@
                 }
                 
             }
-           
-       }];
+            
+        }];
         
-        };
-        
+    };
+    
     
     
     LMCommonItemArrow *aboutUS = [LMCommonItemArrow itemWithIcon:@"me_about" Title:@"关于我们"];
@@ -332,7 +332,7 @@
     
     LMCommonGroup *group2 = [self addGroup];
     group2.items = @[myCheck,versionUpdate,aboutUS,myAward,act];
-
+    
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

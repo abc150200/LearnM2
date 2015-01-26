@@ -6,13 +6,13 @@
 //  Copyright (c) 2014年 youxuejingxuan. All rights reserved.
 //
 
-#define NavH (([UIDevice currentDevice].systemVersion.doubleValue >= 8.0)? 0 : 0)
+#define NavH (([UIDevice currentDevice].systemVersion.doubleValue >= 8.0)? 64 : 64)
 
 #define LMAdsDocPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"ads.plist"]
 
 #define LMAreasPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"smallAreas.plist"]
 
-#define AdScrollViewH 135
+#define AdScrollViewH 136
 
 #import "LMFindCourseViewController.h"
 #import "IWSearchBar.h"
@@ -131,27 +131,6 @@
     [cityButton addTarget:self action:@selector(titleBtnOnClick:) forControlEvents:UIControlEventTouchUpInside];
  
     
-//    // 创建自定义搜素框
-//    UIImageView *searchBar = [[UIImageView alloc] init];
-//    searchBar.x = CGRectGetMaxX(self.cityButton.frame) + 20;
-//    searchBar.y = 0;
-//    searchBar.width = self.view.width - 20 - self.cityButton.width -20 - 15 - 15;
-//    searchBar.height = 30;
-//    searchBar.image = [UIImage resizableImageWithName:@"search_nav_bg"];
-//    [view addSubview:searchBar];
-//    self.searchBar = searchBar;
-//    
-//    //添加一个放大镜
-//    UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search_search"]];
-//    iv.frame = CGRectMake(10, 7.5, 15, 15);
-//    [self.searchBar addSubview:iv];
-//    
-//    //添加label
-//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(35, 0, 100, 30)];
-//    label.font = [UIFont systemFontOfSize:15];
-//    label.textColor = [UIColor lightGrayColor];
-//    label.text = @"输入关键字";
-//    [self.searchBar addSubview:label];
 
     //覆盖一个透明的按钮
     UIButton *searchBtn = [[UIButton alloc] initWithFrame:CGRectMake(navView.width - 2 *(44 + 10), 0, 44, 44)];
@@ -169,6 +148,7 @@
     
     //创建内容scrollView
     UIScrollView *conScrollView  = [[UIScrollView alloc] init];
+    conScrollView.tag = 1001;
     conScrollView.delegate =self;
     conScrollView.x = 0;
     conScrollView.y = 0;
@@ -176,9 +156,11 @@
     conScrollView.height = self.view.height;
     [self.view addSubview:conScrollView];
     self.conScrollView = conScrollView;
+//    conScrollView.backgroundColor = UIColorFromRGB(0xf0f0f0);
     
     //创建广告adScrollView
     UIScrollView *adScrollView  = [[UIScrollView alloc] init];
+    adScrollView.tag = 1002;
     adScrollView.delegate = self;
     adScrollView.x = 0;
     adScrollView.size = CGSizeMake(self.view.width, AdScrollViewH );
@@ -198,24 +180,67 @@
     cv.delegate = self;
     cv.collectionView.backgroundColor = [UIColor whiteColor];
 
-    cv.collectionView.frame = CGRectMake(0, self.adScrollView.height, self.view.width, 275);
+    cv.collectionView.frame = CGRectMake(0, self.adScrollView.height, self.view.width, 150);
     
     [self.conScrollView addSubview:cv.collectionView];
 
 	self.cv = cv;
     
-   
+    //上边线
+    UIView *upLine = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(cv.collectionView.frame) - 0.5, self.view.width, 0.5)];
+    [self.conScrollView addSubview:upLine];
+    upLine.backgroundColor = UIColorFromRGB(0xd7d7d7);
+    
+#warning 暂时隐藏
+    //智能选课
+//    //View
+//    UIView *selectView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.cv.collectionView.frame), self.view.width, 85)];
+//    selectView.backgroundColor = UIColorFromRGB(0xf0f0f0);
+//    [self.conScrollView addSubview:selectView];
+//    
+//    //上边线
+//    UIView *upLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 0.5)];
+//    [selectView addSubview:upLine];
+//    upLine.backgroundColor = UIColorFromRGB(0xd7d7d7);
+//    
+//    //下边线
+//    UIView *downLine = [[UIView alloc] initWithFrame:CGRectMake(0,  selectView.height - 0.5, self.view.width, 0.5)];
+//    [selectView addSubview:downLine];
+//    downLine.backgroundColor = UIColorFromRGB(0xd7d7d7);
+//    
+//    //中间图
+//    UIImageView *midIv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10.5, self.view.width, 64)];
+//    midIv.image = [UIImage imageNamed:@"home_banner"];
+//    [selectView addSubview:midIv];
+//    
+//    //按钮
+//    UIButton *goBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.width - 44 - 13, 10.5 + 10, 44, 44)];
+//    [goBtn setBackgroundImage:[UIImage imageNamed:@"btn_home_banner"] forState:UIControlStateNormal];
+//    [goBtn addTarget:self action:@selector(btnMoreClick) forControlEvents:UIControlEventTouchUpInside];
+//    [selectView addSubview: goBtn];
+    
+
     
     //其他孩子都在学
-    UIView *view1= [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.cv.collectionView.frame), self.view.width, 30)];
-    view1.backgroundColor = UIColorFromRGB(0xf0f0f0);
-    [self.conScrollView addSubview:view1];
+  
+    UIView *otherView= [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(cv.collectionView.frame), self.view.width, 44)];
+    [self.conScrollView addSubview:otherView];
     
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 200, 30)];
+    UIImageView *fontIv = [[UIImageView alloc] initWithFrame:CGRectMake(10, 14.5, 3, 15)];
+    fontIv.image = [UIImage imageNamed:@"home_study"];
+    [otherView addSubview:fontIv];
+    
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(20 + 3, 15, 200, 14)];
     label1.text = @"别人家的孩子都在学";
     label1.textColor = [UIColor darkGrayColor];
     label1.font = [UIFont systemFontOfSize:14];
-    [view1 addSubview:label1];
+    [otherView addSubview:label1];
+    
+//    UIView *underLine = [[UIView alloc] initWithFrame:CGRectMake(10,otherView.height - 0.5, self.view.width - 10,  0.5)];
+//    [otherView addSubview:underLine];
+//    underLine.backgroundColor = UIColorFromRGB(0xe1e1e1);
+    
+    
     
     //加载推荐课程
     LMCourseRecommendViewController *cr = [[LMCourseRecommendViewController alloc] init];
@@ -223,28 +248,39 @@
     cr.delegate = self;
     cr.tableView.rowHeight = 98;
     CGFloat CrHeight = cr.tableView.rowHeight * 10;
-    cr.tableView.frame = CGRectMake(0,CGRectGetMaxY(view1.frame), self.view.width, CrHeight);
+    cr.tableView.frame = CGRectMake(0,CGRectGetMaxY(otherView.frame), self.view.width, CrHeight);
     [self.conScrollView addSubview:cr.tableView];
     
     
-    //其他孩子都在学
-    UIView *view2= [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.cr.tableView.frame), self.view.width, 30)];
-    view2.backgroundColor = UIColorFromRGB(0xf0f0f0);
-    [self.conScrollView addSubview:view2];
+    //查看全部课程
+    UIView *viewAll= [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.cr.tableView.frame), self.view.width, 50)];
+    viewAll.backgroundColor = UIColorFromRGB(0xf0f0f0);
+    [self.conScrollView addSubview:viewAll];
     
-    UIButton *moreBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 30)];
-    [moreBtn setTitle:@"查看更多" forState:UIControlStateNormal];
-    [moreBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    UIView *underLine = [[UIView alloc] initWithFrame:CGRectMake(0,0, self.view.width,  0.5)];
+    [viewAll addSubview:underLine];
+    underLine.backgroundColor = UIColorFromRGB(0xe1e1e1);
+    
+    UIButton *moreBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 8, self.view.width - 20, 35)];
+    [moreBtn setTitle:@"查看全部课程" forState:UIControlStateNormal];
+    [moreBtn setTitleColor:UIColorFromRGB(0x51aa25) forState:UIControlStateNormal];
+    [moreBtn setBackgroundImage:[UIImage imageNamed:@"home_more"] forState:UIControlStateNormal];
     moreBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [moreBtn addTarget:self action:@selector(btnMoreClick) forControlEvents:UIControlEventTouchUpInside];
-    [view2 addSubview:moreBtn];
+//    moreBtn.layer.cornerRadius = 2.5;
+//    moreBtn.clipsToBounds = YES;
+//    [moreBtn.layer setBorderWidth:0.5];
+//    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+//    CGColorRef colorref =  CGColorCreate(colorSpace,(CGFloat []){255, 255, 255, 1 });
+//    [moreBtn.layer setBorderColor:colorref];
+    [viewAll addSubview:moreBtn];
     
     
     //设置contentSize
-    self.conScrollView.contentSize = CGSizeMake(self.view.width,CGRectGetMaxY(view2.frame) + NavH);
+    self.conScrollView.contentSize = CGSizeMake(self.view.width,CGRectGetMaxY(viewAll.frame) + NavH);
     
     if ([[NSString deviceString] isEqualToString: @"iPhone 4S"]) {
-        self.conScrollView.contentSize = CGSizeMake(self.view.width,CGRectGetMaxY(view2.frame) + 64);
+        self.conScrollView.contentSize = CGSizeMake(self.view.width,CGRectGetMaxY(viewAll.frame) + 64);
     }
     
     self.conScrollView.bounces = NO;
@@ -366,11 +402,11 @@
     
     [self.view addSubview:pageControl];
     self.pageControl = pageControl;
-    pageControl.x = self.view.width - 70;
-    pageControl.y = height + 30;
+    pageControl.centerX = self.view.centerX;
+    pageControl.y = AdScrollViewH - 8;
     
-    pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
-    pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
+    pageControl.pageIndicatorTintColor = UIColorFromRGBWithAlpha(0xffffff, 0.5);
+    pageControl.currentPageIndicatorTintColor = UIColorFromRGB(0x51aa25);
     
 }
 
@@ -685,23 +721,29 @@
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    
-    // 1.计算页码
-    double ratio = scrollView.contentOffset.x / self.view.width;
-    int page = (int)(ratio + 0.5);
-    // 2.设置页码
-    self.pageControl.currentPage = page;
-    
-    
-    if(!iOS8)
-    {
-        
-        self.pageControl.y = - self.conScrollView.contentOffset.y + self.adScrollView.height - 10;
+    if (scrollView.tag == 1002) {
+        // 1.计算页码
+        double ratio = scrollView.contentOffset.x / self.view.width;
+        int page = (int)(ratio + 0.5);
+        // 2.设置页码
+        self.pageControl.currentPage = page;
     }else
     {
-        
-        self.pageControl.y = - self.conScrollView.contentOffset.y + self.adScrollView.height - 30;
+        if(!iOS8)
+        {
+            
+            self.pageControl.y = - self.conScrollView.contentOffset.y + self.adScrollView.height - 8;
+        }else
+        {
+            
+            self.pageControl.y = - self.conScrollView.contentOffset.y + self.adScrollView.height - 8;
+        }
+    
     }
+    
+    
+    
+   
 }
 
 //添加定时器
@@ -889,6 +931,8 @@
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         LogObj(error.localizedDescription);
+        
+        [self setupAdScrollView];
     }];
     
 }
