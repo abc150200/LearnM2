@@ -17,6 +17,7 @@
     hud.labelText = text;
     // 设置图片
     hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"MBProgressHUD.bundle/%@", icon]]];
+//    hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"me_order"]];
     // 再设置模式
     hud.mode = MBProgressHUDModeCustomView;
     

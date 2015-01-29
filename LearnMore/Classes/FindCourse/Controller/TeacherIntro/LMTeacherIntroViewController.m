@@ -72,6 +72,7 @@
 {
     [self.scrollView removeFromSuperview];
     [self.navigationController popViewControllerAnimated:YES];
+    [CLProgressHUD dismiss];
 }
 
 
@@ -83,8 +84,6 @@
     self.title  = @"老师简介";
     
     CLProgressHUD *hud = [CLProgressHUD shareInstance];
-    hud.type = CLProgressHUDTypeDarkBackground;
-    hud.shape = CLProgressHUDShapeCircle;
     [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
     
     

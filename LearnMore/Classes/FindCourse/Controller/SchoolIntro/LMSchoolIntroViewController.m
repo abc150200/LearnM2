@@ -139,6 +139,7 @@
 {
     [self.scrollView removeFromSuperview];
     [self.navigationController popViewControllerAnimated:YES];
+    [CLProgressHUD dismiss];
 }
 
 
@@ -156,8 +157,6 @@
     [self.writeRecBtn setTitleColor:UIColorFromRGB(0x9ac72c) forState:UIControlStateNormal];
     
     CLProgressHUD *hud = [CLProgressHUD shareInstance];
-    hud.type = CLProgressHUDTypeDarkBackground;
-    hud.shape = CLProgressHUDShapeCircle;
     [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
     
     

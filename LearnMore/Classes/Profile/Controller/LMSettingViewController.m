@@ -35,6 +35,8 @@
 @property (strong, nonatomic) IBOutlet UIView *logBeforeView;
 @property (strong, nonatomic) IBOutlet UIView *afterView;
 @property (weak, nonatomic) IBOutlet UILabel *accountNum;
+@property (weak, nonatomic) IBOutlet UIView *underView;
+@property (weak, nonatomic) IBOutlet UIView *afterUnderView;
 
 @end
 
@@ -75,9 +77,10 @@
     if (account) {
         self.tableView.tableHeaderView = self.afterView;
         self.accountNum.text = account.userPhone;
-        self.afterView.backgroundColor = UIColorFromRGB(0xf0f0f0);
+        self.afterView.backgroundColor = [UIColor whiteColor];
+        self.afterUnderView.backgroundColor  = UIColorFromRGB(0xf0f0f0);
         
-        UIView *underLine = [[UIView alloc] initWithFrame:CGRectMake(0, 135, self.view.width, 0.5)];
+        UIView *underLine = [[UIView alloc] initWithFrame:CGRectMake(0, 135 - 0.5, self.view.width, 0.5)];
         underLine.backgroundColor = UIColorFromRGB(0xd7d7d7);
         [self.afterView addSubview:underLine];
         
@@ -89,14 +92,16 @@
     {
         self.tableView.tableHeaderView = self.logBeforeView;
         
-        self.logBeforeView.backgroundColor = UIColorFromRGB(0xf0f0f0);
+        self.logBeforeView.backgroundColor = [UIColor whiteColor];
         
-        UIView *underLine = [[UIView alloc] initWithFrame:CGRectMake(0, 135, self.view.width, 0.5)];
+        UIView *underLine = [[UIView alloc] initWithFrame:CGRectMake(0, 135 - 0.5, self.view.width, 0.5)];
         underLine.backgroundColor = UIColorFromRGB(0xd7d7d7);
         [self.logBeforeView addSubview:underLine];
         
         UIView *midLine = [[UIView alloc] initWithFrame:CGRectMake(160, 80, 0.5, 55)];
         midLine.backgroundColor = UIColorFromRGB(0xd7d7d7);
+        
+        self.underView.backgroundColor = UIColorFromRGB(0xf0f0f0);
         [self.logBeforeView addSubview:midLine];
     }
     

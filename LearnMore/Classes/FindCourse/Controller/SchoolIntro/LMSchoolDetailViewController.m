@@ -54,5 +54,18 @@
     
 }
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    if(scrollView.contentOffset.y == 0)
+    {
+        self.webView.scrollView.scrollEnabled = NO;
+    }
+    else
+    {
+        self.webView.scrollView.scrollEnabled = YES;
+    }
+    
+}
+
 
 @end

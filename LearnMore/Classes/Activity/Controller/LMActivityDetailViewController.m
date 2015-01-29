@@ -117,8 +117,6 @@
     self.title = @"活动详情";
     
     CLProgressHUD *hud = [CLProgressHUD shareInstance];
-    hud.type = CLProgressHUDTypeDarkBackground;
-    hud.shape = CLProgressHUDShapeCircle;
     [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
  
     

@@ -53,6 +53,7 @@
 #import "LMCoursePriceVC.h"
 #import "LMCoursePrice.h"
 
+#import "CLProgressHUD.h"
 
 #import "MTA.h"
 
@@ -218,6 +219,8 @@
 {
     [self.scrollView removeFromSuperview];
     [self.navigationController popViewControllerAnimated:YES];
+    
+    [CLProgressHUD dismiss];
 }
 
 
@@ -236,9 +239,12 @@
     [self.writeRecBtn setTitleColor:UIColorFromRGB(0x9ac72c) forState:UIControlStateNormal];
     
     CLProgressHUD *hud = [CLProgressHUD shareInstance];
-    hud.type = CLProgressHUDTypeDarkBackground;
-    hud.shape = CLProgressHUDShapeCircle;
+
     [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
+    
+//    LMLoading *load = [LMLoading shareInstance];
+//    [load showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
+
     
     //添加监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OnerRecViewControllerChange:) name:@"OneRecNotification" object:nil];
@@ -443,6 +449,8 @@
     }
 
 }
+
+
 
 
 

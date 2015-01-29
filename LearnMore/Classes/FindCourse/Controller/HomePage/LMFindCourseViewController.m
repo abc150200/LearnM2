@@ -110,8 +110,6 @@
     _savedNavBarImage = [navBar backgroundImageForBarMetrics:UIBarMetricsDefault];
     
     CLProgressHUD *hud = [CLProgressHUD shareInstance];
-    hud.type = CLProgressHUDTypeDarkBackground;
-    hud.shape = CLProgressHUDShapeCircle;
     [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
     
     NSString *identifier = [[NSBundle mainBundle] bundleIdentifier];
@@ -1307,8 +1305,6 @@
 {
     
     CLProgressHUD *hud = [CLProgressHUD shareInstance];
-    hud.type = CLProgressHUDTypeDarkBackground;
-    hud.shape = CLProgressHUDShapeCircle;
     [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
     
     [self loadData];

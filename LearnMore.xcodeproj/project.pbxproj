@@ -83,6 +83,7 @@
 		206CFFC91A75F55B004F10A5 /* LMHomeCourseViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 206CFFC71A75F55B004F10A5 /* LMHomeCourseViewCell.xib */; };
 		206CFFD21A760CFE004F10A5 /* LMSecondCourseType.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CFFD11A760CFE004F10A5 /* LMSecondCourseType.m */; };
 		206CFFD51A760D1B004F10A5 /* LMCourseType.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CFFD41A760D1B004F10A5 /* LMCourseType.m */; };
+		206DACBF1A78EBCB000F20B0 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 206DACBE1A78EBCB000F20B0 /* loading.gif */; };
 		207070AA1A04B10500DD52CE /* LMCourseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 207070A91A04B10500DD52CE /* LMCourseInfo.m */; };
 		2071DA6819FFB94600CA56DC /* LMCourseList.m in Sources */ = {isa = PBXBuildFile; fileRef = 2071DA6719FFB94600CA56DC /* LMCourseList.m */; };
 		2071DA6B19FFBDC000CA56DC /* LMTotalCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2071DA6A19FFBDC000CA56DC /* LMTotalCourse.m */; };
@@ -92,7 +93,6 @@
 		20869F9719F8E9F100C0B4C5 /* LMSearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20869F9319F8E9F100C0B4C5 /* LMSearchViewController.xib */; };
 		20869FA319F8FB9500C0B4C5 /* LMSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 20869FA219F8FB9500C0B4C5 /* LMSearchBar.m */; };
 		208A59121A2DCBBE00D91D56 /* LMRecommedFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 208A59111A2DCBBE00D91D56 /* LMRecommedFrame.m */; };
-		208B5DE81A1CD63C00D907E7 /* CLProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 208B5DE71A1CD63C00D907E7 /* CLProgressHUD.m */; };
 		2092DE561A2F35EA0029873A /* LMOnerRecViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2092DE541A2F35EA0029873A /* LMOnerRecViewController.m */; };
 		2092DE571A2F35EA0029873A /* LMOnerRecViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2092DE551A2F35EA0029873A /* LMOnerRecViewController.xib */; };
 		2093417E1A2D7565002BD141 /* LMDetailRecommendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2093417C1A2D7565002BD141 /* LMDetailRecommendViewController.m */; };
@@ -178,6 +178,7 @@
 		20EC4E2E1A0330AB00AFD446 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20EC4E2D1A0330AB00AFD446 /* SystemConfiguration.framework */; };
 		20EC4E301A0330C600AFD446 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20EC4E2F1A0330C600AFD446 /* CoreTelephony.framework */; };
 		20EC5C8B1A17350900A6C4E1 /* LMCollectCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EC5C8A1A17350900A6C4E1 /* LMCollectCourse.m */; };
+		20EE4D911A79CDEA0068988F /* CLProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EE4D901A79CDEA0068988F /* CLProgressHUD.m */; };
 		20EE84351A1070D600DDEC92 /* NSString+Path.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EE84341A1070D600DDEC92 /* NSString+Path.m */; };
 		20EE843E1A10F67900DDEC92 /* LMlistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EE843D1A10F67900DDEC92 /* LMlistViewController.m */; };
 		20EF626F19E77D44006544B3 /* LMSchoolIntroButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EF626E19E77D44006544B3 /* LMSchoolIntroButton.m */; };
@@ -503,6 +504,7 @@
 		206CFFD11A760CFE004F10A5 /* LMSecondCourseType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSecondCourseType.m; sourceTree = "<group>"; };
 		206CFFD31A760D1B004F10A5 /* LMCourseType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCourseType.h; sourceTree = "<group>"; };
 		206CFFD41A760D1B004F10A5 /* LMCourseType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCourseType.m; sourceTree = "<group>"; };
+		206DACBE1A78EBCB000F20B0 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		207070A81A04B10500DD52CE /* LMCourseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCourseInfo.h; sourceTree = "<group>"; };
 		207070A91A04B10500DD52CE /* LMCourseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCourseInfo.m; sourceTree = "<group>"; };
 		2071DA6619FFB94600CA56DC /* LMCourseList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCourseList.h; sourceTree = "<group>"; };
@@ -519,8 +521,6 @@
 		20869FA219F8FB9500C0B4C5 /* LMSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMSearchBar.m; sourceTree = "<group>"; };
 		208A59101A2DCBBE00D91D56 /* LMRecommedFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRecommedFrame.h; sourceTree = "<group>"; };
 		208A59111A2DCBBE00D91D56 /* LMRecommedFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMRecommedFrame.m; sourceTree = "<group>"; };
-		208B5DE61A1CD63C00D907E7 /* CLProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLProgressHUD.h; sourceTree = "<group>"; };
-		208B5DE71A1CD63C00D907E7 /* CLProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLProgressHUD.m; sourceTree = "<group>"; };
 		2092DE531A2F35EA0029873A /* LMOnerRecViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMOnerRecViewController.h; sourceTree = "<group>"; };
 		2092DE541A2F35EA0029873A /* LMOnerRecViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMOnerRecViewController.m; sourceTree = "<group>"; };
 		2092DE551A2F35EA0029873A /* LMOnerRecViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMOnerRecViewController.xib; sourceTree = "<group>"; };
@@ -661,6 +661,8 @@
 		20EC4E2F1A0330C600AFD446 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		20EC5C891A17350900A6C4E1 /* LMCollectCourse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMCollectCourse.h; sourceTree = "<group>"; };
 		20EC5C8A1A17350900A6C4E1 /* LMCollectCourse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMCollectCourse.m; sourceTree = "<group>"; };
+		20EE4D8F1A79CDEA0068988F /* CLProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLProgressHUD.h; sourceTree = "<group>"; };
+		20EE4D901A79CDEA0068988F /* CLProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLProgressHUD.m; sourceTree = "<group>"; };
 		20EE84331A1070D600DDEC92 /* NSString+Path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Path.h"; sourceTree = "<group>"; };
 		20EE84341A1070D600DDEC92 /* NSString+Path.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Path.m"; sourceTree = "<group>"; };
 		20EE843C1A10F67900DDEC92 /* LMlistViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMlistViewController.h; sourceTree = "<group>"; };
@@ -1140,6 +1142,8 @@
 				208B5DE51A1CD63C00D907E7 /* CLProgressHUD */,
 				200236AA1A19A6BB004446C9 /* LMControllerTool.h */,
 				200236AB1A19A6BB004446C9 /* LMControllerTool.m */,
+				20EE4D8F1A79CDEA0068988F /* CLProgressHUD.h */,
+				20EE4D901A79CDEA0068988F /* CLProgressHUD.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1290,8 +1294,6 @@
 		208B5DE51A1CD63C00D907E7 /* CLProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
-				208B5DE61A1CD63C00D907E7 /* CLProgressHUD.h */,
-				208B5DE71A1CD63C00D907E7 /* CLProgressHUD.m */,
 			);
 			path = CLProgressHUD;
 			sourceTree = "<group>";
@@ -1627,6 +1629,7 @@
 		20D4028F19D90516003D251B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				206DACBE1A78EBCB000F20B0 /* loading.gif */,
 				20FC44E81A73413100803298 /* home_nav@2x.png */,
 				2004E89E1A5BF765004B2546 /* demo.html */,
 				20FEBC9E1A42D8260032C065 /* smallAreas.plist */,
@@ -2557,6 +2560,7 @@
 				20869F9719F8E9F100C0B4C5 /* LMSearchViewController.xib in Resources */,
 				20FEBC9F1A42D8260032C065 /* smallAreas.plist in Resources */,
 				20FDBB081A5CD8FE00B42418 /* LMOrderCommitViewController.xib in Resources */,
+				206DACBF1A78EBCB000F20B0 /* loading.gif in Resources */,
 				204C334F19EBB0BE00CD71B0 /* LMActivityDetailViewController.xib in Resources */,
 				205426631A0725CF0086C516 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				201DB9701A5E767600525D8C /* LMPaySuccessViewController.xib in Resources */,
@@ -2758,6 +2762,7 @@
 				20FA94801A71FA560052A7D5 /* MJConst.m in Sources */,
 				20D402ED19D91A28003D251B /* MJTabBarController.m in Sources */,
 				2001FE181A2F09BE0009F8E4 /* MJPhoto.m in Sources */,
+				20EE4D911A79CDEA0068988F /* CLProgressHUD.m in Sources */,
 				20BCC23219E6908100A5913B /* LMListButton.m in Sources */,
 				2071DA6B19FFBDC000CA56DC /* LMTotalCourse.m in Sources */,
 				2058251C1A2848C500BAA0E8 /* LMAddRecommendViewController.m in Sources */,
@@ -2795,7 +2800,6 @@
 				20CF1DA01A15FDB7007C13F9 /* LMAccount.m in Sources */,
 				20F278AF1A022191004370DA /* SDWebImageDownloader.m in Sources */,
 				20FBF1901A0DDA17007955B8 /* LMTeacherCourseCell.m in Sources */,
-				208B5DE81A1CD63C00D907E7 /* CLProgressHUD.m in Sources */,
 				2001FE1C1A2F09BE0009F8E4 /* MJPhotoProgressView.m in Sources */,
 				207F6AB31A41910500E9B68F /* LMAdOtherViewController.m in Sources */,
 				209341821A2D7902002BD141 /* LMDetailRecommendViewCell.m in Sources */,

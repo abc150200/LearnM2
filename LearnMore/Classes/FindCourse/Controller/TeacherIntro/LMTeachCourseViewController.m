@@ -79,6 +79,18 @@
     }
 }
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    if(scrollView.contentOffset.y == 0)
+    {
+        self.tableView.scrollEnabled = NO;
+    }
+    else
+    {
+        self.tableView.scrollEnabled = YES;
+    }
+}
+
 
 
 @end

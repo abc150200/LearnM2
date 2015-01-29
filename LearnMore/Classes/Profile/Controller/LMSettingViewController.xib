@@ -8,8 +8,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LMSettingViewController">
             <connections>
                 <outlet property="accountNum" destination="er0-pu-qQ7" id="kVy-fV-KO7"/>
+                <outlet property="afterUnderView" destination="IqR-5F-ase" id="qik-hz-CIa"/>
                 <outlet property="afterView" destination="KEj-Hp-A9S" id="2ML-ao-C0Y"/>
                 <outlet property="logBeforeView" destination="3et-WE-uVT" id="qVt-k0-lTu"/>
+                <outlet property="underView" destination="bpR-aV-StM" id="noe-5D-zn6"/>
                 <outlet property="view" destination="RKI-rP-f8U" id="4pn-5s-fyc"/>
             </connections>
         </placeholder>
@@ -99,6 +101,11 @@
                         <action selector="myCollectBtn:" destination="-1" eventType="touchUpInside" id="YJQ-Ki-MfY"/>
                     </connections>
                 </button>
+                <view contentMode="scaleToFill" id="bpR-aV-StM">
+                    <rect key="frame" x="0.0" y="135" width="320" height="15"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -188,6 +195,11 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
+                <view contentMode="scaleToFill" id="IqR-5F-ase">
+                    <rect key="frame" x="0.0" y="135" width="320" height="15"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
