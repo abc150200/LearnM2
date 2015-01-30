@@ -16,6 +16,7 @@
 #import "LMAccount.h"
 #import "LMAccountInfo.h"
 #import "MTA.h"
+#import "CLProgressHUD.h"
 
 @interface LMSchoolListViewController ()
 @property (nonatomic, weak) UIView *moreView;
@@ -35,12 +36,15 @@
     
     //下拉刷新控件
     [self setupRefresh];
-    
 }
 
 //下拉刷新
 - (void)setupRefresh
 {
+    CLProgressHUD *hud = [CLProgressHUD shareInstance];
+    
+    [hud showInView:[UIApplication sharedApplication].keyWindow withText:@"正在加载"];
+    
     //添加下拉加载
     [self.tableView addHeaderWithTarget:self action:@selector(loadNewData)];
     
@@ -137,12 +141,15 @@
         // 3.关闭菊花
         [self.tableView headerEndRefreshing];
         
+        [CLProgressHUD dismiss];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         LogObj(error.localizedDescription);
         
         // 3.关闭菊花
         [self.tableView headerEndRefreshing];
+        
+        [CLProgressHUD dismiss];
         
     }];
     

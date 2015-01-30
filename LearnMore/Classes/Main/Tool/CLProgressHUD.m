@@ -22,16 +22,47 @@ static float const xMargin = 10;
 
 @implementation CLProgressHUD
 
-+ (instancetype)shareInstance
+ static CLProgressHUD *_instance;
+
+//+ (instancetype)shareInstance
+//{
+//    static CLProgressHUD *_instance = nil;
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        _instance = [[self alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+//    });
+//    
+//    return _instance;
+//}
+
++ (id)allocWithZone:(struct _NSZone *)zone
 {
-    static CLProgressHUD *_instance = nil;
+    
     static dispatch_once_t onceToken;
+    
     dispatch_once(&onceToken, ^{
-        _instance = [[self alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        _instance = [super allocWithZone:zone];
     });
     
     return _instance;
 }
+
+
++ (instancetype)shareInstance
+{
+    // 判断是否已经被实例化
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _instance = [[CLProgressHUD alloc] init];
+    });
+    return _instance;
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return _instance;
+}
+
 
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -144,6 +175,8 @@ static float const xMargin = 10;
 - (void)dismiss
 {
     self.alpha = 0.0f;
+    [self.bgIv.layer performSelector:@selector(removeAllAnimations) withObject:nil];
+
 }
 
 @end

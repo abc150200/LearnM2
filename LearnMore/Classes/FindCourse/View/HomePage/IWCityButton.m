@@ -25,7 +25,7 @@
         
         // 设置标题和按钮居中显示
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
-        self.titleLabel.font = [UIFont systemFontOfSize:20];
+        self.titleLabel.font = [UIFont systemFontOfSize:18];
         
         self.imageView.contentMode = UIViewContentModeCenter;
         
